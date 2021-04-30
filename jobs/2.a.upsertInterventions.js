@@ -35,6 +35,7 @@ upsert(
       'Venue__r',
       'CommCare_Ext_ID__c',
       dataValue('form.Venue')
+      
     ),
     relationship(
       'Curriculum__r',
@@ -43,13 +44,14 @@ upsert(
     ),
     field('Delivery_Method__c', dataValue('form.delivery_method')),
     field('Class_Group_Team__c', dataValue('form.class_grade')),
-    field('Venue__c.Geographical_area__c', dataValue('form.geographic_area')),
-
-    relationship(
-      'Venue__r',
-      'Geographical_area__c',
-      dataValue('form.geographic_area')
-    ),
+    //field('Venue__c.Geographical_area__c', dataValue('form.geographic_area')),
+    
+    
+    //relationship(
+    //  'Venue__r',
+    //  'Geographical_area__c',
+    //  dataValue('form.geographic_area')
+    //),
     field('Pre_Post_Administered__c', dataValue('form.prepost_administered')),
     relationship('Coach_A__r', 'CommCare_Ext_ID__c', state => {return state.coaches[0]}),
     relationship('Coach_B__r', 'CommCare_Ext_ID__c', state => {return state.coaches[1]}),
