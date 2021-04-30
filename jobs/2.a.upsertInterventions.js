@@ -43,6 +43,8 @@ upsert(
     ),
     field('Delivery_Method__c', dataValue('form.delivery_method')),
     field('Class_Group_Team__c', dataValue('form.class_grade')),
+    field('Venue__c.Geographical_area__c', dataValue('form.geographic_area')),
+
     relationship(
       'Venue__r',
       'Geographical_area__c',
