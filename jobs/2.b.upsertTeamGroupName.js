@@ -1,5 +1,6 @@
+// Upsert event by unique 'Name'
 upsert(
-  'Event_C',
+  'Event__c',
   'Name',
   fields(
     field(
