@@ -12,10 +12,12 @@ alterState(state => {
       field('Mobile_Number_1__c', dataValue('form.question1.mobile_number')),
       field('School_name_person__c', dataValue('form.question1.school_name'))
     )
-  )(state).then(state => {
+  )(state)
+  }); 
+  
+  alterState(state => {
     //Then we upsert related Attendance records
-    return 
-upsert(
+    return upsert(
       'Attendance__c',
       'CommCare_Ext_ID__c',
       fields(
@@ -38,7 +40,5 @@ upsert(
         ),
         field('Date_of_Birth__c', dataValue('form.question1.date_of_birth')),
       )
-    )
-    (state);
+    )(state);
   });
-});
