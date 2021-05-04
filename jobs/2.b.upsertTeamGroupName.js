@@ -7,6 +7,10 @@ upsert(
       'Class_Group_Team__c',
       dataValue('form.question_group.group__team_name')
     ),
-    relationship('RecordType', 'Name', 'Intervention')
+    relationship('RecordType', 'Name', 'Intervention'), 
+    field(
+      'Name',
+      dataValue('form.question_group.intervention_name')
+    ),
   )
 );
