@@ -1,26 +1,27 @@
+//openfn.org source
 upsert(
   'CSV__c',
-  '',
+  'CommCare_Ext_ID__c',
   fields(
     field('Country__c', dataValue('form.step_1_csv_information.country')),
     relationship(
-      'Coach__c',
+      'Coach__r',
       'Coach__c.CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.select_coach')
     ),
     relationship(
-      'Person_C',
+      'Person__r',
       'Coach_Person__c',
       dataValue('form.step_1_csv_information.coach_name')
     ),
     relationship(
-      'Venue_C',
+      'Venue__r',
       'Venue__c.CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.venue')
     ),
     relationship(
-      'Intervention_C',
-      'Intervention__c.Name',
+      'Event__r',
+      'Event__c.Name',
       dataValue('form.step_1_csv_information.intervention')
     ),
     field(
@@ -28,7 +29,7 @@ upsert(
       dataValue('form.step_1_csv_information.curriculum')
     ), // No lookup? ====================================
     relationship(
-      'Site_C',
+      'Site__r',
       'Site_Lookup__c.CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_informationform.site')
     ),
@@ -100,7 +101,7 @@ upsert(
       )
     ),
     relationship(
-      'Person_c',
+      'Person_r',
       'Coach_Person__c',
       dataValue('form.hidden_properties.coach_name')
     ),
