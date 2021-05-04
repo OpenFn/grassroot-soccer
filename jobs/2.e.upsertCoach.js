@@ -1,7 +1,7 @@
 //openfn.org source
 upsert(
   'CSV__c',
-  '',
+  'CommCare_Ext_ID__c',
   fields(
     field('Country__c', dataValue('form.step_1_csv_information.country')),
     relationship(
