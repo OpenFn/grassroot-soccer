@@ -20,8 +20,8 @@ upsert(
       dataValue('form.step_1_csv_information.venue')
     ),
     relationship(
-      'Intervention__c',
-      'Intervention__c.Name',
+      'Event__c',
+      'Event__c.Name',
       dataValue('form.step_1_csv_information.intervention')
     ),
     field(
