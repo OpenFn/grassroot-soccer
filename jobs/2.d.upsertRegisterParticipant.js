@@ -21,7 +21,7 @@ alterState(state => {
         }),
         relationship(
           //Attendance looks up to Persn via the case_id
-          'Person__c',
+          'Person_Attendance__c',
           'Participant_Identification_Number_PID__c',
           dataValue('form.case.@case_id')
         ),
