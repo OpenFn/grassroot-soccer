@@ -4,7 +4,7 @@ upsert(
   fields(
     field('Notes__c', dataValue('form.intervention_notes_to_save')),
     relationship('RecordType', 'Name', 'Intervention'),
-    
+    field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
 
     relationship(
       'Attendance__c',
