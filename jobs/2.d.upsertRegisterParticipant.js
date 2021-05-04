@@ -5,10 +5,12 @@ alterState(state => {
     'Participant_Identification_Number_PID__c',
     fields(
       field('Notes__c', dataValue('form.intervention_notes_to_save')),
+      field('First_Name__c', dataValue('form.question1.participant_first_name')),
+      field('Surname__c', dataValue('form.question1.participant_last_name')),
       relationship('RecordType', 'Name', 'Participant'),
       field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
       field('Sex__c', dataValue('form.question1.gender')),
-      //field('Age__c', dataValue('form.question1.age_in_years')),
+      //field('Age__c', dataValue('form.question1.age_in_years')), //This is a SF formula field, cannot map
       field('Mobile_Number_1__c', dataValue('form.question1.mobile_number')),
       field('School_name_person__c', dataValue('form.question1.school_name'))
     )
