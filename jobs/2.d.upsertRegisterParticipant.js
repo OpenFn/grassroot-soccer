@@ -33,7 +33,7 @@ upsert(
           dataValue('form.intervention_name')
         ),
         field('Date_of_Birth__c', dataValue('form.question1.date_of_birth')),
-        field('Sex_c', dataValue('form.question1.gender')),
+        field('Sex__c', dataValue('form.question1.gender')),
         field('Age__c', dataValue('form.question1.age_in_years')),
         field('Mobile_Number_1__c', dataValue('form.question1.mobile_number')),
         field('School_name_person__c', dataValue('form.question1.school_name'))
