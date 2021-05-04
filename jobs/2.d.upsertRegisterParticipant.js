@@ -1,16 +1,15 @@
-// combine(
-//   //First we insert Person record
-//   upsert(
-//     'Person__c',
-//     'Participant_Identification_Number_PID__c',
-//     fields(
-//       field('Notes__c', dataValue('form.intervention_notes_to_save')),
-//       relationship('RecordType', 'Name', 'Intervention'),
-//       field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
-//     )
-//   ),
-  //Then we upsert related Attendance records
+//First we insert Person record
   upsert(
+    'Person__c',
+    'Participant_Identification_Number_PID__c',
+    fields(
+      field('Notes__c', dataValue('form.intervention_notes_to_save')),
+      relationship('RecordType', 'Name', 'Intervention'),
+      field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
+    )
+  )(state).then(state => {
+  //Then we upsert related Attendance records
+  return upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
     fields(
@@ -34,5 +33,5 @@
       field('Age__c', dataValue('form.question1.age_in_years')),
       field('Mobile_Number_1__c', dataValue('form.question1.mobile_number')),
       field('School_name_person__c', dataValue('form.question1.school_name')),
-    ))
-// );
+    ))(state)
+}); 
