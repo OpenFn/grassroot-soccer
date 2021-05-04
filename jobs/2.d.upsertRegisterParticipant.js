@@ -22,7 +22,7 @@ upsert(
       dataValue('form.question1.participant_full_name')
     ),
     relationship(
-      'Attendance_c',
+      'Attendance__c',
       'Date_of_Birth__c',
       dataValue('form.question1.date_of_birth')
     ),
