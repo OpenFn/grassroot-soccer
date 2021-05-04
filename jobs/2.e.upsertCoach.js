@@ -10,17 +10,17 @@ upsert(
       dataValue('form.step_1_csv_information.select_coach')
     ),
     relationship(
-      'Person_C',
+      'Person__c',
       'Coach_Person__c',
       dataValue('form.step_1_csv_information.coach_name')
     ),
     relationship(
-      'Venue_C',
+      'Venue__c',
       'Venue__c.CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.venue')
     ),
     relationship(
-      'Intervention_C',
+      'Intervention__c',
       'Intervention__c.Name',
       dataValue('form.step_1_csv_information.intervention')
     ),
@@ -29,7 +29,7 @@ upsert(
       dataValue('form.step_1_csv_information.curriculum')
     ), // No lookup? ====================================
     relationship(
-      'Site_C',
+      'Site__c',
       'Site_Lookup__c.CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_informationform.site')
     ),
