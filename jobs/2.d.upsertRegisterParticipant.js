@@ -6,7 +6,7 @@ alterState(state => {
     fields(
       field('Notes__c', dataValue('form.intervention_notes_to_save')),
       field('First_Name__c', dataValue('form.question1.participant_first_name')),
-      field('Surname__c', dataValue('form.question1.participant_last_name')),
+      field('Surname__c', dataValue('form.question1.participant_surname')),
       relationship('RecordType', 'Name', 'Participant'),
       field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
       field('Sex__c', dataValue('form.question1.gender')),
