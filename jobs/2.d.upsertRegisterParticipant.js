@@ -22,13 +22,13 @@ upsert(
         }),
         relationship(
           //Attendance looks up to Persn via the case_id
-          'Person_Attendance__c',
+          'Person_Attendance__r',
           'Participant_Identification_Number_PID__c',
           dataValue('form.case.@case_id')
         ),
         relationship(
           //Attendance looks up to Event via the intervention_name
-          'Event__c',
+          'Event__r',
           'Name',
           dataValue('form.intervention_name')
         ),
