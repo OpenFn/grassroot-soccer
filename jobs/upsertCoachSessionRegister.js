@@ -22,7 +22,7 @@ alterState(state => {
 
   const session_text = dataValue('form.session')(state);
 
-  const session_id = session_text.slice(0, session_text.indexOf(' ')).slice(1);
+  const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
 
   const session = field(`Session_${session_id}__c`, getSessionValue());
 
