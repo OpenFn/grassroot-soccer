@@ -1,3 +1,6 @@
+upsert(
+  'Event__c',
+  'Name',
 fields(
   field('Name', dataValue('form.intervention name')),
   field(
@@ -42,4 +45,4 @@ fields(
   field('Tested_Positive_Females_20_24__c', dataValue('form.table_1_testing_results_malaria.question89.question106')),
   field('Tested_Positive_Females_25_49__c', dataValue('form.table_1_testing_results_malaria.question89.question112')),
   field('Tested_Positive_Females_50__c', dataValue('form.table_1_testing_results_malaria.question89.question116'))
-);
+));
