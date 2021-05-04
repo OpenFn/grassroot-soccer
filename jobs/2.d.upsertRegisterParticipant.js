@@ -8,7 +8,7 @@ alterState(state => {
       relationship('RecordType', 'Name', 'Participant'),
       field('Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
       field('Sex__c', dataValue('form.question1.gender')),
-      field('Age__c', dataValue('form.question1.age_in_years')),
+      //field('Age__c', dataValue('form.question1.age_in_years')),
       field('Mobile_Number_1__c', dataValue('form.question1.mobile_number')),
       field('School_name_person__c', dataValue('form.question1.school_name'))
     )
