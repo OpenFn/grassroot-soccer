@@ -61,12 +61,12 @@ upsert(
         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.warm_up'
       )
     ),
-    field(
-      'X2_Warm_Up__c',
-      dataValue(
-        'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
-      )
-    ),
+    // field(
+    //   'X2_Warm_Up__c',
+    //   dataValue(
+    //     'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
+    //   )
+    // ),
     field(
       'X4_Cool_Down__c',
       dataValue(
@@ -97,13 +97,13 @@ upsert(
         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.practice_preparation'
       )
     ),
-    field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
-    field(
-      'Accurate_Information__c',
-      dataValue(
-        'form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'
-      )
-    ),
+    // field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
+    // field(
+    //   'Accurate_Information__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'
+    //   )
+    // ),
     field(
       'Creates_safe_space__c',
       dataValue('form.step_3_-_the_big_5.creates_safe_space')
