@@ -8,6 +8,7 @@ get(
         state.meta && state.meta.next
           ? state.meta.limit + state.meta.offset
           : 0, */
+      //QUESTION FOR MAMADOU: Can we remove these lines if we specify these in the xmlnsList below? 
       //xmlns: 'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
       //xmlns: 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
       //xmlns: 'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
