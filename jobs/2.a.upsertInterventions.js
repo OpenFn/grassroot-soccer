@@ -8,9 +8,9 @@ alterState((state) => {
 
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Ext_ID__c',
   fields(
-    field('Name', dataValue('form.name_of_intervention')),
+    field('CommCare_Ext_ID__c', dataValue('form.name_of_intervention')),
     field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
     field('Business_Unit__c', state => {
