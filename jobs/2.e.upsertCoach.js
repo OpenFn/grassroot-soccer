@@ -61,12 +61,12 @@ upsert(
         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.warm_up'
       )
     ),
-    // field(
-    //   'X2_Warm_Up__c',
-    //   dataValue(
-    //     'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
-    //   )
-    // ),
+     field(
+       'X3_Activity__c',
+       dataValue(
+         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
+       )
+     ),
     field(
       'X4_Cool_Down__c',
       dataValue(
@@ -118,7 +118,7 @@ upsert(
     //   dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')
     // ),
     // field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.preparation')),
-    // field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.warm_up')),
+    // field('X3_Activity__c', dataValue('form.step_3_-_the_big_5.warm_up')),
     // field('X4_Cool_Down__c', dataValue('form.step_3_-_the_big_5.cool_down')),
     field(
       'Introduces_micromove__c',
