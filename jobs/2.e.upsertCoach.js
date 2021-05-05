@@ -16,16 +16,17 @@ upsert(
     ),
     relationship(
       'Venue__r',
-      'Venue__c.CommCare_Ext_ID__c',
+      'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.venue')
     ),
     relationship(
       'Event__r',
-      'Event__c.Name',
+      'Name',
       dataValue('form.step_1_csv_information.intervention')
     ),
-    field(
-      'Curriculum__c.CommCare_Ext_ID__c',
+    relationship(
+      'Curriculum__r', 
+      'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.curriculum')
     ), // No lookup? ====================================
     relationship(
@@ -101,12 +102,13 @@ upsert(
       )
     ),
     relationship(
-      'Person_r',
+      'Person__r',
       'Coach_Person__c',
       dataValue('form.hidden_properties.coach_name')
     ),
-    field(
-      'Venue__c.CommCare_Ext_ID__c',
+    relationship(
+      'Venue__r',
+      'CommCare_Ext_ID__c',
       dataValue('form.hidden_properties.venue')
     ),
     field('Country__c', dataValue('form.step_1_basic_information.country')),
