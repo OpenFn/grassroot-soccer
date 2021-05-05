@@ -3,6 +3,7 @@ upsert(
   'Coach_Support_Visit__c',
   'CommCare_Ext_ID__c',
   fields(
+    field('CommCare_Ext_ID__c', dataValue('id')),
     field('Country__c', dataValue('form.step_1_csv_information.country')),
     relationship(
       'Coach__r',
