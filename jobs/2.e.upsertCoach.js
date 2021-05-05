@@ -107,7 +107,6 @@ upsert(
       'CommCare_Ext_ID__c',
       dataValue('form.hidden_properties.venue')
     ),
-    field('Country__c', dataValue('form.step_1_basic_information.country')),
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
     field(
       'Accurate_Information__c',
