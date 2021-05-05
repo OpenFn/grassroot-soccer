@@ -3,11 +3,11 @@ get(
   'https://www.commcarehq.org/a/grassrootsoccertrial/api/v0.5/form/',
   {
     query: {
-       /*limit: 50, //max limit: 1000
+      limit: 50, //max limit: 1000
       offset:
         state.meta && state.meta.next
           ? state.meta.limit + state.meta.offset
-          : 0, */
+          : 0, 
       //QUESTION FOR MAMADOU: Can we remove these lines if we specify these in the xmlnsList below? 
       //xmlns: 'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
       //xmlns: 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
