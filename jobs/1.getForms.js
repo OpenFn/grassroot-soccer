@@ -35,6 +35,7 @@ get(
       //'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
       //'http://openrosa.org/formdesigner/56DB98AC-67EC-4BBA-91FC-9443E84E43CE', //PHQ9
        'http://openrosa.org/formdesigner/5E2E3990-2C3C-42F5-BE0B-922ED29939C4', // ART Adherence Self-Reporting Tool
+        'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
 
     ];
 
