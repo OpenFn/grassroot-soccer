@@ -144,42 +144,42 @@ upsert(
       dataValue(
         'form.step_3_-_the_big_5.additional_notes.include_your_obsevations_related_to_preparation_punctuality_process'
       )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.is_the_goal_of_the_practice_achieved'
-      )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.do_participants_understand_clearly_and_correctly_the_message'
-      )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.is_the_coach_able_to_manage_the_group'
-      )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.are_participants_engaged_in_the_session'
-      )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.focus_on_the_coach_did_behaviour-based-coaching_and_let_the_coach_know_how_'
-      )
-    ),
-    field(
-      'Notes__c',
-      dataValue(
-        'form.step_3_-_the_big_5.additional_notes.the_notes_section_helps_you_give_the_coach_relevant_feedback_that_heshe_can'
-      )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.is_the_goal_of_the_practice_achieved'
+    //   )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.do_participants_understand_clearly_and_correctly_the_message'
+    //   )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.is_the_coach_able_to_manage_the_group'
+    //   )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.are_participants_engaged_in_the_session'
+    //   )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.focus_on_the_coach_did_behaviour-based-coaching_and_let_the_coach_know_how_'
+    //   )
+    // ),
+    // field(
+    //   'Notes__c',
+    //   dataValue(
+    //     'form.step_3_-_the_big_5.additional_notes.the_notes_section_helps_you_give_the_coach_relevant_feedback_that_heshe_can'
+    //   )
     )
   )
 );
