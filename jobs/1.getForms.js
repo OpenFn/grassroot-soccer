@@ -35,6 +35,7 @@ get(
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
 
     state.configuration = { baseUrl: 'https://www.openfn.org' };
+    console.log('Posting form submissions to OpenFn Inbox...');
 
     return each(
       forms,
