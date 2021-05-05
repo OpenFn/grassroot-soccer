@@ -124,10 +124,10 @@ upsert(
       'Introduces_micromove__c',
       dataValue('form.step_3_-_the_big_5.faciliation')
     ),
-    field(
-      'X5_Facilitation__c',
-      dataValue('form.step_3_-_the_big_5.time_management')
-    ),
+    // field(
+    //   'X5_Facilitation__c',
+    //   dataValue('form.step_3_-_the_big_5.time_management')
+    // ),
     field(
       'Notes__c',
       dataValue(
