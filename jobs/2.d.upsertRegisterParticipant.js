@@ -31,7 +31,7 @@ upsert(
         relationship(
           //Attendance looks up to Event via the intervention_name
           'Event__r',
-          'Name',
+          'CommCare_Ext_ID__c',
           dataValue('form.intervention_name')
         ),
         field('Date_of_Birth__c', dataValue('form.question1.date_of_birth')),
