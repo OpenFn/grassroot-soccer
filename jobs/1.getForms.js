@@ -3,7 +3,7 @@ get(
   'https://www.commcarehq.org/a/grassrootsoccertrial/api/v0.5/form/',
   {
     query: {
-       limit: 50, //max limit: 1000
+       limit: 1000, //max limit: 1000
       offset:
         state.meta && state.meta.next
           ? state.meta.limit + state.meta.offset
