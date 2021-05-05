@@ -97,16 +97,6 @@ upsert(
         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.practice_preparation'
       )
     ),
-    relationship(
-      'Coach_Person__r',
-      'Name',
-      dataValue('form.hidden_properties.coach_name')
-    ),
-    relationship(
-      'Venue__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.hidden_properties.venue')
-    ),
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
     field(
       'Accurate_Information__c',
