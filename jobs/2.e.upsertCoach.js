@@ -31,7 +31,7 @@ upsert(
     ), // No lookup? ====================================
     relationship(
       'Site__r',
-      'Site_Lookup__c.CommCare_Ext_ID__c',
+      'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_informationform.site')
     ),
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
