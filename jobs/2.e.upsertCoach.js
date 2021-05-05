@@ -4,8 +4,8 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    field('Country__c', dataValue('form.step_1_csv_information.country')),
-    relationship(
+    // field('Country__c', dataValue('form.step_1_csv_information.country')), //do not map formulas
+    relationship( 
       'Coach__r',
       'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.select_coach')
