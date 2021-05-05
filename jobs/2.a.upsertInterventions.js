@@ -11,12 +11,8 @@ upsert(
   'Name',
   fields(
     field('Name', dataValue('form.name_of_intervention')),
+    field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
-    relationship(
-      'Grant__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.grant')
-    ),
     field('Business_Unit__c', state => {
       const bu = dataValue('form.business_unit')(state); 
       return bu==='X' ? 'GRS Zambia' : bu; 
