@@ -21,7 +21,7 @@ upsert(
       dataValue('form.step_1_csv_information.intervention')
     ),
     relationship(
-      'Curriculum__r', 
+      'Curriculum_Aggregate__r', //Q: Should we rather map to Curriculum__
       'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.curriculum')
     ), // No lookup? ====================================
