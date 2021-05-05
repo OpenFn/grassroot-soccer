@@ -24,7 +24,7 @@ upsert(
     field('Q5_Appetite_problems__c', dataValue('form.begin_interview.questions.appetite_problems')),
     field('Q6_Failure_Worthless_Guilt__c', dataValue('form.begin_interview.questions.feeling_bad')),
     field('Q7_Trouble_concentrating__c', dataValue('form.begin_interview.questions.trouble_concentrating')),
-    field('Q8_Trouble_in_speech__c	', dataValue('form.begin_interview.questions.moving_slowly')),
+    field('Q8_Trouble_in_speech__c', dataValue('form.begin_interview.questions.moving_slowly')),
     field('Q9_Suicidal_thoughts__c', dataValue('form.begin_interview.questions.thoughts_suicide')),
     field('PHQ9_Total_Score__c', dataValue('form.begin_interview.questions.phq9_result.PHQ9_score'))
   )

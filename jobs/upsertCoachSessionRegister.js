@@ -24,17 +24,16 @@ alterState(state => {
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
 
-  const session = field(`Session_${session_id}__c`, getSessionValue());
-
-  const session_date = field(`Session_${session_id}_Date__c`, dataValue('form.date')(state));
-
-  const session_duration = field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state));
-
-  const event_name = field('Event_C.name', dataValue('form.intervention_name')(state));
-
-  state.data.destinationFields = fields(session, session_date, session_duration, event_name);
+  state.data.dynamicFields = [
+    field(`Session_${session_id}__c`, getSessionValue()),
+    field(`Session_${session_id}_Date__c`, dataValue('form.date')(state)),
+    field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)),
+  ];
 
   return state;
 });
 
-upsert('Attendance__c', 'Event_C.name', state => state.data.destinationFields);
+upsert('Attendance__c', 'Event_C.name', state => ({
+  ...fields(field('Event_C.name', dataValue('form.intervention_name'))),
+  ...fields(...state.data.dynamicFields),
+}));
