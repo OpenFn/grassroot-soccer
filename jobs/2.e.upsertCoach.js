@@ -11,11 +11,6 @@ upsert(
       dataValue('form.step_1_csv_information.select_coach')
     ),
     relationship(
-      'Person__r',
-      'Coach_Person__c',
-      dataValue('form.step_1_csv_information.coach_name')
-    ),
-    relationship(
       'Venue__r',
       'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.venue')
