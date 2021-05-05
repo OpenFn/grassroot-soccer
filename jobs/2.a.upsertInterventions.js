@@ -10,7 +10,7 @@ upsert(
   'Event__c',
   'Name',
   fields(
-    field('Name', dataValue('form.intervention_name')),
+    field('Name', dataValue('form.name_of_intervention')),
     relationship('RecordType', 'Name', 'Intervention'),
     relationship(
       'Grant__r',
