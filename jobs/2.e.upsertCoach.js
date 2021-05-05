@@ -104,22 +104,22 @@ upsert(
     //     'form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'
     //   )
     // ),
-    field(
-      'Creates_safe_space__c',
-      dataValue('form.step_3_-_the_big_5.creates_safe_space')
-    ),
-    field(
-      'Builds_personal_connections__c',
-      dataValue('form.step_3_-_the_big_5.builds_personal_connections')
-    ),
-    field('Gives_praise__c', dataValue('form.step_3_-_the_big_5.gives_praise')),
-    field(
-      'Sparks_vital_conversations__c',
-      dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')
-    ),
-    field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.preparation')),
-    field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.warm_up')),
-    field('X4_Cool_Down__c', dataValue('form.step_3_-_the_big_5.cool_down')),
+    // // field(
+    // //   'Creates_safe_space__c',
+    // //   dataValue('form.step_3_-_the_big_5.creates_safe_space')
+    // // ),
+    // field(
+    //   'Builds_personal_connections__c',
+    //   dataValue('form.step_3_-_the_big_5.builds_personal_connections')
+    // ),
+    // field('Gives_praise__c', dataValue('form.step_3_-_the_big_5.gives_praise')),
+    // field(
+    //   'Sparks_vital_conversations__c',
+    //   dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')
+    // ),
+    // field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.preparation')),
+    // field('X2_Warm_Up__c', dataValue('form.step_3_-_the_big_5.warm_up')),
+    // field('X4_Cool_Down__c', dataValue('form.step_3_-_the_big_5.cool_down')),
     field(
       'Introduces_micromove__c',
       dataValue('form.step_3_-_the_big_5.faciliation')
