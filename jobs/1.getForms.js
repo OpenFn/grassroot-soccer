@@ -11,8 +11,8 @@ get(
       xmlns: 'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
       xmlns: 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
       xmlns: 'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
-      //xmlns: 'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
-      //xmlns: 'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
+      xmlns: 'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
+      xmlns: 'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
       //xmlns: 'http://openrosa.org/formdesigner/AA396157-EBF9-4B51-B25A-D5BDA4F3DF73', // Coach Support Visit form Zambia
       //xmlns: 'http://openrosa.org/formdesigner/50A337EB-FBD8-4607-A664-21AAE51DFCD1', // Coach Support Visit form
       //xmlns: 'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention Notes form
@@ -31,6 +31,8 @@ get(
       'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
       'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
       'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
+      'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
+      'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
