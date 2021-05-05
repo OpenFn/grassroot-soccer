@@ -26,7 +26,7 @@ upsert(
       dataValue('form.step_1_csv_information.curriculum')
     ), // No lookup? ====================================
     relationship(
-      'Site__r',
+      'Site_Lookup__r',
       'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_informationform.site')
     ),
