@@ -103,8 +103,8 @@ upsert(
       )
     ),
     relationship(
-      'Person__r',
-      'Coach_Person__c',
+      'Coach_Person__r',
+      'Name',
       dataValue('form.hidden_properties.coach_name')
     ),
     relationship(
