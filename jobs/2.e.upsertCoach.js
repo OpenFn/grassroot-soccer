@@ -6,7 +6,7 @@ upsert(
     field('Country__c', dataValue('form.step_1_csv_information.country')),
     relationship(
       'Coach__r',
-      'Coach__c.CommCare_Ext_ID__c',
+      'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.select_coach')
     ),
     relationship(
