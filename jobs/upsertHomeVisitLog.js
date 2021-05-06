@@ -5,10 +5,12 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('id')),
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.basic_information.intervention_hidden')),
     relationship('Person_visiting__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
+    //NOTE: We do not need to map People information because Home Visit is related to Person. ======//
+    //This info already lives on the Person-level. 
     // field('First_Name__c', dataValue('form.basic_information.participant_first_name')),
     // field('Surname__c', dataValue('form.basic_information.participant_surname')),
+    // field('Sex__c', dataValue('form.basic_information.gender')),
     field('Consent_Given__c', dataValue('form.basic_information.consent_received')),
-    field('Sex__c', dataValue('form.basic_information.gender')),
     field('From_Venue__c', dataValue('form.basic_information.venue_hidden')),
     field('Date_of_Birth__c', dataValue('form.basic_information.date_of_birth')),
     field('Physical Address Community City', dataValue('form.basic_information.participant_address')),
