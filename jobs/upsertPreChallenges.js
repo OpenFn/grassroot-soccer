@@ -30,7 +30,6 @@ upsert(
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Grade__c', dataValue('form.hidden_properties.grade')),
-    field('Date_of_Birth__c', dataValue('form.hidden_properties.date_of_birth')),
     field('Class__c', dataValue('form.hidden_properties.class')),
     field('Pre_Post_Completed__c', dataValue('form.hidden_properties.pre_questionnaire_complete')),
     field('Date_Pre_Administered__c', dataValue('form.date')),
