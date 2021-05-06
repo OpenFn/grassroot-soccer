@@ -3,9 +3,9 @@ upsert(
   'Name',
   fields(
     field('Name', dataValue('form.name_of_skillz_plus_club')),
-    //  relationship('RecordType', 'Name', 'Intervention'),
-    field('Site__c.CommCare_Ext_ID__c', dataValue('form.skillz_plus_site')),
-    field('Venue__c.CommCare_Ext_ID__c', dataValue('form.skillz_plus_venue')),
-    field('Coach_A__c.CommCare_Ext_ID__c', dataValue('form.coaches'))
+    relationship('RecordType__r', 'CommCare_Ext_ID__c', 'Intervention'),
+    relationship('Site__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_site')),
+    relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_venue')),
+    relationship('Coach_A__r','CommCare_Ext_ID__c', dataValue('form.coaches'))
   )
 );
