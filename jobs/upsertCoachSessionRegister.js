@@ -26,7 +26,7 @@ alterState(state => {
   
   let external_id =
     dataValue('form.intervention_name')(state) +
-    dataValue('form.attendance_list.update_participant_cases.item.participant_name')(state);
+    dataValue('form.coach_name')(state);
 
   state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
@@ -42,6 +42,7 @@ alterState(state => {
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
         relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')), 
+        relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.coach_name')), 
         field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
       ),
   ...fields(...state.data.dynamicFields),
