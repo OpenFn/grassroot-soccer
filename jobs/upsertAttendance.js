@@ -1,5 +1,5 @@
 alterState(state => {
-  const present = dataValue('form.attendance_list.update_participant_cases.attendance_session')(state).toLowerCase();
+  const present = dataValue('form.attendance_list.update_participant_cases.item.attendance_session')(state).toLowerCase();
 
   function getSessionValue() {
     let value;
