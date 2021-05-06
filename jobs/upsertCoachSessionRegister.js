@@ -34,6 +34,6 @@ alterState(state => {
 });
 
 upsert('Attendance__c', 'Event__c.name', state => ({
-  ...fields(field('Event__c.name', dataValue('form.intervention_name'))),
+  ...fields(field('Event__c.CommCare_Ext_ID__c', dataValue('form.intervention_name'))),
   ...fields(...state.data.dynamicFields),
 }));
