@@ -37,7 +37,7 @@ get(
       //'http://openrosa.org/formdesigner/4CFAC371-88F7-4349-BEB2-3DA2BDE445EA', //Malaria Testing Event Snapshot
       //'http://openrosa.org/formdesigner/FAF8F169-0FF1-4DE4-98B7-E4450BECBC84', //Malaria Testing Event Statistics
       //'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
-      'http://openrosa.org/formdesigner/0B3DD3B4-A767-4671-A63C-8A352DAA8E2D', // Service Referral Followup
+      'http://openrosa.org/formdesigner/5D8455CE-6044-471D-83BB-131A3D52794B', // Service Referral Followup
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
