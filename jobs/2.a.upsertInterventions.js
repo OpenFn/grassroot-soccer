@@ -36,7 +36,7 @@ upsert(
     field('Delivery_Method__c', dataValue('form.delivery_method')),
     field('Class_Group_Team__c', dataValue('form.class_grade')),
     field('Pre_Post_Administered__c', dataValue('form.prepost_administered')),
-    relationship('Coach_A__r', 'CommCare_Ext_ID__c', '99e3f8799f53446dbb2a93f6bb005473'),//state => {return state.coaches[0]}),
+    relationship('Coach_A__r', 'CommCare_Ext_ID__c', state => {return state.coaches[0]}),
     // relationship('Coach_B__r', 'CommCare_Ext_ID__c', state => {return state.coaches[1]}),
     // relationship('Coach_C__r', 'CommCare_Ext_ID__c', state => {return state.coaches[2]}),
     // relationship('Coach_D__r', 'CommCare_Ext_ID__c', state => {return state.coaches[3]}),
