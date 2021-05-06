@@ -3,11 +3,10 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     relationship(
-      'Site__r',
+      'SiteName__r',
       'CommCare_Ext_ID__c',
       dataValue('form.general_referral_information.event_information.site')
     ),
-    //  relationship('SiteName__r', 'CommCare_Ext_ID__c', 'Site__c.SiteName'),
     field('CommCare_Ext_ID__c', dataValue('form.general_referral_information.event_information.site')),
     field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
     field('Events__c', dataValue('form.general_referral_information.event_information.event_type')),
