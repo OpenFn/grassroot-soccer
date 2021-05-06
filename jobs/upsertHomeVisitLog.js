@@ -4,7 +4,7 @@ upsert(
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.basic_information.intervention_hidden')),
-    relationship('Person_visiting__c', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
+    relationship('Person_visiting__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
     // field('First_Name__c', dataValue('form.basic_information.participant_first_name')),
     // field('Surname__c', dataValue('form.basic_information.participant_surname')),
     field('Consent_Given__c', dataValue('form.basic_information.consent_received')),
