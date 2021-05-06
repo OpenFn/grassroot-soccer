@@ -8,7 +8,7 @@ upsert(
     // field('First_Name__c', dataValue('form.basic_information.participant_first_name')),
     // field('Surname__c', dataValue('form.basic_information.participant_surname')),
     field('Consent_Given__c', dataValue('form.basic_information.consent_received')),
-    field('Sex_c', dataValue('form.basic_information.gender')),
+    field('Sex__c', dataValue('form.basic_information.gender')),
     field('From_Venue__c', dataValue('form.basic_information.venue_hidden')),
     field('Date_of_Birth__c', dataValue('form.basic_information.date_of_birth')),
     field('Physical Address Community City', dataValue('form.basic_information.participant_address')),
