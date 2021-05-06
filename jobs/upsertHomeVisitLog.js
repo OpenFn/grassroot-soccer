@@ -2,7 +2,7 @@ upsert(
   'Home_Visit__c',
   'id',
   fields(
-    field('id', dataValue('id')),
+    field('CommCare_Ext_ID__c', dataValue('id')),
     field('Event__c', dataValue('form.basic_information.intervention_hidden')),
     field('First_Name__c', dataValue('form.basic_information.participant_first_name')),
     field('Surname__c', dataValue('form.basic_information.participant_surname')),
