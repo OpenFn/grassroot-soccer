@@ -44,7 +44,7 @@ upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')),
     field('Name', dataValue('form.attendance_list.update_participant_cases.item.participant_id')),
     field('CommCare_Ext_ID__c', dataValue('commcare_external_id')),
-    relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.attendance_list.update_participant_cases.item.participant_name')),
+    relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
     field(
       'Total_Sessions_Attended__c',
       dataValue('form.attendance_list.update_participant_cases.item.num_sessions_attended')
