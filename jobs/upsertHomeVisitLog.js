@@ -1,6 +1,6 @@
 upsert(
   'Home_Visit__c',
-  'id',
+  'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
     field('Event__c', dataValue('form.basic_information.intervention_hidden')),
