@@ -41,7 +41,7 @@ alterState(state => {
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(...state.data.dynamicFields),
   ...fields(
-    relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.attendance_list.intervention_name')),
+    relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')),
     field('Name', dataValue('form.attendance_list.update_participant_cases.item.participant_id')),
     field('CommCare_Ext_ID__c', dataValue('commcare_external_id')),
     relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.attendance_list.update_participant_cases.item.participant_name')),
