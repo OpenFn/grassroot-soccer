@@ -15,7 +15,7 @@ alterState((state) => {
   
   const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
  
-  state.data.coaches = ''
+  state.data.coaches = state.data.form.coaches
   .split(' ')
   .reduce(
     (accumulator, currentValue, currentIndex) => [
