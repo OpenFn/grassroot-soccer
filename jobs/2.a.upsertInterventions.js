@@ -1,7 +1,13 @@
 alterState((state) => {
+  
+  function clean(str){
+    return str.split('_').map(word=>{let new_word = word.toString().toLowerCase();return (new_word.slice(0,1).toUpperCase()+new_word.slice(1))}).join(' ')
+
+  }
   const { data } = state;
   const coach = state.data.form.coaches;
   state.coaches = coach ? coach.split(' ') : coach; 
+  state.form.delivery_method = clean(state.form.delivery_method);
 
   return state; 
 }); 
