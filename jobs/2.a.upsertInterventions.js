@@ -8,8 +8,8 @@ alterState((state) => {
   const coach = state.data.form.coaches;
   state.coaches = coach ? coach.split(' ') : coach; 
   state.data.form.delivery_method = clean(state.data.form.delivery_method);
+  state.data.form.delivery_method = clean(state.data.form.step_3_-_the_big_5.faciliation);
   
-  console.log('delivery_method', state.data.form.delivery_method)
 
   return state; 
 }); 
