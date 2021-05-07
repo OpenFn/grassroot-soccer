@@ -62,6 +62,6 @@ upsert(
     field('Start_Date__c', dataValue('form.intervention_dates.start_date')),
     field('End_Date__c', dataValue('form.intervention_dates.end_date'))
   ),
-  ...state.data.coaches
+  ...fields(...state.data.coaches)
   })
 );
