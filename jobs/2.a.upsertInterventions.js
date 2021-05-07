@@ -15,7 +15,7 @@ alterState((state) => {
   
   const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
  
-  state.data.salesForceCoaches = state.data.form.coaches
+  state.data.destinationCoachFields = state.data.form.coaches
   .split(' ')
   .reduce(
     (accumulator, currentValue, currentIndex) => [
@@ -64,6 +64,6 @@ upsert(
     field('Start_Date__c', dataValue('form.intervention_dates.start_date')),
     field('End_Date__c', dataValue('form.intervention_dates.end_date'))
   ),
-  ...fields(...state.data.salesForceCoaches)
+  ...fields(...state.data.destinationCoachFields)
   })
 );
