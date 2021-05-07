@@ -18,7 +18,7 @@ alterState((state) => {
   state.data.coaches = '7bd62f3169774855b4ecc69f079e78f8 7bd62f3169774855b4ecc69f079e78f5 7bd62f3169774855b4ecc69f079e78f7'.split(' ').reduce(
   (accumulator, currentValue, currentIndex) => ([
     ...accumulator,
-    ...(currentIndex < coachFieldNames.length ? [coachFieldNames[currentIndex], currentValue] ) : []),
+    ...(currentIndex < coachFieldNames.length ? [coachFieldNames[currentIndex], currentValue]  : []),
   ]),
   []
 );
