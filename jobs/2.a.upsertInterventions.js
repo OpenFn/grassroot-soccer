@@ -7,15 +7,8 @@ alterState((state) => {
   }
   state.data.form.delivery_method = clean(state.data.form.delivery_method);
   
-  // const { data } = state;
-  // const coach = state.data.form.coaches;
-  // state.coaches = coach ? coach.split(' ') : coach; 
-  // relationship('Coach_A__r', 'CommCare_Ext_ID__c', state => {return state.coaches[0]}),
-  //   relationship('Coach_B__r', 'CommCare_Ext_ID__c', state => {return state.coaches[1]}),
-  //   relationship('Coach_C__r', 'CommCare_Ext_ID__c', state => {return state.coaches[2]}),
-  //   relationship('Coach_D__r', 'CommCare_Ext_ID__c', state => {return state.coaches[3]}),
   const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
-  state.data.coaches = '7bd62f3169774855b4ecc69f079e78f8 7bd62f3169774855b4ecc69f079e78f5 7bd62f3169774855b4ecc69f079e78f7'.split(' ').reduce(
+  state.data.coaches = state.data.coaches.split(' ').reduce(
   (accumulator, currentValue, currentIndex) => ([
     ...accumulator,
     (currentIndex < coachFieldNames.length ? relationship(coachFieldNames[currentIndex],'CommCare_Ext_ID__c', currentValue)  : []),
