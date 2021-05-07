@@ -1,23 +1,32 @@
 alterState((state) => {
   
-  function clean(str){
-    if(!!str)
-    return str.split('_').map(word=>{let new_word = word.toString().toLowerCase();return (new_word.slice(0,1).toUpperCase()+new_word.slice(1))}).join(' ')
-
+  function clean(str) {
+    if (!!str)
+      return str
+        .split('_')
+        .map(word => {
+          let new_word = word.toString().toLowerCase();
+          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+        })
+        .join(' ');
   }
+  
   state.data.form.delivery_method = clean(state.data.form.delivery_method);
   
   const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
-  state.data.coaches = state.data.form.coaches.split(' ').reduce(
-  (accumulator, currentValue, currentIndex) => ([
-    ...accumulator,
-    (currentIndex < coachFieldNames.length ? relationship(coachFieldNames[currentIndex],'CommCare_Ext_ID__c', currentValue)  : []),
-  ]),
-  []
-);
+ 
+  state.data.coaches = state.data.form.coaches
+  .split(' ')
+  .reduce(
+    (accumulator, currentValue, currentIndex) => [
+      ...accumulator,
+      currentIndex < coachFieldNames.length
+        ? relationship(coachFieldNames[currentIndex], 'CommCare_Ext_ID__c', currentValue)
+        : [],
+    ],
+    []
+  );
   
-  console.log('coaches',  state.data.coaches);
-
   return state; 
 }); 
 
