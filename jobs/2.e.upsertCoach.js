@@ -1,4 +1,15 @@
 //openfn.org source
+alterState(state => {
+  
+  function clean(str){
+    if(!!str)
+    return str.split('_').map(word=>{let new_word = word.toString().toLowerCase();return (new_word.slice(0,1).toUpperCase()+new_word.slice(1))}).join(' ')
+
+  }
+  state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove = clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove)
+  return state;
+});
+
 upsert(
   'Coach_Support_Visit__c',
   'CommCare_Ext_ID__c',
