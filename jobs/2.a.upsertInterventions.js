@@ -8,7 +8,7 @@ alterState((state) => {
   state.data.form.delivery_method = clean(state.data.form.delivery_method);
   
   const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
-  state.data.coaches = state.data.coaches.split(' ').reduce(
+  state.data.coaches = state.data.form.coaches.split(' ').reduce(
   (accumulator, currentValue, currentIndex) => ([
     ...accumulator,
     (currentIndex < coachFieldNames.length ? relationship(coachFieldNames[currentIndex],'CommCare_Ext_ID__c', currentValue)  : []),
