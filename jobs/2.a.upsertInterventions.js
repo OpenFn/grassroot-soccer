@@ -5,12 +5,11 @@ alterState((state) => {
     return str.split('_').map(word=>{let new_word = word.toString().toLowerCase();return (new_word.slice(0,1).toUpperCase()+new_word.slice(1))}).join(' ')
 
   }
+  
   const { data } = state;
   const coach = state.data.form.coaches;
   state.coaches = coach ? coach.split(' ') : coach; 
   state.data.form.delivery_method = clean(state.data.form.delivery_method);
-  // state.data.form.delivery_method = clean(state.data.form['step_3_-_the_big_5.faciliation']);
-  
 
   return state; 
 }); 
