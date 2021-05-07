@@ -7,7 +7,7 @@ alterState((state) => {
   const { data } = state;
   const coach = state.data.form.coaches;
   state.coaches = coach ? coach.split(' ') : coach; 
-  state.form.delivery_method = clean(state.form.delivery_method);
+  state.data.form.delivery_method = clean(state.data.form.delivery_method);
 
   return state; 
 }); 
