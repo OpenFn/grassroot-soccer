@@ -45,9 +45,9 @@ upsert(
     field('Class_Group_Team__c', dataValue('form.class_grade')),
     field('Pre_Post_Administered__c', dataValue('form.prepost_administered')),
     relationship('Coach_A__r', 'CommCare_Ext_ID__c', state => {return state.coaches[0]}),
-    // relationship('Coach_B__r', 'CommCare_Ext_ID__c', state => {return state.coaches[1]}),
-    // relationship('Coach_C__r', 'CommCare_Ext_ID__c', state => {return state.coaches[2]}),
-    // relationship('Coach_D__r', 'CommCare_Ext_ID__c', state => {return state.coaches[3]}),
+    relationship('Coach_B__r', 'CommCare_Ext_ID__c', state => {return state.coaches[1]}),
+    relationship('Coach_C__r', 'CommCare_Ext_ID__c', state => {return state.coaches[2]}),
+    relationship('Coach_D__r', 'CommCare_Ext_ID__c', state => {return state.coaches[3]}),
     field('Start_Date__c', dataValue('form.intervention_dates.start_date')),
     field('End_Date__c', dataValue('form.intervention_dates.end_date'))
   )
