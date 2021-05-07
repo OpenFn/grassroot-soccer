@@ -7,6 +7,7 @@ alterState(state => {
 
   }
   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove = clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove);
+  
   return state;
 });
 
