@@ -31,8 +31,8 @@ alterState((state) => {
 upsert(
   'Event__c',
   'CommCare_Ext_ID__c',
-  fields(
-    ...state=>state.data.coaches,
+  state=>({
+  ...fields(
     field('CommCare_Ext_ID__c', dataValue('form.name_of_intervention')),
     field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
@@ -61,5 +61,7 @@ upsert(
     field('Pre_Post_Administered__c', dataValue('form.prepost_administered')),
     field('Start_Date__c', dataValue('form.intervention_dates.start_date')),
     field('End_Date__c', dataValue('form.intervention_dates.end_date'))
-  )
+  ),
+  ...state.data.coaches
+  })
 );
