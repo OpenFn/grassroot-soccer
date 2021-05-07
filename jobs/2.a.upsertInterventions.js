@@ -20,9 +20,9 @@ alterState((state) => {
   .reduce(
     (accumulator, currentValue, currentIndex) => [
       ...accumulator,
-      currentIndex < coachFieldNames.length && !!currentValue
+      (currentIndex < coachFieldNames.length && !!currentValue
         ? relationship(coachFieldNames[currentIndex], 'CommCare_Ext_ID__c', currentValue)
-        : [],
+        : []),
     ],
     []
   );
