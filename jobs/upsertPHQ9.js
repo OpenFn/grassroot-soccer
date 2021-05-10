@@ -1,6 +1,6 @@
 // push to production
 upsert(
-  'PHQ 9 Strong Minds',
+  'PHQ_9_Strong_Minds__c',
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
