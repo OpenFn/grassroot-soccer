@@ -30,12 +30,12 @@ upsert(
     //  'Treatment_Self_Efficacy__c',
     //  dataValue('form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed')
     //),
-    field(
-      'Treatment_Self_Efficacy_10__c',
-      dataValue(
-        'form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h'
-      )
-    ),
+   // field(
+    //  'Treatment_Self_Efficacy_10__c',
+   //   dataValue(
+    //    'form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h'
+    //  )
+   // ),
     field(
       'Treatment_Self_Efficacy_11__c',
       dataValue(
