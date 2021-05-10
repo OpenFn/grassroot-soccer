@@ -36,12 +36,12 @@ upsert(
     //    'form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h'
     //  )
    // ),
-    field(
-      'Treatment_Self_Efficacy_11__c',
-      dataValue(
-        'form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt'
-      )
-    ),
+    //field(
+    //  'Treatment_Self_Efficacy_11__c',
+    //  dataValue(
+    //    'form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt'
+    //  )
+    //),
     field(
       'Behavioural_Factors_12__c',
       dataValue('form.behavioural.in_the_past_month_did_you_go_for_a_party_or_other_leisure_activities')
