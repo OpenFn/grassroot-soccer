@@ -3,7 +3,7 @@ upsert(
   'GRS_Referral_Agg__c',
   'CommCare_Ext_ID__c',
   fields(
-    ('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.partner_or_organization_referred_to'))
+    field('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.partner_or_organization_referred_to')),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
     field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
     field('Institution_Referred_To_3__c', dataValue('form.client_registration.participants_age_to_save')),
