@@ -4,7 +4,7 @@ get(
     query: {
       limit: 50, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2021-05-06',
+      received_on_start: '2021-05-09',
       received_on_end: '2021-05-12',
     },
   },
@@ -12,17 +12,19 @@ get(
     const { meta, objects } = state.data;
     const { openfnInboxUrl } = state.configuration;
     const xmlnsList = [
-      'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
-      'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
-      'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
-      'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
-      'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
+      //'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
+     //'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
+      //'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
+      //'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
+      //'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
       //'http://openrosa.org/formdesigner/56DB98AC-67EC-4BBA-91FC-9443E84E43CE', //PHQ9
       // 'http://openrosa.org/formdesigner/5E2E3990-2C3C-42F5-BE0B-922ED29939C4', // ART Adherence Self-Reporting Tool
       //'http://openrosa.org/formdesigner/4CFAC371-88F7-4349-BEB2-3DA2BDE445EA', //Malaria Testing Event Snapshot
       //'http://openrosa.org/formdesigner/FAF8F169-0FF1-4DE4-98B7-E4450BECBC84', //Malaria Testing Event Statistics
       //'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
       //'http://openrosa.org/formdesigner/5D8455CE-6044-471D-83BB-131A3D52794B', // Service Referral Followup
+      'http://openrosa.org/formdesigner/3B4B1C64-092A-4922-B033-94D80A11D960', // Coach Session Register form
+
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
