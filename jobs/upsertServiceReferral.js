@@ -1,6 +1,6 @@
 // push to production
 upsert(
-  'Service_Refferal__c',
+  'NewReferral__c',
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
