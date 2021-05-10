@@ -68,8 +68,8 @@ upsert(
     //  'Total_Pregnant_Women_Tested__c',
     //  dataValue(
     //    'form.table_3_pregnant_women_tested.enter_the_number_of_pregnant_women_tested_for_each_following_age_group.total_tested_pregnant'
-      )
-    ),
+    //  )
+    //),
     field(
       'First_Time_Females_0_9__c',
       state =>
