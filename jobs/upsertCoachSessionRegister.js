@@ -44,7 +44,7 @@ upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
         //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')), 
         relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.coach_name')), 
-        //field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+        field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
       ),
   ...fields(...state.data.dynamicFields),
 }));
