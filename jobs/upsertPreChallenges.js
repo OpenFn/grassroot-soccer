@@ -5,12 +5,13 @@ upsert(
   fields(
     field('Event__c', dataValue('form.hidden_properties.intervention_name')),
     relationship('Event__r','CommCare_Ext_ID__c',dataValue('form.hidden_properties.intervention_name')),
-    relationship('Person_Attendance__r','CommCare_Ext_ID__c', state => {
-      return (
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        dataValue('form.hidden_properties.participant_surname')(state)
-      )
-    }),
+    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.case.@case_id')),
+    // relationship('Person_Attendance__r','CommCare_Ext_ID__c', state => {
+    //   return (
+    //     dataValue('form.hidden_properties.participant_first_name')(state) +
+    //     dataValue('form.hidden_properties.participant_surname')(state)
+    //   )
+    // }),
     field('CommCare_Ext_ID__c', state => {
       return (
         dataValue('form.hidden_properties.intervention_name')(state) +
