@@ -21,7 +21,7 @@ upsert(
       'Treatment_Adherence_5_a__c',
       dataValue('form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in')
     ),
-    field('Clinical_Knowledge_2__c', dataValue('form.clinical_knowledge.do_you_know_your_viral_load')),
+    //field('Clinical_Knowledge_2__c', dataValue('form.clinical_knowledge.do_you_know_your_viral_load')),
     field(
       'Clinical_Knowledge_1__c',
       dataValue('form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests')
