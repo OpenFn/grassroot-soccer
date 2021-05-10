@@ -32,7 +32,10 @@ upsert(
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Grade__c', dataValue('form.hidden_properties.grade')),
     field('Class__c', dataValue('form.hidden_properties.class')),
-    field('Pre_Post_Completed__c', dataValue('form.hidden_properties.pre_questionnaire_complete')),
+    field('Pre_Post_Completed__c', state => {
+      var done = dataValue('form.hidden_properties.pre_questionnaire_complete')(state); 
+      return done==='Yes'? true : done==='No' ? false : undefined; 
+      }),
     field('Date_Pre_Administered__c', dataValue('form.date')),
     field(
       'Pre_1__c',
