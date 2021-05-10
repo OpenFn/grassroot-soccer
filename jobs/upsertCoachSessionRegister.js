@@ -34,7 +34,7 @@ alterState(state => {
   state.data.dynamicFields = [
     field(`Session_${session_id}__c`, getSessionValue()),
     field(`Session_${session_id}_Date__c`, dataValue('form.date')(state)),
-    //field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF? 
+    field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF? 
   ];
 
   return state;
