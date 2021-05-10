@@ -26,10 +26,10 @@ upsert(
       'Clinical_Knowledge_1__c',
       dataValue('form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests')
     ),
-    field(
-      'Treatment_Self_Efficacy__c',
-      dataValue('form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed')
-    ),
+    //field(
+    //  'Treatment_Self_Efficacy__c',
+    //  dataValue('form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed')
+    //),
     field(
       'Treatment_Self_Efficacy_10__c',
       dataValue(
