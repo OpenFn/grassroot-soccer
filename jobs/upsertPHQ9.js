@@ -18,10 +18,10 @@ upsert(
     
     //TODO
     //field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
-    field(
-      'Position_of_Respondent_in_Household__c',
-      dataValue('form.begin_interview.position_of_respondent_in_the_household')
-    ),
+    //field(
+     // 'Position_of_Respondent_in_Household__c',
+    //  dataValue('form.begin_interview.position_of_respondent_in_the_household')
+   // ),
     field('Q1_Little_interest_pleasure__c', dataValue('form.begin_interview.questions.little_interest')),
     field('Q2_Sad_Down_Depressed_Hopeless__c', dataValue('form.begin_interview.questions.depressed_sad_hopeless')),
     field('Q3_Trouble_sleeping__c', dataValue('form.begin_interview.questions.trouble_sleeping')),
