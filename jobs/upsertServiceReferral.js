@@ -8,7 +8,7 @@ upsert(
     field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
     field('Institution_Referred_To_3__c', dataValue('form.client_registration.participants_age_to_save')),
     field('Institution_Referred_To_3_Contact_Number__c', dataValue('form.client_registration.gender')),
-    field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
+    //field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
     field('CommCare_Ext_ID__c', dataValue('id')),
     //field('Venue__c', dataValue('form.client_registration.school_name')),
     //field('Grade__c', dataValue('form.client_registration.grade')),
