@@ -36,7 +36,7 @@ upsert(
       dataValue('form.skills_activities.how_many_people_attended_the_sessions_in_total')
     ),
     field(
-      'X2_Main_challenges__c, X1_Main_successes__c',
+      'X2_Main_challenges__c',
       dataValue('form.bed_net_distribution.please_describe_highlights_key_challenges_and_main_lessons_learned_from_thi')
     ),
     field(
