@@ -3,7 +3,7 @@ upsert(
   'GRS_Referral_Agg__c',
   'CommCare_Ext_ID__c',
   fields(
-    field('CommCare_Ext_ID__c', dataValue('id ')),
+    field('CommCare_Ext_ID__c', dataValue('id')),
     field('SiteName__r', dataValue('/general_referral_information/event_information/site')),
     field('Business_Unit__c', dataValue('/general_referral_information/event_information/business_unit')),
     field('Events__c', dataValue('/general_referral_information/event_information/event_type')),
