@@ -1,83 +1,104 @@
-// Push to production
+// push to production
 upsert(
-  'GRS_Referral_Agg__c',
+  'NewReferral__c',
   'CommCare_Ext_ID__c',
   fields(
-    relationship(
-      'SiteName__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.general_referral_information.event_information.site')
-    ),
-    field('CommCare_Ext_ID__c', dataValue('form.general_referral_information.event_information.site')),
-    field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
-    field('Events__c', dataValue('form.general_referral_information.event_information.event_type')),
+    field('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.partner_or_organization_referred_to')),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
+    field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
+    field('Institution_Referred_To_3__c', dataValue('form.client_registration.participants_age_to_save')),
+    field('Institution_Referred_To_3_Contact_Number__c', dataValue('form.client_registration.gender')),
+    field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
+    field('CommCare_Ext_ID__c', dataValue('id')),
+    //field('Venue__c', dataValue('form.client_registration.school_name')),
+    //field('Grade__c', dataValue('form.client_registration.grade')),
+    //field('Class__c', dataValue('form.client_registration.class')),
+    field('Parent_Guardian_Full_Name__c', dataValue('form.parent__guardian_information.parent__guardian_full_name')),
+    field('Relationship__c', dataValue('form.parent__guardian_information.relationship_to_client')),
+    field('Parent_Guardian_Contact_Number__c', dataValue('form.parent__guardian_information.contact_number')),
+    field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
+    field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
+    field('Institution_Referred_To_3__c', dataValue('form.referral_information.copy-2-of-institution_referred_to')),
     field(
-      'Enter_Partner_s_Name__c',
-      dataValue('form.general_referral_information.partner_or_organization_referred_to')
-    ),
-    field('Males_Referred_HIV_Testing__c', dataValue('form.hivsti_services.males_referred_for_hiv_testing')),
-    field('Males_referred_for_STI_Screening__c', dataValue('form.hivsti_services.males_referred_for_sti_screening')),
-    field('Males_Referred_for_PEP__c', dataValue('form.hivsti_services.males_referred_for_pep')),
-    field('Females_Referred_for_PrEP__c', dataValue('form.hivsti_services.males_referred_for_prep')),
-    field('Males_Referred_for_VMMC__c', dataValue('form.hivsti_services.males_referred_for_vmmc')),
-    field('Females_Referred_for_HIV_Testing__c', dataValue('form.hivsti_services.females_referred_for_hiv_testing')),
-    field(
-      'Females_Referred_for_STI_Screening__c',
-      dataValue('form.hivsti_services.females_referred_for_sti_screening')
-    ),
-    field('Females_Referred_for_PEP__c', dataValue('form.hivsti_services.females_referred_for_pep')),
-    field('Females_Referred_for_PrEP__c', dataValue('form.hivsti_services.females_referred_for_prep')),
-    field('Males_Referred_for_ART__c', dataValue('form.art_services.males_referred_for_art')),
-    field('Females_Referred_SKILLZ_Club__c', dataValue('form.art_services.males_referred_for_skillz__club')),
-    field('Females_Referred_for_ART__c', dataValue('form.art_services.females_referred_for_art')),
-    field('Females_Referred_SKILLZ_Club__c', dataValue('form.art_services.females_referred_for_skillz__club')),
-    field('Females_Referred_for_PMTCT__c', dataValue('form.art_services.females_referred_for_pmtct')),
-    field(
-      'Males_Referred_for_Psycho_Social_Support__c',
-      dataValue('form.psycho_-_social_services.males_referred_for_psycho-social_support')
+      'HIV_Testing_Services_GRS_Staff__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
     field(
-      'Females_Referred_Psycho_Social_Support__c',
-      dataValue('form.psycho_-_social_services.females_referred_for_psycho-social_support')
-    ),
-    field('Males_Referred_for_TB_Screening__c', dataValue('form.tb_services.males_referred_for_tb_screening')),
-    field('Females_Referred_for_TB_Screening__c', dataValue('form.tb_services.females_referred_for_rb_screening')),
-    field(
-      'Number_of_Male_Condoms_distributed__c',
-      dataValue('form.condom_distributions.number_of_male_condoms_distributed')
-    ),
-    field('Number_of_Male_Condoms_Accessed__c', dataValue('form.condom_distributions.number_of_male_condoms_accessed')),
-    field(
-      'Number_of_Female_Condoms_distributed__c',
-      dataValue('form.condom_distributions.number_of_female_condoms_distributed')
+      'HIV_STI_PREVENTION_Other_GRS_Staff__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
     field(
-      'Number_of_Female_Condoms_distributed__c',
-      dataValue('form.condom_distributions.number_of_female_condoms_accessed')
+      'TB_Screening_GRS_Staff__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
     field(
-      'Females_Referred_for_Family_Planning__c',
-      dataValue('form.other_srhr_services.females_referred_for_family_planning')
+      'Post_Exposure_Prophylaxis_GRS_Staff__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
     field(
-      'Females_Referred_for_Cervical_Cancer__c',
-      dataValue('form.other_srhr_services.females_referred_for_cervical_cancer')
+      'PrEP_GRS_Staff__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
-    field('Females_Referred_for_Antenatal__c', dataValue('form.other_srhr_services.females_referred_for_antenatal')),
     field(
-      'Males_Referred_for_Malaria_Testing__c',
-      dataValue('form.other_referral_services.males_referred_for_malaria_testing')
+      'HIV_Other__c',
+      dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')
     ),
-    field('Males_Referred_for_GBV__c', dataValue('form.other_referral_services.males_referred_for_gbv')),
     field(
-      'Females_Referred_for_Malaria_Testing__c',
-      dataValue('form.other_referral_services.females_referred_for_malaria_testing')
+      'ART_Initiation_GRS_Staff__c',
+      dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')
     ),
-    field('Females_Referred_for_GBV__c', dataValue('form.other_referral_services.females_referred_for_gbv')),
     field(
-      'Females_Referred_for_HPV_Vaccine__c',
-      dataValue('form.other_referral_services.females_referred_for_hpv_vaccine')
-    )
+      'PMTCT_GRS_Staff__c',
+      dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'SKILLZ_Plus_Club_Support_GRS_Staff__c',
+      dataValue('form.referral_services.art_support_services.skillz_plus_club_option')
+    ),
+    field(
+      'Sexual_and_GBV_Abuse_GRS_Staff__c',
+      dataValue(
+        'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
+      )
+    ),
+    field(
+      'Victim_Friendly_Services_GRS_Staff__c',
+      dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
+    ),
+    field(
+      'Legal_Services_Other_GRS_Staff__c',
+      dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
+    ),
+    field('Legal_Services_Other_GRS_Staff__c', dataValue('form.referral_services.legal_services.legal_services')),
+    field(
+      'STI_Screen_Testing_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'Contraception_Family_Plan_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'Cervical_Cancer_Screening_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'HPV_vaccine_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'Antenatal_Care_ANC_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'Sexual_and_GBV_Abuse_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field(
+      'Psycho_Social_Services_Other_GRS_Staff__c',
+      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')
+    ),
+    field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
+    field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date'))
   )
 );
