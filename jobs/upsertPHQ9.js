@@ -8,7 +8,7 @@ upsert(
     //relationship('Participant__r','CommCare_Ext_ID__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Mobile_Contact_Information__c', dataValue('form.hidden_properties.mobile_number')),
     field('Curriculum__c', dataValue('form.hidden_properties.curriculum')),
-    field('Intervention__c', dataValue('form.hidden_properties.intervention')),
+    //field('Intervention__c', dataValue('form.hidden_properties.intervention')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Participant__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
