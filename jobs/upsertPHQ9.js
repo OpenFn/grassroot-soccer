@@ -10,7 +10,7 @@ upsert(
     field('Curriculum__c', dataValue('form.hidden_properties.curriculum')),
     //field('Intervention__c', dataValue('form.hidden_properties.intervention')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
-    field('Participant__c', dataValue('form.hidden_properties.participant_fullname')),
+    field('Participant_Name__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Interview_Date__c', dataValue('form.interview_date')),
