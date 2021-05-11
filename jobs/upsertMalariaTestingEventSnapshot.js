@@ -51,7 +51,7 @@ upsert(
     //field('Venue__c', dataValue('form.event_information.venue')),
     //field('Curriculum__c', dataValue('form.event_information.curriculum')),
     field('X1_0_Intervention_Name__c', dataValue('form.event_information.intervention')),
-    field('Coach_1__c', dataValue('form.hidden_properties.coach_name')),
+    //field('Coach_1__c', dataValue('form.hidden_properties.coach_name')),
     field('CommCare_Ext_ID__c', dataValue('form.question_group.intervention_ name')),
     field('Date__c', dataValue('form.event_information.event_date')),
     field('Testing_Partner_Contact_Persion__c', dataValue('form.event_information.testing_partner__contact_people')),
