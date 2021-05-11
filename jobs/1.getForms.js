@@ -4,7 +4,7 @@ get(
     query: {
       limit: 50, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2021-05-10',
+      received_on_start: '2021-05-09',
       received_on_end: '2021-05-12',
     },
   },
