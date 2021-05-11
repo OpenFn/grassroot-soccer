@@ -16,7 +16,6 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    // field('Country__c', dataValue('form.step_1_csv_information.country')), //do not map formulas
     relationship( 
       'Coach__r',
       'CommCare_Ext_ID__c',
@@ -33,10 +32,10 @@ upsert(
       dataValue('form.step_1_csv_information.intervention')
     ),
     relationship(
-      'Curriculum_Aggregate__r', //Q: Should we rather map to Curriculum__
+      'Curriculum_Aggregate__r', 
       'CommCare_Ext_ID__c',
       dataValue('form.step_1_csv_information.curriculum')
-    ), // No lookup? ====================================
+    ),
     relationship(
       'Site_Lookup__r',
       'CommCare_Ext_ID__c',
