@@ -3,7 +3,7 @@ upsert(
   'Event__c',
   'Name',
 fields(
-  field('Name', dataValue('form.intervention name')),
+  field('Name', dataValue('form.event_information.event_name')),
   field(
     'Tested_Negative_Males_0_9__c',
     dataValue('form.table_1_testing_results_malaria.male_malaria_negative.question2')
