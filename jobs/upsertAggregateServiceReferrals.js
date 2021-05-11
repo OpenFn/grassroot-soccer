@@ -11,7 +11,12 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('form.general_referral_information.event_information.site')),
     //TO DO
     //field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
-    field('Events__c', dataValue('form.general_referral_information.event_information.event_type')),
+    relationship(
+        //Attendance looks up to Event via the intervention_name
+        'Event__r',
+        'CommCare_Ext_ID__c',
+        dataValue('form.general_referral_information.event_information.event_name')
+      ),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
     field(
       'Enter_Partner_s_Name__c',
