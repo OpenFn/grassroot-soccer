@@ -1,9 +1,9 @@
 // push to production
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Ext_ID__c',
   fields(
-    field('CommCare_Ext_ID__c', dataValue('form.question_group.intervention_name')),
+    field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.event_name')),
     relationship('Datr__r','CommCare_Ext_ID__c', dataValue('form.basic_information.event_details.event_date')),
     field('Testing_Partner_Contact_Persion__c', dataValue('form.event_information.testing_partner__contact_people')),
     field('of_People_in_Attendance_Testing_Events__c', dataValue('form.event_information.number_in_attendance')),
