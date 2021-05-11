@@ -17,7 +17,7 @@ upsert(
       'How_was_the_information_presented__c',
       dataValue('form.malaria_treatment_prevention.how_was_info_presented')
     ),
-    field('of_Participants__c', dataValue('form.malaria_treatment_prevention.how_many_total_participants')),
+    //field('of_Participants__c', dataValue('form.malaria_treatment_prevention.how_many_total_participants')),
     field(
       'Did_other_organizations_conduct__c',
       dataValue("form.skills_activities['did_other_organisations_eg_youth-friendly_clinic_ministry_of_health_etc_con']")
