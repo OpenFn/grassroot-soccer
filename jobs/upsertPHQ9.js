@@ -15,7 +15,9 @@ upsert(
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Interview_Date__c', dataValue('form.interview_date')),
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
-    field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
+    
+    //TODO
+    //field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
       'Position_of_Respondent_in_Household__c',
       dataValue('form.begin_interview.position_of_respondent_in_the_household')
