@@ -13,7 +13,7 @@ upsert(
     //field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
     relationship(
         //Attendance looks up to Event via the intervention_name
-        'Event__r',
+        'Events__r',
         'CommCare_Ext_ID__c',
         dataValue('form.general_referral_information.event_information.event_name')
       ),
