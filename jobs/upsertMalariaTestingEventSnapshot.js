@@ -1,7 +1,7 @@
 // push to production
 upsert(
   'Event__c',
-  'CommCare_Ext_ID__c',
+  'Name',
   fields(
     field('Name', dataValue('form.hidden_properties.event_name')),
     field('Date__c', dataValue('form.basic_information.event_details.event_date')),
