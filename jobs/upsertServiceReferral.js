@@ -3,12 +3,12 @@ upsert(
   'NewReferral__c',
   'CommCare_Ext_ID__c',
   fields(
-    field('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.Enter_Partner_s_Name__c	')),
+    field('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.Enter_Partner_s_Name__c')),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
     field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
     field('Institution_Referred_To_3__c', dataValue('form.client_registration.participants_age_to_save')),
     field('Institution_Referred_To_3_Contact_Number__c', dataValue('form.client_registration.gender')),
-    field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
+    //field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
     field('CommCare_Ext_ID__c', dataValue('id')),
     //field('Venue__c', dataValue('form.client_registration.school_name')),
     //field('Grade__c', dataValue('form.client_registration.grade')),
@@ -65,10 +65,10 @@ upsert(
       'Victim_Friendly_Services_GRS_Staff__c',
       dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
     ),
-    field(
-      'Legal_Services_Other_GRS_Staff__c',
-      dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
-    ),
+    //field(
+     // 'Legal_Services_Other_GRS_Staff__c',
+     // dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
+  //  ),
     field('Legal_Services_Other_GRS_Staff__c', dataValue('form.referral_services.legal_services.legal_services')),
     field(
       'STI_Screen_Testing_GRS_Staff__c',
