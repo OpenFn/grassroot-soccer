@@ -47,9 +47,9 @@ upsert(
       'Number_of_Bed_Nets_Distributed__c',
       dataValue('form.bed_net_distribution.total_number_of_bed_nets_distributed')
     ),
-    field('Site__c', dataValue('form.event_information.site')),
-    field('Venue__c', dataValue('form.event_information.venue')),
-    field('Curriculum__c', dataValue('form.event_information.curriculum')),
+    //field('Site__c', dataValue('form.event_information.site')),
+    //field('Venue__c', dataValue('form.event_information.venue')),
+    //field('Curriculum__c', dataValue('form.event_information.curriculum')),
     field('X1_0_Intervention_Name__c', dataValue('form.event_information.intervention')),
     field('Coach_1__c', dataValue('form.hidden_properties.coach_name')),
     field('CommCare_Ext_ID__c', dataValue('form.question_group.intervention_ name')),
