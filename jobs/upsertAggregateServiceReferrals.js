@@ -1,44 +1,3 @@
-var coaches = 'Chaiwa Taylor Muddy Look Test Foo'.split(' ').reduce(
-  (accumulator, currentValue, currentIndex) => ({
-    ...accumulator,
-    ...(currentIndex < coachFieldNames.length ? { [coachFieldNames[currentIndex]]: currentValue } : {}),
-  }),
-  {}
-);
-
-var coaches = 'Chaiwa Taylor Muddy Look Test Foo'
-  .split(' ')
-  .reduce(
-    (accumulator, currentValue, currentIndex) => [
-      ...accumulator,
-      ...(currentIndex < coachFieldNames.length ? field(coachFieldNames[currentIndex], currentValue) : []),
-    ],
-    []
-  );
-
-state.data.coaches = state.data.form.coaches
-  .split(' ')
-  .reduce(
-    (accumulator, currentValue, currentIndex) => [
-      ...accumulator,
-      currentIndex < coachFieldNames.length
-        ? relationship(coachFieldNames[currentIndex], 'CommCare_Ext_ID__c', currentValue)
-        : [],
-    ],
-    []
-  );
-
-function clean(str) {
-  if (!!str)
-    return str
-      .split('_')
-      .map(word => {
-        let new_word = word.toString().toLowerCase();
-        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
-      })
-      .join(' ');
-}
-
 // Push to production
 upsert(
   'GRS_Referral_Agg__c',
@@ -50,7 +9,8 @@ upsert(
       dataValue('form.general_referral_information.event_information.site')
     ),
     field('CommCare_Ext_ID__c', dataValue('form.general_referral_information.event_information.site')),
-    field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
+    //TO DO
+    //field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
     field('Events__c', dataValue('form.general_referral_information.event_information.event_type')),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
     field(
