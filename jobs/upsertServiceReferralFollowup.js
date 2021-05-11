@@ -17,7 +17,7 @@ upsert(
   'NewReferral__c',
   'CommCare_Ext_ID__c',
   fields(
-    field('Business_Unit__c', state => {
+    field('Business_Unit_Site__c', state => {
       const bu = dataValue('form.business_unit')(state); 
       return bu==='X' ? 'GRS Zambia' : bu; 
     }),
