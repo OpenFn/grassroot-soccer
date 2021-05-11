@@ -1,6 +1,6 @@
 // push to production
 upsert(
-  'GRS_Referral_Agg__c',
+  'NewReferral__c',
   'CommCare_Ext_ID__c',
   fields(
     field('Enter_Partner_s_Name__c', dataValue('form.general_referral_information.partner_or_organization_referred_to')),
