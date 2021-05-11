@@ -4,13 +4,7 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id ')),
-    field('', dataValue('/general_referral_information/hidden_properties/coach_id')),
-    field('', dataValue('/general_referral_information/hidden_properties/coach_name')),
     field('SiteName__r', dataValue('/general_referral_information/event_information/site')),
-    field('', dataValue('/general_referral_information/event_information/event_date')),
-    field('', dataValue('/general_referral_information/event_information/site_code')),
-    field('', dataValue('/general_referral_information/event_information/venue')),
-    field('', dataValue('/general_referral_information/event_information/venue_code')),
     field('Business_Unit__c', dataValue('/general_referral_information/event_information/business_unit')),
     field('Events__c', dataValue('/general_referral_information/event_information/event_type')),
     field('Type_of_Referral__c', dataValue('/general_referral_information/type_of_referral')),
