@@ -1,3 +1,44 @@
+var coaches = 'Chaiwa Taylor Muddy Look Test Foo'.split(' ').reduce(
+  (accumulator, currentValue, currentIndex) => ({
+    ...accumulator,
+    ...(currentIndex < coachFieldNames.length ? { [coachFieldNames[currentIndex]]: currentValue } : {}),
+  }),
+  {}
+);
+
+var coaches = 'Chaiwa Taylor Muddy Look Test Foo'
+  .split(' ')
+  .reduce(
+    (accumulator, currentValue, currentIndex) => [
+      ...accumulator,
+      ...(currentIndex < coachFieldNames.length ? field(coachFieldNames[currentIndex], currentValue) : []),
+    ],
+    []
+  );
+
+state.data.coaches = state.data.form.coaches
+  .split(' ')
+  .reduce(
+    (accumulator, currentValue, currentIndex) => [
+      ...accumulator,
+      currentIndex < coachFieldNames.length
+        ? relationship(coachFieldNames[currentIndex], 'CommCare_Ext_ID__c', currentValue)
+        : [],
+    ],
+    []
+  );
+
+function clean(str) {
+  if (!!str)
+    return str
+      .split('_')
+      .map(word => {
+        let new_word = word.toString().toLowerCase();
+        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+      })
+      .join(' ');
+}
+
 // Push to production
 upsert(
   'GRS_Referral_Agg__c',
