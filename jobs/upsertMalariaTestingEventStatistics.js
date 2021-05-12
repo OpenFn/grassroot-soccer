@@ -1,10 +1,10 @@
 // push to production
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Case_ID__c',
 fields(
-  relationship('RecordType', 'Name', 'Malaria_Testing_Event'),
   field('Name', dataValue('form.event_information.event_name')),
+  field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
   field(
     'Tested_Negative_Males_0_9__c',
     dataValue('form.table_1_testing_results_malaria.male_malaria_negative.question2')
