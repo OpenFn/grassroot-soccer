@@ -36,7 +36,7 @@ alterState((state) => {
 
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Case_ID__c',
   state=>({
   ...fields(
     field('Name', dataValue('form.event_information.Event_Name')),
