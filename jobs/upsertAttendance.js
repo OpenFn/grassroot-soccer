@@ -39,7 +39,7 @@ alterState(state => {
 });
 each(
   merge(dataPath('form.attendance_list.update_participant_cases.item[*]'), fields(
-    field('intervention_name', dataValue('form.intervention_name')),
+    field('intervention_name', dataValue('form.intervention_name'))
     //field('case_id', dataValue('form.case.@case_id')),
   )),
   upsert( 'Attendance__c', 'CommCare_Ext_ID__c', state => ({
