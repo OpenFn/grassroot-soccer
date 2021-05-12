@@ -54,10 +54,7 @@ each(
         return personid + '-' + eventid;
       }),
     relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('create_attendance_case.case.index.parent.#text')),
-    // field(
-    //   'Total_Sessions_Attended__c',
-    //   dataValue('form.attendance_list.update_participant_cases.item.num_sessions_attended')
-    // ) //NOTE: cannot map rollup summary fields
+    
   ),
  }))
 );
