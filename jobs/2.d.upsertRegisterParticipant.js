@@ -25,7 +25,7 @@ beta.each(
       field('Participant_Identification_Number_PID__c', state => state.data.case['@case_id']),
       field('Sex__c', dataValue('gender')),
       field('Mobile_Number_1__c', dataValue('mobile_number')),
-      field('School_name_person__c', dataValue('school_name')).
+      field('School_name_person__c', dataValue('school_name')),
       field('Date_of_Birth__c', dataValue('date_of_birth'))
       //field('Age__c', dataValue('form.question1.age_in_years')), //This is a SF formula field, cannot map
     )
