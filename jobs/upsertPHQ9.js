@@ -17,11 +17,10 @@ upsert(
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
     field('Area_Center__c', dataValue('form.hidden_properties.coach_name')),
     //TODO: match multiple choice options in CC and SF for two fields below.
-    //field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
-    //field(
-     // 'Position_of_Respondent_in_Household__c',
-    //  dataValue('form.begin_interview.position_of_respondent_in_the_household')
-   // ),
+    field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
+    field('Position_of_Respondent_in_Household__c',
+      dataValue('form.begin_interview.position_of_respondent_in_the_household')
+    ),
     field('Q1_Little_interest_pleasure__c', dataValue('form.begin_interview.questions.little_interest')),
     field('Q2_Sad_Down_Depressed_Hopeless__c', dataValue('form.begin_interview.questions.depressed_sad_hopeless')),
     field('Q3_Trouble_sleeping__c', dataValue('form.begin_interview.questions.trouble_sleeping')),
