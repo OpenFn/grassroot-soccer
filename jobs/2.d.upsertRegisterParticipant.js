@@ -48,7 +48,7 @@ each(
     fields(
       field('CommCare_Ext_ID__c', state => {
         var eventid = dataValue('intervention_name')(state);
-        var personid = dataValue('case_id')(state);
+        var personid = dataValue('case.@case_id')(state);
         return personid + '-' + eventid;
       }),
       relationship(
