@@ -38,14 +38,9 @@ upsert(
     }),
     
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
-    relationship(
-      'Person_Attendance__r',
-      'CommCare_Ext_ID__c',
-      state =>
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        ' ' +
-        dataValue('form.hidden_properties.participant_surname')(state)
-    ),
+    relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
+
+    
     //field(
      // 'Person_Attendance__c',
      // state =>
