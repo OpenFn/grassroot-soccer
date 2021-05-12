@@ -56,7 +56,6 @@ upsert(
     //    ' ' +
      //   dataValue('form.hidden_properties.participant_surname')(state)
     //),
-    field('Site__c', dataValue('form.hidden_properties.site')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Grade__c', dataValue('form.hidden_properties.grade')),
     field('Class__c', dataValue('form.hidden_properties.class')),
