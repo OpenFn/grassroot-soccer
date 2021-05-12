@@ -39,17 +39,8 @@ upsert(
     
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
     relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
-
-    
-    //field(
-     // 'Person_Attendance__c',
-     // state =>
-     //   dataValue('form.hidden_properties.participant_first_name')(state) +
-     //   ' ' +
-     //   dataValue('form.hidden_properties.participant_surname')(state)
-   // ),
     field('Pre_Post_Completed__c', state => {
-      var done = dataValue('form.hidden_properties.pre_questionnaire_complete')(state);
+      var done = dataValue('form.hidden_properties.post_questionnaire_complete')(state);
       return done === 'Yes' ? true : done === 'No' ? false : undefined;
     }),    field('Date_Post_Administered__c', dataValue('form.date')),
     field('Post_1__c', state => {
