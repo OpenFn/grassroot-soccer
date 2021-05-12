@@ -1,22 +1,20 @@
 //openfn.org source
 alterState(state => {
   function clean(str) {
-    if (!!str)
-      return str
-        .split('_')
-        .map(word => {
-          let new_word = word.toString().toLowerCase();
-          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
-        })
-        .join(' ');
-  }
-  //   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove =
-  //     clean(
-  //       state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co
-  //         .micromove
-  //     );
+    console.log('str', str);
 
-  state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form.step_3_ - _the_big_5.faciliation);
+    if (!str) return '';
+
+    return str
+      .split('_')
+      .map(word => {
+        let new_word = word.toString().toLowerCase();
+        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+      })
+      .join(' ');
+  }
+
+  state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
 
   return state;
 });
@@ -26,11 +24,11 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    relationship('Coach__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_csv_information.select_coach')),
-    relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_csv_information.venue')),
-    relationship('Event__r', 'Name', dataValue('form.step_1_csv_information.intervention')),
-    relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_csv_information.curriculum')),
-    relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_csv_informationform.site')),
+    relationship('Coach__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
+    relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.venue')),
+    relationship('Event__r', 'Name', dataValue('form.hidden_properties.intervention')),
+    relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.curriculum')),
+    relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.site')),
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
     //  field(
     //    'Accurate_Information__c',
@@ -82,12 +80,12 @@ upsert(
     //      'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove'
     //    )
     //  ),
-    field(
-      'X5_Facilitation__c',
-      dataValue(
-        'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
-      )
-    ),
+    //  field(
+    //    'X5_Facilitation__c',
+    //    dataValue(
+    //      'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
+    //    )
+    //  ),
     field('X5_Facilitation__c', dataValue('form.step_3_-_the_big_5.time_management')),
     field(
       'X6_Time_Management__c',
@@ -107,42 +105,6 @@ upsert(
       dataValue(
         'form.step_3_-_the_big_5.additional_notes.include_your_obsevations_related_to_preparation_punctuality_process'
       )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.is_the_goal_of_the_practice_achieved'
-      //   )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.do_participants_understand_clearly_and_correctly_the_message'
-      //   )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.is_the_coach_able_to_manage_the_group'
-      //   )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.are_participants_engaged_in_the_session'
-      //   )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.focus_on_the_coach_did_behaviour-based-coaching_and_let_the_coach_know_how_'
-      //   )
-      // ),
-      // field(
-      //   'Notes__c',
-      //   dataValue(
-      //     'form.step_3_-_the_big_5.additional_notes.the_notes_section_helps_you_give_the_coach_relevant_feedback_that_heshe_can'
-      //   )
     )
   )
 );
