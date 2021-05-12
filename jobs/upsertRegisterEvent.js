@@ -27,7 +27,7 @@ alterState((state) => {
   
   const eventtype = state.data.form.event_information.event_type; 
   
-  const recordtype = eventtype==='community_health_event' || 'soccer_tournament' ? 'Testing_Event' : 'Malaria_Testing_Event'; 
+  const recordtype = eventtype==='community_health_event' || 'soccer_tournament' ? 'Testing Event' : 'Malaria Testing Event'; 
   
   state.data.recordtype = recordtype; 
   
