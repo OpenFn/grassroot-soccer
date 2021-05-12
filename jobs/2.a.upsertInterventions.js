@@ -38,10 +38,11 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('form.name_of_intervention')),
     field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
-    //TODO: does this account for all 3 business units? I am assuming not.
     field('Business_Unit__c', state => {
       const bu = dataValue('form.business_unit')(state); 
-      return bu==='X' ? 'GRS Zambia' : bu; 
+      return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
+      bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
+      bu==='ed125ab19ec34aacab79585e59eb76f4' ? 'GRS Partnerships': undefined ; 
     }),
     relationship(
       'Site__r',
