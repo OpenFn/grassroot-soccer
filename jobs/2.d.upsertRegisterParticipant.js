@@ -13,7 +13,7 @@ beta.each(
     dataPath('form.question1[*]'),
     fields(
       field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')),
-      field('case_id', dataValue('form.case.@case_id'))
+      //field('case_id', dataValue('form.case.@case_id'))
     )
   ),
 
@@ -25,7 +25,7 @@ beta.each(
       field('First_Name__c', dataValue('participant_first_name')),
       field('Surname__c', dataValue('participant_surname')),
       relationship('RecordType', 'Name', 'Participant'),
-      field('Participant_Identification_Number_PID__c', dataValue('case_id')),
+      field('Participant_Identification_Number_PID__c', dataValue('case.@case_id')),
       field('Sex__c', dataValue('gender')),
       //field('Age__c', dataValue('form.question1.age_in_years')), //This is a SF formula field, cannot map
       field('Mobile_Number_1__c', dataValue('mobile_number')),
@@ -39,10 +39,9 @@ each(
     dataPath('form.question1[*]'),
     fields(
       field('intervention_name', dataValue('form.intervention_name')),
-      field('case_id', dataValue('form.case.@case_id'))
+      //field('case_id', dataValue('form.case.@case_id'))
     )
   ),
-
   upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
@@ -56,7 +55,7 @@ each(
         //Attendance looks up to Persn via the case_id
         'Person_Attendance__r',
         'Participant_Identification_Number_PID__c',
-        dataValue('case_id')
+        dataValue('case.@case_id')
       ),
       relationship(
         //Attendance looks up to Event via the intervention_name
