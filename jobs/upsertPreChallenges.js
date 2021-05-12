@@ -64,7 +64,7 @@ upsert(
     field('Pre_1__c', state => {
       const value =
         dataValue('form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.in_general_i_feel_good_about_myself')(state) ||
-        dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.i_know_what_i_am_good_at')(state) ||
+        dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals')(state) ||
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz'
         )(state);
@@ -76,6 +76,7 @@ upsert(
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life'
         )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy')(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
         )(state);
