@@ -20,6 +20,8 @@ alterState(state => {
     return value;
   }
 
+  state.data.form.attendance_list.update_participant_cases.item = objectToArray(state.data.form.attendance_list.update_participant_cases.item);
+  
   const session_text = dataValue('form.attendance_list.session')(state);
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
