@@ -43,9 +43,6 @@ upsert(
     field('CommCare_Ext_ID__c', state => {
       return dataValue('form.case.@case_id')(state) + "-" +
         dataValue('form.hidden_properties.intervention_name')(state)
-        .toLowerCase()
-        .replace(/\s/g, '')
-        .trim();
     }),
     
     
