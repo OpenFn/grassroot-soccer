@@ -25,6 +25,12 @@ alterState((state) => {
     []
   );
   
+  const eventtype = state.data.form.event_information.event_type; 
+  
+  const recordtype = eventtype==='community_health_event' || 'soccer_tournament' ? 'Testing_Event' : 'Malaria_Testing_Event'; 
+  
+  state.data.recordtype = recordtype; 
+  
   return state; 
 }); 
 
@@ -34,6 +40,7 @@ upsert(
   state=>({
   ...fields(
     field('Name', dataValue('form.event_information.Event_Name')),
+    recordtype('RecordType', 'Name', dataValue('recordtype')),
     field('CommCare_Ext_ID__c', dataValue('form.event_information.Event_Name')),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Business_Unit__c', state => {
@@ -46,7 +53,7 @@ upsert(
     relationship('Venue__r', 'CommCare_Ext_ID__c',dataValue('form.event_information.Venue')),
     //field('Country__c', dataValue('form.event_information.site_country')), //formula field
     field('Date__c', dataValue('form.event_information.event_date')),
-    field('Event_Type__c', dataValue('form.event_information.event_type')),
+    field('Event_Type__c', dataValue('recordtype')),
     field('Coordinator__c', dataValue('form.event_information.event_coordinator')),
   ),
   ...fields(...state.data.destinationCoachFields)
