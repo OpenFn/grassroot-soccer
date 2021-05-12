@@ -24,11 +24,11 @@ alterState(state => {
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
 
-  let external_id =
-    dataValue('form.intervention_name')(state) +
-    dataValue('form.attendance_list.update_participant_cases.item.participant_name')(state);
+  // let external_id =
+  //   dataValue('form.intervention_name')(state) +
+  //   dataValue('form.attendance_list.update_participant_cases.item.participant_name')(state);
 
-  state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
+  // state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
   state.data.dynamicFields = [
     field(`Session_${session_id}__c`, getSessionValue()),
