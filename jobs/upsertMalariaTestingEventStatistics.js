@@ -3,6 +3,7 @@ upsert(
   'Event__c',
   'Name',
 fields(
+  relationship('RecordType', 'Name', 'Malaria_Testing_Event'),
   field('Name', dataValue('form.event_information.event_name')),
   field(
     'Tested_Negative_Males_0_9__c',
