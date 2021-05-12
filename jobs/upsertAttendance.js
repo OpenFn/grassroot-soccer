@@ -37,7 +37,7 @@ alterState(state => {
 
   return state;
 });
-beta.each(
+each(
   merge(dataPath('form.attendance_list.update_participant_cases.item[*]'), fields(
     field('intervention_name', dataValue('form.intervention_name')),
     //field('case_id', dataValue('form.case.@case_id')),
