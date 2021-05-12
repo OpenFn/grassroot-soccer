@@ -281,7 +281,7 @@ upsert(
           'form.post_challenge_nigeria_-_advanced_skills.when_sick_it_is_better_to_visit_the_herb_seller_than_to_visit_a_doctor_or_a'
         )(state) ||
         dataValue(
-          'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.i_can_make_a_choice_to_have_sex_and_protect_myself_from_stis_andor_unwanted'
+          'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.the_most_common_illnesses_of_mental_health_are_depression_and_anxiety'
         )(state) ||
         dataValue(
           'form.post_challenge_zambia_-_skillz_core_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
