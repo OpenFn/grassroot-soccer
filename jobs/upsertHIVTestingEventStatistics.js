@@ -1,9 +1,10 @@
 // push to production
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Case_ID__c',
   fields(
     field('Name', dataValue('form.event_name')),
+    field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Tested_Negative_Males_0_9__c', dataValue('form.table_1_testing_results.male_hiv_negative.question2')),
     field('Tested_Negative_Males_10_14__c', dataValue('form.table_1_testing_results.male_hiv_negative.question7')),
     field('Tested_Negative_Males_15_19__c', dataValue('form.table_1_testing_results.male_hiv_negative.question13')),
