@@ -19,6 +19,10 @@ alterState(state => {
     }
     return value;
   }
+  
+  function objectToArray(object) {
+    return !Array.isArray(object) ? [object] : object;
+  }
 
   state.data.form.attendance_list.update_participant_cases.item = objectToArray(state.data.form.attendance_list.update_participant_cases.item);
   
