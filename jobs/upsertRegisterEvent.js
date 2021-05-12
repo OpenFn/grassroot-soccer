@@ -40,7 +40,7 @@ upsert(
   state=>({
   ...fields(
     field('Name', dataValue('form.event_information.Event_Name')),
-    recordtype('RecordType', 'Name', dataValue('recordtype')),
+    relationship('RecordType', 'Name', dataValue('recordtype')),
     field('CommCare_Ext_ID__c', dataValue('form.event_information.Event_Name')),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Business_Unit__c', state => {
