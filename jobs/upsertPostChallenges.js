@@ -232,8 +232,11 @@ upsert(
         )(state) ||
         dataValue(
           'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.if_a_girl_gets_pregnant_she_should_drop_out_of_school'
-        )(state);
-
+        )(state) ||
+        dataValue(
+          'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.when_i_have_a_choice_it_is_important_to_eat_a_variety_of_foods_including_gr'
+        )(state) 
+        
       return state.helperFunctions.transform(value);
     }),
     field('Post_12__c', state => {
@@ -256,7 +259,7 @@ upsert(
           'form.post_challenge_nigeria_-_advanced_skills.it_is_the_males_responsibilty_to_make_decisions_in_a_relationship'
         )(state) ||
         dataValue(
-          'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.art_adherence_is_an_important_part_of_my_overall_health_and_wellbeing'
+          'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.art_adherence_is_an_important_part_of_my_overall_health_and_well-being'
         )(state) ||
         dataValue(
           'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a'
