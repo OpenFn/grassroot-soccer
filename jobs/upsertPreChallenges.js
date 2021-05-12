@@ -1,9 +1,14 @@
 alterState(state => {
   function transform(value) {
-    switch (value) {
+    if (!value) return;
+    switch (value.toString().trim().toLowerCase()) {
       case 'true':
+      case 'yes':
+      case 'agree':
         return 1;
       case 'false':
+      case 'no':
+      case 'disagree':
         return 2;
       case 'i_dont_know':
         return 3;
@@ -20,6 +25,7 @@ alterState(state => {
 
   return state;
 });
+
 upsert(
   'Attendance__c',
   'CommCare_Ext_ID__c',
