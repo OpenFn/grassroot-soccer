@@ -41,7 +41,7 @@ alterState(state => {
 each(
   merge(dataPath('form.attendance_list.item[*]'), fields(
     field('intervention_name', dataValue('form.intervention_name')),
-    field('case_id', dataValue('form.case.@case_id')),
+    //field('case_id', dataValue('form.case.@case_id')),
   )),
   upsert( 'Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(...state.data.dynamicFields),
@@ -54,7 +54,6 @@ each(
         return personid + '-' + eventid;
       }),
     relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('create_attendance_case.case.index.parent.#text')),
-    
   ),
  }))
 );
