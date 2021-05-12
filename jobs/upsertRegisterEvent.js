@@ -34,6 +34,8 @@ upsert(
   state=>({
   ...fields(
     field('Name', dataValue('form.event_information.Event_Name')),
+    field('CommCare_Ext_ID__c', dataValue('form.event_information.Event_Name')),
+    field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Business_Unit__c', state => {
       const bu = dataValue('form.event_information.business_unit')(state); 
       return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 

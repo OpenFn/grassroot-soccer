@@ -4,7 +4,7 @@ get(
     query: {
       limit: 1000, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2021-05-11',
+      received_on_start: '2021-05-12',
       received_on_end: '2021-05-20',
     },
   },
@@ -28,8 +28,9 @@ get(
     // 'http://openrosa.org/formdesigner/41DF97A0-0E4B-460D-B983-13D404565009', //HIV Testing Event Snapshot
     // 'http://openrosa.org/formdesigner/EAA0ABBB-C517-4E7F-82A9-5799E944FE52', //HIV Testing Event Statistics
      //'http://openrosa.org/formdesigner/EA6C0348-91F7-44FC-8786-B34F50B0CB62', //Register Event
-    'http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E', //Attendance
-
+    //'http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E', //Attendance
+    'http://openrosa.org/formdesigner/A3AF9DA6-1D57-46E4-8431-A5C262DC2DBA', // Pre Challenges
+    'http://openrosa.org/formdesigner/D2F0F23F-9C0E-41E7-9C46-7553F8B5DCC8', // Post Challenges
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));

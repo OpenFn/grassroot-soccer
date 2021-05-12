@@ -31,8 +31,8 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('Event__c', dataValue('form.hidden_properties.intervention_name')),
-    relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
-    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.case.@case_id')),
+   // relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
+    relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
     // relationship('Person_Attendance__r','CommCare_Ext_ID__c', state => {
     //   return (
     //     dataValue('form.hidden_properties.participant_first_name')(state) +
@@ -49,13 +49,13 @@ upsert(
         .replace(/\s/g, '')
         .trim();
     }),
-    field(
-      'Person_Attendance__c',
-      state =>
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        ' ' +
-        dataValue('form.hidden_properties.participant_surname')(state)
-    ),
+    //field(
+      //'Person_Attendance__c',
+     // state =>
+     //   dataValue('form.hidden_properties.participant_first_name')(state) +
+    //    ' ' +
+     //   dataValue('form.hidden_properties.participant_surname')(state)
+    //),
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Grade__c', dataValue('form.hidden_properties.grade')),
