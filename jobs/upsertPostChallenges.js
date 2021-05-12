@@ -53,7 +53,7 @@ upsert(
      //   ' ' +
      //   dataValue('form.hidden_properties.participant_surname')(state)
    // ),
-    field('Post_Post_Completed__c', dataValue('form.hidden_properties.post_questionnaire_complete')),
+    field('Pre_Post_Completed__c', dataValue('form.hidden_properties.post_questionnaire_complete')),
     field('Date_Post_Administered__c', dataValue('form.date')),
     field('Post_1__c', state => {
       const value =
