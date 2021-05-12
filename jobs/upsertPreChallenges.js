@@ -39,6 +39,17 @@ upsert(
     //     dataValue('form.hidden_properties.participant_surname')(state)
     //   )
     // }),
+    
+    field('CommCare_Ext_ID__c', state => {
+      return (
+        dataValue('form.case.@case_id') + "-" +
+        dataValue('form.hidden_properties.intervention_name')(state)
+      )
+        .toLowerCase()
+        .replace(/\s/g, '')
+        .trim();
+    }),
+    
     field('CommCare_Ext_ID__c', state => {
       return (
         dataValue('form.hidden_properties.intervention_name')(state) +
