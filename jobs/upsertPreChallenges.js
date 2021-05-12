@@ -50,16 +50,7 @@ upsert(
         .trim();
     }),
     
-    field('CommCare_Ext_ID__c', state => {
-      return (
-        dataValue('form.hidden_properties.intervention_name')(state) +
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        dataValue('form.hidden_properties.participant_surname')(state)
-      )
-        .toLowerCase()
-        .replace(/\s/g, '')
-        .trim();
-    }),
+    
     //field(
       //'Person_Attendance__c',
      // state =>
