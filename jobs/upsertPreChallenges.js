@@ -1,4 +1,25 @@
-// push to production
+alterState(state => {
+  function transform(value) {
+    switch (value) {
+      case 'true':
+        return 1;
+      case 'false':
+        return 2;
+      case 'i_dont_know':
+        return 3;
+      case 'unanswered':
+        return 4;
+      case 'not_applicable':
+        return 5;
+      default:
+        return value;
+    }
+  }
+
+  state.helperFunctions = { transform };
+
+  return state;
+});
 upsert(
   'Attendance__c',
   'CommCare_Ext_ID__c',
@@ -38,28 +59,29 @@ upsert(
       return done === 'Yes' ? true : done === 'No' ? false : undefined;
     }),
     field('Date_Pre_Administered__c', dataValue('form.date')),
-    field(
-      'Pre_1__c',
-      state =>
+    field('Pre_1__c', state => {
+      const value =
         dataValue('form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.in_general_i_feel_good_about_myself')(state) ||
         dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.i_know_what_i_am_good_at')(state) ||
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz'
-        )(state)
-    ),
-    field(
-      'Pre_2__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_2__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
-        )(state)
-    ),
-    field(
-      'Pre_3__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_3__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others'
         )(state) ||
@@ -68,22 +90,24 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_important_to_know_why_and_how_i_want_to_tell_someone_my_hiv_status'
-        )(state)
-    ),
-    field(
-      'Pre_4__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_4__c', state => {
+      const value =
         dataValue('form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_accept_myself_and_my_hiv_status')(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship'
         )(state) ||
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex'
-        )(state)
-    ),
-    field(
-      'Pre_5__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_5__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy'
         )(state) ||
@@ -92,11 +116,12 @@ upsert(
         ) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare'
-        )(state)
-    ),
-    field(
-      'Pre_6__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_6__c', state => {
+      const value =
         dataValue('form.pre_challenge_nigeria_-_advanced_skills.drinking_alcohol_can_increase_my_risk_of_getting_hiv')(
           state
         ) ||
@@ -105,22 +130,24 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
-        )(state)
-    ),
-    field(
-      'Pre_7__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_7__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.sleeping_under_a_mosquito_net_every_night_can_help_protect_me_from_malaria'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr'
         )(state) ||
-        dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.girls_should_not_disagree_with_boys')(state)
-    ),
-    field(
-      'Pre_8__c',
-      state =>
+        dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.girls_should_not_disagree_with_boys')(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_8__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.having_more_than_one_sexual_partner_over_the_same_time_period_increases_my_'
         )(state) ||
@@ -129,11 +156,12 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_an_older_person_in_my_life_i_can_go_to_for_advice'
-        )(state)
-    ),
-    field(
-      'Pre_9__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_9__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.it_is_okay_for_someone_with_malaria_to_stop_taking_their_medication_as_soon'
         )(state) ||
@@ -142,11 +170,12 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
-        )(state)
-    ),
-    field(
-      'Pre_10__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_10__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_can_abstain_from_sex_until_i_am_older_even_if_it_is_difficult'
         )(state) ||
@@ -155,11 +184,12 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_two_people_with_hiv_to_have_unprotected_sex_with_each_other'
-        )(state)
-    ),
-    field(
-      'Pre_11__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_11__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_would_say_no_to_playing_sport_with_someone_who_has_hiv'
         )(state) ||
@@ -168,31 +198,34 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.if_i_test_positive_for_hiv_there_will_be_someone_who_will_help_and_support_'
-        )(state)
-    ),
-    field(
-      'Pre_12__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_12__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.men_should_share_the_work_around_the_house_such_as_cleaning'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_someone_with_hiv_to_stop_taking_their_arv_as_soon_as_they_st'
-        )(state)
-    ),
-    field(
-      'Pre_13__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_13__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.it_is_the_males_responsibilty_to_make_decisions_in_a_relationship'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.art_adherence_is_an_important_part_of_my_overall_health_and_wellbeing'
-        )(state)
-    ),
-    field(
-      'Pre_14__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_14__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_can_use_drugs_and_still_easily_reach_my_goals_in_life'
         )(state) ||
@@ -201,11 +234,12 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
-        )
-    ),
-    field(
-      'Pre_15__c',
-      state =>
+        );
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_15__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.when_sick_it_is_better_to_visit_the_herb_seller_than_to_visit_a_doctor_or_a'
         )(state) ||
@@ -214,11 +248,12 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
-        )
-    ),
-    field(
-      'Pre_16__c',
-      state =>
+        );
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_16__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.it_is_okay_to_use_violence_with_my_partner_if_he_or_she_makes_me_angry'
         )(state) ||
@@ -227,34 +262,41 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi'
-        )(state)
-    ),
-    field(
-      'Pre_17__c',
-      state =>
+        )(state);
+
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_17__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_have_the_power_to_change_gender_expectations_that_i_do_not_agree_with'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.if_sexually_active_one_sign_of_pregnancy_can_be_a_girl_missing_her_period'
-        )(state)
-    ),
+        )(state);
 
-    field(
-      'Pre_18__c',
-      dataValue(
-        'form.pre_challenge_zambia_-_skillz_core_zambia.i_would_say_no_to_playing_sport_with_someone_who_has_hiv'
+      return state.helperFunctions.transform(value);
+    }),
+    field('Pre_18__c', state =>
+      state.helperFunctions.transform(
+        dataValue(
+          'form.pre_challenge_zambia_-_skillz_core_zambia.i_would_say_no_to_playing_sport_with_someone_who_has_hiv'
+        )(state)
       )
     ),
-    field(
-      'Pre_19__c',
-      dataValue(
-        'form.pre_challenge_zambia_-_skillz_core_zambia.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
+    field('Pre_19__c', state =>
+      state.helperFunctions.transform(
+        dataValue(
+          'form.pre_challenge_zambia_-_skillz_core_zambia.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
+        )(state)
       )
     ),
-    field(
-      'Pre_20__c',
-      dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.i_know_what_decisions_to_make_to_achieve_my_goals')
+    field('Pre_20__c', state =>
+      state.helperFunctions.transform(
+        dataValue('form.pre_challenge_zambia_-_skillz_core_zambia.i_know_what_decisions_to_make_to_achieve_my_goals')(
+          state
+        )
+      )
     )
   )
 );
