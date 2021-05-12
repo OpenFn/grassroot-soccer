@@ -38,7 +38,7 @@ alterState(state => {
 
   return state;
 });
-each(
+beta.each(
   merge(dataPath('form.attendance_list.item[*]'), fields(
     field('intervention_name', dataValue('form.intervention_name')),
     //field('case_id', dataValue('form.case.@case_id')),
