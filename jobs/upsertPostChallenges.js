@@ -30,17 +30,13 @@ upsert(
   'Attendance__c',
   'CommCare_Ext_ID__c',
   fields(
-    field('Event__c', dataValue('form.hidden_properties.intervention_name')),
+    //field('Event__c', dataValue('form.hidden_properties.intervention_name')),
+    
     field('CommCare_Ext_ID__c', state => {
-      return (
-        dataValue('form.hidden_properties.intervention_name')(state) +
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        dataValue('form.hidden_properties.participant_surname')(state)
-      )
-        .toLowerCase()
-        .replace(/\s/g, '')
-        .trim();
+      return dataValue('form.case.@case_id')(state) + "-" +
+        dataValue('form.hidden_properties.intervention_name')(state)
     }),
+    
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
     relationship(
       'Person_Attendance__r',
@@ -50,13 +46,13 @@ upsert(
         ' ' +
         dataValue('form.hidden_properties.participant_surname')(state)
     ),
-    field(
-      'Person_Attendance__c',
-      state =>
-        dataValue('form.hidden_properties.participant_first_name')(state) +
-        ' ' +
-        dataValue('form.hidden_properties.participant_surname')(state)
-    ),
+    //field(
+     // 'Person_Attendance__c',
+     // state =>
+     //   dataValue('form.hidden_properties.participant_first_name')(state) +
+     //   ' ' +
+     //   dataValue('form.hidden_properties.participant_surname')(state)
+   // ),
     field('Post_Post_Completed__c', dataValue('form.hidden_properties.post_questionnaire_complete')),
     field('Date_Post_Administered__c', dataValue('form.date')),
     field('Post_1__c', state => {
