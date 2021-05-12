@@ -51,9 +51,12 @@ upsert(
     }),
     relationship('Site__r','CommCare_Ext_ID__c', dataValue('form.event_information.site')),
     relationship('Venue__r', 'CommCare_Ext_ID__c',dataValue('form.event_information.Venue')),
-    //field('Country__c', dataValue('form.event_information.site_country')), //formula field
     field('Date__c', dataValue('form.event_information.event_date')),
     field('Event_Type__c', dataValue('recordtype')),
+    field('Testing_Event_Type__c', state => {
+      const type = dataValue('form.event_information.event_type')(state); 
+      return type.includes('Malaria') ? 'Malaria Testing Event (General Event)' : 'Other';
+    }),
     field('Coordinator__c', dataValue('form.event_information.event_coordinator')),
   ),
   ...fields(...state.data.destinationCoachFields)
