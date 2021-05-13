@@ -17,6 +17,7 @@ alterState(state => {
   }
 
   function objectToArray(object) {
+    if (!object) return [];
     return !Array.isArray(object) ? [object] : object;
   }
 
