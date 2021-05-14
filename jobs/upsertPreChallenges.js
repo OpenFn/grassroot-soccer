@@ -286,19 +286,24 @@ upsert(
 
       return state.helperFunctions.transform(value);
     }),
-    field('Pre_18__c', state =>
-      state.helperFunctions.transform(
+    field('Pre_18__c', state => {
+      const value =
         dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_would_say_no_to_playing_sport_with_someone_who_has_hiv'
-        )(state)
-      )
-    ),
-    field('Pre_19__c', state =>
-      state.helperFunctions.transform(
+        )(state);
+        
+        return state.helperFunctions.transform(value);
+        
+      }),
+
+    field('Pre_19__c', state => {
+    const value =
         dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
-        )(state)
-      )
-    )
+        )(state);
+        
+        return state.helperFunctions.transform(value);
+      
+    })
   )
 );
