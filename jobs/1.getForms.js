@@ -28,9 +28,10 @@ get(
     // 'http://openrosa.org/formdesigner/41DF97A0-0E4B-460D-B983-13D404565009', //HIV Testing Event Snapshot
     // 'http://openrosa.org/formdesigner/EAA0ABBB-C517-4E7F-82A9-5799E944FE52', //HIV Testing Event Statistics
     // 'http://openrosa.org/formdesigner/EA6C0348-91F7-44FC-8786-B34F50B0CB62', //Register Event
-    'http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E', //Attendance
+    //'http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E', //Attendance
     //'http://openrosa.org/formdesigner/A3AF9DA6-1D57-46E4-8431-A5C262DC2DBA', // Pre Challenges
     //'http://openrosa.org/formdesigner/D2F0F23F-9C0E-41E7-9C46-7553F8B5DCC8', // Post Challenges
+    'http://openrosa.org/formdesigner/0DAB6FD9-A7C1-4F56-A1C8-794B7C123F95', // Service Referral
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
