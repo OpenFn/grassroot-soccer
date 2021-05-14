@@ -27,6 +27,8 @@ alterState(state => {
 
   const sessionText = dataValue('form.attendance_list.session')(state);
   const sessionId = getSessionId(sessionText);
+
+  //   @aleksa-krolls confirm the path for the session data
   const sessionDate = dataValue("form.case['@date_modified']")(state);
 
   state.data.form.attendance_list.update_participant_cases.item =
@@ -45,15 +47,16 @@ each(
   dataPath('form.attendance_list.update_participant_cases.item[*]'),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
-      // relationship('Event__r', 'CommCare_Case_ID__c', dataValue('case_id')),
+      //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
+      relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
       field('Name', dataValue('participant_name')),
       field('CommCare_Ext_ID__c', state => {
-        //   const eventid = dataValue('intervention_name')(state);
-        const eventid = dataValue('session_name')(state);
-        //   var personid = state.data.case.index.parent['#text'];
+        // @aleksa-krolls intervention_name is not in sample data
+        const eventid = dataValue('intervention_name')(state);
         const personid = state.data['@id'];
         return personid + '-' + eventid;
       }),
+      // @aleksa-krolls I
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', state => state.data['@id'])
     ),
     ...state.data.dynamicFields,
