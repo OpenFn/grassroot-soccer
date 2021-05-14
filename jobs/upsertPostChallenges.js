@@ -51,10 +51,7 @@ upsert(
         dataValue('form.post_challenge_zambia_-_plus_mh_enhanced_zambia.in_general_i_feel_good_about_myself')(state) ||
         dataValue('form.post_challenge_zambia_-_skillz_core_zambia.i_know_what_i_am_good_at')(state) ||
         dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_what_decisions_to_make_to_achieve_my_goals'
-        )(state) ||
-        dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals'
         )(state);
 
       return state.helperFunctions.transform(value);
