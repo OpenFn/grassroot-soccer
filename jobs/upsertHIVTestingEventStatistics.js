@@ -212,6 +212,6 @@ upsert(
     field('GRS_Coaches__c', dataValue('form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_coaches')),
     field('GRS_Participants__c', dataValue('form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants')),
     field('GRS_Staff__c', dataValue('form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.staff')),
-    field('Total_Tested__c', dataValue('form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.total_tested')),
+    //field('Total_Tested__c', dataValue('form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.total_tested')),
   )
 );
