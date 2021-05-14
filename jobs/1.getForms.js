@@ -21,7 +21,7 @@ get(
       // 'http://openrosa.org/formdesigner/5E2E3990-2C3C-42F5-BE0B-922ED29939C4', // ART Adherence Self-Reporting Tool
       //'http://openrosa.org/formdesigner/4CFAC371-88F7-4349-BEB2-3DA2BDE445EA', //Malaria Testing Event Snapshot
       //'http://openrosa.org/formdesigner/FAF8F169-0FF1-4DE4-98B7-E4450BECBC84', //Malaria Testing Event Statistics
-      'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
+      //'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
       //'http://openrosa.org/formdesigner/5D8455CE-6044-471D-83BB-131A3D52794B', // Service Referral Followup
     //'http://openrosa.org/formdesigner/59E1207B-969F-402D-9EEE-675504036F78', //Home Visit log form
      // 'http://openrosa.org/formdesigner/3B4B1C64-092A-4922-B033-94D80A11D960', // Coach Session Register form
@@ -32,7 +32,7 @@ get(
     //'http://openrosa.org/formdesigner/A3AF9DA6-1D57-46E4-8431-A5C262DC2DBA', // Pre Challenges
     //'http://openrosa.org/formdesigner/D2F0F23F-9C0E-41E7-9C46-7553F8B5DCC8', // Post Challenges
     //'http://openrosa.org/formdesigner/0DAB6FD9-A7C1-4F56-A1C8-794B7C123F95', // Service Referral
-    //'http://openrosa.org/formdesigner/98041DA3-B37D-4E8E-A9B9-29EDC036A46A', // Aggregate Service Referrals
+    'http://openrosa.org/formdesigner/98041DA3-B37D-4E8E-A9B9-29EDC036A46A', // Aggregate Service Referrals
     ];
 
     const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
