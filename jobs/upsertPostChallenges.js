@@ -65,10 +65,7 @@ upsert(
           'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
         )(state) ||
         dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girlboy'
-        )(state) ||
-        dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy'
         )(state);
 
       return state.helperFunctions.transform(value);
