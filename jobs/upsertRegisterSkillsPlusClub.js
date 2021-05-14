@@ -42,10 +42,7 @@ upsert(
       relationship('RecordType', 'Name', 'Intervention'),
       relationship('Site__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_site')),
       relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_venue')),
-      relationship('Coach_A__r','CommCare_Ext_ID__c', dataValue('form.coaches'))
     ),
-    
     ...fields(...state.data.destinationCoachFields)
-  
   })
 );
