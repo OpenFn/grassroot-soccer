@@ -12,9 +12,9 @@ get(
     const { meta, objects } = state.data;
     const { openfnInboxUrl } = state.configuration;
     const xmlnsList = [
-      //'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
+      'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
      // 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
-     //'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
+     'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
       //'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
       //'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
       //'http://openrosa.org/formdesigner/56DB98AC-67EC-4BBA-91FC-9443E84E43CE', //PHQ9
@@ -29,7 +29,7 @@ get(
     // 'http://openrosa.org/formdesigner/EAA0ABBB-C517-4E7F-82A9-5799E944FE52', //HIV Testing Event Statistics
     // 'http://openrosa.org/formdesigner/EA6C0348-91F7-44FC-8786-B34F50B0CB62', //Register Event
     //'http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E', //Attendance
-    //'http://openrosa.org/formdesigner/A3AF9DA6-1D57-46E4-8431-A5C262DC2DBA', // Pre Challenges
+    'http://openrosa.org/formdesigner/A3AF9DA6-1D57-46E4-8431-A5C262DC2DBA', // Pre Challenges
     'http://openrosa.org/formdesigner/D2F0F23F-9C0E-41E7-9C46-7553F8B5DCC8', // Post Challenges
     //'http://openrosa.org/formdesigner/0DAB6FD9-A7C1-4F56-A1C8-794B7C123F95', // Service Referral
     ];
