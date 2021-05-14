@@ -38,7 +38,7 @@ upsert(
   ...fields(
       field('Name', dataValue('form.name_of_skillz_plus_club')),
       field('CommCare_Ext_ID__c', dataValue('form.name_of_skillz_plus_club')),
-      feld('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
+      field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
       relationship('RecordType', 'Name', 'Intervention'),
       relationship('Site__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_site')),
       relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.skillz_plus_venue')),
