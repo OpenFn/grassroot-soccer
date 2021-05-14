@@ -44,7 +44,10 @@ alterState(state => {
 });
 
 each(
-  dataPath('form.attendance_list.update_participant_cases.item[*]'),
+  merge(
+    dataPath('form.attendance_list.update_participant_cases.item[*]'),
+    fields(field('intervention_name', dataValue('form.intervention_name')))
+  ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
       //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
@@ -57,7 +60,7 @@ each(
         return personid + '-' + eventid;
       }),
       // @aleksa-krolls I get this error:
-     // INVALID_FIELD: Foreign key external ID: ce3f0b88-a612-4f5e-b26c-9888f65ee376 not found for field CommCare_Case_ID__c in entity Event__c
+      // INVALID_FIELD: Foreign key external ID: ce3f0b88-a612-4f5e-b26c-9888f65ee376 not found for field CommCare_Case_ID__c in entity Event__c
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', state => state.data['@id'])
     ),
     ...state.data.dynamicFields,
