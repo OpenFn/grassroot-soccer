@@ -260,7 +260,7 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_i_amsomeone_i_know_is_abused_sexually_physically_and'
-        );
+        )(state);
 
       return state.helperFunctions.transform(value);
     }),
