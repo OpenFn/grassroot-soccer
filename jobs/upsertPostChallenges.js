@@ -129,7 +129,7 @@ upsert(
           'form.post_challenge_zambia_-_skillz_core_zambia.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
         )(state) ||
         dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -144,7 +144,7 @@ upsert(
           'form.post_challenge_nigeria_-_advanced_skills.sleeping_under_a_mosquito_net_every_night_can_help_protect_me_from_malaria'
         )(state) ||
         dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -162,9 +162,6 @@ upsert(
         )(state) ||
         dataValue(
           'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship'
-        )(state) ||
-        dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -182,10 +179,7 @@ upsert(
         )(state) ||
         dataValue(
           'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
-        )(state) ||
-        dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
-        );
+        )(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -200,7 +194,7 @@ upsert(
         dataValue(
           'form.post_challenge_zambia_-_skillz_core_zambia.i_have_an_older_person_in_my_life_i_can_go_to_for_advice'
         )(state) ||
-        dataValue('form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.girls_should_not_disagree_with_boys')(state);
+        dataValue('form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.girls_should_be_obedient_and_should_not_disagree_with_boys')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -230,7 +224,7 @@ upsert(
           'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_someone_with_hiv_to_stop_taking_their_arv_as_soon_as_they_st'
         )(state) ||
         dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -244,7 +238,7 @@ upsert(
           'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.art_adherence_is_an_important_part_of_my_overall_health_and_well-being'
         )(state) ||
         dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -278,7 +272,7 @@ upsert(
           'form.post_challenge_zambia_-_skillz_core_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
         )(state) ||
         dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_i_amsomeone_i_know_is_abused_sexually_physically_and'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -309,7 +303,7 @@ upsert(
           'form.post_challenge_zambia_-_skillz_core_zambia.if_sexually_active_one_sign_of_pregnancy_can_be_a_girl_missing_her_period'
         )(state) ||
         dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -338,7 +332,11 @@ upsert(
     field('Post_20__c', state => {
       const value = dataValue(
         'form.post_challenge_zambia_-_skillz_core_zambia.i_know_what_decisions_to_make_to_achieve_my_goals'
-      )(state);
+      )(state) ||
+      dataValue(
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
+        )(state);
+  
       return state.helperFunctions.transform(value);
     })
   )
