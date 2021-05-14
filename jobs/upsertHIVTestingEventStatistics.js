@@ -96,7 +96,7 @@ upsert(
         dataValue('form.table_4_first_time_testers.question89.question106')(state)
     ),
     field(
-      'First_Time_Females_25__c',
+      'First_Time_Females_25_49__c',
       state =>
         dataValue('form.table_4_first_time_testers.question61.question84')(state) +
         dataValue('form.table_4_first_time_testers.question89.question112')(state)
@@ -132,7 +132,7 @@ upsert(
         dataValue('form.table_4_first_time_testers.question33.question50')(state)
     ),
     field(
-      'First_Time_Males_25__c',
+      'First_Time_Males_25_49__c',
       state =>
         dataValue('form.table_4_first_time_testers.male_hiv_negative.question28')(state) +
         dataValue('form.table_4_first_time_testers.question33.question56')(state)
