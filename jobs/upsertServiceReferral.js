@@ -32,13 +32,13 @@ upsert(
 
     field('HIV_Testing_Services_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'hiv_testing_services',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
-    field('HIV_STI_PREVENTION_Other_GRS_Staff__c', state =>
+    field('VMMC_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'vmmc',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
@@ -50,19 +50,19 @@ upsert(
     ),
     field('Post_Exposure_Prophylaxis_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'post_exposure_prophylaxis',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('PrEP_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'prep',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('HIV_Other__c', state =>
       state.helperFunctions.checked(
-        '',
+        'other',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
@@ -74,75 +74,121 @@ upsert(
     ),
     field('PMTCT_GRS_Staff__c', state =>
       state.helperFunctions.checked(
+        'pmtct',
         dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('SKILLZ_Plus_Club_Support_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'grs_skillz_plus_club',
         dataValue('form.referral_services.art_support_services.skillz_plus_club_option')(state)
       )
     ),
-    field('Sexual_and_GBV_Abuse_GRS_Staff__c', state =>
-      state.helperFunctions.checked(
-        '',
-        dataValue(
-          'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-        )(state)
-      )
+    field(
+      'Victim_Friendly_Services_GRS_Staff__c',
+      state =>
+        state.helperFunctions.checked(
+          'suspected_abuse_reported_police_court_other_authority',
+          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+        ) ||
+        state.helperFunctions.checked(
+          'post_violence_care_medical_legal_counseling',
+          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+        ) ||
+        state.helperFunctions.checked(
+          'child_support_grant_social_foster_general_support',
+          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+        ) ||
+        state.helperFunctions.checked(
+          'other',
+          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+        )
     ),
-    field('Victim_Friendly_Services_GRS_Staff__c', state =>
-      state.helperFunctions.checked(
-        '',
-        dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
-      )
+    field(
+      'Sexual_and_GBV_Abuse_GRS_Staff__c',
+      dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
     ),
-    field('Legal_Services_Other_GRS_Staff__c', state =>
-      state.helperFunctions.checked('', dataValue('form.referral_services.legal_services.legal_services')(state))
+    field(
+      'Legal_Other__c',
+      dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
+    ),
+    field(
+      'Legal_Services_Other_GRS_Staff__c',
+      state =>
+        state.helperFunctions.checked(
+          'other',
+          dataValue('form.referral_services.legal_services.legal_services')(state)
+        ) ||
+        state.helperFunctions.checked('id', dataValue('form.referral_services.legal_services.legal_services')(state)) ||
+        state.helperFunctions.checked(
+          'birth_bertificate',
+          dataValue('form.referral_services.legal_services.legal_services')(state)
+        )
     ),
     field('STI_Screen_Testing_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'sti_screening_diagnosis_treatment',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Contraception_Family_Plan_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'contraceptivesfamily_planning',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Cervical_Cancer_Screening_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'cervical_cancer_screening',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('HPV_vaccine_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'hpv',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Antenatal_Care_ANC_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'antenatal_care_anc',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Sexual_and_GBV_Abuse_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'based_violenceabus',
+        dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
+      )
+    ),
+    field(
+      'Psycho_Social_Support_GRS_Staff__c',
+      state =>
+        state.helperFunctions.checked(
+          'drug_or_alcohol_abuse',
+          dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
+        ) ||
+        state.helperFunctions.checked(
+          'psychiatric_careintensive_counseling',
+          dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
+        )
+    ),
+    field('Psycho_Other__c', state =>
+      state.helperFunctions.checked(
+        'other',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Psycho_Social_Services_Other_GRS_Staff__c', state =>
       state.helperFunctions.checked(
-        '',
+        'psychosocial_support',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
     field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
-    field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date'))
+    field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
+    field('Client_Follow_up_Consent_given__c', state =>
+      state.helperFunctions.checked('yes', dataValue('form.follow-up.select')(state))
+    )
   )
 );
