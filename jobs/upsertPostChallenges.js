@@ -112,7 +112,7 @@ upsert(
           'form.post_challenge_zambia_-_skillz_core_zambia.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy'
         )(state) ||
         dataValue(
-          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
         )(state);
 
       return state.helperFunctions.transform(value);
@@ -129,7 +129,7 @@ upsert(
           'form.post_challenge_zambia_-_skillz_core_zambia.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
         )(state) ||
         dataValue(
-          'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health'
+          'form.post_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health'
         )(state);
 
       return state.helperFunctions.transform(value);
