@@ -206,6 +206,12 @@ upsert(
     field(
       'of_Females_Referred_to_Tuberculosis__c',
       dataValue('form.table5_referrals.women_referred_number.tuberculosis_tb_referral_women')
-    )
+    ),
+    
+    field('', dataValue('/table_2_tested_profile/enter_the_number_tested_for_each_following_profile/community_members')),
+    field('', dataValue('/table_2_tested_profile/enter_the_number_tested_for_each_following_profile/skillz_coaches')),
+    field('', dataValue('/table_2_tested_profile/enter_the_number_tested_for_each_following_profile/skillz_participants')),
+    field('', dataValue('/table_2_tested_profile/enter_the_number_tested_for_each_following_profile/staff')),
+    field('', dataValue('/table_2_tested_profile/enter_the_number_tested_for_each_following_profile/total_tested')),
   )
 );
