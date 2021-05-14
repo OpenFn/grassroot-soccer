@@ -1,4 +1,37 @@
-// push to production
+alterState(state => {
+  function capitalizeFirstLetter(str) {
+    if (!str) return;
+    let new_str = str.toString().toLowerCase();
+    return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);
+  }
+
+  function transform(value) {
+    if (!value) return;
+    switch (value.toString().trim()) {
+      case 'Daughterson':
+        return 'Daughter/Son';
+      case 'Other_specify':
+        return 'Other';
+      case 'Single_never_married':
+        return 'Single/Never Married';
+      case 'Divorced__separated':
+        return 'Divorced/separated';
+      default:
+        return value;
+    }
+  }
+
+  state.data.form.begin_interview.what_is_your_marital_status = transform(
+    capitalizeFirstLetter(state.data.form.begin_interview.what_is_your_marital_status)
+  );
+
+  state.data.form.begin_interview.position_of_respondent_in_the_household = transform(
+    capitalizeFirstLetter(state.data.form.begin_interview.position_of_respondent_in_the_household)
+  );
+
+  return state;
+});
+
 upsert(
   'PHQ_9_Strong_Minds__c',
   'CommCare_Ext_ID__c',
@@ -18,7 +51,8 @@ upsert(
     field('Area_Center__c', dataValue('form.hidden_properties.coach_name')),
     //TODO: match multiple choice options in CC and SF for two fields below.
     field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
-    field('Position_of_Respondent_in_Household__c',
+    field(
+      'Position_of_Respondent_in_Household__c',
       dataValue('form.begin_interview.position_of_respondent_in_the_household')
     ),
     field('Q1_Little_interest_pleasure__c', dataValue('form.begin_interview.questions.little_interest')),
@@ -29,7 +63,7 @@ upsert(
     field('Q6_Failure_Worthless_Guilt__c', dataValue('form.begin_interview.questions.feeling_bad')),
     field('Q7_Trouble_concentrating__c', dataValue('form.begin_interview.questions.trouble_concentrating')),
     field('Q8_Trouble_in_speech__c', dataValue('form.begin_interview.questions.moving_slowly')),
-    field('Q9_Suicidal_thoughts__c', dataValue('form.begin_interview.questions.thoughts_suicide')),
+    field('Q9_Suicidal_thoughts__c', dataValue('form.begin_interview.questions.thoughts_suicide'))
     //field('PHQ9_Total_Score__c', dataValue('form.begin_interview.questions.phq9_result.PHQ9_score'))
   )
 );
