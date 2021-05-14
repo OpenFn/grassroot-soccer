@@ -232,20 +232,20 @@ upsert(
 
       return state.helperFunctions.transform(value);
     }),
-    // field('Pre_14__c', state => {
-    //   const value =
-    //     dataValue(
-    //       'form.pre_challenge_nigeria_-_advanced_skills.i_can_use_drugs_and_still_easily_reach_my_goals_in_life'
-    //     )(state) ||
-    //     dataValue(
-    //       'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.mental_health_problems_have_nothing_to_do_with_being_lazy_or_weak_and_many_'
-    //     )(state) ||
-    //     dataValue(
-    //       'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.if_i_test_positive_for_hiv_there_will_be_someone_who_will_help_and_support_'
-    //     );
+    
+    field('Pre_14__c', state => {
+      const value =
+        dataValue(
+          'form.pre_challenge_nigeria_-_advanced_skills.i_can_use_drugs_and_still_easily_reach_my_goals_in_life'
+        )(state) ||
+        dataValue(
+          'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.mental_health_problems_have_nothing_to_do_with_being_lazy_or_weak_and_many_'
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.if_i_test_positive_for_hiv_there_will_be_someone_who_will_help_and_support_'
+        )(state);
 
-    //   return state.helperFunctions.transform(value);
-    // }),
+      return state.helperFunctions.transform(value);
+    }),
     field('Pre_15__c', state => {
       const value =
         dataValue(
