@@ -97,18 +97,18 @@ upsert(
 
       return state.helperFunctions.transform(value);
     }),
-    // field('Pre_4__c', state => {
-    //   const value =
-    //     dataValue('form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_accept_myself_and_my_hiv_status')(state) ||
-    //     dataValue(
-    //       'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others'
-    //     )(state) ||
-    //     dataValue(
-    //       'form.pre_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex'
-    //     )(state);
+    field('Pre_4__c', state => {
+      const value =
+        dataValue('form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_accept_myself_and_my_hiv_status')(state) ||
+        dataValue(
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others'
+        )(state) ||
+        dataValue(
+          'form.pre_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex'
+        )(state);
 
-    //   return state.helperFunctions.transform(value);
-    // }),
+      return state.helperFunctions.transform(value);
+    }),
     field('Pre_5__c', state => {
       const value =
         dataValue(
@@ -296,14 +296,14 @@ upsert(
         
       }),
 
-    field('Pre_19__c', state => {
-    const value =
-        dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
-        )(state);
+    // field('Pre_19__c', state => {
+    // const value =
+    //     dataValue(
+    //       'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
+    //     )(state);
         
-        return state.helperFunctions.transform(value);
+    //     return state.helperFunctions.transform(value);
       
-    })
+    // })
   )
 );
