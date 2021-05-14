@@ -76,7 +76,7 @@ upsert(
         dataValue(
           'form.pre_challenge_zambia_-_skillz_core_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life'
         )(state) ||
-        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy')(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy')(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
         )(state);
@@ -112,7 +112,7 @@ upsert(
     field('Pre_5__c', state => {
       const value =
         dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
         )(state) ||
         dataValue('form.pre_challenge_nigeria_-_advanced_skills.malaria_is_spread_by_standing_under_the_hot_sun')(
           state
@@ -145,7 +145,7 @@ upsert(
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr'
         )(state) ||
-        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi')(state);
+        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -183,7 +183,7 @@ upsert(
           'form.pre_challenge_nigeria_-_advanced_skills.i_can_abstain_from_sex_until_i_am_older_even_if_it_is_difficult'
         )(state) ||
         dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.girls_should_not_disagree_with_boys'
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.girls_should_be_obedient_and_should_not_disagree_with_boys'
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_two_people_with_hiv_to_have_unprotected_sex_with_each_other'
@@ -212,7 +212,11 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_someone_with_hiv_to_stop_taking_their_arv_as_soon_as_they_st'
+        )(state) ||
+         dataValue(
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person'
         )(state);
+        
 
       return state.helperFunctions.transform(value);
     }),
@@ -226,7 +230,7 @@ upsert(
         )(state) ||
                 
         dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_an_older_person_in_my_life_i_can_go_to_for_advice'
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advice_or_when_i_have_a'
         )(state);
 
 
@@ -255,7 +259,7 @@ upsert(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.the_most_common_illnesses_of_mental_health_are_depression_and_anxiety'
         )(state) ||
         dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_i_amsomeone_i_know_is_abused_sexually_physically_and'
         );
 
       return state.helperFunctions.transform(value);
@@ -269,7 +273,7 @@ upsert(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.biological_and_social_factors_contribute_to_females_and_males_experiencing_'
         )(state) ||
         dataValue(
-          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse'
+          'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_someone_touches_me_in_a_way_that_makes_me_uncomforta'
         )(state);
 
       return state.helperFunctions.transform(value);
