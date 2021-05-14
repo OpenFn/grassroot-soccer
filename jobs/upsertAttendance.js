@@ -46,13 +46,16 @@ alterState(state => {
 each(
   merge(
     dataPath('form.attendance_list.update_participant_cases.item[*]'),
-    fields(field('intervention_name', dataValue('form.intervention_name')))
+    fields(
+      field('intervention_name', dataValue('form.intervention_name')),
+      field('event_case_id', dataValue("form.case['@case_id']"))
+    )
   ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
       //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
-      relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
-      field('Name', dataValue('participant_name')),
+      // relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
+      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
       field('CommCare_Ext_ID__c', state => {
         // @aleksa-krolls intervention_name is not in sample data
         const eventid = dataValue('intervention_name')(state);
