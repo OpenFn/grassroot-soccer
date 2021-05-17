@@ -8,7 +8,7 @@ upsert(
     field('Sex__c', dataValue('form.gender')),
     field('Facility_Name__c', dataValue('form.school')),
     field('Patient_ID_or_Facility_File_Number__c', dataValue('form.skillz_lplus_number')),
-    field('Business_Unit__c', '65680f0c4c144b03ad0f86bdc46c1ebc'),
+    field('Business_Unit__c', 'GRS Zambia'),
     field('Captured_By__c', dataValue('form.coach_name')),
     field('Verified_By__c', dataValue('form.coach_name')),
     field('Captured_Date__c', dataValue('form.demographic_information.date')),
