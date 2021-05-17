@@ -64,7 +64,7 @@ upsert(
         )
       )
     ),
-    field('SKILLZ_Plus_Club_Support_Service_Provider__c', state =>
+    field('SKILLZ_Plus_Club_Support_Service_Provid__c', state =>
       Boolean(
         dataValue('form.referral_services.service_type.art_support_services.art_services_group.art_services_option2')(
           state
