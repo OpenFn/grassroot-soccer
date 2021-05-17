@@ -36,7 +36,7 @@ upsert(
     field('Females_Referred_for_PEP__c', dataValue('form.hivsti_services.females_referred_for_pep')),
     field('Females_Referred_for_PrEP__c', dataValue('form.hivsti_services.females_referred_for_prep')),
     field('Males_Referred_for_ART__c', dataValue('form.art_services.males_referred_for_art')),
-    field('Males_Referred_SKILLZ_Club__c', dataValue('form.art_services.males_referred_for_skillz__club')),
+    field('Males_Referred_for_SKILLZ_Club__c', dataValue('form.art_services.males_referred_for_skillz__club')),
     field('Females_Referred_for_ART__c', dataValue('form.art_services.females_referred_for_art')),
     field('Females_Referred_SKILLZ_Club__c', dataValue('form.art_services.females_referred_for_skillz__club')),
     field('Females_Referred_for_PMTCT__c', dataValue('form.art_services.females_referred_for_pmtct')),
