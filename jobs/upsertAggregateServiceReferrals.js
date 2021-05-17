@@ -32,13 +32,15 @@ upsert(
       'Females_Referred_for_STI_Screening__c',
       dataValue('form.hivsti_services.females_referred_for_sti_screening')
     ),
+    field('Date_Referred__c', dataValue('form.general_referral_information.date_referred')),
     field('Females_Referred_for_PEP__c', dataValue('form.hivsti_services.females_referred_for_pep')),
     field('Females_Referred_for_PrEP__c', dataValue('form.hivsti_services.females_referred_for_prep')),
     field('Males_Referred_for_ART__c', dataValue('form.art_services.males_referred_for_art')),
-    field('Females_Referred_SKILLZ_Club__c', dataValue('form.art_services.males_referred_for_skillz__club')),
+    field('Males_Referred_SKILLZ_Club__c', dataValue('form.art_services.males_referred_for_skillz__club')),
     field('Females_Referred_for_ART__c', dataValue('form.art_services.females_referred_for_art')),
     field('Females_Referred_SKILLZ_Club__c', dataValue('form.art_services.females_referred_for_skillz__club')),
     field('Females_Referred_for_PMTCT__c', dataValue('form.art_services.females_referred_for_pmtct')),
+    
     field(
       'Males_Referred_for_Psycho_Social_Support__c',
       dataValue('form.psycho_-_social_services.males_referred_for_psycho-social_support')
@@ -59,7 +61,7 @@ upsert(
       dataValue('form.condom_distributions.number_of_female_condoms_distributed')
     ),
     field(
-      'Number_of_Female_Condoms_distributed__c',
+      'Number_of_Female_Condoms_Accessedx__c',
       dataValue('form.condom_distributions.number_of_female_condoms_accessed')
     ),
     field(
