@@ -5,6 +5,14 @@ upsert(
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
     field('Date__c', dataValue('form.demographic_information.date')),
+    field('Sex__c', dataValue('form.gender')),
+    field('Facility_Name__c', dataValue('form.school')),
+    field('Patient_ID_or_Facility_File_Number__c', dataValue('form.skillz_lplus_number')),
+    field('Business_Unit__c', '65680f0c4c144b03ad0f86bdc46c1ebc'),
+    field('Captured_By__c', dataValue('form.coach_name')),
+    field('Verified_By__c', dataValue('form.coach_name')),
+    field('Captured_Date__c', dataValue('form.demographic_information.date')),
+    field('Verified_Date__c', dataValue('form.demographic_information.date')),
     field(
       'Treatment_Adherence_3__c',
       dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t')
