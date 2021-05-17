@@ -34,8 +34,7 @@ alterState(state => {
   
 });
 
-const firstname = dataValue('form.hidden_properties.participant_first_name');
-const lastname = dataValue('form.hidden_properties.participant_surname');
+
 
 upsert(
   'PHQ_9_Strong_Minds__c',
@@ -48,10 +47,12 @@ upsert(
     field('Curriculum__c', dataValue('form.hidden_properties.curriculum')),
     //field('Intervention__c', dataValue('form.hidden_properties.intervention')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
-    
+    field('Participant_Name__c', state => {
+      const firstname = dataValue('participant_first_name')(state);
+      const lastname = state.data.form.hidden_properties.participant_surname;
+      return firstname + ' ' + lastname;
+    }),
 
-    field('Participant_Name__c', firstname + ' ' + lastname),
-     
     
     field('Coach_Name__c', dataValue('form.hidden_properties.coach_name')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
