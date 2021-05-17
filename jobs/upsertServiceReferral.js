@@ -60,12 +60,13 @@ upsert(
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
-    field('HIV_Other__c', state =>
+    field('HIV_STI_PREVENTION_Other_GRS_Staff__c', state =>
       state.helperFunctions.checked(
         'other',
         dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
       )
     ),
+    field('HIV_Other__c', dataValue('form.referral_services.hiv_support__care.please_specify')),
     field('ART_Initiation_GRS_Staff__c', state =>
       state.helperFunctions.checked(
         'art_initiationenrollment',
@@ -181,20 +182,19 @@ upsert(
         state.helperFunctions.checked(
           'psychiatric_careintensive_counseling',
           dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
+        ) ||
+        state.helperFunctions.checked(
+          'psychosocial_support',
+          dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
         )
     ),
-    field('Psycho_Other__c', state =>
+    field('Psycho_Social_Services_Other_GRS_Staff__c', state =>
       state.helperFunctions.checked(
         'other',
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
-    field('Psycho_Social_Services_Other_GRS_Staff__c', state =>
-      state.helperFunctions.checked(
-        'psychosocial_support',
-        dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-      )
-    ),
+    field('Psycho_Other__c', dataValue('form.referral_services.other_srhr_services.please_specify')),
     field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
     field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
     field('Client_Follow_up_Consent_given__c', state =>
