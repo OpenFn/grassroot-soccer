@@ -44,12 +44,14 @@ upsert(
     //field('Intervention__c', dataValue('form.hidden_properties.intervention')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Participant_Name__c', dataValue('form.hidden_properties.participant_fullname')),
+    field('Intervention_Name__c', dataValue('form.hidden_properties.intervention_name')),
+    field('Coach_Name__c', dataValue('form.hidden_properties.coach_name')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Interview_Date__c', dataValue('form.interview_date')),
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
-    field('Area_Center__c', dataValue('form.hidden_properties.coach_name')),
-    //TODO: match multiple choice options in CC and SF for two fields below.
+    field('Participant_DOB__c', dataValue('form.hidden_properties.date_of_birth')),
+    field('Area_Center__c', dataValue('form.hidden_properties.venue')),
     field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
       'Position_of_Respondent_in_Household__c',
