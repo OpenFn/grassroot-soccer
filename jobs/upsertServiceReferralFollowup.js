@@ -50,7 +50,7 @@ upsert(
         )(state)
       )
     ),
-    field('HIV_STI_PREVENTION_Other_Service_Provider__c', state =>
+    field('HIV_STI_PREVENTION_Other_Service_Provid__c', state =>
       Boolean(
         dataValue(
           'form.referral_services.service_type.hiv_support__care.check_services_label.hiv_support_care_option6'
