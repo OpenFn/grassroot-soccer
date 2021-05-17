@@ -27,7 +27,8 @@ alterState((state) => {
   
   const eventtype = state.data.form.event_information.event_type; 
   
-  const recordtype = eventtype==='community_health_event' || 'soccer_tournament' ? 'Testing Event' : 'Malaria Testing Event'; 
+  const recordtype = eventtype==='community_health_event' || eventtype==='soccer_tournament' ? 'Testing Event' : 'Malaria Testing Event'; 
+  console.log(recordType)
   
   state.data.recordtype = recordtype; 
   
@@ -55,7 +56,7 @@ upsert(
     field('Event_Type__c', dataValue('recordtype')),
     field('Testing_Event_Type__c', state => {
       const type = dataValue('form.event_information.event_type')(state); 
-      return type.includes('Malaria') ? 'Malaria Testing Event (General Event)' : 'Other';
+      return type.includes('malaria') ? 'Malaria Testing Event (General Event)' : 'Other';
     }),
     field('Coordinator__c', dataValue('form.event_information.event_coordinator')),
   ),
