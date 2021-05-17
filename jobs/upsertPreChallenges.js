@@ -67,7 +67,8 @@ upsert(
         dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals')(state) ||
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz'
-        )(state);
+        )(state)||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -79,7 +80,8 @@ upsert(
         dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy')(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
-        )(state);
+        )(state)||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girlboy')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -93,7 +95,8 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_important_to_know_why_and_how_i_want_to_tell_someone_my_hiv_status'
-        )(state);
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -105,8 +108,9 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex'
-        )(state);
-
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health')(state);
+        
       return state.helperFunctions.transform(value);
     }),
     field('Pre_5__c', state => {
@@ -119,7 +123,8 @@ upsert(
         ) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare'
-        )(state);
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -133,7 +138,8 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare'
-        )(state);
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -145,7 +151,8 @@ upsert(
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr'
         )(state) ||
-        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi')(state);
+        dataValue('form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi')(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -159,7 +166,8 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_an_older_person_in_my_life_i_can_go_to_for_advice'
-        )(state);
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a')(state);
 
       return state.helperFunctions.transform(value);
     }),
@@ -173,7 +181,8 @@ upsert(
         )(state) ||
         dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
-        )(state);
+        )(state) ||
+        dataValue('form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related')(state);
 
       return state.helperFunctions.transform(value);
     }),
