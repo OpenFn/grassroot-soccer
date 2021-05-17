@@ -25,7 +25,7 @@ upsert(
     field('Males_Referred_HIV_Testing__c', dataValue('form.hivsti_services.males_referred_for_hiv_testing')),
     field('Males_referred_for_STI_Screening__c', dataValue('form.hivsti_services.males_referred_for_sti_screening')),
     field('Males_Referred_for_PEP__c', dataValue('form.hivsti_services.males_referred_for_pep')),
-    field('Females_Referred_for_PrEP__c', dataValue('form.hivsti_services.males_referred_for_prep')),
+    field('Males_Referred_for_PrEP__c', dataValue('form.hivsti_services.males_referred_for_prep')),
     field('Males_Referred_for_VMMC__c', dataValue('form.hivsti_services.males_referred_for_vmmc')),
     field('Females_Referred_for_HIV_Testing__c', dataValue('form.hivsti_services.females_referred_for_hiv_testing')),
     field(
