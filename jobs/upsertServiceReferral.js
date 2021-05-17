@@ -55,7 +55,7 @@ upsert(
     field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
     field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
     field('Institution_Referred_To_3__c', dataValue('form.referral_information.copy-2-of-institution_referred_to')),
-    field('GRS_Staff_Name__c', dataValue('form.hidden_props.coach_name')),
+    field('Service_Provider_Name__c', dataValue('form.hidden_props.coach_name')),
     field('HIV_Testing_Services_GRS_Staff__c', state =>
       state.helperFunctions.checked(
         'hiv_testing_services',
