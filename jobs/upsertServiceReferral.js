@@ -104,7 +104,7 @@ upsert(
           dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
         )
     ),
-    field('Business_Unit__c', state => {
+    field('Business_Unit_Site__c', state => {
       const bu = dataValue('form.business_unit')(state); 
       return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
       bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
