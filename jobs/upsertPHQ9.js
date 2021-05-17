@@ -48,7 +48,7 @@ upsert(
     //field('Intervention__c', dataValue('form.hidden_properties.intervention')),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Participant_Name__c', state => {
-      const firstname = dataValue('participant_first_name')(state);
+      const firstname = state.data.form.hidden_properties.participant_first_name;
       const lastname = state.data.form.hidden_properties.participant_surname;
       return firstname + ' ' + lastname;
     }),
