@@ -49,7 +49,6 @@ upsert(
         return firstname + ' ' + lastname;
       }),
     
-    field('Participant_Name__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Coach_Name__c', dataValue('form.hidden_properties.coach_name')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
     field('Site__c', dataValue('form.hidden_properties.site')),
