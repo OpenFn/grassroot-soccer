@@ -5,7 +5,33 @@ alterState(state => {
   }
 
   state.helperFunctions = { checked };
+  
+  function capitalizeFirstLetter(str) {
+    if (!str) return;
+    let new_str = str.toString().toLowerCase();
+    return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);
+  }
+  
+  function transform(value) {
+    if (!value) return;
+    switch (value.toString().trim()) {
+      case 'Daughterson':
+        return 'Daughter/Son';
+      case 'Other_specify':
+        return 'Other';
+      case 'Single_never_married':
+        return 'Single/Never Married';
+      case 'Divorced__separated':
+        return 'Divorced/separated';
+      default:
+        return value;
+    }
+  }
 
+  state.data.form.parent__guardian_information.relationship_to_client = transform(
+    capitalizeFirstLetter(state.data.form.parent__guardian_information.relationship_to_client)
+  );
+  
   return state;
 });
 
@@ -29,7 +55,7 @@ upsert(
     field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
     field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
     field('Institution_Referred_To_3__c', dataValue('form.referral_information.copy-2-of-institution_referred_to')),
-
+    field('Service_Provider_Name__c', dataValue('form.hidden_props.coach_name')),
     field('HIV_Testing_Services_GRS_Staff__c', state =>
       state.helperFunctions.checked(
         'hiv_testing_services',
@@ -119,10 +145,10 @@ upsert(
       'Sexual_and_GBV_Abuse_GRS_Staff__c',
       dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
     ),
-    field(
-      'Legal_Other__c',
-      dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
-    ),
+    //field(
+     // 'Legal_Other__c',
+      //dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
+   // ),
     field(
       'Legal_Services_Other_GRS_Staff__c',
       state =>
