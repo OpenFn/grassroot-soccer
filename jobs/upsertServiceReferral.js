@@ -50,7 +50,7 @@ upsert(
     //field('Grade__c', dataValue('form.client_registration.grade')),
     //field('Class__c', dataValue('form.client_registration.class')),
     field('Parent_Guardian_Full_Name__c', dataValue('form.parent__guardian_information.parent__guardian_full_name')),
-    field('Relationship__c', dataValue('form.parent__guardian_information.relationship_to_client')),
+    field('Relationship_To_Client__c', dataValue('form.parent__guardian_information.relationship_to_client')),
     field('Parent_Guardian_Contact_Number__c', dataValue('form.parent__guardian_information.contact_number')),
     field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
     field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
