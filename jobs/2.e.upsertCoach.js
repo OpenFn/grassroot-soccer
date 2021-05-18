@@ -86,7 +86,7 @@ upsert(
       dataValue('form.step_3_-_the_big_5.preparation')
     ),
     field('Introduces_micromove__c', state => {
-      return dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
+      return //dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
       dataValue(
          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove'
       )(state); 
