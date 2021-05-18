@@ -1,4 +1,26 @@
 // Push to production
+alterState(state => {
+
+  function getAge(dateString) {
+    if (!dateString) return;
+
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+
+  state.helperFunctions = { getAge };
+  return state;
+});
+
+
+
 upsert(
   'ART_ADHERENCE_SELF_SELF_REPORTING_TOOL__c',
   'CommCare_Ext_ID__c',
@@ -13,6 +35,10 @@ upsert(
     field('Verified_By__c', dataValue('form.coach_name')),
     field('Captured_Date__c', dataValue('form.demographic_information.date')),
     field('Verified_Date__c', dataValue('form.demographic_information.date')),
+    field('Age__c', state => {
+      const dob = dataValue('form.date_of_birth')(state);
+      return state.helperFunctions.getAge(dob);
+    }),    
     field(
       'Treatment_Adherence_3__c',
       dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t')
