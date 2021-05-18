@@ -32,7 +32,10 @@ upsert(
       dataValue('form.step_1_csv_information.select_coach')(state); 
     }),
     relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.venue')),
-    relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention')),
+    relationship('Event__r', 'CommCare_Ext_ID__c', state => {
+      return dataValue('form.hidden_properties.intervention')(state) || 
+      dataValue('form.step_1_csv_information.intervention')(state); 
+    }),
     relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', state => {
       return dataValue('form.hidden_properties.curriculum')(state) || 
       dataValue('form.step_1_csv_information.curriculum')(state); 
