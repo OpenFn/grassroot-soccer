@@ -13,6 +13,9 @@ alterState(state => {
       })
       .join(' ');
   }
+  
+  state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+
   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
   clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
 
@@ -24,6 +27,10 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
+    relationship('Coach_Person__r', 'CommCare_Ext_ID__c', state => {
+      return dataValue('form.step_1_basic_information.select_coach')(state) || 
+      dataValue('form.step_1_csv_information.select_coach')(state); 
+    }),
     relationship('Coach_Person__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
     relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.venue')),
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention')),
