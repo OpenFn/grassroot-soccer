@@ -19,5 +19,6 @@ upsert(
     //field('From_Venue__c', dataValue('form.basic_information.venue_hidden')),
     field('Reason_for_Home_Visit__c', dataValue('form.participant_infomation.reason_for_home_visit')),
     field('Visit_Date__c', dataValue('form.participant_infomation.visit_information.visit_date')),
+    field('Additional_Comments__c', dataValue('form.administrative.visit_notes')),
   )
 );
