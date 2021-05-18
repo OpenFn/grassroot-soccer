@@ -14,7 +14,7 @@ alterState(state => {
       .join(' ');
   }
 
-  state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+  state.data.form['step_3_-_the_big_five'].faciliation = clean(state.data.form['step_3_-_the_big_five'].faciliation);
 
   return state;
 });
