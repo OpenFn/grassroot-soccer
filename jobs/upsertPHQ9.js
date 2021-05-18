@@ -21,6 +21,19 @@ alterState(state => {
     }
   }
 
+  function getAge(dateString) {
+    if (!dateString) return;
+
+    const today = new Date();
+    const birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
   state.data.form.begin_interview.what_is_your_marital_status = transform(
     capitalizeFirstLetter(state.data.form.begin_interview.what_is_your_marital_status)
   );
@@ -29,19 +42,16 @@ alterState(state => {
     capitalizeFirstLetter(state.data.form.begin_interview.position_of_respondent_in_the_household)
   );
 
+  state.helperFunctions = { getAge };
   return state;
-  
-  
 });
-
-
 
 upsert(
   'PHQ_9_Strong_Minds__c',
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    relationship('Intervention_Name__r','CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
+    relationship('Intervention_Name__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
     //relationship('Participant__r','CommCare_Ext_ID__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Mobile_Contact_Information__c', dataValue('form.hidden_properties.mobile_number')),
     field('Curriculum__c', dataValue('form.hidden_properties.curriculum')),
@@ -53,7 +63,6 @@ upsert(
       return firstname + ' ' + lastname;
     }),
 
-    
     field('Coach_Name__c', dataValue('form.hidden_properties.coach_name')),
     field('Venue__c', dataValue('form.hidden_properties.venue')),
     field('Site__c', dataValue('form.hidden_properties.site')),
@@ -61,6 +70,11 @@ upsert(
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
     field('Participant_DOB__c', dataValue('form.hidden_properties.date_of_birth')),
     field('Area_Center__c', dataValue('form.hidden_properties.venue')),
+    field('Age_of_Participant__c', state => {
+      const dob = dataValue('form.hidden_properties.date_of_birth')(state);
+
+      return state.helperFunctions.getAge(dob);
+    }),
     field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
       'Position_of_Respondent_in_Household__c',
