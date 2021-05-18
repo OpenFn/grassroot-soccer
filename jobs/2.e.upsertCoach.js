@@ -13,8 +13,8 @@ alterState(state => {
       })
       .join(' ');
   }
-
-  state.data.form['step_3_the_big_five'].faciliation = clean(state.data.form['sstep_3_the_big_five'].faciliation);
+  state.data.formstep_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
+  clean(state.data.formstep_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
 
   return state;
 });
