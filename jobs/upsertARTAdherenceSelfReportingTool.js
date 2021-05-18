@@ -43,10 +43,10 @@ upsert(
       'Treatment_Adherence_3__c',
       dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t')
     ),
-    field(
-      'Treatment_Adherence_2__c',
-      dataValue('form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment')
-    ),
+    //field(
+     // 'Treatment_Adherence_2__c',
+     // dataValue('form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment')
+   // ),
     //field(
     //  'Treatment_Adherence_4__c',
    //   dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea')
