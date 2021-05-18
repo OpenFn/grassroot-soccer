@@ -11,6 +11,12 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('form.general_referral_information.event_information.site')),
     //TO DO
     //field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
+    field('Business_Unit__c', state => {
+      const bu = dataValue('form.general_referral_information.event_information.business_unit')(state); 
+      return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
+      bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
+      bu==='ed125ab19ec34aacab79585e59eb76f4' ? 'GRS Partnerships': undefined ; 
+    }),
     relationship(
         //Attendance looks up to Event via the intervention_name
         'Events__r',
