@@ -51,10 +51,10 @@ upsert(
     //  'Treatment_Adherence_4__c',
    //   dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea')
    // ),
-    field(
-      'Treatment_Adherence_5_a__c',
-      dataValue('form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in')
-    ),
+    //field(
+     // 'Treatment_Adherence_5_a__c',
+     // dataValue('form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in')
+   // ),
     field('Clinical_Knowledge_2__c', dataValue('form.clinical_knowledge.do_you_know_your_viral_load')),
     field(
       'Clinical_Knowledge_1__c',
