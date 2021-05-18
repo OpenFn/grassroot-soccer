@@ -24,8 +24,6 @@ upsert(
         dataValue('form.general_referral_information.event_information.event_name')
       ),
     field('Type_of_Referral__c', dataValue('form.general_referral_information.type_of_referral')),
-    field('Business_Unit__c', dataValue('form.general_referral_information.event_information.business_unit')),
-
     field(
       'Enter_Partner_s_Name__c',
       dataValue('form.general_referral_information.partner_or_organization_referred_to')
