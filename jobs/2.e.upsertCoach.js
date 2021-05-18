@@ -24,10 +24,10 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    //relationship('Coach_Person__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
+    relationship('Coach_Person__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
     relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.venue')),
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention')),
-    //relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.curriculum')),
+    relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.curriculum')),
     relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.site')),
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
     //== TODO: FIx repeated mappings to only reference destination field 1 time ===//
