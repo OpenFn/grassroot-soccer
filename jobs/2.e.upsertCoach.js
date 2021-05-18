@@ -24,7 +24,7 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    //relationship('Coach__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
+    relationship('Coach__r', 'CommCare_Ext_ID__c', dataValue('form.step_1_basic_information.select_coach')),
     relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.venue')),
     relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention')),
     relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.curriculum')),
