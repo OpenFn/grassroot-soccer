@@ -21,7 +21,7 @@ upsert(
       const bu = dataValue('form.business_unit')(state);
       return bu === 'X' ? 'GRS Zambia' : bu;
     }),
-    field('CommCare_Ext_ID__c', dataValue('external_commcare_id')),
+    field('CommCare_Ext_ID__c', dataValue('form.case.@case_id')),
     field('TB_Screening_Service_Provider__c', state =>
       Boolean(
         dataValue(
