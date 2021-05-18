@@ -43,7 +43,10 @@ upsert(
       return dataValue('form.hidden_properties.curriculum')(state) || 
       dataValue('form.step_1_csv_information.curriculum')(state); 
     }),    
-    relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.site')),
+     relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', state => {
+      return dataValue('form.hidden_properties.site')(state) || 
+      dataValue('form.step_1_csv_information.site')(state); 
+    }), 
     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
     //== TODO: FIx repeated mappings to only reference destination field 1 time ===//
     field(
