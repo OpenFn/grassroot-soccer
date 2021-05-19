@@ -1,7 +1,4 @@
 alterState(state => {
-  const subid1 = state.data.form.subcase_0.case['@case_id'];
-  console.log(subid1); 
-  //const subid2 = state.data.form.subcase_0.case.@case_id;
   console.log()
   function checked(key, str) {
     if (!str) return false;
@@ -50,7 +47,7 @@ upsert(
     field('Institution_Referred_To_3_Contact_Number__c', dataValue('form.client_registration.gender')),
     //field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
     field('CommCare_Ext_ID__c', state => {
-      var subid = state.data.form['subcase_0.case.@case_id']; 
+      var subid = state.data.form.subcase_0.case['@case_id']; 
       return subid && subid!=="" ? subid : dataValue('id')(state);  //Set external id to 'service' subcase if available, otherwise use formid
     }),
     //field('Venue__c', dataValue('form.client_registration.school_name')),
