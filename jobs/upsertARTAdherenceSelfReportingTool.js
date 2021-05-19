@@ -64,6 +64,18 @@ alterState(state => {
   state.data.form.clinical_knowledge.question16 = 
   transform(state.data.form.clinical_knowledge.question16)
   
+  state.data.form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in = 
+  transform(state.data.form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in)
+  
+  state.data.form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment = 
+  transform(state.data.form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment)
+  
+  state.data.form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t = 
+  transform(state.data.form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment)
+  
+  state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea = 
+  transform(state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea)
+  
   
   return state;
 });
