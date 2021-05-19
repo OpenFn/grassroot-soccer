@@ -71,10 +71,19 @@ alterState(state => {
   transform(state.data.form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment)
   
   state.data.form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t = 
-  transform(state.data.form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment)
+  transform(state.data.form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t)
   
   state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea = 
   transform(state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea)
+  
+  state.data.form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed = 
+  transform(state.data.form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed)
+  
+  state.data.form.treatment_self.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h = 
+  transform(state.data.form.treatment_self.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h)
+  
+  state.data.form.treatment_self.how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt = 
+  transform(state.data.form.treatment_self.how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt)
   
   
   return state;
