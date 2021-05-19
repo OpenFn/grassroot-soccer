@@ -1,5 +1,5 @@
 alterState(state => {
-  const subid1 = state.data.form['subcase_0.case.@case_id'];
+  const subid1 = state.data.form.subcase_0.case['@case_id'];
   console.log(subid1); 
   //const subid2 = state.data.form.subcase_0.case.@case_id;
   console.log()
