@@ -69,7 +69,7 @@ upsert(
     field('Interview_Date__c', dataValue('form.interview_date')),
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
     field('Participant_DOB__c', dataValue('form.hidden_properties.date_of_birth')),
-    field('Area_Center__c', dataValue('form.hidden_properties.venue')),
+    //field('Area_Center__c', dataValue('form.hidden_properties.venue')), //Can get from Intervention
     field('Age_of_Participant__c', state => {
       const dob = dataValue('form.hidden_properties.date_of_birth')(state);
 
