@@ -1,4 +1,8 @@
 alterState(state => {
+  const subid1 = state.data.form['subcase_0.case.@case_id'];
+  console.log(subid1); 
+  //const subid2 = state.data.form.subcase_0.case.@case_id;
+  console.log()
   function checked(key, str) {
     if (!str) return false;
     return str.split(' ').indexOf(key) >= 0;
