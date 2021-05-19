@@ -13,8 +13,8 @@ alterState(state => {
       })
       .join(' ');
   }
-  
-  if (state.data.form['step_3_-_the_big_5'].faciliation){ 
+ 
+  if (typeof state.data.form['step_3_-_the_big_5'].faciliation  !== "undefined" ){ 
   state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
   }
   else{
