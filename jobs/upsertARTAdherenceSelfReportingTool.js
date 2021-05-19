@@ -14,8 +14,57 @@ alterState(state => {
     return age;
   }
 
+  function transform(value) {
+    if (!value) return;
+    switch (value.toString().trim()) {
+      case 'i_dont_know__i_dont_recall':
+        return "I don't know/I don't recall";
+      case 'i_dont_recall':
+        return "I don't know/I don't recall";
+      case 'no':
+        return 'No';
+      case 'yes':
+        return 'Yes';
+      case 'na':
+        return 'NA';      
+      case 'disagree':
+        return '2 (Disagree)';
+      case 'agree':
+        return '4 (Agree)';   
+      case 'neither_agree_or_disagree':
+        return '3 (Neither Agree or Disagree)';
+      case 'strongly_agree':
+        return '5 (Strongly Agree)';      
+      case 'strongly_disagree':
+        return '1 (Strongly Disagree)'; 
+      default:
+        return value;
+    }
+  }
+
 
   state.helperFunctions = { getAge };
+  
+  state.data.form.behavioural.are_you_taking_any_other_religious_treatment_ie_holy_water_anointing_oilwat = 
+  transform(state.data.form.behavioural.are_you_taking_any_other_religious_treatment_ie_holy_water_anointing_oilwat)
+  
+  state.data.form.behavioural.are_you_taking_any_traditional_medicine_as_a_supplement_to_the_arvs = 
+  transform(state.data.form.behavioural.are_you_taking_any_traditional_medicine_as_a_supplement_to_the_arvs)
+  
+  state.data.form.behavioural.if_yes_to_any_of_the_above_did_it_affect_your_taking_of_medication_treatmen = 
+  transform(state.data.form.behavioural.if_yes_to_any_of_the_above_did_it_affect_your_taking_of_medication_treatmen)
+  
+  state.data.form.behavioural.in_the_past_month_did_you_go_for_a_party_or_other_leisure_activities = 
+  transform(state.data.form.behavioural.in_the_past_month_did_you_go_for_a_party_or_other_leisure_activities)
+  
+  state.data.form.behavioural.in_the_past_month_did_you_sleep_away_from_home = 
+  transform(state.data.form.behavioural.in_the_past_month_did_you_sleep_away_from_home)
+ 
+
+  state.data.form.clinical_knowledge.question16 = 
+  transform(state.data.form.clinical_knowledge.question16)
+  
+  
   return state;
 });
 
@@ -43,18 +92,18 @@ upsert(
       'Treatment_Adherence_3__c',
       dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_any_of_your_art_treatment_at_times_other_t')
     ),
-    //field(
-     // 'Treatment_Adherence_2__c',
-     // dataValue('form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment')
-   // ),
-    //field(
-    //  'Treatment_Adherence_4__c',
-   //   dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea')
-   // ),
-    //field(
-     // 'Treatment_Adherence_5_a__c',
-     // dataValue('form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in')
-   // ),
+    field(
+      'Treatment_Adherence_2__c',
+      dataValue('form.treatment_adherence.in_the_past_month_have_you_failed_to_take_any_of_your_art_treatment')
+    ),
+    field(
+      'Treatment_Adherence_4__c',
+      dataValue('form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea')
+    ),
+    field(
+      'Treatment_Adherence_5_a__c',
+      dataValue('form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in')
+    ),
     field('Clinical_Knowledge_2__c', dataValue('form.clinical_knowledge.do_you_know_your_viral_load')),
     field(
       'Clinical_Knowledge_1__c',
