@@ -14,8 +14,8 @@ alterState(state => {
       .join(' ');
   }
  
-  if (typeof state.data.form['step_3_-_the_big_5'].faciliation  !== "undefined" ){ 
-  state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+  if (state.data.form['step_3_-_the_big_5']  !== undefined ){ 
+    state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
   }
   else{
   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
