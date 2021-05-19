@@ -14,8 +14,8 @@ alterState(state => {
       .join(' ');
   }
   
-  if (state.data.form['step_3_-_the_big_5'].faciliation) state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation)
-  else
+  if (state.data.form['step_3_-_the_big_5'].faciliation) state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+  if(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation)
   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
   clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
 
