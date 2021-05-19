@@ -76,7 +76,7 @@ alterState(state => {
   state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea = 
   transform(state.data.form.treatment_adherence.in_the_past_month_have_you_taken_less_or_more_pills_of_any_of_your_art_trea)
   
-  state.data.form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed = 
+  state.data.form['treatment_self-efficacy'].how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed =  = .how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed = 
   transform(state.data.form.treatment_self-efficacy.how_sure_are_you_that_you_will_be_taking_your_medication_as_are_directed)
   
   state.data.form.treatment_self-efficacy.how_sure_are_you_that_your_medication_will_have_a_positive_effect_on_your_h = 
