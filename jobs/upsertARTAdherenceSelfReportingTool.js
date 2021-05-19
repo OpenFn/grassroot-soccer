@@ -60,9 +60,17 @@ alterState(state => {
   state.data.form.behavioural.in_the_past_month_did_you_sleep_away_from_home = 
   transform(state.data.form.behavioural.in_the_past_month_did_you_sleep_away_from_home)
  
-
+  state.data.form.clinical_knowledge.do_you_know_your_cd4_count = 
+  transform(state.data.form.clinical_knowledge.do_you_know_your_cd4_count)
+  
   state.data.form.clinical_knowledge.question16 = 
   transform(state.data.form.clinical_knowledge.question16)
+  
+  state.data.form.clinical_knowledge.do_you_know_your_viral_load = 
+  transform(state.data.form.clinical_knowledge.do_you_know_your_viral_load)
+  
+  state.data.form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests = 
+  transform(state.data.form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests)
   
   state.data.form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in = 
   transform(state.data.form.treatment_adherence.did_you_encounter_any_challenges_in_taking_your_medication_as_prescribed_in)
@@ -84,6 +92,7 @@ alterState(state => {
   
   state.data.form['treatment_self-efficacy'].how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt = 
   transform(state.data.form['treatment_self-efficacy'].how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt)
+  
   
   
   return state;
