@@ -37,11 +37,20 @@ alterState(state => {
         return '5 (Strongly Agree)';      
       case 'strongly_disagree':
         return '1 (Strongly Disagree)'; 
+      case 'sure':
+        return '4 (Agree)';        
+      case 'very_sure':
+        return '5 (Strongly Agree)';
+      case 'i_dont_know':
+        return 'I dont know';        
       default:
         return value;
     }
   }
 
+Sure
+Very Sure
+I don't know
 
   state.helperFunctions = { getAge };
   
