@@ -1,13 +1,7 @@
 query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
-alterState(state => {
-  console.log(
-    'this is how i would access it -->',
-    lastReferenceValue('records[0].Name')(state)
-  );
-  return state;
-});
 
 alterState(state => {
+  state.eventName = lastReferenceValue('records[0].Name')(state);
   function getSessionValue(present) {
     switch (present.toString().toLowerCase()) {
       case 'yes':
