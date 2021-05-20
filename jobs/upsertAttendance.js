@@ -58,8 +58,8 @@ each(
       relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
       field('CommCare_Ext_ID__c', state => {
         // @aleksa-krolls intervention_name is not in some sample data
-        const eventid = dataValue('intervention_name')(state);
-        const personid = state.data['id'];
+        const eventid = state.data.form.case['@case_id'];
+        const personid = state.data['@id'];
         return personid + '-' + eventid;
       }),
       //[[state => dataValue('form.intervention_name')(state)], 'test'],
