@@ -67,7 +67,7 @@ each(
     ...fields(
       //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
       // relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
-      // relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
+      relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('eventName')),
       field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
       // field('CommCare_Ext_ID__c', dataValue('@id') + '-' + dataValue('eventName')),
       // field('CommCare_Ext_ID__c', state => {
@@ -83,6 +83,6 @@ each(
       // INVALID_FIELD: Foreign key external ID: ce3f0b88-a612-4f5e-b26c-9888f65ee376 not found for field CommCare_Case_ID__c in entity Event__c
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
     ),
-    // ...state.data.dynamicFields,
+    ...state.data.dynamicFields,
   }))
 );
