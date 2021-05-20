@@ -21,6 +21,60 @@ alterState(state => {
   state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
   clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
   }
+  
+  function transform(value) {
+    if (!value) return;
+    switch (value.toString().trim()) {
+      case 'copy-1-of-excellent':
+        return 'Excellent'; 
+      case 'needs_improvement':
+        return 'Needs Improvement';      
+      case 'meets_expectations':
+        return 'Meets Expectation	'; 
+      case 'excellent':
+        return 'Excellent';        
+      case 'unsatisfactory':
+        return 'Unsatisfactory';
+      case 'Exceeds Expectations':
+        return 'exceeds_expectations';        
+      default:
+        return value;
+    }
+  }
+
+  state.data.form['step_3_-_the_big_5'].builds_personal_connections = 
+  transform(state.data.form['step_3_-_the_big_5'].builds_personal_connections)
+
+  state.data.form['step_3_-_the_big_5'].cool_down = 
+  transform(state.data.form['step_3_-_the_big_5'].cool_down)
+  
+  state.data.form['step_3_-_the_big_5'].creates_safe_space = 
+  transform(state.data.form['step_3_-_the_big_5'].creates_safe_space)
+  
+  state.data.form['step_3_-_the_big_5'].faciliation = 
+  transform(state.data.form['step_3_-_the_big_5'].faciliation)
+  
+  state.data.form['step_3_-_the_big_5'].gives_praise = 
+  transform(state.data.form['step_3_-_the_big_5'].gives_praise)
+  
+  state.data.form['step_3_-_the_big_5'].praise = 
+  transform(state.data.form['step_3_-_the_big_5'].praise)
+
+  state.data.form['step_3_-_the_big_5'].preparation = 
+  transform(state.data.form['step_3_-_the_big_5'].preparation)
+  
+  state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri = 
+  transform(state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri)
+  
+  state.data.form['step_3_-_the_big_5'].sparks_vital_conversations = 
+  transform(state.data.form['step_3_-_the_big_5'].sparks_vital_conversations)
+  
+  state.data.form['step_3_-_the_big_5'].time_management = 
+  transform(state.data.form['step_3_-_the_big_5'].time_management)
+  
+   state.data.form['step_3_-_the_big_5'].warm_up = 
+  transform(state.data.form['step_3_-_the_big_5'].warm_up)
+  
 
   return state;
 });
