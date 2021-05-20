@@ -68,7 +68,7 @@ each(
       //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
       // relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
       // relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
-      field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`)),
+      field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
       // field('CommCare_Ext_ID__c', dataValue('@id') + '-' + dataValue('eventName')),
       // field('CommCare_Ext_ID__c', state => {
       //   // @aleksa-krolls intervention_name is not in some sample data
