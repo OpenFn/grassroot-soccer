@@ -35,8 +35,8 @@ alterState(state => {
         return 'Excellent';        
       case 'unsatisfactory':
         return 'Unsatisfactory';
-      case 'Exceeds Expectations':
-        return 'exceeds_expectations';        
+      case 'exceeds_expectations':
+        return 'Exceeds Expectations';        
       default:
         return value;
     }
