@@ -54,35 +54,35 @@ alterState(state => {
   return state;
 })
 
-// each(
-//   merge(
-//     dataPath('form.attendance_list.update_participant_cases.item[*]'),
-//     fields(
-//       field('intervention_name', dataValue('form.intervention_name')),
-//       field('eventName', dataValue('eventName'))
-//       // field('event_case_id', dataValue("form.case['@case_id']"))
-//     )
-//   ),
-//   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
-//     ...fields(
-//       //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
-//       // relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
-//       relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
-//       field('CommCare_Ext_ID__c', dataValue('eventName')),
-//       // field('CommCare_Ext_ID__c', dataValue('@id') + '-' + dataValue('eventName')),
-//       // field('CommCare_Ext_ID__c', state => {
-//       //   // @aleksa-krolls intervention_name is not in some sample data
-//       //   const eventid = dataValue('event_case_id')(state); 
-//       //   //const eventid = dataValue('event_case_id')(state); 
-//       //   //const eventid = state.data.form.case['@case_id'];
-//       //   const personid = state.data['@id'];
-//       //   return personid + '-' + eventid;
-//       // }),
-//       //[[state => dataValue('form.intervention_name')(state)], 'test'],
-//       // @aleksa-krolls I get this error:
-//       // INVALID_FIELD: Foreign key external ID: ce3f0b88-a612-4f5e-b26c-9888f65ee376 not found for field CommCare_Case_ID__c in entity Event__c
-//       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
-//     ),
-//     ...state.data.dynamicFields,
-//   }))
-// );
+each(
+  merge(
+    dataPath('form.attendance_list.update_participant_cases.item[*]'),
+    fields(
+      field('intervention_name', dataValue('form.intervention_name')),
+      field('eventName', dataValue('eventName'))
+      // field('event_case_id', dataValue("form.case['@case_id']"))
+    )
+  ),
+  upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
+    ...fields(
+      //  @aleksa-krolls confirm if the value here should be the case_id of the person in attendance
+      // relationship('Event__r', 'CommCare_Case_ID__c', state => state.data['@id']),
+      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id')),
+      field('CommCare_Ext_ID__c', dataValue('eventName')),
+      // field('CommCare_Ext_ID__c', dataValue('@id') + '-' + dataValue('eventName')),
+      // field('CommCare_Ext_ID__c', state => {
+      //   // @aleksa-krolls intervention_name is not in some sample data
+      //   const eventid = dataValue('event_case_id')(state); 
+      //   //const eventid = dataValue('event_case_id')(state); 
+      //   //const eventid = state.data.form.case['@case_id'];
+      //   const personid = state.data['@id'];
+      //   return personid + '-' + eventid;
+      // }),
+      //[[state => dataValue('form.intervention_name')(state)], 'test'],
+      // @aleksa-krolls I get this error:
+      // INVALID_FIELD: Foreign key external ID: ce3f0b88-a612-4f5e-b26c-9888f65ee376 not found for field CommCare_Case_ID__c in entity Event__c
+      relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
+    ),
+    ...state.data.dynamicFields,
+  }))
+);
