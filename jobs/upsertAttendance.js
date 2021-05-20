@@ -2,7 +2,7 @@ query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.
 alterState(state => {
   console.log(
     'this is how i would access it',
-    lastReferenceValue('records')(state)
+    lastReferenceValue('records[0].Name')(state)
   );
   return state;
 });
