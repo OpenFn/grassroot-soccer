@@ -25,8 +25,8 @@ alterState(state => {
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
 
-  let external_id = `${dataValue('form.intervention_name')(state)}
-    ${dataValue('form.coach_name')(state)}`;
+  let external_id = `${dataValue('form.case.@case_id')(state)}
+    ${dataValue('form.coach_name')(state)}`; //case_id + coach_name for external Id
 
   state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
