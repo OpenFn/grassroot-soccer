@@ -149,9 +149,10 @@ upsert(
       'Sexual_and_GBV_Abuse_GRS_Staff__c',
       dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
     ),
+    
     field(
       'Legal_Other__c',
-      dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')
+      dataValue('form.referral_services.legal_services.please_specify_other_legal')
     ),
     field(
       'Legal_Services_Other_GRS_Staff__c',
