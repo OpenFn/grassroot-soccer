@@ -105,10 +105,11 @@ upsert(
           )(state)
         )
       ),
-      field('STI_Screen_Testing_Service_Provider__c', state =>
-        Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option1')(state))
-      )
     ),
+    field('STI_Screen_Testing_Service_Provider__c', state =>
+        Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option1')(state))
+      ),
+    
     field('Contraception_Family_Plan_Servi_Provider__c', state =>
       Boolean(dataValue('form.referral_services.service_type.other_srhr_services.service_label.srhr_option2')(state))
     ),
