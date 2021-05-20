@@ -171,7 +171,20 @@ upsert(
       ),
     field('Psycho_Social_Services_Other_Service_Pro__c', state =>
       Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option10')(state))
-    )
+    ),
+    field(
+        'Legal_Services_Other_Service_Provider__c',
+        state =>
+          Boolean(
+            dataValue('form.referral_services.other_legal_services.confirmation_of_services_provided_label.legal_referral_services')(state)
+          ) ||
+          Boolean(
+            dataValue('form.referral_services.other_legal_services.confirmation_of_services_provided_label.legal_services_option1')(state)
+          ) ||
+          Boolean(
+            dataValue('form.referral_services.other_legal_services.confirmation_of_services_provided_label.legal_services_option2')(state)
+          )
+      ),
     
   )
 );
