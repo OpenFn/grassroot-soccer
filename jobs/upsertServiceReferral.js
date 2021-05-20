@@ -225,7 +225,7 @@ upsert(
         dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
       )
     ),
-    field('Psycho_Other__c', dataValue('form.referral_services.other_srhr_services.please_specify')),
+    field('Psycho_Other__c', dataValue('form.referral_services.other_srhr_services.please_specify_srhr_referred')),
     field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
     field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
     field('Client_Follow_up_Consent_given__c', state =>
