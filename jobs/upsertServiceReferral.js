@@ -120,19 +120,19 @@ upsert(
       state =>
         state.helperFunctions.checked(
           'suspected_abuse_reported_police_court_other_authority',
-          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+          dataValue('form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to')(state)
         ) ||
         state.helperFunctions.checked(
           'post_violence_care_medical_legal_counseling',
-          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+          dataValue('form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to')(state)
         ) ||
         state.helperFunctions.checked(
           'child_support_grant_social_foster_general_support',
-          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+          dataValue('form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to')(state)
         ) ||
         state.helperFunctions.checked(
           'other',
-          dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')(state)
+          dataValue('form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to')(state)
         )
     ),
     field('Business_Unit_Site__c', state => {
