@@ -2,7 +2,7 @@ alterState(state => {
   return query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = 
   '${state.data.form.case['@case_id']}'`)(state)
         .then(() => {
-            console.log(state.data);
+            console.log(state.response.records[0]);
             return state;
         })
 }); 
