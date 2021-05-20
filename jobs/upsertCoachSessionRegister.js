@@ -24,17 +24,16 @@ alterState(state => {
   const session_text = dataValue('form.session')(state);
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
-  
-  let external_id =
-    dataValue('form.intervention_name')(state) +
-    dataValue('form.coach_name')(state);
+
+  let external_id = `${dataValue('form.intervention_name')(state)}
+    ${dataValue('form.coach_name')(state)}`;
 
   state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
   state.data.dynamicFields = [
     field(`Session_${session_id}__c`, getSessionValue()),
     field(`Session_${session_id}_Date__c`, dataValue('form.date')(state)),
-    //field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF? 
+    //field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF?
   ];
 
   return state;
@@ -42,9 +41,9 @@ alterState(state => {
 
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
-        relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')), 
-        relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.case.@user_id')), 
-        field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
-      ),
+    relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.intervention_name')),
+    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.case.@user_id')),
+    field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+  ),
   ...fields(...state.data.dynamicFields),
 }));
