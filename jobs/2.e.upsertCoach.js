@@ -146,12 +146,12 @@ upsert(
           'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.cool_down'
         )(state); 
       }),
-    field('X5_Facilitation__c', state => {
-      return dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
-      dataValue(
-          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
-        )(state); 
-      }),
+    // field('X5_Facilitation__c', state => {
+    //   return dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
+    //   dataValue(
+    //       'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
+    //     )(state); 
+    //   }),
     field(
       'X6_Time_Management__c',
       dataValue('form.step_3_-_the_big_5.time_management')
