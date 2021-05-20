@@ -234,7 +234,7 @@ upsert(
         dataValue('form.follow-up.select')(state)
       )
     ),
-    field('Client_Follow_up_Consent_given__c', state =>
+    field('Client_Linked_to_care__c', state =>
       state.helperFunctions.checked(
         'client_linked_to_care',
         dataValue('form.follow-up.select')(state)
