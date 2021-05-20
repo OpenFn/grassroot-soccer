@@ -2,6 +2,7 @@ query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.
 
 alterState(state => {
   state.eventName = lastReferenceValue('records[0].Name')(state);
+  
   function getSessionValue(present) {
     switch (present.toString().toLowerCase()) {
       case 'yes':
