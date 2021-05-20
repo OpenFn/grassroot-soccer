@@ -1,7 +1,8 @@
 query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
 alterState(state => {
-  state.eventName = lastReferenceValue('records[0].Name')(state);
+  const {data} = state; 
+  data.eventName = lastReferenceValue('records[0].Name')(state);
   
   function getSessionValue(present) {
     switch (present.toString().toLowerCase()) {
@@ -52,7 +53,7 @@ each(
     dataPath('form.attendance_list.update_participant_cases.item[*]'),
     fields(
       field('intervention_name', dataValue('form.intervention_name')),
-      field('event_case_id', state.event_name)
+      field('event_case_id', dataValue('event_name'))
       //field('event_case_id', dataValue("form.case['@case_id']"))
     )
   ),
