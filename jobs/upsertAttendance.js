@@ -49,7 +49,7 @@ alterState(state => {
 
 alterState(state => {
   console.log(
-    dataValue('eventName')(state);  
+    dataValue('eventName')(state)  
   )
   return state;
 })
