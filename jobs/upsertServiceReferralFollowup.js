@@ -72,6 +72,7 @@ upsert(
         )
       )
     ),
+    
     field(
       'PMTCT_Service_Provider__c',
       state =>
@@ -80,6 +81,22 @@ upsert(
             state
           )
         ),
+        
+    field('IPTG_Health_Facility__c', state =>
+      Boolean(
+        dataValue('form.referral_services.mental_health_services.confirmation_of_services_provided_label.mental_health_select_services_option1')(
+          state
+        )
+      )
+    ),    
+    field('IPTG_Specialized_to_SMZ__c', state =>
+      Boolean(
+        dataValue('form.referral_services.mental_health_services.confirmation_of_services_provided_label.mental_health_select_services_option2')(
+          state
+        )
+      )
+    ),   
+    
       field('ART_Services_Other_Service_Provider__c', state =>
         Boolean(
           dataValue(
@@ -98,6 +115,11 @@ upsert(
           Boolean(
             dataValue(
               'form.referral_services.child_protection_support_services.copy-1-of-check_the_services_that_were_provided.child_protection_option2'
+            )(state)
+          ) ||
+          Boolean(
+            dataValue(
+              'form.referral_services.child_protection_support_services.copy-1-of-check_the_services_that_were_provided.child_protection_option3'
             )(state)
           )
       ),
@@ -128,8 +150,28 @@ upsert(
     field('Sexual_and_GBV_Abuse_Servi_Provider__c', state =>
       Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option6')(state))
     ),
-    field('Psycho_Social_Support_Service_Provider__c', state =>
-      Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option9')(state))
+    field(
+        'Psycho_Social_Support_Service_Provider__c',
+        state =>
+          Boolean(
+            dataValue(
+              'form.referral_services.other_srhr_services.service_label.srhr_option9'
+            )(state)
+          ) ||
+          Boolean(
+            dataValue(
+              'form.referral_services.other_srhr_services.service_label.srhr_option8'
+            )(state)
+          ) ||
+          Boolean(
+            dataValue(
+              'form.referral_services.other_srhr_services.service_label.srhr_option7'
+            )(state)
+          )
+      ),
+    field('Psycho_Social_Services_Other_Service_Pro__c', state =>
+      Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option10')(state))
     )
+    
   )
 );
