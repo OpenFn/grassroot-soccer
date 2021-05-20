@@ -1,6 +1,7 @@
 query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
 alterState(state => {
+  // Note: lastReferenceValue selects the first item in the references array.
   state.data.eventName = lastReferenceValue('records[0].Name')(state);
   
   function getSessionValue(present) {
