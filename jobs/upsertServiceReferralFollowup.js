@@ -80,8 +80,8 @@ upsert(
           dataValue('form.referral_services.art_support_services.art_services_group.art_services_option3')(
             state
           )
-        ),
-        
+        )
+    ), 
     field('IPTG_Health_Facility__c', state =>
       Boolean(
         dataValue('form.referral_services.mental_health_services.confirmation_of_services_provided_label.mental_health_select_services_option1')(
@@ -130,7 +130,7 @@ upsert(
           )(state)
         )
       ),
-    ),
+
     field('STI_Screen_Testing_Service_Provider__c', state =>
         Boolean(dataValue('form.referral_services.other_srhr_services.service_label.srhr_option1')(state))
       ),
