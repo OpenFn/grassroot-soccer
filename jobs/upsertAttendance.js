@@ -1,4 +1,13 @@
 alterState(state => {
+  return query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = 
+  '${state.data.form.case['@case_id']}'`)(state)
+        .then(() => {
+            console.log(state.data);
+            return state;
+        })
+}); 
+
+alterState(state => {
   function getSessionValue(present) {
     switch (present.toString().toLowerCase()) {
       case 'yes':
