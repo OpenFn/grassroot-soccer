@@ -229,7 +229,16 @@ upsert(
     field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
     field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
     field('Client_Follow_up_Consent_given__c', state =>
-      state.helperFunctions.checked('yes', dataValue('form.follow-up.select')(state))
-    )
+      state.helperFunctions.checked(
+        'client_follow-up_consent_given',
+        dataValue('form.follow-up.select')(state)
+      )
+    ),
+    field('Client_Follow_up_Consent_given__c', state =>
+      state.helperFunctions.checked(
+        'client_linked_to_care',
+        dataValue('form.follow-up.select')(state)
+      )
+    ),    
   )
 );
