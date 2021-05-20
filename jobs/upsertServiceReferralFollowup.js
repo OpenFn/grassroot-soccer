@@ -24,9 +24,7 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('form.case.@case_id')),
     field('TB_Screening_Service_Provider__c', state =>
       Boolean(
-        dataValue(
-          'form.referral_services.service_type.hiv_support__care.check_services_label.hiv_support_care_option2'
-        )(state)
+        dataValue('form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option1')(state)
       )
     ),
     field('VMMC_Service_Provider__c', state =>
