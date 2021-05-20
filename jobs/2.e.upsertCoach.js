@@ -30,7 +30,7 @@ alterState(state => {
       case 'needs_improvement':
         return 'Needs Improvement';      
       case 'meets_expectations':
-        return 'Meets Expectation	'; 
+        return 'Meets Expectation'; 
       case 'excellent':
         return 'Excellent';        
       case 'unsatisfactory':
