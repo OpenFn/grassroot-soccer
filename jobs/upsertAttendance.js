@@ -1,6 +1,8 @@
 query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 alterState(state => {
-  console.log(JSON.stringify(state.references, null, 2));
+  console.log(
+    lastReferenceValue('records[0].name')(state);
+  );
   return state;
 });
 
