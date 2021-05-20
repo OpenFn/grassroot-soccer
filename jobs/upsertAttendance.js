@@ -52,7 +52,8 @@ each(
     dataPath('form.attendance_list.update_participant_cases.item[*]'),
     fields(
       field('intervention_name', dataValue('form.intervention_name')),
-      field('event_case_id', dataValue("form.case['@case_id']"))
+      field('event_case_id', state.event_name)
+      //field('event_case_id', dataValue("form.case['@case_id']"))
     )
   ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
@@ -63,6 +64,7 @@ each(
       field('CommCare_Ext_ID__c', state => {
         // @aleksa-krolls intervention_name is not in some sample data
         const eventid = dataValue('event_case_id')(state); 
+        //const eventid = dataValue('event_case_id')(state); 
         //const eventid = state.data.form.case['@case_id'];
         const personid = state.data['@id'];
         return personid + '-' + eventid;
