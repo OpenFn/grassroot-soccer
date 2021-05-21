@@ -41,7 +41,7 @@ alterState(state => {
 
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
-    relationship('RecordType', 'Name', 'Intervention_Staff'),
+    relationship('RecordType', 'Name', 'Intervention (Staff)'),
     relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.coach_name')),
     field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
