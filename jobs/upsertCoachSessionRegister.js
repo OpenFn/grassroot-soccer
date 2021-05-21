@@ -35,9 +35,19 @@ alterState(state => {
     field(`Session_${session_id}_Date__c`, dataValue('form.date')(state)),
     //field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF?
   ];
+  
+  state.data.durationFields = [
+    field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)),
+  ];
 
   return state;
 });
+upsert('Event__c', 'CommCare_Case_ID__c', state => ({
+  ...fields(
+    field('CommCare_Case_ID__c', dataValue('form.case.@case_id'))
+  ),
+  ...fields(...state.data.durationFields),
+}));
 
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
