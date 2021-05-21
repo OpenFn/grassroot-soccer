@@ -48,10 +48,6 @@ alterState(state => {
     }
   }
 
-Sure
-Very Sure
-I don't know
-
   state.helperFunctions = { getAge };
   
   state.data.form.behavioural.are_you_taking_any_other_religious_treatment_ie_holy_water_anointing_oilwat = 
