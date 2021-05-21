@@ -1,8 +1,8 @@
-query(`SELECT Name FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
+query(`SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
 alterState(state => {
   // Note: lastReferenceValue selects the first item in the references array.
-  state.data.eventName = lastReferenceValue('records[0].Name')(state);
+  state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   
   function getSessionValue(present) {
     switch (present.toString().toLowerCase()) {
