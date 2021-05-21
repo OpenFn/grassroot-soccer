@@ -4,17 +4,17 @@ get(
     query: {
       limit: 1000, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2021-05-02',
-      received_on_end: '2021-05-03',
+      received_on_start: '2021-04-02',
+      received_on_end: '2021-05-22',
     },
   },
   state => {
     const { meta, objects } = state.data;
     const { openfnInboxUrl } = state.configuration;
     const xmlnsList = [
-      //'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
+      'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
      // 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
-     'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
+     //'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
       //'http://openrosa.org/formdesigner/2B9F69A2-7E51-49F6-9FF9-F72F3EC14A9E', // Register Participant skillz
       //'http://openrosa.org/formdesigner/304CABA9-C8A8-4360-83C6-5E2EC1D2C2AC', // Intervention notes
       //'http://openrosa.org/formdesigner/56DB98AC-67EC-4BBA-91FC-9443E84E43CE', //PHQ9
