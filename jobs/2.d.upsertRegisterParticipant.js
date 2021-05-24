@@ -9,7 +9,14 @@ alterState(state => {
   } else {
     console.log('Shifting "new_participants" to "question1" array.');
     state.data.form.question1 = objectToArray(state.data.form.new_participants);
+    console.log('Creating a "case" object inside each item in that array.');
+    state.data.form.question1 = state.data.form.question1.map(item => ({
+      ...item,
+      case: item.create_skillz_plus_participant.case,
+    }));
   }
+
+  console.log('Done with initial data manipulation.');
 
   return state;
 });
