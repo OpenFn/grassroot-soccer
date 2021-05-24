@@ -4,8 +4,10 @@ alterState(state => {
   }
 
   if (state.data.form.question1) {
+    console.log('Ensuring that "question1" is an array.');
     state.data.form.question1 = objectToArray(state.data.form.question1);
   } else {
+    console.log('Shifting "new_participants" to "question1" array.');
     state.data.form.question1 = objectToArray(state.data.form.new_participants);
   }
 
