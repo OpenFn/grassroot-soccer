@@ -1,48 +1,39 @@
-# project-implementation
+# Grassroot Soccer Integrations
 
-Please update this readme when you start a new project. Summarize the solutions implemented.  
+OpenFn-powered solution integrating CommCare and Salesforce for real-time monitoring of field data collection. 
 
 *Note that commits to `master` will be auto-deployed to OpenFn.org. Always work on a branch!*
 
-## Getting started with the Repo
+## (1) Solution Overview 
+...
 
-1. create `/tmp` folder locally with a `state.json` file that you don't commit to github
-2. start writing and testing jobs locally with the relevant adaptor
+## (2) Integration Flows
+This is a one-way CommCare-to-Salesforce integration that connects the following CommCare forms: 
+...
 
+### Flow Triggers
+...
 
-## Implementation Checklist
-### (1) Functional Requirements
-- [ ] Design POCs identified? 
-- [ ] Business value articulated & user stories documented? Link(s): _________
-- [ ] User flow diagrams finalized? Link(s): __________
-- [ ] Mappings specs - first draft? Link: ___________
+### Data Mappings
+These CommCare forms map to these Salesforce objects: Event, Person, Attendance, ...
 
-### (2) System APIs
-- [ ] System APIs confirmed? API docs: _____
-- [ ] Access to system dev/test environments? 
-- [ ] API authentication tested? 
-- [ ] API endpoints tested? 
+### External Identifiers
+These are the external identifiers used in every object to uniquely identify records when syncing between CommCare and Salesforce...
 
-### (3) Data Flows
-- [ ] Integration Data Flow diagrams finalized? Link: ________
-- [ ] Mapping specs v2 (with transformation rules, technical specs) finalized? Link: ________
-- [ ] Assumptions documented? (re: human workflows, data entry, consent, other criteria)
-- [ ] Testing plan drafted? Link: _______
+## (3) Assumptions & Considerations for Change Management
+1. If `Venues` or `Coaches` are added to CommCare...
+2. ...
+3. Considerations for post-pilot scaling... was anything hard-coded or inflexibly implemented? 
 
-### (4) Flow Triggers
-- [ ] OpenFn job triggers confirmed (What kicks off a sync? Timer- or event-based? 
+## (4) Administration
+### Provisioning, Hosting, & Maintenance
+This integration is hosted on OpenFn.org with CommCare and Salesforce Hosted SaaS. OpenFn will provide ongoing maintenance support to the GRS administrators managing OpenFn, Salesforce, and CommCare.
 
-### (5) Sharing & Security
-- [ ] Dating sharing agreement finalized? Link: ________
-- [ ] Logging specs sign-off (what information can we log in OpenFn?)
+### Support
+Primary GRS support contact: dvumbi@grassrootsoccer.org
 
-### (6) Administration
-#### Provisioning, Hosting, & Maintenance
-- [ ] Deployment: SaaS
-- [ ] Configuration: OpenFn
-- [ ] Maintenance: Software maintenance, security updates, etc. - confirm roles & responsibilities across systems 
+Contact support@openfn.org with any OpenFn questions or troubleshooting support.
 
-#### Support
-- [ ] OpenFn administrator users & access levels confirmed? 
-- [ ] Support POCs identified for each system?
+### Training Materials
+[Link to training slides(...)]
 
