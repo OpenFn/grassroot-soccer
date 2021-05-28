@@ -46,6 +46,7 @@ beta.each(
 
 // Calculate dynamic fields
 alterState(state => {
+  state.data.eventName = state.data.eventName; 
   state.items = state.items.map(item => {
     const record = state.references.find(rec =>
       rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : true
@@ -78,7 +79,7 @@ alterState(state => {
 
       return fieldName;
     }
-
+    
     const sessionValue = getSessionValue(item.attendance_session);
     const sessionDate = item.date;
     const sessionFieldName = getSessionFieldName(record);
@@ -102,9 +103,15 @@ alterState(state => {
 // Upsert
 beta.each(
   '$.items[*]',
+  // merge(
+  //   fields(
+  //     field('eventName', dataValue('eventName'))
+  //   )
+  // ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
-      field('CommCare_Ext_ID__c', dataValue('CommCare_Ext_ID__c')),
+      //TODO: pass eventName into mapping below... returning undefined
+      field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id')),
       relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id'))
     ),
