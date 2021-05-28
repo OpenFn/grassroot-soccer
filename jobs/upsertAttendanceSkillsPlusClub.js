@@ -1,4 +1,3 @@
-// Push to production
 // Set state.references to event record
 query(
   `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
@@ -49,8 +48,8 @@ beta.each(
 alterState(state => {
   state.items = state.items.map(item => {
     const record = state.references.find(rec =>
-      rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : rec.records[0]
-    );
+      rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : true
+    ).records[0];
 
     function getSessionValue(present) {
       if (!present) return 'U';
@@ -71,9 +70,13 @@ alterState(state => {
         return 'Session_1__c';
       }
 
-      return Object.entries(record)
+      const fieldName = Object.entries(record)
         .filter(rec => rec[1] === null && rec[0] !== 'CommCare_Ext_ID__c')
-        .sort()[0][0];
+        .sort(function (a, b) {
+          return a[0].split('_')[1] - b[0].split('_')[1];
+        })[0][0];
+
+      return fieldName;
     }
 
     const sessionValue = getSessionValue(item.attendance_session);
