@@ -20,7 +20,7 @@ alterState(state => {
   state.data.form.attendance_list.update_participant_cases.item =
     state.data.form.attendance_list.update_participant_cases.item.map(item => ({
       ...item,
-      CommCare_Ext_ID__c: `${item.create_attendance_case.case['@case_id']}-${eventName}`,
+      CommCare_Ext_ID__c: `${item['@id']}-${eventName}`,
       event_case_id: state.data.form.case['@case_id'],
     }));
 
