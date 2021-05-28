@@ -38,15 +38,14 @@ beta.each(
   '$.items[*]',
   query(
     state => `SELECT CommCare_Ext_ID__c, Session_1__c, Session_2__c, Session_3__c, Session_4__c, Session_5__c, Session_6__c, Session_7__c, Session_8__c, Session_9__c, Session_10__c, Session_11__c, Session_12__c, Session_13__c, Session_14__c, Session_15__c, Session_16__c, Session_17__c, Session_18__c, Session_19__c, Session_20__c, Session_21__c, Session_22__c, Session_23__c,Session_24__c, Session_25__c, Session_26__c, Session_27__c, Session_28__c
-        FROM Attendance__c
-        WHERE CommCare_Ext_ID__c = '${state.data.CommCare_Ext_ID__c}'
-        `
+         FROM Attendance__c
+         WHERE CommCare_Ext_ID__c = '${state.data.CommCare_Ext_ID__c}'
+         `
   )
 );
 
 // Calculate dynamic fields
 alterState(state => {
-  state.data.eventName = state.data.eventName; 
   state.items = state.items.map(item => {
     const record = state.references.find(rec =>
       rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : true
@@ -79,7 +78,7 @@ alterState(state => {
 
       return fieldName;
     }
-    
+
     const sessionValue = getSessionValue(item.attendance_session);
     const sessionDate = item.date;
     const sessionFieldName = getSessionFieldName(record);
@@ -103,16 +102,9 @@ alterState(state => {
 // Upsert
 beta.each(
   '$.items[*]',
-  //NOTE: merge() throws an error when I try to pass eventName this way
-  // merge(
-  //   fields(
-  //     field('eventName', dataValue('eventName'))
-  //   )
-  // ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
-      //TODO: pass eventName into mapping below... returning undefined
-      field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
+      field('CommCare_Ext_ID__c', dataValue('CommCare_Ext_ID__c')),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id')),
       relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id'))
     ),
