@@ -103,6 +103,7 @@ alterState(state => {
 // Upsert
 beta.each(
   '$.items[*]',
+  //NOTE: merge() throws an error when I try to pass eventName this way
   // merge(
   //   fields(
   //     field('eventName', dataValue('eventName'))
