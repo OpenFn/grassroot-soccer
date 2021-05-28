@@ -24,37 +24,37 @@ upsert(
     field('CommCare_Ext_ID__c', dataValue('form.case.@case_id')),
      field('HIV_Testing_Services_Service_Provider__c', state =>
       Boolean(
-        dataValue('form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option1')(state)
+        dataValue('form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option1')(state)
       )
     ),
     field('TB_Screening_Service_Provider__c', state =>
       Boolean(
-        dataValue('form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option2')(state)
+        dataValue('form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option2')(state)
       )
     ),
     field('VMMC_Service_Provider__c', state =>
       Boolean(
-        dataValue('form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option3')(state)
+        dataValue('form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option3')(state)
       )
     ),
     field('Post_Exposure_Prophylaxis_Service_Provid__c', state =>
       Boolean(
         dataValue(
-          'form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option4'
+          'form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option4'
         )(state)
       )
     ),
     field('PrEP_Service_Provider__c', state =>
       Boolean(
         dataValue(
-          'form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option5'
+          'form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option5'
         )(state)
       )
     ),
     field('HIV_STI_PREVENTION_Other_Service_Provid__c', state =>
       Boolean(
         dataValue(
-          'form.referral_services.hiv_support__care.hiv_check_services_label.hiv_support_care_option6'
+          'form.referral_services.hiv_support__care.check_services_label.hiv_support_care_option6'
         )(state)
       )
     ),
@@ -99,9 +99,7 @@ upsert(
     
       field('ART_Services_Other_Service_Provider__c', state =>
         Boolean(
-          dataValue(
-            'form.referral_services.art_support_services.art_services_group.referred_art_support_services'
-          )(state)
+          dataValue('form.referral_services.art_support_services.referred_art_support_services')(state)
         )
       ),
       field(
