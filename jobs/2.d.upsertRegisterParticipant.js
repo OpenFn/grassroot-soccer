@@ -62,7 +62,7 @@ each(
     'CommCare_Ext_ID__c',
     fields(
       field('CommCare_Ext_ID__c', state => {
-        var eventid = `${state.data.eventName}` || dataValue('intervention_name')(state);
+        var eventid = dataValue('intervention_name')(state) || `${state.data.eventName}`;
         var personid = state.data.case['@case_id'];
         return personid + '-' + eventid;
       }),
