@@ -76,7 +76,7 @@ each(
         //Attendance looks up to Event via the intervention_name
         'Event__r',
         'CommCare_Ext_ID__c',
-        state => `${state.data.eventName}`
+        state => `${state.data.intervention_name}` || `${state.data.eventName}`
       ),
       field('Date_of_Birth__c', dataValue('date_of_birth'))
     )
