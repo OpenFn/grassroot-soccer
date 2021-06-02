@@ -32,7 +32,7 @@ alterState((state) => {
 
 upsert(
   'Event__c',
-  'CommCare_Ext_ID__c',
+  'CommCare_Case_ID__c',
   state=>({
   ...fields(
     field('Name', dataValue('form.name_of_intervention')),
