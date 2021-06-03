@@ -73,11 +73,17 @@ each(
         state => state.data.case['@case_id']
       ),
       relationship(
-        //Attendance looks up to Event via the intervention_name
+        //Attendance looks up to Event via the Event case_id
         'Event__r',
-        'CommCare_Ext_ID__c',
-        state => `${state.data.intervention_name}` || `${state.data.eventName}`
+        'CommCare_Case_ID__c',
+        state => `${state.data.form.case['@case_id']}`
       ),
+      // relationship(
+      //   //Attendance looks up to Event via the intervention_name
+      //   'Event__r',
+      //   'CommCare_Ext_ID__c',
+      //   state => `${state.data.intervention_name}` || `${state.data.eventName}`
+      // ),
       field('Date_of_Birth__c', dataValue('date_of_birth'))
     )
   )
