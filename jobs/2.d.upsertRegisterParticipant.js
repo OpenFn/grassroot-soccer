@@ -3,6 +3,7 @@ query(`SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID_
 alterState(state => {
   // Note: lastReferenceValue selects the first item in the references array.
   state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
+  state.data.eventCase = dataValue('form.case.@case_id')(state);
 
   function objectToArray(object) {
     return !Array.isArray(object) ? [object] : object;
@@ -56,6 +57,7 @@ beta.each(
 each(
   merge(dataPath('form.question1[*]'), fields(
     field('intervention_name', dataValue('form.intervention_name')),
+    field('eventCase', dataValue('eventCase')),
     field('eventName', dataValue('eventName')))),
   upsert(
     'Attendance__c',
@@ -76,7 +78,7 @@ each(
         //Attendance looks up to Event via the Event case_id
         'Event__r',
         'CommCare_Case_ID__c',
-        state => `${state.data.form.case['@case_id']}`
+        state => `${state.data.eventCase}`
       ),
       // relationship(
       //   //Attendance looks up to Event via the intervention_name
