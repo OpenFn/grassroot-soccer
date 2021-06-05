@@ -88,5 +88,5 @@ Primary GRS support contact: dvumbi@grassrootsoccer.org
 Contact support@openfn.org with any OpenFn questions or troubleshooting support.
 
 ### Training Materials
-Video: https://drive.google.com/drive/folders/1KtKTFfqc0jcgrmF7jcW7BmiN5-_6Jpk5
+Video & Slide deck: https://drive.google.com/drive/folders/1KtKTFfqc0jcgrmF7jcW7BmiN5-_6Jpk5
 
