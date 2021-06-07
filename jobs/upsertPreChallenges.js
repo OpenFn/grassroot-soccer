@@ -54,7 +54,10 @@ upsert(
     //   dataValue('form.hidden_properties.participant_surname')(state)
     //),
     field('Gender__c', dataValue('form.hidden_properties.gender')),
-    field('Grade__c', dataValue('form.hidden_properties.grade')),
+    field('Grade__c', state => {
+      const grade = dataValue('form.hidden_properties.grade')(state);
+      return grade.replace(/\D/g, '');
+    }),
     field('Class__c', dataValue('form.hidden_properties.class')),
     field('Pre_Post_Completed__c', state => {
       var done = dataValue('form.hidden_properties.pre_questionnaire_complete')(state);
