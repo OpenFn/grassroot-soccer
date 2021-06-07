@@ -1,4 +1,6 @@
-query(`SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
+query(
+  `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
+);
 
 alterState(state => {
   // Note: lastReferenceValue selects the first item in the references array.
@@ -9,14 +11,17 @@ alterState(state => {
     return !Array.isArray(object) ? [object] : object;
   }
 
-  if (state.data.form.question1) {
+  const { form } = state.data;
+  if (form.question1) {
     console.log('Ensuring that "question1" is an array.');
-    state.data.form.question1 = objectToArray(state.data.form.question1);
+    form.question1 = objectToArray(form.question1);
+  } else if (!form.new_participants) {
+    console.log('Nothing to upsert. No participants were registered');
   } else {
     console.log('Shifting "new_participants" to "question1" array.');
-    state.data.form.question1 = objectToArray(state.data.form.new_participants);
+    form.question1 = objectToArray(form.new_participants);
     console.log('Creating a "case" object inside each item in that array.');
-    state.data.form.question1 = state.data.form.question1.map(item => ({
+    form.question1 = form.question1.map(item => ({
       ...item,
       case: item.create_skillz_plus_participant.case,
     }));
@@ -30,8 +35,7 @@ alterState(state => {
 beta.each(
   merge(
     dataPath('form.question1[*]'),
-    fields(
-      field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')))
+    fields(field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')))
   ),
 
   upsert(
@@ -55,16 +59,20 @@ beta.each(
 );
 
 each(
-  merge(dataPath('form.question1[*]'), fields(
-    field('intervention_name', dataValue('form.intervention_name')),
-    field('eventCase', dataValue('eventCase')),
-    field('eventName', dataValue('eventName')))),
+  merge(
+    dataPath('form.question1[*]'),
+    fields(
+      field('intervention_name', dataValue('form.intervention_name')),
+      field('eventCase', dataValue('eventCase')),
+      field('eventName', dataValue('eventName'))
+    )
+  ),
   upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
     fields(
       field('CommCare_Ext_ID__c', state => {
-        var eventid = `${state.data.intervention_name}` || `${state.data.eventName}`;//dataValue('intervention_name')(state) || `${state.data.eventName}`;
+        var eventid = `${state.data.intervention_name}` || `${state.data.eventName}`; //dataValue('intervention_name')(state) || `${state.data.eventName}`;
         var personid = state.data.case['@case_id'];
         return personid + '-' + eventid;
       }),
