@@ -42,7 +42,11 @@ alterState(state => {
       case 'very_sure':
         return '5 (Strongly Agree)';
       case 'i_dont_know':
-        return 'I dont know';        
+        return 'I dont know';    
+      case 'suppressed':
+        return 'Suppressed';  
+      case 'unsuppressed':
+        return 'Unsuppressed';   
       default:
         return value;
     }
