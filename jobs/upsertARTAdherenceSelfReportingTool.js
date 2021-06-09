@@ -102,7 +102,12 @@ alterState(state => {
   state.data.form['treatment_self-efficacy'].how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt = 
   transform(state.data.form['treatment_self-efficacy'].how_sure_are_you_that_your_medication_will_help_you_live_a_longer_and_healt)
   
+  state.data.form.clinical_knowledge.question16 = 
+  transform(state.data.form.clinical_knowledge.question16) 
   
+  state.data.form.clinical_knowledge.when_did_you_last_have_your_clinical_test = 
+  state.data.form.clinical_knowledge.when_did_you_last_have_your_clinical_test ? transform(state.data.form.clinical_knowledge.when_did_you_last_have_your_clinical_test)
+  : transform(state.data.form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests);
   
   return state;
 });
@@ -148,7 +153,7 @@ upsert(
     field('Clinical_Knowledge_2__c', dataValue('form.clinical_knowledge.question16')),
     field(
       'Clinical_Knowledge_1__c',
-      dataValue('form.clinical_knowledge.when_did_you_last_go_for_these_two_clinical_tests')
+      dataValue('form.clinical_knowledge.when_did_you_last_have_your_clinical_test')
     ),
     field(
       'Treatment_Self_Efficacy__c',
