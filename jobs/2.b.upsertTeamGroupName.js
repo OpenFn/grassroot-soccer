@@ -1,7 +1,7 @@
 // Upsert event by unique 'Name'
 upsert(
   'Event__c',
-  'Name',
+  'CommCare_Ext_ID__c',
   fields(
     field(
       'Class_Group_Team__c',
@@ -9,7 +9,7 @@ upsert(
     ),
     relationship('RecordType', 'Name', 'Intervention'), 
     field(
-      'Name',
+      'CommCare_Ext_ID__c',
       dataValue('form.question_group.intervention_name')
     ),
   )
