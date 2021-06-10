@@ -56,8 +56,8 @@ upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
       console.log(state.references[0].records[0]); 
       const coach_name = dataValue('form.coach_name')(state)
         ? dataValue('form.coach_name')(state)
-        : state.references[0].records[0].Coach_A__r['CommCare_Ext_ID__c'];
-        //: state.references[0].records[0].Coach_A__c;
+        //: state.references[0].records[0].Coach_A__r['CommCare_Ext_ID__c'];
+        : state.references[0].records[0].Coach_A__c;
       return coach_name;
     }),
     field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
