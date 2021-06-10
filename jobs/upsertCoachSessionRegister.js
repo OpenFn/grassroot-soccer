@@ -48,18 +48,17 @@ upsert('Event__c', 'CommCare_Case_ID__c', state => ({
 
 query(`SELECT Coach_A__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
-alterState(state => {
-  const coach_name = dataValue('form.coach_name')(state)
-    ? dataValue('form.coach_name')(state)
-    : state.references[0].records[0].Coach_A__c;
-
-  upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
-    ...fields(
-      relationship('RecordType', 'Name', 'Intervention (Staff)'),
-      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
-      relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', coach_name),
-      field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
-    ),
-    ...fields(...state.data.dynamicFields),
-  }));
-});
+upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
+  ...fields(
+    relationship('RecordType', 'Name', 'Intervention (Staff)'),
+    relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
+    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
+      const coach_name = dataValue('form.coach_name')(state)
+        ? dataValue('form.coach_name')(state)
+        : state.references[0].records[0].Coach_A__c;
+      return coach_name;
+    }),
+    field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+  ),
+  ...fields(...state.data.dynamicFields),
+}));
