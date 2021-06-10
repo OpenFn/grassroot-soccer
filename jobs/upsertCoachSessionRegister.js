@@ -46,7 +46,7 @@ upsert('Event__c', 'CommCare_Case_ID__c', state => ({
   ...fields(...state.data.durationFields),
 }));
 
-query(`SELECT Coach_A__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
+query(`SELECT Coach_A__c, Coach_A__r.CommCare_Ext_ID__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
@@ -55,7 +55,7 @@ upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
       const coach_name = dataValue('form.coach_name')(state)
         ? dataValue('form.coach_name')(state)
-        : state.references[0].records[0].Coach_A__c;
+        : state.references[0].records[0].Coach_A__c; //TODO: instead return the value queried for Coach_A__r.CommCare_Ext_ID__c
       return coach_name;
     }),
     field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
