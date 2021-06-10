@@ -51,9 +51,7 @@ query(`SELECT Coach_A__c from Event__c where CommCare_Case_ID__c = '${state.data
 alterState(state => {
   const coach_name = dataValue('form.coach_name')(state)
     ? dataValue('form.coach_name')(state)
-    : state.references[0].records.Coach_A__c;
-
-  console.log(coach_name);
+    : state.references[0].records[0].Coach_A__c;
 
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
