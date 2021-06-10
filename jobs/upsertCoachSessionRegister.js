@@ -35,26 +35,33 @@ alterState(state => {
     field(`Session_${session_id}_Date__c`, dataValue('form.date')(state)),
     //field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)), //NOTE: Duration fields don't exist in SF?
   ];
-  
-  state.data.durationFields = [
-    field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state)),
-  ];
+
+  state.data.durationFields = [field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state))];
 
   return state;
 });
+
 upsert('Event__c', 'CommCare_Case_ID__c', state => ({
-  ...fields(
-    field('CommCare_Case_ID__c', dataValue('form.case.@case_id'))
-  ),
+  ...fields(field('CommCare_Case_ID__c', dataValue('form.case.@case_id'))),
   ...fields(...state.data.durationFields),
 }));
 
-upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
-  ...fields(
-    relationship('RecordType', 'Name', 'Intervention (Staff)'),
-    relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
-    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', dataValue('form.coach_name')),
-    field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
-  ),
-  ...fields(...state.data.dynamicFields),
-}));
+query(`SELECT Coach_A__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
+
+alterState(state => {
+  const coach_name = dataValue('form.coach_name')(state)
+    ? dataValue('form.coach_name')(state)
+    : state.references[0].records.Coach_A__c;
+
+  console.log(coach_name);
+
+  upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
+    ...fields(
+      relationship('RecordType', 'Name', 'Intervention (Staff)'),
+      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
+      relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', coach_name),
+      field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+    ),
+    ...fields(...state.data.dynamicFields),
+  }));
+});
