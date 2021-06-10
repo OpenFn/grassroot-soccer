@@ -46,7 +46,7 @@ upsert('Event__c', 'CommCare_Case_ID__c', state => ({
   ...fields(...state.data.durationFields),
 }));
 
-query(`SELECT Coach_A__c, Coach_A__r.CommCare_Ext_ID__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
+query(`SELECT Coach_A__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
 upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
   ...fields(
