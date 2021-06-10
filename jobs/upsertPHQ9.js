@@ -68,12 +68,15 @@ upsert(
     field('Site__c', dataValue('form.hidden_properties.site')),
     field('Interview_Date__c', dataValue('form.interview_date')),
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
-    field('Participant_DOB__c', dataValue('form.hidden_properties.date_of_birth')),
+    field('Participant_DOB__c', state => {
+      const dob  = dataValue('form.hidden_properties.date_of_birth')(state); 
+      return dob ? dob : null; 
+    }),
     //field('Area_Center__c', dataValue('form.hidden_properties.venue')), //Can get from Intervention
     field('Age_of_Participant__c', state => {
       const dob = dataValue('form.hidden_properties.date_of_birth')(state);
 
-      return state.helperFunctions.getAge(dob);
+      return dob ? state.helperFunctions.getAge(dob) : null;
     }),
     field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
