@@ -37,7 +37,7 @@ upsert(
   ...fields(
     field('Name', dataValue('form.name_of_intervention')),
     field('CommCare_Ext_ID__c', state => {
-      return dataValue('form.name_of_intervention').replace(/\//gi, ''); 
+      return dataValue('form.name_of_intervention')(state).replace(/\//gi, ''); 
     }),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Grant_Text__c', dataValue('form.grant')),
