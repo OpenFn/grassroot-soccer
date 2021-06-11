@@ -1,4 +1,8 @@
 // push to production
+query(
+  `SELECT Coach_A__c, Coach_A__r.Name from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
+);
+
 alterState(state => {
   const present = dataValue('form.present')(state).toLowerCase();
 
@@ -24,9 +28,12 @@ alterState(state => {
   const session_text = dataValue('form.session')(state);
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
+  
+  const coachname = dataValue('form.coach_name')(state) ? dataValue('form.coach_name')(state) 
+    : state.references[0].records[0].Coach_A__r.Name;
 
   let external_id = `${dataValue('form.case.@case_id')(state)}
-    ${dataValue('form.coach_name')(state)}`; //case_id + coach_name for external Id
+    ${coachname}`; //case_id + coach_name for external Id
 
   state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
