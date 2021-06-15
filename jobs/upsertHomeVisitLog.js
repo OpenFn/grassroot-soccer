@@ -3,11 +3,9 @@ alterState(state => {
   const { form } = state.data;
   const { basic_information } = form;
   if (basic_information.intervention_hidden) {
-    state.data.eventField = relationship(
-      'Event__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.basic_information.intervention_hidden')
-    );
+    state.data.eventField = [
+      relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.basic_information.intervention_hidden')(state)),
+    ];
     return state;
   } else {
     return query(
@@ -18,7 +16,8 @@ alterState(state => {
     )(state).then(state => {
       const { records } = state.references[0];
       const eventId = records[0].Event__c;
-      state.data.eventField = field('Event__c', eventId);
+      state.data.eventField = [field('Event__c', eventId)];
+      return state;
     });
   }
 });
