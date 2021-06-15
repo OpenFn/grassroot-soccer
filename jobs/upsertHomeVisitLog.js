@@ -13,7 +13,7 @@ alterState(state => {
     return query(
       `SELECT Id, Event__c, CreatedDate, Person_Attendance__c
     FROM Attendance__c
-    WHERE Person_Attendance__r.CommCare_External_ID__c = ${form.case['@case_id']}
+    WHERE Person_Attendance__r.Participant_Identification_Number_PID__c = '${form.case['@case_id']}'
     ORDER BY CreatedDate DESC LIMIT 1`
     )(state).then(state => {
       const { records } = state.references[0];
