@@ -53,12 +53,13 @@ each(
     dataPath('form.attendance_list.update_participant_cases.item[*]'),
     fields(
       field('intervention_name', dataValue('form.intervention_name')),
-      field('eventName', dataValue('eventName'))
+      field('eventName', dataValue('eventName')),
+      field('caseid', dataValue('form.case.@case_id'))
     )
   ),
   upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
     ...fields(
-      relationship('Event__r', 'CommCare_Case_ID__c', state.data.form.case['@case_id']),
+      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('caseid')),
       //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('eventName')),
       field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
