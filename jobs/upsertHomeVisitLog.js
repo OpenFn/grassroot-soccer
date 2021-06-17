@@ -3,10 +3,21 @@ alterState(state => {
   const { form } = state.data;
   const { basic_information } = form;
   if (basic_information.intervention_hidden) {
-    state.data.eventField = [
-      relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.basic_information.intervention_hidden')(state)),
-    ];
-    return state;
+    return query(
+      `SELECT Id, Event__c, CreatedDate, Person_Attendance__c
+    FROM Attendance__c
+    WHERE Person_Attendance__r.Participant_Identification_Number_PID__c = '${form.case['@case_id']}'
+    ORDER BY CreatedDate DESC LIMIT 1`
+    )(state).then(state => {
+      const { records } = state.references[0];
+      const eventId = records[0].Event__c;
+      state.data.eventField = [field('Event__c', eventId)];
+      return state;
+    });
+    // state.data.eventField = [
+    //   relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.basic_information.intervention_hidden')(state)),
+    // ];
+    // return state;
   } else {
     return query(
       `SELECT Id, Event__c, CreatedDate, Person_Attendance__c
