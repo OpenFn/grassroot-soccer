@@ -338,3 +338,13 @@ upsert(
     })
   )
 );
+
+upsert(
+  'Event__c',
+  'CommCare_Ext_ID__c',
+  fields(
+    field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
+    field('Date_of_Pre__c', dataValue('form.date')),
+    
+  )
+);
