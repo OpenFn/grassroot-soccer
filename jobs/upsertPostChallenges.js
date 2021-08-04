@@ -34,7 +34,7 @@ upsert(
     
     field('CommCare_Ext_ID__c', state => {
       return dataValue('form.case.@case_id')(state) + "-" +
-        dataValue('form.hidden_properties.intervention_name')(state)
+        dataValue('form.hidden_properties.intervention_name')(state).replace(/\//gi, '');
     }),
     
     //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
