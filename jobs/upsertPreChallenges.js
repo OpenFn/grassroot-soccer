@@ -339,12 +339,13 @@ upsert(
   )
 );
 
-upsert(
-  'Event__c',
-  'CommCare_Ext_ID__c',
-  fields(
-    field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
-    field('Date_of_Pre__c', dataValue('form.date')),
+//Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side. 
+// upsert(
+//   'Event__c',
+//   'CommCare_Ext_ID__c',
+//   fields(
+//     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
+//     field('Date_of_Pre__c', dataValue('form.date')),
     
-  )
-);
+//   )
+// );
