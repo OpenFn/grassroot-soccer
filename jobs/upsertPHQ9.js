@@ -51,7 +51,7 @@ upsert(
   'CommCare_Ext_ID__c',
   fields(
     field('CommCare_Ext_ID__c', dataValue('id')),
-    relationship('Intervention_Name__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
+    relationship('Intervention_Name__r', 'CommCare_Case_ID__c', dataValue('form.hidden_properties.intervention_id')),
     //relationship('Participant__r','CommCare_Ext_ID__c', dataValue('form.hidden_properties.participant_fullname')),
     field('Mobile_Contact_Information__c', dataValue('form.hidden_properties.mobile_number')),
     field('Curriculum__c', dataValue('form.hidden_properties.curriculum')),
