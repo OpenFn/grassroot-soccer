@@ -42,7 +42,10 @@ upsert(
   ...fields(
     field('Name', dataValue('form.event_information.Event_Name')),
     relationship('RecordType', 'Name', dataValue('recordtype')),
-    field('CommCare_Ext_ID__c', dataValue('form.event_information.Event_Name')),
+    field('CommCare_Ext_ID__c', state => {
+      var event = dataValue('form.event_information.Event_Name')(state);
+      return event ? event.replace(/\//gi, '') : event;
+      }),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Business_Unit__c', state => {
       const bu = dataValue('form.event_information.business_unit')(state); 
