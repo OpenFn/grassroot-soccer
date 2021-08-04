@@ -33,6 +33,8 @@ alterState(state => {
     }
     return age;
   }
+  
+  state.data.form.begin_interview = state.data.form.begin_interview; 
 
   state.data.form.begin_interview.what_is_your_marital_status = state.data.form.begin_interview && state.data.form.begin_interview.what_is_your_marital_status  ? transform(
     capitalizeFirstLetter(state.data.form.begin_interview.what_is_your_marital_status) 
