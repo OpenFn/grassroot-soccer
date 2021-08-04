@@ -34,8 +34,6 @@ alterState(state => {
     return age;
   }
   
-  state.data.form.begin_interview = state.data.form.begin_interview; 
-
   state.data.form.begin_interview.what_is_your_marital_status = state.data.form.begin_interview && state.data.form.begin_interview.what_is_your_marital_status  ? transform(
     capitalizeFirstLetter(state.data.form.begin_interview.what_is_your_marital_status) 
   ): undefined;
@@ -80,11 +78,7 @@ upsert(
 
       return dob ? state.helperFunctions.getAge(dob) : null;
     }),
-    field('Marital_Status__c', state => {
-      var interv =  dataValue('form.begin_interview')(state); 
-      var mar = dataValue('form.begin_interview.what_is_your_marital_status')(state);
-      return interv ? mar : undefined; 
-    }),
+    field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
       'Position_of_Respondent_in_Household__c',
       dataValue('form.begin_interview.position_of_respondent_in_the_household')
