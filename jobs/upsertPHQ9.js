@@ -34,11 +34,11 @@ alterState(state => {
     return age;
   }
 
-  state.data.form.begin_interview.what_is_your_marital_status = state.data.form.begin_interview.what_is_your_marital_status  ? transform(
+  state.data.form.begin_interview.what_is_your_marital_status = state.data.form.begin_interview && state.data.form.begin_interview.what_is_your_marital_status  ? transform(
     capitalizeFirstLetter(state.data.form.begin_interview.what_is_your_marital_status) 
   ): undefined;
 
-  state.data.form.begin_interview.position_of_respondent_in_the_household = state.data.form.begin_interview.position_of_respondent_in_the_household ? transform(
+  state.data.form.begin_interview.position_of_respondent_in_the_household = state.data.form.begin_interview && state.data.form.begin_interview.position_of_respondent_in_the_household ? transform(
     capitalizeFirstLetter(state.data.form.begin_interview.position_of_respondent_in_the_household)
   ): undefined;
 
