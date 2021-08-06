@@ -79,12 +79,8 @@ upsert(
       return dob ? state.helperFunctions.getAge(dob) : null;
     }),
     
-     field('Marital_Status__c', state => {
-        if (state.data.form.begin_interview.what_is_your_marital_status) return state.data.form.begin_interview.what_is_your_marital_status;
-        return;
-      }),
     
-    //field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
+    field('Marital_Status__c', dataValue('form.begin_interview.what_is_your_marital_status')),
     field(
       'Position_of_Respondent_in_Household__c',
       dataValue('form.begin_interview.position_of_respondent_in_the_household')
