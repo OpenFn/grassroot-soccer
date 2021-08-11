@@ -1,7 +1,7 @@
 // Upsert event by unique 'Name'
 upsert(
   'Event__c',
-  'CommCare_Ext_ID__c',
+  'CommCare_Case_ID__c',
   fields(
     field(
       'Class_Group_Team__c',
