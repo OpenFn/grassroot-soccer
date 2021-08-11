@@ -9,8 +9,8 @@ upsert(
     ),
     relationship('RecordType', 'Name', 'Intervention'), 
     field(
-      'CommCare_Ext_ID__c',
-      dataValue('form.question_group.intervention_name')
+      'CommCare_Case_ID__c',
+      dataValue('form.case.@case_id')
     ),
   )
 );
