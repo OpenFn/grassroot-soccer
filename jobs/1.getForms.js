@@ -42,7 +42,8 @@ get(
       //'http://openrosa.org/formdesigner/3DAF13EC-FA77-4480-8946-667D841B439A', //risk & vulnerability assessment | new Referrals
     ];
 
-    const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
+    // const forms = objects.filter(obj => xmlnsList.includes(obj.form['@xmlns']));
+    const forms = objects;
 
     state.configuration = { baseUrl: 'https://www.openfn.org' };
     console.log('Posting form submissions to OpenFn Inbox...');
