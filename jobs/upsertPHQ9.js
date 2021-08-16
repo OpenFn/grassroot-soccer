@@ -54,7 +54,7 @@ upsert(
     
     relationship('Intervention_Name__r', 'CommCare_Case_ID__c', state => {
       if (state.data.form.hidden_properties.intervention_id) return state.data.form.hidden_properties.intervention_id;
-      else return "b49e818f-5530-46d3-a45b-5d7ab1a28b5c";
+      else return "990221ac-3c05-475d-87c7-24d8a5fcb63e";
     }),
     //relationship('Intervention_Name__r', 'CommCare_Case_ID__c', dataValue('form.hidden_properties.intervention_id')),
     
