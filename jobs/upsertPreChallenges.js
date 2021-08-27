@@ -41,9 +41,9 @@ upsert(
     // }),
 
     field('CommCare_Ext_ID__c', state => {
-      return (
-        dataValue('form.case.@case_id')(state) + '-' + dataValue('form.hidden_properties.intervention_name')(state).replace(/\//gi, '')
-        ); 
+      return `${dataValue('form.case.@case_id')(state)}-${dataValue('form.hidden_properties.intervention_name')(
+        state
+      ).replace(/\//gi, '')}`;
     }),
 
     //field(
@@ -56,7 +56,7 @@ upsert(
     field('Gender__c', dataValue('form.hidden_properties.gender')),
     field('Grade__c', state => {
       const grade = dataValue('form.hidden_properties.grade')(state);
-      return grade.replace(/\D/g, '');
+      return grade ? grade.replace(/\D/g, '') : undefined;
     }),
     field('Class__c', dataValue('form.hidden_properties.class')),
     field('Pre_Post_Completed__c', state => {
@@ -339,13 +339,13 @@ upsert(
   )
 );
 
-//Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side. 
+//Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.
 // upsert(
 //   'Event__c',
 //   'CommCare_Ext_ID__c',
 //   fields(
 //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
 //     field('Date_of_Pre__c', dataValue('form.date')),
-    
+
 //   )
 // );
