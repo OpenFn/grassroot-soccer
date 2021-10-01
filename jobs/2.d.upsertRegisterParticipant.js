@@ -4,7 +4,7 @@ query(
 
 alterState(state => {
   // Note: lastReferenceValue selects the first item in the references array.
-  state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
+  state.data.eventName = removeEmojis(lastReferenceValue('records[0].CommCare_Ext_ID__c')(state));
   state.data.eventCase = dataValue('form.case.@case_id')(state);
 
   function objectToArray(object) {
