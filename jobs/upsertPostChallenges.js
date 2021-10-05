@@ -33,7 +33,7 @@ upsert(
     //field('Event__c', dataValue('form.hidden_properties.intervention_name')),
     
     field('CommCare_Ext_ID__c', state => {
-      return removeEmojis(dataValue('form.case.@case_id')(state) + "-" +
+      return scrubEmojis(dataValue('form.case.@case_id')(state) + "-" +
         dataValue('form.hidden_properties.intervention_name')(state).replace(/\//gi, ''));
     }),
     
