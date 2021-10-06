@@ -35,7 +35,7 @@ upsert(
     field('CommCare_Ext_ID__c', state => {
       const value = dataValue('form.case.@case_id')(state) + "-" +
         dataValue('form.hidden_properties.intervention_name')(state).replace(/\//gi, '')
-      return scrubEmojis(, '');
+      return scrubEmojis(value, '');
     }),
     
     //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
