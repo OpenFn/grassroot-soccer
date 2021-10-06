@@ -74,7 +74,8 @@ each(
       field('CommCare_Ext_ID__c', state => {
         var eventid = `${state.data.intervention_name}` || `${state.data.eventName}`; //dataValue('intervention_name')(state) || `${state.data.eventName}`;
         var personid = state.data.case['@case_id'];
-        return removeEmojis(personid + '-' + eventid.replace(/\//gi, ''));
+        const value = personid + '-' + eventid.replace(/\//gi, '');
+        return scrubEmojis(value, '');
       }),
       relationship(
         //Attendance looks up to Persn via the case_id
