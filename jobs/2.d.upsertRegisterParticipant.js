@@ -12,7 +12,7 @@ alterState(state => {
   }
 
   const { form } = state.data;
-  if (form.question1) {
+  if (form.question1) {sc
     console.log('Ensuring that "question1" is an array.');
     form.question1 = objectToArray(form.question1);
   } else if (!form.new_participants) {
