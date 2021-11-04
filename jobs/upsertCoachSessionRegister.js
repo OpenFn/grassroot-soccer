@@ -3,7 +3,7 @@ query(
   `SELECT Coach_A__c, Coach_A__r.Name from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
 );
 
-alterState(state => {
+fn(state => {
   const present = dataValue('form.present')(state).toLowerCase();
 
   function getSessionValue() {
@@ -28,8 +28,9 @@ alterState(state => {
   const session_text = dataValue('form.session')(state);
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
-  
-  const coachname = dataValue('form.coach_name')(state) ? dataValue('form.coach_name')(state) 
+
+  const coachname = dataValue('form.coach_name')(state)
+    ? dataValue('form.coach_name')(state)
     : state.references[0].records[0].Coach_A__r.Name;
 
   let external_id = `${dataValue('form.case.@case_id')(state)}
@@ -57,19 +58,22 @@ query(
   `SELECT Coach_A__c, Coach_A__r.CommCare_Ext_ID__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
 );
 
-upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
-  ...fields(
-    relationship('RecordType', 'Name', 'Intervention (Staff)'),
-    relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
-    relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
-      const coach_name = dataValue('form.coach_name')(state)
-        ? dataValue('form.coach_name')(state)
-        : state.references[0].records[0].Coach_A__r
-        ? state.references[0].records[0].Coach_A__r.CommCare_Ext_ID__c
-        : '';
-      return coach_name;
-    }),
-    field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
-  ),
-  ...fields(...state.data.dynamicFields),
-}));
+fn(state => {
+  const coaches = dataValue('form.coach_name')(state).split(' ');
+
+  return each(
+    coaches,
+    upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
+      ...fields(
+        relationship('RecordType', 'Name', 'Intervention (Staff)'),
+        relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
+        relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
+          const coach_name = state.data;
+          return coach_name;
+        }),
+        field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+      ),
+      ...fields(...state.data.dynamicFields),
+    }))
+  )(state);
+});
