@@ -60,20 +60,22 @@ query(
 
 fn(state => {
   const coaches = dataValue('form.coach_name')(state).split(' ');
-
+  const dynamicFields = state.data.dynamicFields;
+  const commcare_external_id = state.data.commcare_external_id;
+  const caseid = state.data.form.case['@case_id'];
   return each(
     coaches,
     upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
       ...fields(
         relationship('RecordType', 'Name', 'Intervention (Staff)'),
-        relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.case.@case_id')),
+        relationship('Event__r', 'CommCare_Case_ID__c', caseid),
         relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
           const coach_name = state.data;
           return coach_name;
         }),
-        field('CommCare_Ext_ID__c', dataValue('commcare_external_id'))
+        field('CommCare_Ext_ID__c', commcare_external_id)
       ),
-      ...fields(...state.data.dynamicFields),
+      ...fields(...dynamicFields),
     }))
   )(state);
 });
