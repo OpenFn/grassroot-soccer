@@ -71,8 +71,18 @@ upsert(
     }),
 
     field('Coach_Name__c', dataValue('form.hidden_properties.coach_name')),
-    field('Venue__c', dataValue('form.hidden_properties.venue')),
-    field('Site__c', dataValue('form.hidden_properties.site')),
+     relationship(
+      'Venue2__r',
+      'CommCare_Ext_ID__c',
+      dataValue('form.hidden_properties.venue')
+    ),    
+    //field('Venue__c', dataValue('form.hidden_properties.venue')), replacing with the lookup
+     relationship(
+      'Site2__r',
+      'CommCare_Ext_ID__c',
+      dataValue('form.hidden_properties.site')
+    ),
+    //field('Site__c', dataValue('form.hidden_properties.site')), replacing with the lookup
     field('Interview_Date__c', dataValue('form.interview_date')),
     field('Resident_not_shifting_in_3_months_time__c', dataValue('form.full_time_resident')),
     field('Participant_DOB__c', state => {
