@@ -48,6 +48,7 @@ alterState(state => {
       //  field('Type_of_Referral__c', dataValue('form.referral_information.type_of_referral')),
       field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
       //field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
+      relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.event_name')),
       field('CommCare_Ext_ID__c', state => {
         var subid = state.data.form.subcase_0;
         return subid && subid !== '' ? state.data.form.subcase_0.case['@case_id'] : dataValue('id')(state); //Set external id to 'service' subcase if available, otherwise use formid
