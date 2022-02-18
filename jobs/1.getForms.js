@@ -4,8 +4,8 @@ get(
     query: {
       limit: 1000, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2022-16-02',
-      received_on_end: '2022-18-02',
+      received_on_start: '2022-02-16',
+      received_on_end: '2022-02-18',
       xmlns: 'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A',
     },
   },
