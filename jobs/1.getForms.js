@@ -4,9 +4,9 @@ get(
     query: {
       limit: 1000, //max limit: 1000
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
-      received_on_start: '2021-05-01',
-      received_on_end: '2021-07-01',
-      xmlns: 'http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3', //Register Skillz Plus Club
+      received_on_start: '2022-16-02',
+      received_on_end: '2022-18-02',
+      xmlns: 'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A',
     },
   },
   state => {
