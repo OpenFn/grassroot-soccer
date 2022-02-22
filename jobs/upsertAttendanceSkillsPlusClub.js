@@ -3,7 +3,6 @@ query(
 );
 
 fn(state => {
-  console.log(state.references);
   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
 
   if (!PID) {
