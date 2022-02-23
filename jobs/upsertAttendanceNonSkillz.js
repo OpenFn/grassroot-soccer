@@ -2,7 +2,7 @@ query(
   `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}'`
 );
 
-alterState(state => {
+fn(state => {
   const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   if (!eventName) {
     console.log(
@@ -12,7 +12,7 @@ alterState(state => {
   }
 
   return execute(
-    alterState(state => {
+    fn(state => {
       // Note: lastReferenceValue selects the first item in the references array.
       state.data.eventName = eventName ? eventName.replace(/\//gi, '') : null;
 
