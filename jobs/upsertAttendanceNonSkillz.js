@@ -11,7 +11,7 @@ fn(state => {
   //   );
   //   return state;
   // }
-  // const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
+  const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   // if (!eventName) {
   //   console.log(
   //     `Participant not found with CommCare_Case_ID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`
