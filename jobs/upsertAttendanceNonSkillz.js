@@ -4,6 +4,7 @@ query(
 
 fn(state => {
   const records = lastReferenceValue('records')(state);
+  console.log('records: ', records); 
   if (!records) {
     console.log(
       `No records returned: ${records}`
