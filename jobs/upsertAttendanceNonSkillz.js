@@ -3,6 +3,13 @@ query(
 );
 
 fn(state => {
+  const records = lastReferenceValue('records')(state);
+  if (!records) {
+    console.log(
+      `No records returned: ${records}`
+    );
+    return state;
+  }
   const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   if (!eventName) {
     console.log(
