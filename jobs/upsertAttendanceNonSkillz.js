@@ -4,20 +4,13 @@ query(
 
 fn(state => {
   const records = lastReferenceValue('records')(state);
-  console.log('records: ', records); 
-  // if (!records) {
-  //   console.log(
-  //     `No records returned: ${records}`
-  //   );
-  //   return state;
-  // }
   const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
-  // if (!eventName) {
-  //   console.log(
-  //     `Participant not found with CommCare_Case_ID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`
-  //   );
-  //   return state;
-  // }
+  if (!eventName) {
+    console.log(
+      `Participant not found with CommCare_Case_ID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`
+    );
+    return state;
+  }
 
   return execute(
     fn(state => {
