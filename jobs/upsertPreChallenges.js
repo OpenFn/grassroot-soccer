@@ -88,8 +88,11 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals'
-          )(state);
-
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_know_how_to_overcome_challenges_that_i_may_face_in_my_life'
+          )(state)
+          ;
         return state.helperFunctions.transform(value);
       }),
       field('Pre_2__c', state => {
@@ -104,7 +107,7 @@ fn(state => {
             'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind'
           )(state) ||
           dataValue(
-            'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girlboy'
+            'form.pre_challenge_south_africa_-_skillz_girl.in_general_i_wish_i_could_appreciate_myself_more'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -120,6 +123,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.it_is_ok_for_a_girl_to_refuse_sex_when_her_boyfriend_wont_use_a_condom'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -135,6 +141,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_can_say_no_to_sex_even_if_my_boyfriend_or_friends_pressure_me_to_have_sex'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -152,6 +161,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.if_i_am_sexually_active_i_go_to_a_healthcare_provider_to_get_protection_fro'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -186,6 +198,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -203,6 +218,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.it_is_only_the_girls_responsibility_to_avoid_getting_pregnant'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -220,7 +238,11 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.sometimes_a_man_may_have_a_good_reason_to_hit_his_girlfriend_or_wife'
           )(state);
+     
 
         return state.helperFunctions.transform(value);
       }),
@@ -234,7 +256,12 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_okay_for_two_people_with_hiv_to_have_unprotected_sex_with_each_other'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.it_is_ok_for_a_girl_to_refuse_sex_when_her_boyfriend_wont_use_a_condom'
           )(state);
+          
+          
 
         return state.helperFunctions.transform(value);
       }),
@@ -248,7 +275,11 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.if_a_girl_gets_pregnant_she_should_drop_out_of_school'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.it_is_ok_for_a_boy_to_refuse_sex_when_his_girlfriend_doesnt_want_him_to_use'
           )(state);
+        
 
         return state.helperFunctions.transform(value);
       }),
@@ -262,10 +293,15 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_can_decide_when_is_the_right_time_for_me_to_have_a_baby'
           )(state);
-
+      
         return state.helperFunctions.transform(value);
       }),
+      
+
       field('Pre_13__c', state => {
         const value =
           dataValue(
@@ -276,6 +312,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advice_or_when_i_have_a'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -291,6 +330,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.if_i_test_positive_for_hiv_there_will_be_someone_who_will_help_and_support_'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_get_support_services_for_me_or_someone_else_for_gender_base'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -305,6 +347,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_i_amsomeone_i_know_is_abused_sexually_physically_and'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_get_support_services_for_me_or_someone_else_for_prevention_'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -319,6 +364,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_who_to_go_to_if_someone_touches_me_in_a_way_that_makes_me_uncomforta'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.one_sign_of_pregnancy_is_a_girl_missing_her_period'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -330,6 +378,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related'
+          )(state)  ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy'
           )(state);
 
         return state.helperFunctions.transform(value);
@@ -337,7 +388,10 @@ fn(state => {
       field('Pre_18__c', state => {
         const value = dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_would_say_no_to_playing_sport_with_someone_who_has_hiv'
-        )(state);
+        )(state)  ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.as_a_girl_i_have_a_greater_risk_of_getting_hiv_than_boys_my_age'
+          )(state);
 
         return state.helperFunctions.transform(value);
       }),
@@ -345,7 +399,17 @@ fn(state => {
       field('Pre_19__c', state => {
         const value = dataValue(
           'form.pre_challenge_zimbabwe_-_skillz_core_zimbabwe.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her'
-        )(state);
+        )(state)  ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.if_a_girl_is_sexually_violated_she_can_reduce_her_risk_of_getting_hiv_by_ta'
+          )(state);
+
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_20__c', state => {
+        const value = dataValue(
+          'form.pre_challenge_south_africa_-_skillz_girl.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr'
+        )(state)
 
         return state.helperFunctions.transform(value);
       })
