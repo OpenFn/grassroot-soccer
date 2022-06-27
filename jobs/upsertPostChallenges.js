@@ -183,7 +183,7 @@ fn(state => {
             'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
           )(state) ||
           dataValue(
-            'form.post_challenge_south_africa_-_skillz_girl.question2'
+            'form.post_challenge_south_africa_-_skillz_girl.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girl'
           )(state);
 
         return state.helperFunctions.transform(value);
