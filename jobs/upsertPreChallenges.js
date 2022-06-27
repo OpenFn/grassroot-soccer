@@ -181,6 +181,9 @@ fn(state => {
           )(state) ||
           dataValue(
             'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want'
+          )(state) ||
+          dataValue(
+            'form.pre_challenge_south_africa_-_skillz_girl.question2'
           )(state);
 
         return state.helperFunctions.transform(value);
