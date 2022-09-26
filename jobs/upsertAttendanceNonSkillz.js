@@ -1,8 +1,14 @@
+fn(state => {
+if (!state.data.form.attendance_list.update_participant_cases.item) {
+  console.log("No participant attendance data was provided, not upserting to Salesforce.")
+  return state;
+} 
+else {
 query(
   `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}'`
 );
 
-fn(state => {
+// fn(state => {
   const records = lastReferenceValue('records')(state);
   const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   if (!eventName) {
@@ -80,4 +86,4 @@ fn(state => {
       }))
     )
   )(state);
-});
+}});
