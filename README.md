@@ -75,8 +75,6 @@ These are the external identifiers used in every object to uniquely identify rec
 ## (3) Assumptions & Considerations for Change Management
 1. If `Venues`, `Curriculums`, `Sites`, `Business Units` or `Coaches` are added to CommCare, they will also need to be uploaded to Salesforce. 
 2. Users of the mobile app should always make sure they're using the latest version of the CommCare app.
-3. ...
-4. Considerations for post-pilot scaling... was anything hard-coded or inflexibly implemented? 
 
 ## (4) Administration
 ### Provisioning, Hosting, & Maintenance
