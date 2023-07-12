@@ -40,7 +40,6 @@ upsert(
       return dataValue('form.name_of_intervention')(state).replace(/\//gi, ''); 
     }),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
-    field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
     field('Business_Unit__c', state => {
       const bu = dataValue('form.business_unit')(state); 
