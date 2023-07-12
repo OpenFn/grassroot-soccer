@@ -58,11 +58,11 @@ upsert(
       dataValue('form.Venue')
       
     ),
-    // relationship(
-    //   'Curriculum__r',
-    //   'CommCare_Ext_ID__c',
-    //   dataValue('form.curriculum_selection.curriculum')
-    // ),
+    relationship(
+      'Curriculum__r',
+      'CommCare_Ext_ID__c',
+      dataValue('form.curriculum_selection.curriculum')
+    ),
     field('Delivery_Method__c', dataValue('form.delivery_method')),
     field('Class_Group_Team__c', dataValue('form.class_grade')),
     field('Pre_Post_Administered__c', dataValue('form.prepost_administered')),
