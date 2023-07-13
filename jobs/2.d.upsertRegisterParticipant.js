@@ -49,7 +49,7 @@ beta.each(
       relationship(
       'Site__r',
       'CommCare_Ext_ID__c',
-      dataValue('form.site_id')
+      dataValue('site_id')
     ),
       field('Participant_Identification_Number_PID__c', state => state.data.case['@case_id']),
       field('Sex__c', dataValue('gender')),
