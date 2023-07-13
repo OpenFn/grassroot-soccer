@@ -42,23 +42,23 @@ upsert(
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     field('Grant_Text__c', dataValue('form.grant')),
     relationship('RecordType', 'Name', 'Intervention'),
-    field('Business_Unit__c', state => {
-      const bu = dataValue('form.business_unit')(state); 
-      return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
-      bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
-      bu==='ed125ab19ec34aacab79585e59eb76f4' ? 'GRS Partnerships': undefined ; 
-    }),
-    relationship(
-      'Site__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.site')
-    ),
-    relationship(
-      'Venue__r',
-      'CommCare_Ext_ID__c',
-      dataValue('form.Venue')
+    // field('Business_Unit__c', state => {
+    //   const bu = dataValue('form.business_unit')(state); 
+    //   return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
+    //   bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
+    //   bu==='ed125ab19ec34aacab79585e59eb76f4' ? 'GRS Partnerships': undefined ; 
+    // }),
+    // relationship(
+    //   'Site__r',
+    //   'CommCare_Ext_ID__c',
+    //   dataValue('form.site')
+    // ),
+    // relationship(
+    //   'Venue__r',
+    //   'CommCare_Ext_ID__c',
+    //   dataValue('form.Venue')
       
-    ),
+    // ),
     relationship(
       'Curriculum__r',
       'CommCare_Ext_ID__c',
