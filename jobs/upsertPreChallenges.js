@@ -35,7 +35,7 @@ fn(state => {
 
   console.log(formVersion);
 
-  const mapping = {
+  const sfFieldMapping = {
     'pre_challenge_zambia_-_skillz_core_zambia': {
       Pre_1__c: 'pre_challenge_zambia_-_skillz_core_zambia.i_know_what_i_am_good_at',
       Pre_2__c: '.pre_challenge_zambia_-_skillz_core_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life',
@@ -48,15 +48,15 @@ fn(state => {
     },
   };
 
-  const pluckVal = val => {
-    return mapping[formVersion][val];
+  const pluckSfValue = val => {
+    return sfFieldMapping[formVersion][val];
   };
 
-  return { ...state, pluckVal };
+  return { ...state, pluckSfValue };
 });
 
 fn(state => {
-  console.log(state.pluckVal('Pre_1__c'));
+  console.log(state.pluckSfValue('Pre_1__c'));
   return state;
 });
 
