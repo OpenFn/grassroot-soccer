@@ -56,6 +56,11 @@ fn(state => {
 });
 
 fn(state => {
+  console.log(state.pluckVal('Pre_1__c'));
+  return state;
+});
+
+fn(state => {
   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
 
   if (!PID) {
