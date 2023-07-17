@@ -59,6 +59,28 @@ fn(state => {
       Pre_2__c:
         'pre_challenge_south_africa_-_skillz_girl.as_a_girl_i_have_a_greater_risk_of_getting_hiv_than_boys_my_age',
     },
+    'portuguese_pre_challenge_gcr_-_skillz_girl': {
+      Pre_1__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.falei_sobre_o_hiv_com_uma_pessoa_adulta_nos_ltimos_2_meses_fora_do_skillz',
+      Pre_2__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.sei_como_expressar_a_minha_raiva_sem_ser_violento',
+      Pre_3__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.sei_como_superar_os_desafios_que_possa_enfrentar_na_minha_vida',
+      Pre_4__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.sei_quais_as_decises_a_tomar_para_alcanar_os_meus_objectivos',
+      Pre_5__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.os_rapazes_correm_um_risco_mais_elevado_de_serem_vtimas_de_violncia_do_que_',
+      Pre_6__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.conheco_que_mudanas_ocorrem_no_meu_corpo_durante_a_puberdade',
+      Pre_7__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.conheo_pelo_menos_trs_mtodos_para_evitar_uma_gravidez_indesejada',
+      Pre_8__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.os_preservativos_so_o_nico_mtodo_contraceptivo_que_protege_contra_a_gravide',
+      Pre_9__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.conheco_onde_obter_servios_de_apoio_para_mim_ou_outra_pessoa_para_casos_de_',
+      Pre_10__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.se_uma_rapariga_inicia_seu_perodo_menstrual_significa_que_est_pronta_para_c',
+      Pre_11__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.caso_eu_seja_abusada_sexualmente_prefiro_guard-lo_para_mim_para_evitar_que_',
+      Pre_12__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.um_homem_tem_o_direito_de_ter_sexo_com_a_sua_namorada_mesmo_que_ela_no_o_qu',
+      Pre_13__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.pessoas_com_problemas_de_sade_mental_so_apenas_confusas_ou_loucas',
+      Pre_14__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.pessoas_com_problemas_de_sade_mental_so_apenas_confusas_ou_loucas',
+      Pre_15__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.informaria_a_algum_caso_fosse_tocada_por_alguem_de_uma_forma_que_me_deixass',
+      Pre_16__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.uma_filha_deve_sempre_respeitar_a_deciso_dos_seus_pais_para_se_casar',
+      Pre_17__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.um_casamento_bem_sucedido__mais_importante_para_as_raparigas_do_que_termina',
+      Pre_18__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.eu_no_praticaria_desporto_com_algum_que_tem_hiv',
+      Pre_19__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.um_namorado_pode_ter_boas_razes_para_bater_na_sua_namorada',
+      Pre_20__c: 'form.portuguese_pre_challenge_gcr_-_skillz_girl.no_faz_mal_que_um_rapaz_ameace_bater_na_sua_namorada_se_nunca_a_bater_fisic',
+    },
   };
 
   const pluckSfValue = val => {
@@ -131,44 +153,81 @@ fn(state => {
         return state.helperFunctions.transform(value);
       }),
       
-       field('Pre_3__c', state => {
+      field('Pre_3__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_3__c')); 
         return state.helperFunctions.transform(value);
       }),
       
-       field('Pre_4__c', state => {
+      field('Pre_4__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_4__c')); 
         return state.helperFunctions.transform(value);
       }),
       
-       field('Pre_5__c', state => {
+      field('Pre_5__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_5__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_6__c', state => {
+      field('Pre_6__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_6__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_7__c', state => {
+      field('Pre_7__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_7__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_8__c', state => {
+      field('Pre_8__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_8__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_9__c', state => {
+      field('Pre_9__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_9__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_10__c', state => {
+      field('Pre_10__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_10__c')); 
         return state.helperFunctions.transform(value);
       }),
-       field('Pre_11__c', state => {
+      field('Pre_11__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_10__c')); 
         return state.helperFunctions.transform(value);
-      })
+      }),
+      field('Pre_12__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_12__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_13__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_13__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_14__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_14__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_15__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_15__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_16__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_16__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_17__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_17__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_18__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_18__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_19__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_19__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_20__c', state => {
+        const value = dataValue(state.pluckSfValue('Pre_20__c')); 
+        return state.helperFunctions.transform(value);
+      }),
+      
     )
   )(state);
 });
