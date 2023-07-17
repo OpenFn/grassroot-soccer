@@ -210,7 +210,7 @@ fn(state => {
       }),
       field('Date_Post_Administered__c', dataValue('form.date')),
       field('Post_1__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_1__c'));
+        const value = dataValue(state.pluckSfValue('Post_1__c'));
         return state.helperFunctions.transform(value);
       }),
       field('Post_2__c', state => {
