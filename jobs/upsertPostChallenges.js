@@ -50,7 +50,7 @@ fn(state => {
       Pre_11__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.posso_proteger-me_da_malria',
     },
     'post_challenge_south_africa_-_skillz_girl': {
-      Post_1__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_how_to_overcome_challenges_that_i_may_face_in_my_life',
+      Post_1__c: 'form.post_challenge_south_africa_-_skillz_girl.i_know_how_to_overcome_challenges_that_i_may_face_in_my_life',
       Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl.in_general_i_wish_i_could_appreciate_myself_more',
       Pre_3__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_would_be_able_to_ask_my_boyfriend_that_i_want_to_use_a_condom',
       Pre_4__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_can_say_no_to_sex_even_if_my_boyfriend_or_friends_pressure_me_to_have_sex',
