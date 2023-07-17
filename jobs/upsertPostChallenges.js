@@ -173,7 +173,7 @@ fn(state => {
 });
 
 fn(state => {
-  console.log(state.pluckSfValue('Pre_1__c'));
+  console.log(state.pluckSfValue('Post_1__c'));
   return state;
 });
 
