@@ -111,12 +111,12 @@ fn(state => {
       field('Date_Pre_Administered__c', dataValue('form.date')),
       field('Pre_1__c', state => {
         const value =
-          state.pluckSfValue('Pre_1__c');
+          dataValue(state.pluckSfValue('Pre_1__c'));
         return state.helperFunctions.transform(value);
       }),
       field('Pre_2__c', state => {
       const value =
-          state.pluckSfValue('Pre_2__c'); 
+          dataValue(state.pluckSfValue('Pre_2__c')); 
 
         return state.helperFunctions.transform(value);
       }),
