@@ -33,7 +33,7 @@ fn(state => {
 
   const formVersion = Object.keys(form).find(key => key.startsWith('pre_challenge'));
 
-  console.log(formVersion);
+  console.log("form version", formVersion);
 
   const sfFieldMapping = {
     'pre_challenge_zambia_-_skillz_core_zambia': {
