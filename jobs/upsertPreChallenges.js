@@ -36,9 +36,9 @@ fn(state => {
   console.log("form version", formVersion);
 
   const sfFieldMapping = {
-    'pre_challenge_zambia_-_skillz_core_zambia': {
-      Pre_1__c: 'pre_challenge_zambia_-_skillz_core_zambia.i_know_what_i_am_good_at',
-      Pre_2__c: '.pre_challenge_zambia_-_skillz_core_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life',
+    'portuguese_pre_challenge_gcr_-_skillz_malaria': {
+      Pre_1__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
+      Pre_2__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.posso_esperar_uns_dias_antes_de_fazer_o_teste_de_malria_se_tiver_febres',
     },
     'pre_challenge_south_africa_-_skillz_girl': {
       Pre_1__c:
