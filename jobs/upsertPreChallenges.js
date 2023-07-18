@@ -119,7 +119,6 @@ fn(state => {
     },
     'pre_challenge_nigeria_-_advanced_skills':{
       Pre_1__c: 'form.pre_challenge_nigeria_-_advanced_skills.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz',
-      Pre_2__c: '',
       Pre_3__c: 'form.pre_challenge_nigeria_-_advanced_skills.unequal_power_in_relationships_can_contribute_to_the_spread_of_hiv',
       Pre_4__c: 'form.pre_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex',
       Pre_5__c: 'form.pre_challenge_nigeria_-_advanced_skills.malaria_is_spread_by_standing_under_the_hot_sun',
@@ -238,6 +237,7 @@ fn(state => {
         return state.helperFunctions.transform(value);
       }),
       field('Pre_2__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_2__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
@@ -273,46 +273,57 @@ fn(state => {
         return state.helperFunctions.transform(value);
       }),
       field('Pre_10__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_10__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_11__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_10__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_12__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_12__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_13__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_13__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_14__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_14__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_15__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_15__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_16__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_16__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_17__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_17__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_18__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_18__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_19__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_19__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_20__c', state => {
+        if (state.pluckSfValue('Post_2__c') == null) return undefined
         const value = dataValue(state.pluckSfValue('Pre_20__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
