@@ -55,7 +55,7 @@ fn(state => {
       post_3__c: 'form.post_challenge_south_africa_-_skillz_girl.i_would_be_able_to_ask_my_boyfriend_that_i_want_to_use_a_condom',
       post_4__c: 'form.post_challenge_south_africa_-_skillz_girl.i_can_say_no_to_sex_even_if_my_boyfriend_or_friends_pressure_me_to_have_sex',
       post_5__c: 'form.post_challenge_south_africa_-_skillz_girl.if_i_am_sexually_active_i_go_to_a_healthcare_provider_to_get_protection_fro',
-      post_6__c: 'form.post_challenge_south_africa_-_skillz_girl.question2',
+      post_6__c: 'form.post_challenge_south_africa_-_skillz_girl.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girl',
       post_7__c: 'form.post_challenge_south_africa_-_skillz_girl.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
       post_8__c: 'form.post_challenge_south_africa_-_skillz_girl.it_is_only_the_girls_responsibility_to_avoid_getting_pregnant',
       post_9__c: 'form.post_challenge_south_africa_-_skillz_girl.sometimes_a_man_may_have_a_good_reason_to_hit_his_girlfriend_or_wife',
