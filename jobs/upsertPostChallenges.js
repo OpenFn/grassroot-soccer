@@ -93,7 +93,7 @@ fn(state => {
         Post_19__c: 'form.portuguese_post_challenge_gcr_-_skillz_girl.um_namorado_pode_ter_boas_razes_para_bater_na_sua_namorada',
         post_20__c: 'form.portuguese_post_challenge_gcr_-_skillz_girl.no_faz_mal_que_um_rapaz_ameace_bater_na_sua_namorada_se_nunca_a_bater_fisic',
       },
-      'form.post_challenge_zambia_-_plus_mh_enhanced_zambia': {
+      'post_challenge_zambia_-_plus_mh_enhanced_zambia': {
         Post_1__c: 'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.in_general_i_feel_good_about_myself',
         Post_2__c: 'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.i_have_the_skills_and_knowledge_to_avoid_getting_infected_with_another_kind',
         Post_3__c: 'form.post_challenge_zambia_-_plus_mh_enhanced_zambia.it_is_important_to_know_why_and_how_i_want_to_tell_someone_my_hiv_status',
