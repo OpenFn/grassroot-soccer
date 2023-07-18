@@ -218,10 +218,10 @@ fn(state => {
           return state.helperFunctions.transform(value);
         }),
         
-        field('Post_3__c', state => {
-          const value = dataValue(state.pluckSfValue('Post_3__c'))(state); 
-          return state.helperFunctions.transform(value);
-        }),
+        // field('Post_3__c', state => {
+        //   const value = dataValue(state.pluckSfValue('Post_3__c'))(state); 
+        //   return state.helperFunctions.transform(value);
+        // }),
         
         // field('Post_4__c', state => {
         //   const value = dataValue(state.pluckSfValue('Post_4__c'))(state); 
