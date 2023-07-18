@@ -165,7 +165,6 @@ fn(state => {
     };
   
     const pluckSfValue = val => {
-      console.log("test pluck", sfFieldMapping[formVersion][val])
     //  if sfFieldMapping[formVersion][val] == undefined 
       return sfFieldMapping[formVersion][val];
     };
