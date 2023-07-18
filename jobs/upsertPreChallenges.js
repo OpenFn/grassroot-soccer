@@ -235,87 +235,85 @@ fn(state => {
       field('Date_Pre_Administered__c', dataValue('form.date')),
       field('Pre_1__c', state => {
         const value = dataValue(state.pluckSfValue('Pre_1__c'))(state);
-        console.log("value", value);
-        console.log("transformed", state.helperFunctions.transform(value))
         return state.helperFunctions.transform(value);
       }),
       field('Pre_2__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_2__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_2__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       
       field('Pre_3__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_3__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_3__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       
       field('Pre_4__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_4__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_4__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       
       field('Pre_5__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_5__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_5__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_6__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_6__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_6__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_7__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_7__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_7__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_8__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_8__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_8__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_9__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_9__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_9__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_10__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_10__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_10__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_11__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_10__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_10__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_12__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_12__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_12__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_13__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_13__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_13__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_14__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_14__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_14__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_15__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_15__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_15__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_16__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_16__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_16__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_17__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_17__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_17__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_18__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_18__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_18__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_19__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_19__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_19__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       field('Pre_20__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_20__c')); 
+        const value = dataValue(state.pluckSfValue('Pre_20__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
       
