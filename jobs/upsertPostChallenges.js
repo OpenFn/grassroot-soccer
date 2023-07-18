@@ -12,7 +12,7 @@ fn(state => {
         case 'no':
         case 'disagree':
         case 'discordo':
-        case 'false':
+        case 'falso':
           return 2;
         case 'i_dont_know':
           return 3;
