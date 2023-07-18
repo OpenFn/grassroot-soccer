@@ -6,11 +6,13 @@ fn(state => {
         case 'yes':
         case 'agree':
         case 'concordo':
+        case 'verdade':
           return 1;
         case 'false':
         case 'no':
         case 'disagree':
         case 'discordo':
+        case 'false':
           return 2;
         case 'i_dont_know':
           return 3;
