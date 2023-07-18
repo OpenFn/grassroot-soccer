@@ -1,6 +1,7 @@
 fn(state => {
   function transform(value) {
     if (!value) return;
+    console.log("value in switch", value.toString().trim().toLowerCase());
     switch (value.toString().trim().toLowerCase()) {
       case 'true':
       case 'yes':
