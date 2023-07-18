@@ -31,13 +31,13 @@ fn(state => {
 fn(state => {
   const { form } = state.data;
 
-  const formVersion = Object.keys(form).find(key => key.startsWith('portuguese_post_challenge'));
+  const formVersion = Object.keys(form).find(key => key.startsWith('post_challenge'));
 
   console.log("form version", formVersion);
 
   const sfFieldMapping = {
     'portuguese_post_challenge_gcr_-_skillz_malaria': {
-      Post_1__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
+      post_1__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
       post_2__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.posso_esperar_uns_dias_antes_de_fazer_o_teste_de_malria_se_tiver_febres',
       post_3__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.um_mdico_tradicionalcurandeiro_pode_me_dar_um_tratamento_para_curar_a_malri',
       post_4__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.se_tiver_malria_e_no_for_tratado_posso_transmitir_a_malria_a_algum',
@@ -204,7 +204,7 @@ fn(state => {
 
       //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
-      field('Pre_Post_Completed__c', state => {
+      field('post_Post_Completed__c', state => {
         var done = dataValue('form.hidden_properties.post_questionnaire_complete')(state);
         return done === 'Yes' ? true : done === 'No' ? false : undefined;
       }),
