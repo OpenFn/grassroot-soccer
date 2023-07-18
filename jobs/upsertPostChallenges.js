@@ -156,7 +156,7 @@ fn(state => {
       },
       'post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe': {
         Post_1__c: 'form.post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_what_decisions_to_make_to_achieve_my_goals',
-        Post_2__c: '',
+        Post_2__c: 'form.post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_dont_always_have_to_do_what_people_expect_just_because_i_am_girlboy',
         Post_3__c: 'form.post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me',
         Post_4__c: 'form.post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_can_make_my_own_informed_decisions_about_my_sexual_health',
         Post_5__c: 'form.post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
