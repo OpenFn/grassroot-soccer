@@ -166,6 +166,7 @@ fn(state => {
     };
   
     const pluckSfValue = val => {
+      console.log("test pluck", sfFieldMapping[formVersion][val])
       return sfFieldMapping[formVersion][val];
     };
   
