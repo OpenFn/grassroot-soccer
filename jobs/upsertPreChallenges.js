@@ -1,13 +1,14 @@
 fn(state => {
   function transform(value) {
     if (!value) return;
-    console.log("value in switch", value.toString().trim().toLowerCase());
+    //console.log("value in switch", value.toString().trim().toLowerCase());
     switch (value.toString().trim().toLowerCase()) {
       case 'true':
       case 'yes':
       case 'agree':
       case 'verdade':
       case 'concorda':
+      case 'concordo':
         return 1;
       case 'false':
       case 'no':
