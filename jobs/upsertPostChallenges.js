@@ -249,7 +249,7 @@ fn(state => {
           return state.helperFunctions.transform(value);
         }),
         field('Post_10__c', state => {
-          const value = dataValue(state.pluckSfValue('Post_10__c')); 
+          const value = dataValue(state.pluckSfValue('Post_10__c'))(state); 
           return state.helperFunctions.transform(value);
         }),
         field('Post_11__c', state => {
