@@ -208,7 +208,7 @@ fn(state => {
           var done = dataValue('form.hidden_properties.post_questionnaire_complete')(state);
           return done === 'Yes' ? true : done === 'No' ? false : undefined;
         }),
-        field('Date_Post_Administered__c', dataValue('form.hidden_properties.date')(state)),
+        field('Date_Post_Administered__c', dataValue('form.hidden_properties.date')),
         field('Post_1__c', state => {
           const value = dataValue(state.pluckSfValue('Post_1__c'))(state);
           return state.helperFunctions.transform(value);
