@@ -232,7 +232,7 @@ fn(state => {
       }),
       field('Date_Pre_Administered__c', dataValue('form.date')),
       field('Pre_1__c', state => {
-        const value = dataValue(state.pluckSfValue('Pre_1__c'));
+        const value = dataValue(state.pluckSfValue('Pre_1__c'))(state);
         console.log("value", value);
         console.log("transformed", state.helperFunctions.transform(value))
         return state.helperFunctions.transform(value);
