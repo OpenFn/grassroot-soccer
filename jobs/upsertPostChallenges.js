@@ -5,10 +5,12 @@ fn(state => {
         case 'true':
         case 'yes':
         case 'agree':
+        case 'concordo':
           return 1;
         case 'false':
         case 'no':
         case 'disagree':
+        case 'discordo':
           return 2;
         case 'i_dont_know':
           return 3;
