@@ -36,7 +36,7 @@ fn(state => {
     console.log("form version", formVersion);
   
     const sfFieldMapping = {
-      'portuguese_post_challenge_gcr_-_skillz_malaria': {
+      'portuguese_pre_challenge_gcr_-_skillz_malaria': {
         Post_1__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
         Post_2__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.posso_esperar_uns_dias_antes_de_fazer_o_teste_de_malria_se_tiver_febres',
         Post_3__c: 'form.portuguese_post_challenge_gcr_-_skillz_malaria.um_mdico_tradicionalcurandeiro_pode_me_dar_um_tratamento_para_curar_a_malri',
