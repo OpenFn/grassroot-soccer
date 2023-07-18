@@ -233,18 +233,18 @@ fn(state => {
           return state.helperFunctions.transform(value);
         }),
         
-      //   field('Post_5__c', state => {
-      //     const value = dataValue(state.pluckSfValue('Post_5__c'))(state); 
-      //     return state.helperFunctions.transform(value);
-      //   }),
-      //   field('Post_6__c', state => {
-      //     const value = dataValue(state.pluckSfValue('Post_6__c'))(state); 
-      //     return state.helperFunctions.transform(value);
-      //   }),
-      //   field('Post_7__c', state => {
-      //     const value = dataValue(state.pluckSfValue('Post_7__c'))(state); 
-      //     return state.helperFunctions.transform(value);
-      //   }),
+        field('Post_5__c', state => {
+          const value = dataValue(state.pluckSfValue('Post_5__c'))(state); 
+          return state.helperFunctions.transform(value);
+        }),
+        field('Post_6__c', state => {
+          const value = dataValue(state.pluckSfValue('Post_6__c'))(state); 
+          return state.helperFunctions.transform(value);
+        }),
+        field('Post_7__c', state => {
+          const value = dataValue(state.pluckSfValue('Post_7__c'))(state); 
+          return state.helperFunctions.transform(value);
+        }),
       //   field('Post_8__c', state => {
       //     const value = dataValue(state.pluckSfValue('Post_8__c'))(state); 
       //     return state.helperFunctions.transform(value);
