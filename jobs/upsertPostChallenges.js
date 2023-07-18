@@ -31,7 +31,7 @@ fn(state => {
 fn(state => {
   const { form } = state.data;
 
-  const formVersion = Object.keys(form).find(key => key.startsWith('post_challenge'));
+  const formVersion = Object.keys(form).find(key => key.startsWith('portuguese_post_challenge'));
 
   console.log("form version", formVersion);
 
