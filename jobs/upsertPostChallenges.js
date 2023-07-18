@@ -113,7 +113,6 @@ fn(state => {
       },
       'post_challenge_nigeria_-_advanced_skills':{
         Post_1__c: 'form.post_challenge_nigeria_-_advanced_skills.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz',
-        Post_2__c: '',
         Post_3__c: 'form.post_challenge_nigeria_-_advanced_skills.unequal_power_in_relationships_can_contribute_to_the_spread_of_hiv',
         Post_4__c: 'form.post_challenge_nigeria_-_advanced_skills.the_most_effective_way_to_avoid_getting_hiv_is_to_abstain_from_sex',
         Post_5__c: 'form.post_challenge_nigeria_-_advanced_skills.malaria_is_spread_by_standing_under_the_hot_sun',
@@ -167,6 +166,7 @@ fn(state => {
   
     const pluckSfValue = val => {
       console.log("test pluck", sfFieldMapping[formVersion][val])
+    //  if sfFieldMapping[formVersion][val] == undefined 
       return sfFieldMapping[formVersion][val];
     };
   
