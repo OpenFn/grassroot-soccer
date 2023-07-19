@@ -43,6 +43,27 @@ fn(state => {
   console.log("form version", formVersion);
 
   const sfFieldMapping = {
+    'portuguese_pre_challenge_gcr_-_skillz_girl': {
+      Pre_1__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_have_an_older_person_in_my_life_i_can_go_to_for_advice_i_have_an_older_pe',
+      Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_how_to_make_a_plan_to_deal_with_the_challenges_i_may_face_in_reachin',
+      Pre_3__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
+      Pre_4__c: 'form.pre_challenge_south_africa_-_skillz_girl.every_day_i_can_find_something_to_be_grateful_for',
+      Pre_5__c: 'form.pre_challenge_south_africa_-_skillz_girl.having_more_than_one_sexual_partner_increases_my_risk_of_getting_hiv',
+      Pre_6__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_can_say_no_to_sex_even_if_my_partner_or_friends_pressure_me_to_have_sex',
+      Pre_7__c: 'form.pre_challenge_south_africa_-_skillz_girl.girls_have_a_greater_risk_of_contracting_hiv_than_boys',
+      Pre_8__c: 'form.pre_challenge_south_africa_-_skillz_girl.if_i_am_sexually_active_i_go_to_a_clinic_to_get_protection_from_hivstis_and',
+      Pre_9__c: 'form.pre_challenge_south_africa_-_skillz_girl.like_physical_health_we_all_have_mental_health',
+      Pre_10__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_go_for_support_if_i_or_someone_i_know_drinks_too_much_alcoh',
+      Pre_11__c: 'form.pre_challenge_south_africa_-_skillz_girl.it_is_the_males_responsibility_to_make_decisions_in_a_relationship',
+      Pre_12__c: 'form.pre_challenge_south_africa_-_skillz_girl.if_a_girl_is_sexually_abused_she_can_reduce_her_risk_of_getting_hiv_by_goin',
+      Pre_13__c: 'form.pre_challenge_south_africa_-_skillz_girl.sometimes_a_man_may_have_a_good_reason_to_hit_his_partner',
+      Pre_14__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_get_contraception_to_prevent_unwanted_pregnancy',
+      Pre_15__c: 'form.pre_challenge_south_africa_-_skillz_girl.drinking_too_much_alcohol_can_have_serious_negative_consequences_for_mental',
+      Pre_16__c: 'form.pre_challenge_south_africa_-_skillz_girl.if_sexually_active_i_or_my_partner_is_using_a_prevention_method_to_protect_',
+      Pre_17__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_where_to_go_to_receive_counselling_for_mental_health_challenges',
+      //Pre_18__c: '',
+      Pre_19__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_at_least_three_methods_to_prevent_an_unwanted_pregnancy',
+    },
     'portuguese_pre_challenge_gcr_-_skillz_malaria': {
       Pre_1__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
       Pre_2__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.posso_esperar_uns_dias_antes_de_fazer_o_teste_de_malria_se_tiver_febres',
