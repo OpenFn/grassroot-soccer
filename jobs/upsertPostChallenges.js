@@ -73,7 +73,7 @@ fn(state => {
       Post_15__c: 'form.post_challenge_south_africa_-_skillz_girl.drinking_too_much_alcohol_can_have_serious_negative_consequences_for_mental',
       Post_16__c: 'form.post_challenge_south_africa_-_skillz_girl.if_sexually_active_i_or_my_partner_is_using_a_prevention_method_to_protect_',
       Post_17__c: 'form.post_challenge_south_africa_-_skillz_girl.i_know_where_to_go_to_receive_counselling_for_mental_health_challenges',
-      //Post_18__c: '',
+      Post_18__c: 'form.post_challenge_south_africa_-_skillz_girl.loss_of_interest_in_funenjoyable_activities_is_a_common_sign_of_depression',
       Post_19__c: 'form.post_challenge_south_africa_-_skillz_girl.i_know_at_least_three_methods_to_prevent_an_unwanted_pregnancy',
     },
       'portuguese_post_challenge_gcr_-_skillz_girl': {
