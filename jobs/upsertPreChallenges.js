@@ -43,7 +43,7 @@ fn(state => {
   console.log("form version", formVersion);
 
   const sfFieldMapping = {
-    'portuguese_pre_challenge_gcr_-_skillz_girl': {
+    'pre_challenge_south_africa_-_skillz_girl': {
       Pre_1__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_have_an_older_person_in_my_life_i_can_go_to_for_advice_i_have_an_older_pe',
       Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_how_to_make_a_plan_to_deal_with_the_challenges_i_may_face_in_reachin',
       Pre_3__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
