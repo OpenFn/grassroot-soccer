@@ -46,6 +46,11 @@ beta.each(
       field('First_Name__c', dataValue('participant_first_name')),
       field('Surname__c', dataValue('participant_surname')),
       relationship('RecordType', 'Name', 'Participant'),
+      relationship(
+      'Site__r',
+      'CommCare_Ext_ID__c',
+      dataValue('grp_location.site_id')
+    ),
       field('Participant_Identification_Number_PID__c', state => state.data.case['@case_id']),
       field('Sex__c', dataValue('gender')),
       field('Mobile_Number_1__c', dataValue('mobile_number')), //QUESTION: In CommCare, phone doesn't look like it's saving?
