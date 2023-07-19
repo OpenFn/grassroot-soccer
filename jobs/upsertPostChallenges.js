@@ -7,6 +7,7 @@ fn(state => {
         case 'agree':
         case 'concordo':
         case 'verdade':
+        case 'copy-1-of-yes':
           return 1;
         case 'false':
         case 'no':
