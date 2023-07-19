@@ -53,7 +53,8 @@ fn(state => {
         Post_10__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.eu_sei_onde_posso_ter_tratamento_para_malria_na_minha_comunidade',
         Post_11__c: 'form.portuguese_pre_challenge_gcr_-_skillz_malaria.posso_proteger-me_da_malria',
       },
-      'pre_challenge_south_africa_-_skillz_girl': {
+      
+      'post_challenge_south_africa_-_skillz_girl': {
       Post_1__c: 'form.post_challenge_south_africa_-_skillz_girl.i_have_an_older_person_in_my_life_i_can_go_to_for_advice_i_have_an_older_pe',
       Post_2__c: 'form.post_challenge_south_africa_-_skillz_girl.i_know_how_to_make_a_plan_to_deal_with_the_challenges_i_may_face_in_reachin',
       Post_3__c: 'form.post_challenge_south_africa_-_skillz_girl.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
