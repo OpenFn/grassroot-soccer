@@ -37,14 +37,12 @@ fn(state => {
     const { form } = state.data;
   
     const formVersion = Object.keys(form).find(key => key.includes('challenge'));
-        console.log("form version", formVersion);
-
-      if (formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
-  console.log("Skipping upsert for ECAP data")
-  return {...state, formVersion}
-}
-  
+    if (formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
+      console.log("Skipping upsert for ECAP data")
+      return {...state, formVersion}
+    }
     console.log("form version", formVersion);
+
   
     const sfFieldMapping = {
       'portuguese_pre_challenge_gcr_-_skillz_malaria': {
@@ -181,14 +179,14 @@ fn(state => {
       return sfFieldMapping[formVersion][val];
     };
   
-    console.log ("no ", formVersion)
     return { ...state, formVersion, pluckSfValue };
   });
   
 
   
-  fn(state => {
-    console.log("here", formVersion)
+fn(state => {
+    console.log("one");
+    console.log("here", state.formVersion);
     if (state.formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
 
   return state;}
