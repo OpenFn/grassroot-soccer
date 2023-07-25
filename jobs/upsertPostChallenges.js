@@ -37,7 +37,7 @@ fn(state => {
     const { form } = state.data;
   
     const formVersion = Object.keys(form).find(key => key.includes('challenge'));
-      if (formVersion == "post_challenge_ecap_-_pre_-_season_survey_for_athletes") {
+      if (formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
   console.log("Skipping upsert for ECAP data")
   return {...state, formVersion}}
   
@@ -185,7 +185,7 @@ fn(state => {
   
   fn(state => {
     console.log("here", formVersion)
-    if (state.formVersion == "post_challenge_ecap_-_pre_-_season_survey_for_athletes") {
+    if (state.formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
 
   return state;}
     const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
