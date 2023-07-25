@@ -336,7 +336,7 @@ fn(state => {
       
     )
   )(state);
-});}
+});
 
 //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.
 // upsert(
