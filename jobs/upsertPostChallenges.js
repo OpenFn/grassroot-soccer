@@ -37,6 +37,8 @@ fn(state => {
     const { form } = state.data;
   
     const formVersion = Object.keys(form).find(key => key.includes('challenge'));
+        console.log("form version", formVersion);
+
       if (formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
   console.log("Skipping upsert for ECAP data")
   return {...state, formVersion}
