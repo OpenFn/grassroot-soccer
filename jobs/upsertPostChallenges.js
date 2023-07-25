@@ -179,7 +179,8 @@ fn(state => {
       return sfFieldMapping[formVersion][val];
     };
   
-    return { ...state, pluckSfValue };
+    console.log ("no ", formVersion)
+    return { ...state, formVersion, pluckSfValue };
   });
   
 
