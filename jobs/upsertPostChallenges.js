@@ -37,6 +37,9 @@ fn(state => {
     const { form } = state.data;
   
     const formVersion = Object.keys(form).find(key => key.includes('challenge'));
+      if (formVersion == "post_challenge_ecap_-_pre_-_season_survey_for_athletes") {
+  console.log("Skipping upsert for ECAP data")
+  return {...state, formVersion}}
   
     console.log("form version", formVersion);
   
@@ -175,16 +178,16 @@ fn(state => {
       return sfFieldMapping[formVersion][val];
     };
   
-    return { ...state, pluckSfValue };
+    return { ...state, formVersion, pluckSfValue };
   });
   
-  fn(state => {
-    console.log(state.pluckSfValue('Post_1__c'));
-    return state;
-  });
-  
+
   
   fn(state => {
+    console.log("here", state.formVersion);
+    if (state.formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
+  console.log("Skipping upsert for ECAP data")
+  return state;}
     const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
   
     if (!PID) {
