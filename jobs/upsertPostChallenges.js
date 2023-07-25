@@ -185,8 +185,7 @@ fn(state => {
 
   
 fn(state => {
-    console.log("one");
-    console.log("here", state.formVersion);
+
     if (state.formVersion == "post_challenge_ecap_-_post_-_season_survey_for_athletes") {
 
   return state;}
