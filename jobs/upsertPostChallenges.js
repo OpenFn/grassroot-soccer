@@ -184,6 +184,7 @@ fn(state => {
 
   
   fn(state => {
+    console.log("here")
     if (state.formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
 
   return state;}
