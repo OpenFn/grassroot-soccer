@@ -67,8 +67,8 @@ fn(state => {
     coaches,
     upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
       ...fields(
-        relationship('RecordType', 'Name', 'Coach Development'),
-        //field('RecordTypeId', '012500000009jq0AAA'),
+        //relationship('RecordType', 'Name', 'Coach Development'),
+        field('RecordTypeId', '012500000009nOWAAY'),
         relationship('Event__r', 'CommCare_Case_ID__c', caseid),
         relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {
           const coach_name = state.data;
