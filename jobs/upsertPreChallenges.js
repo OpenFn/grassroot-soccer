@@ -43,7 +43,7 @@ fn(state => {
   if (formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
   console.log("Skipping upsert for ECAP data")
   return state;
-} 
+}
 
   console.log("form version", formVersion);
 
@@ -181,16 +181,15 @@ fn(state => {
     return sfFieldMapping[formVersion][val];
   };
 
-  return { ...state, pluckSfValue };
+  return { ...state, formVersion, pluckSfValue };
 });
 
+
 fn(state => {
-  console.log("test")
-  console.log(state.pluckSfValue('Pre_1__c'));
+    if (state.formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
+  console.log("Skipping upsert for ECAP data")
   return state;
-});
-
-fn(state => {
+}
   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
 
   if (!PID) {
@@ -337,7 +336,7 @@ fn(state => {
       
     )
   )(state);
-});
+});}
 
 //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.
 // upsert(
