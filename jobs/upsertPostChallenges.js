@@ -184,9 +184,8 @@ fn(state => {
 
   
   fn(state => {
-    console.log("here", state.formVersion);
     if (state.formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
-  console.log("Skipping upsert for ECAP data")
+
   return state;}
     const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
   
