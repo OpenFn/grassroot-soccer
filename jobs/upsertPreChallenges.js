@@ -42,7 +42,7 @@ fn(state => {
   
   if (formVersion == "pre_challenge_ecap_-_pre_-_season_survey_for_athletes") {
   console.log("Skipping upsert for ECAP data")
-  return state;
+  return {...state, formVersion}
 }
 
   console.log("form version", formVersion);
