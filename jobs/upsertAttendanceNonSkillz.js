@@ -79,7 +79,7 @@ query(
       upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
         ...fields(
           relationship('Event__r', 'CommCare_Case_ID__c', dataValue('caseid')),
-          field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.eventName}`),
+          field('CommCare_Ext_ID__c', state => `${state.data['@id']}-${state.data.intervention_name}`),
           relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
         ),
         ...state.data.dynamicFields,
