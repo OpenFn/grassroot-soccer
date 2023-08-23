@@ -4,9 +4,9 @@ if (!state.data.form.attendance_list.update_participant_cases.item) {
   return state;
 } 
 else {
-// query(
-//   `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}'`
-// );
+query(
+  `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}'`
+);
 
 // fn(state => {
   const records = lastReferenceValue('records')(state);
