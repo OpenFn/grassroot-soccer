@@ -2,7 +2,7 @@ query(
   `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
 );
 
-alterState(state => {
+fn(state => {
   // Note: lastReferenceValue selects the first item in the references array.
   state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   state.data.eventCase = dataValue('form.case.@case_id')(state);
@@ -32,7 +32,7 @@ alterState(state => {
   return state;
 });
 
-beta.each(
+each(
   merge(
     dataPath('form.question1[*]'),
     fields(field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')))
@@ -46,11 +46,7 @@ beta.each(
       field('First_Name__c', dataValue('participant_first_name')),
       field('Surname__c', dataValue('participant_surname')),
       relationship('RecordType', 'Name', 'Participant'),
-      relationship(
-      'Site__r',
-      'CommCare_Ext_ID__c',
-      dataValue('grp_location.site_id')
-    ),
+      relationship('Site__r', 'CommCare_Ext_ID__c', dataValue('grp_location.site_id')),
       field('Participant_Identification_Number_PID__c', state => state.data.case['@case_id']),
       field('Sex__c', dataValue('gender')),
       field('Mobile_Number_1__c', dataValue('mobile_number')), //QUESTION: In CommCare, phone doesn't look like it's saving?
