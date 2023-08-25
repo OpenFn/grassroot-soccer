@@ -7,6 +7,21 @@ fn(state => {
   state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   state.data.eventCase = dataValue('form.case.@case_id')(state);
 
+  function replaceAccents(input) {
+    return input
+      .replace(/á|â|ã|à/, 'a')
+      .replace(/Á|Â|Ã|À/, 'A')
+      .replace(/ç/, 'c')
+      .replace(/é|ê/, 'e')
+      .replace(/É|Ê/, 'E')
+      .replace(/í/, 'i')
+      .replace(/Í/, 'I')
+      .replace(/ó|ô|õ/, 'o')
+      .replace(/Ó|Ô|Õ/, 'O')
+      .replace(/ú/, 'u')
+      .replace(/Ú/, 'u');
+  }
+
   function objectToArray(object) {
     return !Array.isArray(object) ? [object] : object;
   }
@@ -28,16 +43,25 @@ fn(state => {
   }
 
   console.log('Done with initial data manipulation.');
+  const persons = merge(
+    dataPath('form.question1[*]'),
+    fields(field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')))
+  )(state);
 
-  return state;
+  const attendances = merge(
+    dataPath('form.question1[*]'),
+    fields(
+      field('intervention_name', dataValue('form.intervention_name')),
+      field('eventCase', dataValue('eventCase')),
+      field('eventName', dataValue('eventName'))
+    )
+  )(state);
+
+  return { ...state, persons, attendances, replaceAccents };
 });
 
 each(
-  merge(
-    dataPath('form.question1[*]'),
-    fields(field('intervention_notes_to_save', dataValue('form.intervention_notes_to_save')))
-  ),
-
+  'persons[*]',
   upsert(
     'Person__c',
     'Participant_Identification_Number_PID__c',
@@ -60,21 +84,14 @@ each(
 );
 
 each(
-  merge(
-    dataPath('form.question1[*]'),
-    fields(
-      field('intervention_name', dataValue('form.intervention_name')),
-      field('eventCase', dataValue('eventCase')),
-      field('eventName', dataValue('eventName'))
-    )
-  ),
+  'attendances[*]',
   upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
     fields(
       field('CommCare_Ext_ID__c', state => {
-        var eventid = `${state.data.intervention_name}` || `${state.data.eventName}`; //dataValue('intervention_name')(state) || `${state.data.eventName}`;
-        var personid = state.data.case['@case_id'];
+        const eventid = state.replaceAccents(`${state.data.intervention_name}` || `${state.data.eventName}`); //dataValue('intervention_name')(state) || `${state.data.eventName}`;
+        const personid = state.data.case['@case_id'];
         const value = personid + '-' + eventid.replace(/\//gi, '');
         return scrubEmojis(value, '');
       }),
@@ -102,7 +119,7 @@ each(
 );
 
 //First we insert Person record
-// alterState(state => {
+// fn(state => {
 //   return upsert(
 //     'Person__c',
 //     'Participant_Identification_Number_PID__c',
@@ -120,7 +137,7 @@ each(
 //   )(state);
 // });
 
-// alterState(state => {
+// fn(state => {
 //   //Then we upsert related Attendance records
 //   return upsert(
 //     'Attendance__c',
