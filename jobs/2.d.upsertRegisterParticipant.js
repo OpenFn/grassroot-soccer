@@ -8,21 +8,18 @@ fn(state => {
   state.data.eventCase = dataValue('form.case.@case_id')(state);
 
   function replaceAccents(input) {
-    const accentsMap = {
-      á: 'a',
-      é: 'e',
-      í: 'i',
-      ó: 'o',
-      ú: 'u',
-      Á: 'A',
-      É: 'E',
-      Í: 'I',
-      Ó: 'O',
-      Ú: 'U',
-      // Add more mappings as needed
-    };
-
-    return input.replace(/[áéíóúÁÉÍÓÚ]/g, char => accentsMap[char]);
+    return input
+      .replace(/á|â|ã|à/, 'a')
+      .replace(/Á|Â|Ã|À/, 'A')
+      .replace(/ç/, 'c')
+      .replace(/é|ê/, 'e')
+      .replace(/É|Ê/, 'E')
+      .replace(/í/, 'i')
+      .replace(/Í/, 'I')
+      .replace(/ó|ô|õ/, 'o')
+      .replace(/Ó|Ô|Õ/, 'O')
+      .replace(/ú/, 'u')
+      .replace(/Ú/, 'u');
   }
 
   function objectToArray(object) {
