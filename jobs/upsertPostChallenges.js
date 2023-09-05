@@ -19,6 +19,7 @@ fn(state => {
         case 'i_dont_know':
           return 3;
         case 'unanswered':
+        case `not_sexually_active`:
           return 4;
         case 'not_applicable':
           return 5;
