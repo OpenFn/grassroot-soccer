@@ -88,7 +88,7 @@ fn(state => {
         merge(
           dataPath('form.attendance_list.update_participant_cases.item[*]'),
           fields(
-            field('intervention_name', replaceAccents(dataValue('form.intervention_name'))),
+            field('intervention_name', dataValue('form.intervention_name')),
             field('eventName', dataValue('eventName')),
             field('caseid', dataValue('form.case.@case_id'))
           )
