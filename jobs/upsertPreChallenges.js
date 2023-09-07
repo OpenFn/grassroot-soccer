@@ -313,7 +313,7 @@ fn(state => {
     'Attendance__c',
     'CommCare_Ext_ID__c',
     fields(
-      field('Event__c', dataValue('form.hidden_properties.intervention_name')),
+      field('Event__c',  replaceAccents(dataValue('form.hidden_properties.intervention_name')(state))),
       //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
       // relationship('Person_Attendance__r','CommCare_Ext_ID__c', state => {
