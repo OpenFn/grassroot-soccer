@@ -13,17 +13,17 @@ fn(state => {
 
     function replaceAccents(input) {
       return input
-        .replace(/á|â|ã|à/, 'a')
-        .replace(/Á|Â|Ã|À/, 'A')
-        .replace(/ç/, 'c')
-        .replace(/é|ê/, 'e')
-        .replace(/É|Ê/, 'E')
-        .replace(/í/, 'i')
-        .replace(/Í/, 'I')
-        .replace(/ó|ô|õ/, 'o')
-        .replace(/Ó|Ô|Õ/, 'O')
-        .replace(/ú/, 'u')
-        .replace(/Ú/, 'u');
+        .replace(/[áâãà]/g, 'a')
+        .replace(/[ÁÂÃÀ]/g, 'A')
+        .replace(/[ç]/g, 'c')
+        .replace(/[éê]/g, 'e')
+        .replace(/[ÉÊ]/g, 'E')
+        .replace(/[í]/g, 'i')
+        .replace(/[Í]/g, 'I')
+        .replace(/[óôõ]/g, 'o')
+        .replace(/[ÓÔÕ]/g, 'O')
+        .replace(/[ú]/g, 'u')
+        .replace(/[Ú]/g, 'U');
     }
     // if (!eventName) {
     //   console.log(
