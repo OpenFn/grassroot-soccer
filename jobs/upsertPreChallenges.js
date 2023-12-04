@@ -294,26 +294,11 @@ fn(state => {
     return state;
   }
 
-  function replaceAccents(input) {
-    return input
-      .replace(/[áâãà]/g, 'a')
-      .replace(/[ÁÂÃÀ]/g, 'A')
-      .replace(/[ç]/g, 'c')
-      .replace(/[éê]/g, 'e')
-      .replace(/[ÉÊ]/g, 'E')
-      .replace(/[í]/g, 'i')
-      .replace(/[Í]/g, 'I')
-      .replace(/[óôõ]/g, 'o')
-      .replace(/[ÓÔÕ]/g, 'O')
-      .replace(/[ú]/g, 'u')
-      .replace(/[Ú]/g, 'U');
-  }
-
   return upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
     fields(
-      //field('Event__c',  replaceAccents(dataValue('form.hidden_properties.intervention_name')(state))),
+      //field('Event__c',  toUTF8(dataValue('form.hidden_properties.intervention_name')(state))),
       relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
       // relationship('Person_Attendance__r','CommCare_Ext_ID__c', state => {
@@ -325,7 +310,7 @@ fn(state => {
 
       field('CommCare_Ext_ID__c', state => {
         return `${dataValue('form.case.@case_id')(state)}-${scrubEmojis(
-          replaceAccents(dataValue('form.hidden_properties.intervention_name')(state)),
+          toUTF8(dataValue('form.hidden_properties.intervention_name')(state)),
           ''
         ).replace(/\//gi, '')}`;
       }),

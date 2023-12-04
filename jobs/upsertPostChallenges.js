@@ -292,21 +292,6 @@ fn(state => {
     return state;
   }
 
-  function replaceAccents(input) {
-    return input
-      .replace(/[áâãà]/g, 'a')
-      .replace(/[ÁÂÃÀ]/g, 'A')
-      .replace(/[ç]/g, 'c')
-      .replace(/[éê]/g, 'e')
-      .replace(/[ÉÊ]/g, 'E')
-      .replace(/[í]/g, 'i')
-      .replace(/[Í]/g, 'I')
-      .replace(/[óôõ]/g, 'o')
-      .replace(/[ÓÔÕ]/g, 'O')
-      .replace(/[ú]/g, 'u')
-      .replace(/[Ú]/g, 'U');
-  }
-
   return upsert(
     'Attendance__c',
     'CommCare_Ext_ID__c',
@@ -317,7 +302,7 @@ fn(state => {
         const value =
           dataValue('form.case.@case_id')(state) +
           '-' +
-          replaceAccents(dataValue('form.hidden_properties.intervention_name')(state)).replace(/\//gi, '');
+          toUTF8(dataValue('form.hidden_properties.intervention_name')(state)).replace(/\//gi, '');
         return scrubEmojis(value, '');
       }),
 

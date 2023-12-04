@@ -7,21 +7,6 @@ fn(state => {
   state.data.eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
   state.data.eventCase = dataValue('form.case.@case_id')(state);
 
-  function replaceAccents(input) {
-    return input
-      .replace(/[áâãà]/g, 'a')
-      .replace(/[ÁÂÃÀ]/g, 'A')
-      .replace(/[ç]/g, 'c')
-      .replace(/[éê]/g, 'e')
-      .replace(/[ÉÊ]/g, 'E')
-      .replace(/[í]/g, 'i')
-      .replace(/[Í]/g, 'I')
-      .replace(/[óôõ]/g, 'o')
-      .replace(/[ÓÔÕ]/g, 'O')
-      .replace(/[ú]/g, 'u')
-      .replace(/[Ú]/g, 'U');
-  }
-
   function objectToArray(object) {
     return !Array.isArray(object) ? [object] : object;
   }
@@ -57,7 +42,7 @@ fn(state => {
     )
   )(state);
 
-  return { ...state, persons, attendances, replaceAccents };
+  return { ...state, persons, attendances };
 });
 
 each(
@@ -90,7 +75,7 @@ each(
     'CommCare_Ext_ID__c',
     fields(
       field('CommCare_Ext_ID__c', state => {
-        const eventid = state.replaceAccents(`${state.data.intervention_name}` || `${state.data.eventName}`); //dataValue('intervention_name')(state) || `${state.data.eventName}`;
+        const eventid = toUTF8(`${state.data.intervention_name}` || `${state.data.eventName}`); //dataValue('intervention_name')(state) || `${state.data.eventName}`;
         const personid = state.data.case['@case_id'];
         const value = personid + '-' + eventid.replace(/\//gi, '');
         return scrubEmojis(value, '');

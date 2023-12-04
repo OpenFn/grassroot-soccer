@@ -11,20 +11,6 @@ fn(state => {
     const records = lastReferenceValue('records')(state);
     const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
 
-    function replaceAccents(input) {
-      return input
-        .replace(/[áâãà]/g, 'a')
-        .replace(/[ÁÂÃÀ]/g, 'A')
-        .replace(/[ç]/g, 'c')
-        .replace(/[éê]/g, 'e')
-        .replace(/[ÉÊ]/g, 'E')
-        .replace(/[í]/g, 'i')
-        .replace(/[Í]/g, 'I')
-        .replace(/[óôõ]/g, 'o')
-        .replace(/[ÓÔÕ]/g, 'O')
-        .replace(/[ú]/g, 'u')
-        .replace(/[Ú]/g, 'U');
-    }
     // if (!eventName) {
     //   console.log(
     //     `Participant not found with CommCare_Case_ID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`
@@ -98,7 +84,7 @@ fn(state => {
             relationship('Event__r', 'CommCare_Case_ID__c', dataValue('caseid')),
             field(
               'CommCare_Ext_ID__c',
-              state => `${state.data['@id']}-${replaceAccents(state.data.intervention_name)}`
+              state => `${state.data['@id']}-${toUTF8(state.data.intervention_name)}`
             ),
             relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id'))
           ),
