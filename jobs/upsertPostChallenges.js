@@ -292,7 +292,7 @@ fn(state => {
       Post_20__c: 'form.post_challenge_skillz_girl_-_zam_311.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
     },
     'post_challenge_skillz_core_zambia_211': {
-      Post_1__c: 'form.post_challenge_skillz_core_zambia_211.i_know_what_i_am_good_at',
+      Post_1__c: 'form.post_challenge_skillz_core_zambia_211.question1',
       Post_2__c: 'form.post_challenge_skillz_core_zambia_211.i_know_how_to_overcome_challenges_i_may_have_in_my_life',
       Post_3__c: 'form.post_challenge_skillz_core_zambia_211.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others',
       Post_4__c: 'form.post_challenge_skillz_core_zambia_211.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
