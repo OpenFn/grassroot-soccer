@@ -293,6 +293,28 @@ fn(state => {
       Pre_19__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy',
       Pre_20__c: 'form.pre_challenge_skillz_girl_-_zam_311.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
     },
+    'pre_challenge_skillz_core_zambia_211':{
+      Pre_1__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_what_i_am_good_at',
+      Pre_2__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_how_to_overcome_challenges_i_may_have_in_my_life',
+      Pre_3__c: 'form.pre_challenge_skillz_core_zambia_211.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others',
+      Pre_4__c: 'form.pre_challenge_skillz_core_zambia_211.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
+      Pre_5__c: 'form.pre_challenge_skillz_core_zambia_211.i_dont_always_have_to_do_what_people_expect_because_i_am_a_boygirl',
+      Pre_6__c: 'form.pre_challenge_skillz_core_zambia_211.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want',
+      Pre_7__c: 'form.pre_challenge_skillz_core_zambia_211.girls_should_not_disagree_with_boys',
+      Pre_8__c: 'form.pre_challenge_skillz_core_zambia_211.if_a_girl_gets_pregnant_she_should_drop_out_of_school',
+      Pre_9__c: 'form.pre_challenge_skillz_core_zambia_211.i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me',
+      Pre_10__c: 'form.pre_challenge_skillz_core_zambia_211.i_have_an_older_person_in_my_life_i_can_go_to_for_advice',
+      Pre_11__c: 'form.pre_challenge_skillz_core_zambia_211.if_i_test_positive_for_hivthere_will_be_someone_who_will_help_and_support_m',
+      Pre_12__c: 'form.pre_challenge_skillz_core_zambia_211.male_circumcision_reduces_a_males_risk_of_getting_hiv',
+      Pre_13__c: 'form.pre_challenge_skillz_core_zambia_211.drinking_alcohol_can_increase_my_risk_of_getting_hiv',
+      Pre_14__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_where_to_get_support_services_for_me_or_someone_elsefor_hiv_-_relate',
+      Pre_15__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_where_to_get_support_services_for_me_or_someone_elsefor_abuse',
+      Pre_16__c: 'form.pre_challenge_skillz_core_zambia_211.i_have_the_right_to_access_sexual_health_servicessuch_as_sti_and_hiv_testin',
+      Pre_17__c: 'form.pre_challenge_skillz_core_zambia_211.one_sign_of_pregnancy_is_a_girl_missing_her_period',
+      Pre_18__c: 'form.pre_challenge_skillz_core_zambia_211.i_would_say_no_to_playing_sport_with_someone_who_has_hiv',
+      Pre_19__c: 'form.pre_challenge_skillz_core_zambia_211.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her',
+      Pre_20__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_what_decisions_to_make_to_achieve_my_goals',
+    },
     
   };
 
