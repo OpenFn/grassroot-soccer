@@ -339,8 +339,31 @@ fn(state => {
       Pre_20__c: 'form.pre_challenge_skillz_boy_zambia110.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr',
  
     },
-    
-    
+    'pre_challenge_skillz_guyz_mh_-_sa_100':{
+      Pre_1__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_have_to_be_respectful_communicate_and_take_action_to_be_a_role_model_in_m',
+      Pre_2__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
+      Pre_3__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_can_identify_my_strengths_or_things_that_i_am_good_at',
+      Pre_4__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.when_i_am_angry_i_know_how_to_avoid_using_violent_behaviour',
+      Pre_5__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.when_i_express_my_feelings_clearly_people_understand_me_better',
+      Pre_6__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_know_what_changes_to_expect_in_my_body_during_puberty',
+      Pre_7__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.sadness_and_a_loss_of_pleasure_in_things_you_enjoy_are_common_symptoms_of_d',
+      Pre_8__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_know_where_to_access_health_services_and_mental_health_services',
+      Pre_9__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_will_share_accurate_information_about_mental_health_services_to_avoid_sti',
+      Pre_10__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.society_expects_boys_and_girls_to_deal_with_their_emotions_differently',
+      Pre_11__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.men_should_share_the_work_around_the_house_such_as_cleaning_and_taking_care',
+      Pre_12__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.its_okay_for_a_guy_to_beat_a_girl_when_there_is_a_misunderstanding',
+      Pre_13__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_should_respect_the_rights_of_others_such_as_their_right_to_their_own_opin',
+      Pre_14__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_feel_confident_setting_my_goals',
+      Pre_15__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.stress_is_a_normal_part_of_life',
+      Pre_16__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.deep_breathing_is_a_healthy_way_to_deal_with_difficult_and_stressful_situat',
+      Pre_17__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.there_are_people_i_trust_with_whom_i_can_talk_to_about_my_mental_health',
+      Pre_18__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_have_no_fear_or_shame_when_accessing_health_services_or_mental_health_ser',
+      Pre_19__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.having_more_than_one_sexual_partner_over_the_same_time_period_increases_my_',
+      Pre_20__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.it_is_the_males_responsibility_to_make_decisions_in_a_relationship',
+      Pre_21__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_can_stand_up_to_peer_pressure_when_i_have_to',
+      Pre_22__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_should_use_a_condom_even_if_my_girlfriend_is_on_another_form_of_birth_con',
+      Pre_23__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_know_where_to_go_for_support_if_i_or_someone_i_know_abuses_alcohol',
+    }
   };
 
   const pluckSfValue = val => {
