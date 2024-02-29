@@ -316,6 +316,30 @@ fn(state => {
       Pre_19__c: 'form.pre_challenge_skillz_core_zambia_211.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her',
       Pre_20__c: 'form.pre_challenge_skillz_core_zambia_211.i_know_what_decisions_to_make_to_achieve_my_goals',
     },
+    'pre_challenge_skillz_boy_zambia110':{
+      Pre_1__c: 'form.pre_challenge_skillz_boy_zambia110.in_general_i_feel_good_about_myself',
+      Pre_2__c: 'form.pre_challenge_skillz_boy_zambia110.i_would_be_able_to_ask_my_girlfriend_that_i_want_to_use_a_condom',
+      Pre_3__c: 'form.pre_challenge_skillz_boy_zambia110.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_boy',
+      Pre_4__c: 'form.pre_challenge_skillz_boy_zambia110.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
+      Pre_5__c: 'form.pre_challenge_skillz_boy_zambia110.it_is_more_important_for_boys_to_be_educated_than_girls',
+      Pre_6__c: 'form.pre_challenge_skillz_boy_zambia110.men_are_better_leaders_than_women',
+      Pre_7__c: 'form.pre_challenge_skillz_boy_zambia110.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want',
+      Pre_8__c: 'form.pre_challenge_skillz_boy_zambia110.it_is_only_the_girls_responsibility_to_avoid_getting_pregnant',
+      Pre_9__c: 'form.pre_challenge_skillz_boy_zambia110.it_is_okay_for_a_boyfriend_to_threaten_to_hit_his_girlfriend_if_he_never_hi',
+      Pre_10__c: 'form.pre_challenge_skillz_boy_zambia110.i_can_say_no_to_sex_even_if_my_friends_or_girlfriend_pressure_me_to_have_se',
+      Pre_11__c: 'form.pre_challenge_skillz_boy_zambia110.people_who_abuse_alcohol_are_more_likely_to_engage_in_risky_sexual_behaviou',
+      Pre_12__c: 'form.pre_challenge_skillz_boy_zambia110.i_know_where_to_go_for_support_if_i_or_someone_i_know_drinks_too_much_alcoh',
+      Pre_13__c: 'form.pre_challenge_skillz_boy_zambia110.i_have_a_friend_that_i_can_go_to_for_advice_when_i_have_a_problem',
+      Pre_14__c: 'form.pre_challenge_skillz_boy_zambia110.i_have_the_right_to_access_sexual_health_services_such_as_hiv_and_sti_testi',
+      Pre_15__c: 'form.pre_challenge_skillz_boy_zambia110.i_know_where_to_access_sexual_health_services_such_as_sti_and_hiv_testing',
+      Pre_16__c: 'form.pre_challenge_skillz_boy_zambia110.before_making_a_decision_i_think_about_how_it_can_affect_me_or_others',
+      Pre_17__c: 'form.pre_challenge_skillz_boy_zambia110.i_know_how_to_express_my_anger_without_being_violent_such_as_hitting_kickin',
+      Pre_18__c: 'form.pre_challenge_skillz_boy_zambia110.male_circumcision_reduces_a_males_risk_of_getting_hiv',
+      Pre_19__c: 'form.pre_challenge_skillz_boy_zambia110.i_know_how_to_correctly_use_a_male_condom',
+      Pre_20__c: 'form.pre_challenge_skillz_boy_zambia110.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr',
+ 
+    },
+    
     
   };
 
