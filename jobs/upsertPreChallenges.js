@@ -270,6 +270,30 @@ fn(state => {
       Pre_9__c:
         'form.pre_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related',
     },
+    
+    'pre_challenge_skillz_girl_-_zam_311': {
+      Pre_1__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_what_i_am_good_at',
+      Pre_2__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_how_to_overcome_challenges_that_i_may_face_in_my_life',
+      Pre_3__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girl',
+      Pre_4__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_would_be_able_to_ask_my_boyfriend_that_i_want_to_use_a_condom',
+      Pre_5__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_can_say_no_to_sex_even_if_my_boyfriend_or_friends_pressure_me_to_have_sex',
+      Pre_6__c: 'form.pre_challenge_skillz_girl_-_zam_311.if_i_am_sexually_active_i_go_to_a_healthcare_provider_to_get_protection_fro',
+      Pre_7__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+      Pre_8__c: 'form.pre_challenge_skillz_girl_-_zam_311.it_is_only_the_girls_responsibility_to_avoid_getting_pregnant',
+      Pre_9__c: 'form.pre_challenge_skillz_girl_-_zam_311.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want',
+      Pre_10__c: 'form.pre_challenge_skillz_girl_-_zam_311.sometimes_a_man_may_have_a_good_reason_to_hit_his_girlfriend_or_wife',
+      Pre_11__c: 'form.pre_challenge_skillz_girl_-_zam_311.a_successful_marriage_is_more_important_to_girls_than_completing_school',
+      Pre_12__c: 'form.pre_challenge_skillz_girl_-_zam_311.a_daughter_should_always_respect_her_parents_decision_for_her_to_get_marrie',
+      Pre_13__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_can_decide_when_is_the_right_time_for_me_to_have_a_baby',
+      Pre_14__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advice_or_when_i_have_a',
+      Pre_15__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related',
+      Pre_16__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_where_to_get_support_services_for_me_or_someone_else_for_gender_base',
+      Pre_17__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_where_to_get_support_services_for_me_or_someone_else_for_prevention_',
+      Pre_18__c: 'form.pre_challenge_skillz_girl_-_zam_311.one_sign_of_pregnancy_is_a_girl_missing_her_period',
+      Pre_19__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy',
+      Pre_20__c: 'form.pre_challenge_skillz_girl_-_zam_311.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
+    },
+    
   };
 
   const pluckSfValue = val => {
