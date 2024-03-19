@@ -24,6 +24,7 @@ fn(state => {
       case 'unanswered':
         return 4;
       case 'not_applicable':
+      case 'choice6':
         return 5;
       default:
         return value;
