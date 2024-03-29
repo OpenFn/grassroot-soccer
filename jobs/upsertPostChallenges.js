@@ -193,7 +193,33 @@ fn(state => {
         Post_23__c:'form.post_challenge_mindskillz-_zambia_100.seeing_a_mental_health_professional_means_you_are_not_strong_enough_to_mana',
         Post_24__c:'form.post_challenge_mindskillz-_zambia_100.if_i_had_mental_illness_i_would_not_seek_help_from_a_mental_health_professi',
         Post_25__c:'form.post_challenge_mindskillz-_zambia_100.i_believe_treatment_for_a_mental_illness_provided_by_a_mental_health_profes',
-              }
+              },
+      'post_challenge_skillz_girl_nih200': {
+        Post_1__c:'form.post_challenge_skillz_girl_nih200.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz',
+Post_2__c:'form.post_challenge_skillz_girl_nih200.i_have_talked_about_hiv_with_a_friend_in_the_past_two_months_outside_skillz',
+Post_3__c:'form.post_challenge_skillz_girl_nih200.having_sex_with_an_older_partner_increases_my_risk_of_getting_hiv',
+Post_4__c:'form.post_challenge_skillz_girl_nih200.i_know_where_to_get_contraception_to_prevent_unwanted_pregnancy',
+Post_5__c:'form.post_challenge_skillz_girl_nih200.i_know_someone_in_my_community_who_distributes_contraceptives_and_other_sex',
+Post_6__c:'form.post_challenge_skillz_girl_nih200.having_more_than_one_sexual_partner_increases_my_risk_of_getting_hiv',
+Post_7__c:'form.post_challenge_skillz_girl_nih200.i_have_the_right_to_say_no_to_sex_no_matter_who_asks',
+Post_8__c:'form.post_challenge_skillz_girl_nih200.as_a_girl_i_have_a_greater_risk_of_getting_hiv_than_boys',
+Post_9__c:'form.post_challenge_skillz_girl_nih200.i_know_where_to_get_support_services_for_rape',
+Post_10__c:'form.post_challenge_skillz_girl_nih200.if_a_girl_is_sexually_abused_she_can_reduce_her_risk_of_getting_hiv_by_taki',
+Post_11__c:'form.post_challenge_skillz_girl_nih200.i_feel_good_about_being_a_girl',
+Post_12__c:'form.post_challenge_skillz_girl_nih200.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
+Post_13__c:'form.post_challenge_skillz_girl_nih200.boys_should_share_the_work_around_the_home_such_as_household_chores',
+Post_14__c:'form.post_challenge_skillz_girl_nih200.i_know_what_i_want_to_be_after_finishing_secondary_school',
+Post_15__c:'form.post_challenge_skillz_girl_nih200.if_i_have_a_problem_i_have_someone_in_my_life_i_can_talk_to_for_advise',
+Post_16__c:'form.post_challenge_skillz_girl_nih200.a_boyfriend_may_have_good_reason_to_hit_his_girlfriend',
+Post_17__c:'form.post_challenge_skillz_girl_nih200.i_would_tell_someone_if_i_were_touched_in_a_manner_that_made_me_uncomfortab',
+Post_18__c:'form.post_challenge_skillz_girl_nih200.i_can_reach_my_goals_in_life',
+Post_19__c:'form.post_challenge_skillz_girl_nih200.a_girl_should_wait_to_get_married_until_after_college',
+Post_20__c:'form.post_challenge_skillz_girl_nih200.biological_and_social_factors_contribute_to_females_and_males_experiencing_',
+Post_21__c:'form.post_challenge_skillz_girl_nih200.the_most_common_illness_of_mental_health_are_depression_and_anxiety',
+Post_22__c:'form.post_challenge_skillz_girl_nih200.mental_health_problems_have_nothing_to_do_with_being_lazy_or_weak_and_many_',
+Post_23__c:'form.post_challenge_skillz_girl_nih200.i_am_ready_to_take_an_hiv_test',
+Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr',
+      }
       
     };
   
