@@ -166,7 +166,34 @@ fn(state => {
         Post_7__c: 'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.my_skillz_coach_helps_me_to_be_a_better_person',
         Post_8__c: 'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advise_or_when_i_have_a',
         Post_9__c: 'form.copy-1-of-post_challenge_zimbabwe_-_virtual_skillz_core_zimbabwe.copy-1-of-i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related',
-      }
+      },
+      'post_challenge_mindskillz-_zambia_100': {
+        Post_1__c:'form.Post_challenge_mindskillz-_zambia_100.when_i_express_my_feelings_clearly_people_understand_me_better',
+        Post_2__c:'form.Post_challenge_mindskillz-_zambia_100.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
+        Post_3__c:'form.Post_challenge_mindskillz-_zambia_100.stress_is_a_normal_part_of_life',
+        Post_4__c:'form.Post_challenge_mindskillz-_zambia_100.i_can_reach_my_goals_in_life',
+        Post_5__c:'form.Post_challenge_mindskillz-_zambia_100.if_i_have_a_problem_i_have_someone_in_my_life_i_can_go_to_for_support',
+        Post_6__c:'form.Post_challenge_mindskillz-_zambia_100.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
+        Post_7__c:'form.Post_challenge_mindskillz-_zambia_100.self_control_helps_you_make_smart_decisions_when_you_are_angry_or_upset',
+        Post_8__c:'form.Post_challenge_mindskillz-_zambia_100.society_expects_boys_and_girls_to_deal_with_their_emotions_differently',
+        Post_9__c:'form.Post_challenge_mindskillz-_zambia_100.i_know_how_to_express_my_anger_without_being_violent',
+        Post_10__c:'form.Post_challenge_mindskillz-_zambia_100.listening_carefully_to_others_is_an_important_communication_skill',
+        Post_11__c:'form.Post_challenge_mindskillz-_zambia_100.drinking_too_much_alcohol_can_have_serious_negative_consequences_for_mental',
+        Post_12__c:'form.Post_challenge_mindskillz-_zambia_100.i_can_understand_how_others_are_feeling_and_be_sensitive_to_their_emotions',
+        Post_13__c:'form.Post_challenge_mindskillz-_zambia_100.i_am_confident_that_i_know_where_to_seek_information_about_mental_illness',
+        Post_14__c:'form.Post_challenge_mindskillz-_zambia_100.i_am_confident_using_the_computer_or_telephone_to_seek_information_about_me',
+        Post_15__c:'form.Post_challenge_mindskillz-_zambia_100.i_am_confident_attending_face_to_face_appointments_to_seek_information_abou',
+        Post_16__c:'form.Post_challenge_mindskillz-_zambia_100.i_am_confident_i_have_access_to_resources_eg_doctor_internet_friends_that_i',
+        Post_17__c:'form.Post_challenge_mindskillz-_zambia_100.people_with_mental_illness_could_snap_out_of_it_if_they_wanted',
+        Post_18__c:'form.Post_challenge_mindskillz-_zambia_100.a_mental_illness_is_a_sign_of_personal_weakness',
+        Post_19__c:'form.Post_challenge_mindskillz-_zambia_100.a_mental_illness_is_not_a_real_medical_illness',
+        Post_20__c:'form.Post_challenge_mindskillz-_zambia_100.people_with_mental_illness_are_dangerous',
+        Post_21__c:'form.Post_challenge_mindskillz-_zambia_100.it_is_best_to_avoid_people_with_mental_illness_so_that_you_dont_develop_thi',
+        Post_22__c:'form.Post_challenge_mindskillz-_zambia_100.if_i_had_a_mental_illness_i_would_not_tell_anyone',
+        Post_23__c:'form.Post_challenge_mindskillz-_zambia_100.seeing_a_mental_health_professional_means_you_are_not_strong_enough_to_mana',
+        Post_24__c:'form.Post_challenge_mindskillz-_zambia_100.if_i_had_mental_illness_i_would_not_seek_help_from_a_mental_health_professi',
+        Post_25__c:'form.Post_challenge_mindskillz-_zambia_100.i_believe_treatment_for_a_mental_illness_provided_by_a_mental_health_profes',
+              }
       
     };
   
