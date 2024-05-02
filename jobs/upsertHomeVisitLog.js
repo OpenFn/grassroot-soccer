@@ -61,6 +61,7 @@ fn(state => {
         // field('Date_of_Birth__c', dataValue('form.basic_information.date_of_birth')),
         // field('Physical Address Community City', dataValue('form.basic_information.participant_address')),
         //================
+        field('Mobile_Number__c', dataValue('form.basic_information.Mobile_number')),
         field('Consent_Given__c', dataValue('form.basic_information.consent_received')),
         //field('Consent_Given__c', dataValue('form.participant_infomation.visit_information.consent_given')) //Repeated mapping
         //field('From_Venue__c', dataValue('form.basic_information.venue_hidden')),
