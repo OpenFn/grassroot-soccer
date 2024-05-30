@@ -41,7 +41,6 @@ upsert(
     }),
     field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
     relationship('RecordType', 'Name', 'Intervention'),
-    field('Grant_Text__c', dataValue('form.grant')),
     field('Business_Unit__c', state => {
       const bu = dataValue('form.business_unit')(state); 
       return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
