@@ -222,11 +222,12 @@ fn(state => {
       Pre_23__c:'form.pre_challenge_skillz_girl_nih200.i_am_ready_to_take_an_hiv_test',
       Pre_24__c:'form.pre_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr',
     },
+    
     'pre_challenge_mindskillz_pamumvuri':{
       Pre_1__c: 'form.pre_challenge_mindskillz_pamumvuri.when_i_express_my_feelings_clearly_people_understand_me_better',
       Pre_2__c: 'form.pre_challenge_mindskillz_pamumvuri.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
       Pre_3__c: 'form.pre_challenge_mindskillz_pamumvuri.stress_is_a_normal_part_of_life',
-      //Pre_4__c: 'form.pre_challenge_mindskillz_pamumvuri.',
+      Pre_4__c: 'form.pre_challenge_mindskillz_pamumvuri.',
       Pre_5__c: 'form.pre_challenge_mindskillz_pamumvuri.if_i_have_a_problem_i_have_someone_in_my_life_i_can_go_to_for_support',
       Pre_6__c: 'form.pre_challenge_mindskillz_pamumvuri.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
       Pre_7__c: 'form.pre_challenge_mindskillz_pamumvuri.self_control_helps_you_make_smart_decisions_when_you_are_angry_or_upset',
