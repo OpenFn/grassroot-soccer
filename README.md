@@ -37,6 +37,7 @@ The solution is a one-way CommCare-to-Salesforce integration that connects the f
 `Aggregate Service Referral`  
 `Register Skillz Plus Club`  
 `ART Adherence Self-Reporting Tool`  
+`Outcome Monitoring Survey`
 
 ### Flow Triggers
 Trigger Type: Message Filter  
@@ -70,7 +71,9 @@ These are the external identifiers used in every object to uniquely identify rec
 `Malaria Testing Event Statistics` - Case ID  
 `Aggregate Service Referral` - Form ID   
 `Register Skillz Plus Club` - Event name  
-`ART Adherence Self-Reporting Tool` - Form ID  
+`ART Adherence Self-Reporting Tool` - Form ID 
+`Outcome Monitoring Survey` - Form ID
+
 
 ## (3) Assumptions & Considerations for Change Management
 1. If `Venues`, `Curriculums`, `Sites`, `Business Units` or `Coaches` are added to CommCare, they will also need to be uploaded to Salesforce. 
