@@ -74,11 +74,11 @@ state.daysMap = {
   }
   
   state.idkdeclinedtodeclined = {
-    "i_dont_know_declined_to_answer": "Declined to answer",
+    "I_dont_know_declined_to_answer": "Declined to answer",
   }
   
    state.idkdeclinedtoidkdeclined = {
-    "i_dont_know_declined_to_answer": "I don't know / Declined to answer",
+    "I_dont_know_declined_to_answer": "I don't know / Declined to answer",
   }
   
   
@@ -162,7 +162,7 @@ fn((state) => {
     I_know_how_to_correctly_use_a_condom__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_know_how_to_correctly_use_a_condom"])],
     Able_to_refuse_to_have_sex__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_would_be_able_to_refuse_to_have_sex_if_my_partner_did_not_want_to_use_a_c"])],
     Condoms_are_the_only_contraceptive__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["condoms_are_the_only_contraceptive_method_that_protect_against_pregnancy_as"])],
-    Use_a_condom__c: state.capitalizeFirstLetter(form["i_should_use_a_condom_even_if_my_girlfriend_is_on_another_form_of_birth_con"]),
+    Use_a_condom__c: state.idkdeclinedtoidkdeclined[state.capitalizeFirstLetter(form["i_should_use_a_condom_even_if_my_girlfriend_is_on_another_form_of_birth_con"])],
     The_last_time_you_had_sexual_intercourse__c: state.capitalizeFirstLetter(form["the_last_time_you_had_sexual_intercourse_did_you_and_your_partner_use_a_con"]),
     A_girl_woman_can_get_pregnant__c: state.capitalizeFirstLetter(form["a_girl_or_woman_can_get_pregnant_the_very_first_time_she_has_sex"]),
     Sign_of_Pregnancy__c: state.capitalizeFirstLetter(form["one_sign_of_pregnancy_is_a_girl_missing_her_period"]),
