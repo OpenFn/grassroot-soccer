@@ -53,7 +53,8 @@ state.daysMap = {
     "more_than_half_of_the_time": "More than half of the time",
     "less_than_half_of_the_time": "Less than half of the time",
     "some_of_the_time": "Some of the time",
-    "at_no_time": "At no time"
+    "at_no_time": "At no time",
+    "choice10": "Less than half of the time"
   }
   
   state.choiceMapping = {
@@ -167,7 +168,7 @@ fn((state) => {
     Methods_to_avoid_unwanted_pregnancy__c: state.capitalizeFirstLetter(form["i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy"]),
     Support_for_prevention_of_teen_pregnancy__c: state.capitalizeFirstLetter(form["in_the_last_2_years_did_you_get_support_for_prevention_of_teenage_pregnancy"]),
     I_have_felt_cheerful_and_in_good_spirits__c: state.timeMap[(form["i_have_felt_cheerful_and_in_good_spirits"])],
-    I_have_felt_calm_and_relaxed__c: state.choiceMapping[state.timeMap[form["i_have_felt_calm_and_relaxed"]]],
+    I_have_felt_calm_and_relaxed__c: state.timeMap[form["i_have_felt_calm_and_relaxed"]],
     I_have_felt_active_and_vigorous__c: state.timeMap[form["question11"]],
     I_woke_up_feeling_fresh_and_rested__c: state.timeMap[form["i_woke_up_feeling_fresh_and_rested"]],
     Life_filled_with_things_interesting_me__c: state.replaceUnderscoreWithSpace(state.capitalizeFirstLetter(form["my_daily_life_has_been_filled_with_things_that_interest_me"])),
