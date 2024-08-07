@@ -112,7 +112,7 @@ fn((state) => {
     Participant_Name__c: form.participant_name,
     Participant_Gender__c: state.capitalizeFirstLetter(form.participant_gender),
     Participant_DOB__c: form.participant_date_of_birth,
-    Currently_live_with_at_home__c: state.replaceSpaceWithSemiColon(state.capitalizeFirstLetter(form["who_do_you_currently_live_with_at_home"])),
+    Currently_live_with_at_home__c: state.replaceUnderscoreWithSpace(state.capitalizeFirstLetter(form["who_do_you_currently_live_with_at_home"])),
     Days_did_you_go_without_food__c: state.daysMap[form["in_the_last_week_how_many_days_did_you_go_without_food"]],
     Ever_been_in_any_kind_of_sexual_relation__c: state.choiceMapping[state.capitalizeFirstLetter(form["have_you_ever_been_in_any_kind_of_sexual_relationship_with_someone"])],
     In_any_form_of_sexual_relationship__c: state.choiceMapping[state.capitalizeFirstLetter(form["are_you_currently_in_any_form_of_sexual_relationship"])],
