@@ -200,7 +200,6 @@ fn((state) => {
     People_in_my_life_who_I_can_talk_to__c: state.capitalizeFirstLetter(form["there_are_people_in_my_life_who_i_can_talk_to_about_how_to_handle_things"]),
     Where_to_go_for_support_for_alcohol__c: state.capitalizeFirstLetter(form["i_know_where_to_go_for_support_if_i_or_someone_i_know_drinks_too_much_alcoh"]),
   };
-  console.log(state.surveyMappings)
   return state;
 });
 
