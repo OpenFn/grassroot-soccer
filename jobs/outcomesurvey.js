@@ -42,7 +42,7 @@ state.daysMap = {
     Agree: 'Yes', //New
     Disagree: 'No', // Continued
     "I don't know/Declined to answer": "Declined to answer",
-    "i_dont_know_declined_to_answer": "Declined to answer",
+    "I_dont_know_declined_to_answer": "Declined to answer",
     "choice2": "No"
   };
   
