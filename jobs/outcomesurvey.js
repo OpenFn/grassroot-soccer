@@ -167,7 +167,7 @@ fn((state) => {
     The_staff_at_my_nearest_clinic_are_frien__c: state.capitalizeFirstLetter(form["the_staff_at_my_nearest_clinic_are_friendly"]),
     Keep_my_personal_information_private__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["the_staff_at_my_nearest_clinic_will_keep_my_personal_information_private"])],
     Feel_stigmatism_or_judged__c: state.agreeDisagreeMap2[state.capitalizeFirstLetter(form["i_do_not_feel_stigmatism_or_judged_when_i_go_to_access_sexual_reproductive_"])],
-    Suggests_using_a_condom__c: state.capitalizeFirstLetter(state.HIVtestMap[form["when_a_partner_suggests_using_a_condom_it_means_he_or_she_has_had_sex_with_"]]),
+    Suggests_using_a_condom__c: state.agreeDisagreeMap[state.capitalizeFirstLetter[form["when_a_partner_suggests_using_a_condom_it_means_he_or_she_has_had_sex_with_"]]],
     A_condom_would_make_sex_less_pleasing__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["using_a_condom_would_make_sex_less_pleasant"])],
     I_know_how_to_correctly_use_a_condom__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_know_how_to_correctly_use_a_condom"])],
     Able_to_refuse_to_have_sex__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_would_be_able_to_refuse_to_have_sex_if_my_partner_did_not_want_to_use_a_c"])],
