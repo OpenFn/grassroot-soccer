@@ -42,6 +42,7 @@ state.daysMap = {
     Agree: 'Yes', //New
     Disagree: 'No', // Continued
     "I don't know/Declined to answer": "Declined to answer",
+    "i_dont_know_declined_to_answer": "Declined to answer",
     "choice2": "No"
   };
   
@@ -60,6 +61,18 @@ state.daysMap = {
     "choice3": "Condoms – male or female",
     "choice4": "Voluntary medical male circumcision",
     "choice10": "Less than half of the time"
+  }
+  
+  state.choiceMapping2 = {
+    "choice2": "Yes",
+  }
+  
+  state.idkdeclinedtodeclined = {
+    "i_dont_know_declined_to_answer": "Declined to answer",
+  }
+  
+   state.idkdeclinedtoidkdeclined = {
+    "i_dont_know_declined_to_answer": "I don't know / Declined to answer",
   }
   
   
@@ -114,8 +127,8 @@ fn((state) => {
     Participant_DOB__c: form.participant_date_of_birth,
     Currently_live_with_at_home__c: state.replaceUnderscoreWithSpace(state.capitalizeFirstLetter(form["who_do_you_currently_live_with_at_home"])),
     Days_did_you_go_without_food__c: state.daysMap[form["in_the_last_week_how_many_days_did_you_go_without_food"]],
-    Ever_been_in_any_kind_of_sexual_relation__c: state.choiceMapping[state.capitalizeFirstLetter(form["have_you_ever_been_in_any_kind_of_sexual_relationship_with_someone"])],
-    In_any_form_of_sexual_relationship__c: state.choiceMapping[state.capitalizeFirstLetter(form["are_you_currently_in_any_form_of_sexual_relationship"])],
+    Ever_been_in_any_kind_of_sexual_relation__c: state.capitalizeFirstLetter(form["have_you_ever_been_in_any_kind_of_sexual_relationship_with_someone"]),
+    In_any_form_of_sexual_relationship__c: state.choiceMapping2[state.capitalizeFirstLetter(form["are_you_currently_in_any_form_of_sexual_relationship"])],
     Age_of_your_current_last_sexual_partner__c: state.capitalizeFirstLetter(form["what_is_the_age_of_your_currentlast_sexual_partner"]),
     Ever_had_sexual_intercourse__c: state.capitalizeFirstLetter(form["have_you_ever_had_sexual_intercourse"]),
     Age_at_first_sex__c: state.capitalizeFirstLetter(form["how_old_were_you_when_you_had_sexual_intercourse_for_the_first_time"]),
