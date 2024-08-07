@@ -49,6 +49,15 @@ state.daysMap = {
     "choice2": "No"
   };
   
+  state.agreeDisagreeMap2 = {
+    Agree: 'Yes', //New
+    Disagree: 'No', // Continued
+    "I don't know/Declined to answer": "Declined to answer",
+    "I_dont_know_declined_to_answer": "Declined to answer",
+    "I_dont_knowdeclined_to_answer": "Declined to answer",
+    "choice2": "No"
+  };
+  
   state.timeMap = {
     "all_of_the_time": "All of the time",
     "most_of_the_time": "Most of the time", 
@@ -147,7 +156,7 @@ fn((state) => {
     People_with_HIV_to_have_unprotected_sex__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["it_is_okay_for_two_people_with_hiv_to_have_unprotected_sex_with_each_other"])],
     Someone_has_HIV_by_looking_at_him_or_her__c: state.capitalizeFirstLetter(form["i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her"]),
     talk_to_a_partner_about_HIV_STI_testing__c: state.capitalizeFirstLetter(form["i_know_how_to_talk_to_a_partner_about_hivsti_testing"]),
-    HIV_testing_is_free_at_government_health__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["hiv_testing_is_free_at_government_health_facilities"])],
+    HIV_testing_is_free_at_government_health__c: state.agreeDisagreeMap2[state.capitalizeFirstLetter(form["hiv_testing_is_free_at_government_health_facilities"])],
     Have_you_ever_tested_for_HIV__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["have_you_ever_tested_for_hiv"])],
     Result_of_your_last_HIV_test__c: state.HIVtestMap[form["what_was_the_result_of_your_last_most_recent_hiv_test"]],
     Where_to_get_support_services__c: state.capitalizeFirstLetter(form["i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related"]),
