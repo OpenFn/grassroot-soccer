@@ -27,7 +27,6 @@ state.HIVtestMap = {
     "copy-2-of-days": "5 - 6 days",
     "i_dont_knowdeclined": "I don't know / Declined to answer",
     "i_dont_knowdeclined_answer": "I don't know / Declined to answer",
-    "sexual_and_reproductive_health_informationtalks": "Sexual and reproductive health information/talks"
   };
 
 
@@ -64,7 +63,9 @@ state.daysMap = {
     "choice2": "Contraceptives including pills, injections, implants or similar",
     "choice3": "Condoms – male or female",
     "choice4": "Voluntary medical male circumcision",
-    "choice10": "Less than half of the time"
+    "choice10": "Less than half of the time",
+    "sexual_and_reproductive_health_informationtalks": "Sexual and reproductive health information/talks"
+
   }
   
   state.choiceMapping2 = {
