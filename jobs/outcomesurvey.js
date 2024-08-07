@@ -182,7 +182,7 @@ fn((state) => {
     Self_control_and_smart_decisions__c: state.capitalizeFirstLetter(form["self-control_helps_you_make_smart_decisions_when_you_are_angry_or_upset"]),
     Avoid_using_violent_behaviour__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["when_i_am_angry_i_know_how_to_avoid_using_violent_behaviour"])],
     Confidence_and_face_to_face_appointments__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_am_confident_attending_face_to_face_appointments_to_seek_information_abou"])],
-    Seek_information_about_mental_illness__c: state.idkdeclinedtoidkdeclined[[state.capitalizeFirstLetter(form["i_am_confident_that_i_know_where_to_seek_information_about_mental_illness"])],
+    Seek_information_about_mental_illness__c: state.idkdeclinedtoidkdeclined[state.capitalizeFirstLetter(form["i_am_confident_that_i_know_where_to_seek_information_about_mental_illness"])],
     Bounce_back_from_difficult_situations__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_can_bounce_back_from_difficult_situations"])],
     Avoid_people_with_mental_illness__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["it_is_best_to_avoid_people_with_mental_illness_so_that_you_dont_develop_thi"])],
     Informed_decisions_about_sexual_health__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["i_can_make_my_own_informed_decisions_about_my_sexual_healthcare"])],
