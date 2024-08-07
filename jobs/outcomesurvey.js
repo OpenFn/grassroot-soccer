@@ -64,7 +64,7 @@ state.daysMap = {
     "choice3": "Condoms – male or female",
     "choice4": "Voluntary medical male circumcision",
     "choice10": "Less than half of the time",
-    "Sexual_and_reproductive_health_informationtalks": "Sexual and reproductive health information/talks"
+    "Sexual and reproductive health informationtalks": "Sexual and reproductive health information/talks"
 
   }
   
