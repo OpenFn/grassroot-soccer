@@ -161,7 +161,7 @@ fn((state) => {
     Result_of_your_last_HIV_test__c: state.HIVtestMap[form["what_was_the_result_of_your_last_most_recent_hiv_test"]],
     Where_to_get_support_services__c: state.capitalizeFirstLetter(form["i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related"]),
     Right_to_access_sexual_health_services__c: state.capitalizeFirstLetter(form["i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi"]),
-    Where_to_get_support_services_for_GBV__c: state.agreeDisagreeMap(state.capitalizeFirstLetter[form["i_know_where_to_get_support_services_for_me_or_someone_else_for_gender-base"]]),
+    Where_to_get_support_services_for_GBV__c: state.agreeDisagreeMap[state.capitalizeFirstLetter[form["i_know_where_to_get_support_services_for_me_or_someone_else_for_gender-base"]]],
     Services_accessed_in_the_past_2_years__c: state.choiceMapping[state.replaceUnderscoreWithSpace(state.capitalizeFirstLetter(form["in_the_last_2_years_which_of_these_services_have_you_accessed_through_the_c"]))],
     Accessed_the_above_services__c: state.agreeDisagreeMap[state.capitalizeFirstLetter(form["did_you_access_the_above_services_more_than_once_per_year"])],
     The_staff_at_my_nearest_clinic_are_frien__c: state.capitalizeFirstLetter(form["the_staff_at_my_nearest_clinic_are_friendly"]),
