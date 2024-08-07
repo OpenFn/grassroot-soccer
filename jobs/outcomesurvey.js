@@ -27,6 +27,7 @@ state.HIVtestMap = {
     "copy-2-of-days": "5 - 6 days",
     "i_dont_knowdeclined": "I don't know / Declined to answer",
     "i_dont_knowdeclined_answer": "I don't know / Declined to answer",
+    "i_dont_knowdeclined_to_answer": "I don't know / Declined to answer"
   };
 
 
