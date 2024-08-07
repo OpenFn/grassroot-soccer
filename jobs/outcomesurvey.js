@@ -79,6 +79,7 @@ state.daysMap = {
   
    state.idkdeclinedtoidkdeclined = {
     "I_dont_know_declined_to_answer": "I don't know / Declined to answer",
+    "I_dont_knowdeclined_to_answer": "I don't know / Declined to answer"
   }
   
   
