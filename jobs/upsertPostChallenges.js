@@ -1,4 +1,4 @@
-//test 
+//test  
 fn(state => {
     function transform(value) {
       if (!value) return;
