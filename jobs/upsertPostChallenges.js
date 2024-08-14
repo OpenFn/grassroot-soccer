@@ -337,7 +337,7 @@ fn(state => {
         Post_22__c: 'form.post_challenge_mindskillz_pamumvuri.if_i_had_a_mental_illness_i_would_not_tell_anyone',
         Post_23__c: 'form.post_challenge_mindskillz_pamumvuri.seeing_a_mental_health_professional_means_you_are_not_strong_enough_to_mana',
         Post_24__c: 'form.post_challenge_mindskillz_pamumvuri.if_i_had_mental_illness_i_would_not_seek_help_from_a_mental_health_professi',
-      }
+      },
    'pre_challenge_skillz_girl_-_zam_311': {
       Pre_1__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_what_i_am_good_at',
       Pre_2__c: 'form.pre_challenge_skillz_girl_-_zam_311.i_know_how_to_overcome_challenges_that_i_may_face_in_my_life',
