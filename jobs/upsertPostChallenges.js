@@ -599,7 +599,7 @@ fn(state => {
         return state.helperFunctions.transform(value);
       }),
       field('Post_25__c', state => {
-        if (state.pluckSfValue('Post_19__c') == null) return undefined;
+        if (state.pluckSfValue('Post_25__c') == null) return undefined;
         const value = dataValue(state.pluckSfValue('Post_25__c'))(state);
         return state.helperFunctions.transform(value);
       }),     
