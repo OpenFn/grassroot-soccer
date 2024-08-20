@@ -577,7 +577,32 @@ fn(state => {
         if (state.pluckSfValue('Post_20__c') == null) return undefined;
         const value = dataValue(state.pluckSfValue('Post_20__c'))(state);
         return state.helperFunctions.transform(value);
-      })
+      }),
+      field('Post_21__c', state => {
+        if (state.pluckSfValue('Post_21__c') == null) return undefined;
+        const value = dataValue(state.pluckSfValue('Post_21__c'))(state);
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_22__c', state => {
+        if (state.pluckSfValue('Post_22__c') == null) return undefined;
+        const value = dataValue(state.pluckSfValue('Post_22__c'))(state);
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_23__c', state => {
+        if (state.pluckSfValue('Post_23__c') == null) return undefined;
+        const value = dataValue(state.pluckSfValue('Post_23__c'))(state);
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_24__c', state => {
+        if (state.pluckSfValue('Post_24__c') == null) return undefined;
+        const value = dataValue(state.pluckSfValue('Post_24__c'))(state);
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_25__c', state => {
+        if (state.pluckSfValue('Post_25__c') == null) return undefined;
+        const value = dataValue(state.pluckSfValue('Post_25__c'))(state);
+        return state.helperFunctions.transform(value);
+      }),     
     )
   )(state);
 });
