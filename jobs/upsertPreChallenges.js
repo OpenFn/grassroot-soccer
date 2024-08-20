@@ -351,11 +351,11 @@ fn(state => {
   return { ...state, pluckSfValue };
 });
 
-fn(state => {
-  console.log("test")
-  console.log(state.pluckSfValue('Pre_1__c'));
-  return state;
-});
+// fn(state => {
+//   console.log("test")
+//   console.log(state.pluckSfValue('Pre_1__c'));
+//   return state;
+// });
 
 fn(state => {
   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
