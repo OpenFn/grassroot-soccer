@@ -472,13 +472,19 @@ fn(state => {
     fields(
       //field('Event__c', dataValue('form.hidden_properties.intervention_name')),
 
-      field('CommCare_Ext_ID__c', state => {
-        const value =
-          dataValue('form.case.@case_id')(state) +
-          '-' +
-          toUTF8(dataValue('form.hidden_properties.intervention_name')(state)).replace(/\//gi, '');
-        return scrubEmojis(value, '');
-      }),
+      // field('CommCare_Ext_ID__c', state => {
+      //   const value =
+      //     dataValue('form.case.@case_id')(state) +
+      //     '-' +
+      //     toUTF8(dataValue('form.hidden_properties.intervention_name')(state)).replace(/\//gi, '');
+      //   return scrubEmojis(value, '');
+      // }),
+      field("CommCare_Ext_ID__c", (state) => {
+        return toUTF8(`${dataValue("form.case.@case_id")(state)}-${scrubEmojis(
+        dataValue("form.hidden_properties.intervention_name")(state),
+        ""
+        ).replace(/\//gi, "")}`);
+        }),
 
       //relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
       relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('form.case.@case_id')),
