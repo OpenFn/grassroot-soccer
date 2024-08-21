@@ -48,10 +48,26 @@ fn(state => {
         state.data.form.attendance_list.update_participant_cases.item = objectToArray(
           state.data.form.attendance_list.update_participant_cases.item
         );
+        
+        //When GRS enters session names incorrectly in CommCare (e.g., session: "P8 // My body is mine)
+        function findPValue(input) {
+          // Regular expression to match "P" followed by one or more digits, then "//"
+            const regex = /P(\d+)\s*\/\//;
+    
+          // Match the input against the regex
+          const match = input.match(regex);
+    
+          // If a match is found, return the captured digits as an integer
+          if (match) {
+            return parseInt(match[1], 10);
+          } else {
+            // If no match is found, return null or handle as needed
+          return 'Session_not_found';
+        }
+}
 
         const sessionText = dataValue('form.attendance_list.session')(state);
-        const sessionId = sessionText.includes('P8') ? '8' :
-        sessionText.includes('P1') ? 1: getSessionId(sessionText);
+        const sessionId = sessionText.includes('//') ? findPValue(sessionText) : getSessionId(sessionText);
         
         console.log('sessionText:: ', sessionText); 
         console.log('sessionId:: ', sessionText); 
