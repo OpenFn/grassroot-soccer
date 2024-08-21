@@ -50,8 +50,8 @@ fn(state => {
         );
 
         const sessionText = dataValue('form.attendance_list.session')(state);
-        const sessionId = sessionText.contains('P8') ? '8' :
-        sessionText.contains('P1') ? 1: getSessionId(sessionText);
+        const sessionId = sessionText.includes('P8') ? '8' :
+        sessionText.includes('P1') ? 1: getSessionId(sessionText);
         
         console.log('sessionText:: ', sessionText); 
         console.log('sessionId:: ', sessionText); 
