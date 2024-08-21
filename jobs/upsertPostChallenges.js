@@ -8,6 +8,7 @@ fn(state => {
       case 'concordo':
       case 'verdade':
       case 'copy-1-of-yes':
+      case 'choice1':
         return 1;
       case 'false':
       case 'no':
@@ -15,8 +16,11 @@ fn(state => {
       case 'discordo':
       case 'falso':
       case 'copy-1-of-no':
+      case 'choice3': 
+      case 'choice6': 
         return 2;
       case 'i_dont_know':
+      case 'na':
         return 3;
       case 'unanswered':
       case `not_sexually_active`:
