@@ -9,6 +9,7 @@ fn(state => {
       case 'verdade':
       case 'concorda':
       case 'concordo':
+      case 'choice1':
         return 1;
       case 'false':
       case 'no':
@@ -16,8 +17,11 @@ fn(state => {
       case 'discorda':
       case 'discordo':
       case 'falso':
+      case 'choice6':
+      case 'choice3':
         return 2;
       case 'i_dont_know':
+      case 'na':
         return 3;
       case 'unanswered':
         return 4;
