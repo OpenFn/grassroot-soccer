@@ -50,9 +50,11 @@ fn(state => {
         );
 
         const sessionText = dataValue('form.attendance_list.session')(state);
-        const sessionId = sessionText==="P8 // My body is mine" ? "8" : getSessionId(sessionText);
-
-        //   @aleksa-krolls confirm the path for the session date
+        const sessionId = sessionText==='P8 // My body is mine' ? '8' : getSessionId(sessionText);
+        
+        console.log('sessionText:: ', sessionText); 
+        console.log('sessionId:: ', sessionText); 
+        
         const sessionDate = dataValue("form.case['@date_modified']")(state);
 
         state.data.form.attendance_list.update_participant_cases.item =
