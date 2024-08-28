@@ -341,6 +341,14 @@ fn(state => {
       Pre_21__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_can_stand_up_to_peer_pressure_when_i_have_to',
       Pre_22__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_should_use_a_condom_even_if_my_girlfriend_is_on_another_form_of_birth_con',
       Pre_23__c: 'form.pre_challenge_skillz_guyz_mh_-_sa_100.i_know_where_to_go_for_support_if_i_or_someone_i_know_abuses_alcohol',
+    },
+    
+    'pre_challenge_south_africa_-_skillz_girl_mh_sa_211':{
+      Pre_1__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_know_my_rights_and_responsibilities',
+      Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
+      Pre_3__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_know_where_to_get_contraception_to_prevent_unwanted_pregnancy',
+      Pre_4__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.stress_is_a_normal_part_of_life',
+      
     }
   };
 
