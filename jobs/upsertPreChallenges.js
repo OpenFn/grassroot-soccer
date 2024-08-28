@@ -580,6 +580,21 @@ fn(state => {
         const value = dataValue(state.pluckSfValue('Pre_25__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
+      field('Pre_26__c', state => {
+        if (state.pluckSfValue('Pre_26__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Pre_26__c'))(state); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_27__c', state => {
+        if (state.pluckSfValue('Pre_27__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Pre_27__c'))(state); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Pre_28__c', state => {
+        if (state.pluckSfValue('Pre_28__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Pre_28__c'))(state); 
+        return state.helperFunctions.transform(value);
+      }),
     )
   )(state);
 });
