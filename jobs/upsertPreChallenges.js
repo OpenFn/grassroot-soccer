@@ -348,11 +348,26 @@ fn(state => {
       Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_can_identify_my_strengths_or_things_that_i_am_good_at_in_life',
       Pre_3__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_know_where_to_get_contraception_to_prevent_unwanted_pregnancy',
       Pre_4__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.stress_is_a_normal_part_of_life',
-      
+      Pre_5__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.like_physical_health_we_all_have_mental_health',
+      Pre_6__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.it_is_the_males_responsibility_to_make_decisions_in_a_relationship',
+      Pre_7__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.healthy_relationships_are_based_on_healthy_communication_and_mutual_respect',
+      Pre_8__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.sometimes_a_man_may_have_a_good_reason_to_hit_his_girlfriend_partner_or_wif',
+      Pre_9__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_can_say_no_to_sex_even_if_my_partner_or_friends_pressure_me_to_have_sex',
+      Pre_10__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.having_more_than_one_sexual_partner_increases_my_risk_of_getting_hiv',
+      Pre_11__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.taking_prep_and_using_a_condom_can_lower_my_risk_of_getting_hiv',
+      Pre_12__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_know_where_to_go_for_support_if_i_or_someone_i_know_drinks_too_much_alcoh',
+      Pre_13__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.deep_breathing_is_a_healthy_way_to_deal_with_difficult_and_stressful_situat',
+      Pre_14__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.post_exposure_prophylaxis_pep_can_reduce_my_risk_of_getting_hiv_if_taken_1-',
+      Pre_15__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.it_is_my_right_to_access_health_services',
+      Pre_16__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_have_an_adult_or_someone_in_my_life_i_can_go_to_for_advice',
+      Pre_17__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_can_give_support_and_encouragement_to_a_friend_or_family_member_who_is_li',
+      Pre_18__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.using_a_condom_and_another_contraceptive_method_can_help_prevent_unwanted_p',
+      Pre_19__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.i_know_what_changes_to_expect_in_my_body_during_puberty',
+      Pre_20__c: 'form.pre_challenge_south_africa_-_skillz_girl_mh_sa_211.drinking_too_much_alcohol_can_harm_the_body_and_the_mind',
     }
   };
 
-  const pluckSfValue = val => {
+  const pluckSfValuedrinking_too_much_alcohol_can_harm_the_body_and_the_mind= val => {
     return sfFieldMapping[formVersion][val];
   };
 
