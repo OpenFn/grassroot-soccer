@@ -667,7 +667,22 @@ fn(state => {
         if (state.pluckSfValue('Post_25__c') == null) return undefined;
         const value = dataValue(state.pluckSfValue('Post_25__c'))(state);
         return state.helperFunctions.transform(value);
-      }),     
+      }),
+      field('Post_26__c', state => {
+        if (state.pluckSfValue('Post_26__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_26__c'))(state); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_27__c', state => {
+        if (state.pluckSfValue('Post_27__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_27__c'))(state); 
+        return state.helperFunctions.transform(value);
+      }),
+      field('Post_28__c', state => {
+        if (state.pluckSfValue('Post_28__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_28__c'))(state); 
+        return state.helperFunctions.transform(value);
+      })     
     )
   )(state);
 });
