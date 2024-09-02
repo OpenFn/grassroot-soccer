@@ -399,7 +399,7 @@ fn(state => {
       Pre_25__c: 'form.pre_challenge_skillz_girl_abbreviated_south_africa.accepting_money_for_sexual_favors_can_create_risks_to_my_health_and_safety',
       Pre_26__c: 'form.pre_challenge_skillz_girl_abbreviated_south_africa.using_assertive_communication_means_respectfully_sharing_my_thoughts_and_fe',
       Pre_27__c: 'form.pre_challenge_skillz_girl_abbreviated_south_africa.i_have_the_right_to_access_emergency_contraception',
-      Pre_28__c: 'form.pre_challenge_skillz_girl_abbreviated_south_africa.i_have_the_right_to_access_emergency_contraception',
+      Pre_28__c: 'form.pre_challenge_skillz_girl_abbreviated_south_africa.if_a_girl_has_unprotected_sex_and_misses_her_period_this_could_mean_she_is_',
     }
   };
 
