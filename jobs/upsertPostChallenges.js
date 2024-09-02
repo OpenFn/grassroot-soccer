@@ -489,7 +489,7 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
       Post_19__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.i_have_an_adult_or_someone_in_my_life_i_can_go_to_for_advice',
       Post_20__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.using_a_condom_and_another_contraceptive_method_can_help_prevent_unwanted_p',
       Post_21__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.i_know_what_changes_to_expect_in_my_body_during_puberty',
-      Post_22__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.drinking_too_much_alcohol_can_harm_the_body_and_the_mind',
+      Post_22__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.drinking_too_much_alcohol_can_harm_the_body_and_mind',
       Post_23__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.i_know_at_least_two_ways_of_saving_money',
       Post_24__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.a_budget_is_the_estimated_income_and_expenses_for_a_certain_time_period',
       Post_25__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.accepting_money_for_sexual_favors_can_create_risks_to_my_health_and_safety',
