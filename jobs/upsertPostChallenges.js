@@ -535,44 +535,44 @@ fn(state => {
           const value = dataValue(state.pluckSfValue('Post_20__c'))(state); 
           return state.helperFunctions.transform(value);
         }),
-      field('Pre_21__c', state => {
-        if (state.pluckSfValue('Pre_21__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_21__c'))(state); 
+      field('Post_21__c', state => {
+        if (state.pluckSfValue('Post_21__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_21__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_22__c', state => {
-        if (state.pluckSfValue('Pre_22__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_22__c'))(state); 
+      field('Post_22__c', state => {
+        if (state.pluckSfValue('Post_22__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_22__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_23__c', state => {
-        if (state.pluckSfValue('Pre_23__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_23__c'))(state); 
+      field('Post_23__c', state => {
+        if (state.pluckSfValue('Post_23__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_23__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_24__c', state => {
-        if (state.pluckSfValue('Pre_24__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_24__c'))(state); 
+      field('Post_24__c', state => {
+        if (state.pluckSfValue('Post_24__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_24__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_25__c', state => {
-        if (state.pluckSfValue('Pre_25__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_25__c'))(state); 
+      field('Post_25__c', state => {
+        if (state.pluckSfVaPost('Post_25__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_25__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_26__c', state => {
-        if (state.pluckSfValue('Pre_26__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_26__c'))(state); 
+      field('Post_26__c', state => {
+        if (state.pluckSfValue('Post_26__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_26__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_27__c', state => {
-        if (state.pluckSfValue('Pre_27__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_27__c'))(state); 
+      field('Post_27__c', state => {
+        if (state.pluckSfValue('Post_27__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_27__c'))(state); 
         return state.helperFunctions.transform(value);
       }),
-      field('Pre_28__c', state => {
-        if (state.pluckSfValue('Pre_28__c') == null) return undefined
-        const value = dataValue(state.pluckSfValue('Pre_28__c'))(state); 
+      field('Post_28__c', state => {
+        if (state.pluckSfValue('Post_28__c') == null) return undefined
+        const value = dataValue(state.pluckSfValue('Post_28__c'))(state); 
         return state.helperFunctions.transform(value);
       })
       )
