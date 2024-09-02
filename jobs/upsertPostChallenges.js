@@ -495,7 +495,7 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
       Post_25__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.accepting_money_for_sexual_favors_can_create_risks_to_my_health_and_safety',
       Post_26__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.using_assertive_communication_means_respectfully_sharing_my_thoughts_and_fe',
       Post_27__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.i_have_the_right_to_access_emergency_contraception',
-      Post_28__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.i_have_the_right_to_access_emergency_contraception',
+      Post_28__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.if_a_girl_has_unprotected_sex_and_misses_her_period_this_could_mean_she_is_',
     }
       
   };
