@@ -28,6 +28,7 @@ fn(state => {
   const session_text = dataValue('form.session')(state);
 
   const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);
+  console.log("session_id: ", session_id);
 
   const coachname = dataValue('form.coach_name')(state)
     ? dataValue('form.coach_name')(state)
@@ -45,6 +46,7 @@ fn(state => {
   ];
 
   state.data.durationFields = [field(`Session_${session_id}_Duration__c`, dataValue('form.duration')(state))];
+  console.log(state.data.durationFields);
 
   return state;
 });
