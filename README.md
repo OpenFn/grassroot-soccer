@@ -78,11 +78,23 @@ These are the external identifiers used in every object to uniquely identify rec
 ## (3) Assumptions & Considerations for Change Management
 1. If `Venues`, `Curriculums`, `Sites`, `Business Units` or `Coaches` are added to CommCare, they will also need to be uploaded to Salesforce. 
 2. Users of the mobile app should always make sure they're using the latest version of the CommCare app.
-3. The `Upsert Pre Challenges` and `Upsert Post Challenges` jobs have been configured to work with 7 different curricula. These curricula have been documented [here](https://docs.google.com/spreadsheets/d/1CXrMYL0hELSeRkjJLUROTR0A3udJ0Yq8PQZhUtTQokk/edit#gid=362095151). 
+3. The `Upsert Pre Challenges` and `Upsert Post Challenges` jobs have been configured to work with 14 different curricula. These curricula have been documented [here](https://docs.google.com/spreadsheets/d/1CXrMYL0hELSeRkjJLUROTR0A3udJ0Yq8PQZhUtTQokk/edit#gid=362095151). 
 
 ## (4) Administration
 ### Provisioning, Hosting, & Maintenance
 This integration is hosted on OpenFn.org with CommCare and Salesforce Hosted SaaS. OpenFn will provide ongoing maintenance support to the GRS administrators managing OpenFn, Salesforce, and CommCare.
+
+### Process for Adding New Curricula
+
+To add a new Curriculum to the integration, please follow this process:
+
+1. Add new mappings to mapping sheet
+2. Add curriculum to Salesforce
+3. Add pre/post questions to Salesforce Attendance records
+4. Submit test submission in CommCare (ideally marked as "test") to be used for job testing
+5. Create a partial Salesforce Sandbox containing data 
+6. If there are any changes to the curriculum, add them to mapping sheet, submit new CommCare data and notify the OpenFn Support Team.
+7. The OpenFn team adds the mappings to the jobs and tests using the test submissions and the Sandbox.
 
 ### Support
 Primary GRS support contact: dvumbi@grassrootsoccer.org
