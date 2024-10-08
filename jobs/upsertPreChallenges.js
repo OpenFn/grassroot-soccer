@@ -445,7 +445,7 @@ fn(state => {
        Pre_17__c: 'form.pre_challenge_skillz_girl_mh_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_prevention_',
        Pre_18__c: 'form.pre_challenge_skillz_girl_mh_zambia.if_sexually_active_one_sign_of_pregnance_is_a_girl_missing_her_period',
        Pre_19__c: 'form.pre_challenge_skillz_girl_mh_zambia.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy',
-       Pre_20__c: 'form.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
+       Pre_20__c: 'form.pre_challenge_skillz_girl_mh_zambia.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
     },
     
     'pre_challenge_skillz_core_mh_zambia':{
