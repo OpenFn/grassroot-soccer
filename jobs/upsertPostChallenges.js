@@ -500,7 +500,7 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
       Post_28__c: 'form.post_challenge_skillz_girl_abbreviated_south_africa.if_a_girl_has_unprotected_sex_and_misses_her_period_this_could_mean_she_is_',
     },
     
-    'post`_challenge_skillz_guyz_-_yedi__323':{
+    'post_challenge_skillz_guyz_-_yedi__323':{
        Post_1__c: 'form.post_challenge_skillz_guyz_-_yedi__323.i_know_how_to_stand_up_to_peer_pressure_ie_to_drink_alcohol_or_have_sex_fro',
        Post_2__c: 'form.post_challenge_skillz_guyz_-_yedi__323.it_is_better_to_express_yourself_with_anger_when_upset_than_to_use_self-con',
        Post_3__c: 'form.post_challenge_skillz_guyz_-_yedi__323.i_have_someone_i_can_go_to_for_advice',
