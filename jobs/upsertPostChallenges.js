@@ -521,6 +521,30 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
        Post_18__c: 'form.post_challenge_skillz_guyz_-_yedi__323.having_more_than_one_sexual_partner_over_the_same_time_period_increases_my_',
        Post_19__c: 'form.post_challenge_skillz_guyz_-_yedi__323.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want',
        Post_20__c: 'form.post_challenge_skillz_guyz_-_yedi__323.i_have_the_ability_to_shape_my_own_life',
+    },
+    
+      'post_challenge_skillz_girl_mh_zambia':{
+       Post_1__c: 'form.post_challenge_skillz_girl_mh_zambia.a_mental_illness_is_a_sign_of_personal_weakness',
+       Post_2__c: 'form.post_challenge_skillz_girl_mh_zambia.it_is_better_to_express_yourself_with_anger_when_upset_than_to_use_self-con',
+       Post_3__c: 'form.post_challenge_skillz_girl_mh_zambia.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girl',
+       Post_4__c: 'form.post_challenge_skillz_girl_mh_zambia.if_i_had_a_boyfriend_i_would_be_able_to_ask_him_to_use_a_condom_before_havi',
+       Post_5__c: 'form.post_challenge_skillz_girl_mh_zambia.i_can_say_no_to_sex_even_if_my_boyfriend_or_friends_pressure_to_have_sex',
+       Post_6__c: 'form.post_challenge_skillz_girl_mh_zambia.seeking_help_for_mental_health_challenges_is_a_sign_of_weakness',
+       Post_7__c: 'form.post_challenge_skillz_girl_mh_zambia.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+       Post_8__c: 'form.post_challenge_skillz_girl_mh_zambia.young_people_should_avoid_people_with_mental_illness_as_they_are_always_vio',
+       Post_9__c: 'form.post_challenge_skillz_girl_mh_zambia.a_man_has_the_right_to_have_sex_with_his_girlfriend_even_if_she_doesnt_want',
+       Post_10__c: 'form.post_challenge_skillz_girl_mh_zambia.sometimes_a_man_may_have_a_good_reason_to_hit_his_girlfriend_or_wife',
+       Post_11__c: 'form.post_challenge_skillz_girl_mh_zambia.a_successful_marrige_is_more_important_to_girls_than_completing_school',
+       Post_12__c: 'form.post_challenge_skillz_girl_mh_zambia.a_daughter_should_always_respect_her_parents_decision_to_get_married',
+       Post_13__c: 'form.post_challenge_skillz_girl_mh_zambia.i_can_decide_when_is_the_right_time_for_me_to_have_a_baby',
+       Post_14__c: 'form.post_challenge_skillz_girl_mh_zambia.i_have_someone_in_my_life_i_can_turn_to_when_i_need_advice_or_when_i_have_a',
+       Post_15__c: 'form.post_challenge_skillz_girl_mh_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_hiv-related',
+       Post_16__c: 'form.post_challenge_skillz_girl_mh_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_gender_base',
+       Post_17__c: 'form.post_challenge_skillz_girl_mh_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_prevention_',
+       Post_18__c: 'form.post_challenge_skillz_girl_mh_zambia.if_sexually_active_one_sign_of_pregnance_is_a_girl_missing_her_period',
+       Post_19__c: 'form.post_challenge_skillz_girl_mh_zambia.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy',
+       Post_20__c: 'form.post_challenge_skillz_girl_mh_zambia.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
+       
     }
       
   };
