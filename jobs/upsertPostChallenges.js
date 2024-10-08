@@ -417,6 +417,7 @@ Post_22__c:'form.post_challenge_skillz_girl_nih200.mental_health_problems_have_n
 Post_23__c:'form.post_challenge_skillz_girl_nih200.i_am_ready_to_take_an_hiv_test',
 Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirlfriend_currently_using_any_contraceptive_or_pr',
       },
+      
       'post_challenge_mindskillz_pamumvuri':{
         Post_1__c: 'form.post_challenge_mindskillz_pamumvuri.when_i_express_my_feelings_clearly_people_understand_me_better',
         Post_2__c: 'form.post_challenge_mindskillz_pamumvuri.have_skills_that_help_me_bounce_back_from_difficult_situations',
@@ -545,6 +546,29 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
        Post_19__c: 'form.post_challenge_skillz_girl_mh_zambia.i_know_at_least_three_methods_to_avoid_an_unwanted_pregnancy',
        Post_20__c: 'form.post_challenge_skillz_girl_mh_zambia.are_you_or_your_boyfriend_currently_using_any_contraceptive_method',
        
+    },
+    
+    'post`_challenge_skillz_core_mh_zambia':{
+       Post_1__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_what_i_am_good_at',
+       Post_2__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life',
+       Post_3__c: 'form.post_challenge_skillz_core_mh_zambia.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others',
+       Post_4__c: 'form.post_challenge_skillz_core_mh_zambia.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
+       Post_5__c: 'form.post_challenge_skillz_core_mh_zambia.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_girlboy',
+       Post_6__c: 'form.post_challenge_skillz_core_mh_zambia.a_man_has_the_right_to_have_sex_with_his_wifegirlfriend_even_if_she_doesnt_',
+       Post_7__c: 'form.post_challenge_skillz_core_mh_zambia.girls_should_not_disagree_with_boys',
+       Post_8__c: 'form.post_challenge_skillz_core_mh_zambia.if_a_girl_gets_pregnant_she_should_drop_out_of_school',
+       Post_9__c: 'form.post_challenge_skillz_core_mh_zambia.i_have_the_right_to_say_no_to_sex_no_matter_who_asks_me',
+       Post_10__c: 'form.post_challenge_skillz_core_mh_zambia.i_have_an_older_person_in_my_life_i_can_go_to_for_advice',
+       Post_11__c: 'form.post_challenge_skillz_core_mh_zambia.if_i_test_positive_for_hiv_there_will_be_someone_who_will_help_and_support_',
+       Post_12__c: 'form.post_challenge_skillz_core_mh_zambia.people_with_mental_illness_live_on_the_streets_and_eat_dirty_food_from_garb',
+       Post_13__c: 'form.post_challenge_skillz_core_mh_zambia.drinking_alcohol_can_increase_my_risk_of_getting_hiv',
+       Post_14__c: 'form.post_challenge_skillz_core_mh_zambia.i_only_use_violent_behaviour_when_someone_angers_me',
+       Post_15__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_where_to_get_support_services_for_me_or_someone_else_for_abuse_or_hi',
+       Post_16__c: 'form.post_challenge_skillz_core_mh_zambia.i_have_the_right_to_access_sexual_health_services_such_as_sti_and_hiv_testi',
+       Post_17__c: 'form.post_challenge_skillz_core_mh_zambia.if_sexually_active_one_sign_of_pregnancy_can_be_a_girl_missing_her_period',
+       Post_18__c: 'form.post_challenge_skillz_core_mh_zambia.i_would_say_no_to_playing_sport_with_someone_who_has_hiv',
+       Post_19__c: 'form.post_challenge_skillz_core_mh_zambia.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her',
+       Post_20__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_what_decisions_to_make_to_achieve_my_goals',
     }
       
   };
