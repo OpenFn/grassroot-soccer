@@ -469,6 +469,29 @@ fn(state => {
        Pre_18__c: 'form.pre_challenge_skillz_core_mh_zambia.i_would_say_no_to_playing_sport_with_someone_who_has_hiv',
        Pre_19__c: 'form.pre_challenge_skillz_core_mh_zambia.i_can_tell_whether_someone_has_hiv_by_looking_at_him_or_her',
        Pre_20__c: 'form.pre_challenge_skillz_core_mh_zambia.i_know_what_decisions_to_make_to_achieve_my_goals',
+    },
+    
+    'pre_challenge_skillz_guyz_mh_zambia':{
+       Pre_1__c: 'form.pre_challenge_skillz_guyz_mh_zambia.a_mental_illness_is_a_sign_of_personal_weakness',
+       Pre_2__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_would_be_able_to_tell_my_girlfriend_that_i_want_to_use_a_condom',
+       Pre_3__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_dont_always_have_to_do_what_people_expect_just_because_i_am_a_boy',
+       Pre_4__c: 'form.pre_challenge_skillz_guyz_mh_zambia.it_is_the_mans_responsibility_to_make_decisions_in_a_relationship',
+       Pre_5__c: 'form.pre_challenge_skillz_guyz_mh_zambia.it_is_more_important_for_boys_to_be_educated_than_girls',
+       Pre_6__c: 'form.pre_challenge_skillz_guyz_mh_zambia.men_are_better_leaders_than_women',
+       Pre_7__c: 'form.pre_challenge_skillz_guyz_mh_zambia.a_manboy_has_the_right_to_have_sex_with_his_girlfriendwomanwife_even_if_she',
+       Pre_8__c: 'form.pre_challenge_skillz_guyz_mh_zambia.it_is_better_to_express_yourself_with_anger_when_upset_than_to_use_self-con',
+       Pre_9__c: 'form.pre_challenge_skillz_guyz_mh_zambia.it_is_okay_for_a_boyfriend_to_threaten_to_hit_his_girlfriend_if_he_never_hi',
+       Pre_10__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_can_say_no_to_sex_even_if_my_friends_or_girlfriend_pressure_me_to_have_se',
+       Pre_11__c: 'form.pre_challenge_skillz_guyz_mh_zambia.people_who_abuse_alcohol_are_more_likely_to_engage_in_risky_sexual_behaviou',
+       Pre_12__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_know_where_to_go_for_support_if_i_or_someone_i_know_drinks_too_much_alcoh',
+       Pre_13__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_have_a_friend_that_i_can_go_to_for_advice_when_i_have_a_problem',
+       Pre_14__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_have_the_right_to_access_sexual_health_services_such_as_hiv_and_sti_testi',
+       Pre_15__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_know_where_to_access_sexual_health_services_such_as_sti_and_hiv_testing',
+       Pre_16__c: 'form.pre_challenge_skillz_guyz_mh_zambia.seeking_help_for_mental_health_challenges_is_a_sign_of_weakness',
+       Pre_17__c: 'form.pre_challenge_skillz_guyz_mh_zambia.young_people_should_avoid_people_with_mental_illness_as_they_are_always_vio',
+       Pre_18__c: 'form.pre_challenge_skillz_guyz_mh_zambia.male_circumcision_reduces_a_males_risk_of_getting_hiv',
+       Pre_19__c: 'form.pre_challenge_skillz_guyz_mh_zambia.i_know_how_to_correctly_use_a_male_condom',
+       Pre_20__c: 'form.pre_challenge_skillz_guyz_mh_zambia.are_you_or_your_girlfriend_currently_using_any_contraceptive_or_protective_',
        
        
     }
