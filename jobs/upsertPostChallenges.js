@@ -391,6 +391,7 @@ fn(state => {
         Post_24__c:'form.post_challenge_mindskillz-_zambia_100.if_i_had_mental_illness_i_would_not_seek_help_from_a_mental_health_professi',
         Post_25__c:'form.post_challenge_mindskillz-_zambia_100.i_believe_treatment_for_a_mental_illness_provided_by_a_mental_health_profes',
               },
+              
       'post_challenge_skillz_girl_nih200': {
         Post_1__c:'form.post_challenge_skillz_girl_nih200.i_have_talked_about_hiv_with_an_adult_in_the_past_two_months_outside_skillz',
 Post_2__c:'form.post_challenge_skillz_girl_nih200.i_have_talked_about_hiv_with_a_friend_in_the_past_two_months_outside_skillz',
@@ -548,7 +549,7 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
        
     },
     
-    'post`_challenge_skillz_core_mh_zambia':{
+    'post_challenge_skillz_core_mh_zambia':{
        Post_1__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_what_i_am_good_at',
        Post_2__c: 'form.post_challenge_skillz_core_mh_zambia.i_know_how_to_overcome_challenges_that_i_may_have_in_life',
        Post_3__c: 'form.post_challenge_skillz_core_mh_zambia.i_can_make_my_own_decisions_no_matter_how_much_pressure_i_get_from_others',
