@@ -62,8 +62,8 @@ each(
       field('School_name_person__c', dataValue('school_name')),
       field('Date_of_Birth__c', dataValue('date_of_birth')),
       field('School_name_person__c', dataValue('school_name')),
-      field('Physical_Address__c', dataValue('participants_home_address'))
-      //field('Age__c', dataValue('form.question1.age_in_years')), //This is a SF formula field, cannot map
+      field('Physical_Address__c', dataValue('participants_home_address')),
+      field('Age_1_0__c', dataValue('participants_age_to_save'))
     )
   )
 );
