@@ -229,7 +229,7 @@ fn(state => {
     
     'pre_challenge_mindskillz_pamumvuri':{
       Pre_1__c: 'form.pre_challenge_mindskillz_pamumvuri.when_i_express_my_feelings_clearly_people_understand_me_better',
-      Pre_2__c: 'form.pre_challenge_mindskillz_pamumvuri.have_skills_that_help_me_bounce_back_from_difficult_situations',
+      Pre_2__c: 'form.pre_challenge_mindskillz_pamumvuri.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
       Pre_3__c: 'form.pre_challenge_mindskillz_pamumvuri.stress_is_a_normal_part_of_life',
       Pre_4__c: 'form.pre_challenge_mindskillz_pamumvuri.i_can_reach_my_goals_in_life',
       Pre_5__c: 'form.pre_challenge_mindskillz_pamumvuri.if_i_have_a_problem_i_have_someone_in_my_life_i_can_go_to_for_support',
