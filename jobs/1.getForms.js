@@ -13,7 +13,7 @@ get(
     const { meta, objects } = state.data;
     const { openfnInboxUrl } = state.configuration;
     const xmlnsList = [
-      `http://openrosa.org/formdesigner/6F130211-5A05-4915-8F55-A413A6B9D61B`, //Outcome Survey form
+      // `http://openrosa.org/formdesigner/6F130211-5A05-4915-8F55-A413A6B9D61B`, //Outcome Survey form
       // 'http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB', //Create Intervention form
       // 'http://openrosa.org/formdesigner/D50A9A33-B1B4-41B2-9ACA-15DBBDFBCF8C', //  My Team/Group Name form
       //'http://openrosa.org/formdesigner/D771417E-354E-4906-A686-DF0BA230F16A', // Register Participant form
