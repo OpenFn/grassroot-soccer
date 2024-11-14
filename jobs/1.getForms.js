@@ -6,7 +6,7 @@ get(
       offset: state.meta && state.meta.next ? state.meta.limit + state.meta.offset : 0,
       received_on_start: '2024-05-16',
       received_on_end: '2024-05-30',
-      xmlns: 'http://openrosa.org/formdesigner/6F130211-5A05-4915-8F55-A413A6B9D61B',
+      // xmlns: 'http://openrosa.org/formdesigner/6F130211-5A05-4915-8F55-A413A6B9D61B',
     },
   },
   state => {
