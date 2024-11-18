@@ -47,15 +47,15 @@ get(
     const forms = objects;
 
     state.configuration = { baseUrl: 'https://www.openfn.org' };
-    // console.log('Posting form submissions to OpenFn Inbox...');
+    console.log('Posting form submissions to OpenFn Inbox...');
 
-    // return each(forms, state => {
-    //   return post(`/inbox/${openfnInboxUrl}`, { body: state.data }, state => ({
-    //     ...state,
-    //     data: {},
-    //     references: [],
-    //   }))(state);
-    // })(state);
+    return each(forms, state => {
+      return post(`/inbox/${openfnInboxUrl}`, { body: state.data }, state => ({
+        ...state,
+        data: {},
+        references: [],
+      }))(state);
+    })(state);
     return state;
   }
 );
