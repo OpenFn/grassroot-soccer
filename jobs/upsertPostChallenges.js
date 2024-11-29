@@ -341,7 +341,7 @@ fn(state => {
     },
     'post_challenge_skillz_guyz_mh_-_sa_100':{
       Post_1__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_have_to_be_respectful_communicate_and_take_action_to_be_a_role_model_in_m',
-      Post_2__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.have_skills_that_help_me_bounce_back_from_difficult_situations',
+      Post_2__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
       Post_3__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_can_identify_my_strengths_or_things_that_i_am_good_at',
       Post_4__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.when_i_am_angry_i_know_how_to_avoid_using_violent_behaviour',
       Post_5__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.when_i_express_my_feelings_clearly_people_understand_me_better',
@@ -421,7 +421,7 @@ Post_24__c:'form.post_challenge_skillz_girl_nih200.are_you_or_your_boyfriendgirl
       
       'post_challenge_mindskillz_pamumvuri':{
         Post_1__c: 'form.post_challenge_mindskillz_pamumvuri.when_i_express_my_feelings_clearly_people_understand_me_better',
-        Post_2__c: 'form.post_challenge_mindskillz_pamumvuri.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
+        Post_2__c: 'form.post_challenge_mindskillz_pamumvuri.have_skills_that_help_me_bounce_back_from_difficult_situations',
         Post_3__c: 'form.post_challenge_mindskillz_pamumvuri.stress_is_a_normal_part_of_life',
         Post_4__c: 'form.post_challenge_mindskillz_pamumvuri.i_can_reach_my_goals_in_life',
         Post_5__c: 'form.post_challenge_mindskillz_pamumvuri.if_i_have_a_problem_i_have_someone_in_my_life_i_can_go_to_for_support',
