@@ -341,7 +341,7 @@ fn(state => {
     },
     'post_challenge_skillz_guyz_mh_-_sa_100':{
       Post_1__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_have_to_be_respectful_communicate_and_take_action_to_be_a_role_model_in_m',
-      Post_2__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
+      Post_2__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.have_skills_that_help_me_bounce_back_from_difficult_situations',
       Post_3__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.i_can_identify_my_strengths_or_things_that_i_am_good_at',
       Post_4__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.when_i_am_angry_i_know_how_to_avoid_using_violent_behaviour',
       Post_5__c: 'form.post_challenge_skillz_guyz_mh_-_sa_100.when_i_express_my_feelings_clearly_people_understand_me_better',
