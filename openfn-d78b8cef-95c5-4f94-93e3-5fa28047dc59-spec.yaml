@@ -65,14 +65,21 @@ workflows:
               
 
               // const { meta, objects } = state.data.body;
-                const webhookUrl  = state.configuration.attendanceNonSkillzWebhookUrl;
-                // const { coachSessionRegisterWebhookUrl } = state.configuration.coachSessionRegisterWebhookUrl;
-                // const { createInterventionWebhookUrl } = state.configuration.createInterventionWebhookUrl;
-                // const { upsertInterventionNotesWebhookUrl } = state.configuration.upsertInterventionNotesWebhookUrl;
-                // const { upsertRegisterParticipantWebhookUrl } = state.configuration.upsertRegisterParticipantWebhookUrl;
-                // const { upsertPreChallengesWebhookUrl } = state.configuration.upsertPreChallengesWebhookUrl;
-                // const { upsertPostChallengesWebhookUrl } = state.configuration.upsertPostChallengesWebhookUrl;
-
+              //  const webhookUrl  = state.configuration.attendanceNonSkillzWebhookUrl;
+              //   const { webhookUrl } = state.configuration.coachSessionRegisterWebhookUrl;
+                // const { webhookUrl } = state.configuration.createInterventionWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertInterventionNotesWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertRegisterParticipantWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertPreChallengesWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertPostChallengesWebhookUrl;
+                // const { webhookUrl } = state.configuration.hivTestingEventStatisticsWebhookUrl;
+                // const { webhookUrl } = state.configuration.outcomeSurveyWebhookUrl;
+                // const { webhookUrl } = state.configuration.PHQ9WebhookUrl;
+                // const { webhookUrl } = state.configuration.upserHomeVisitLogFormWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertRegisterEventWebhookUrl;
+                // const { webhookUrl } = state.configuration.riskAndVulnerabilityWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertServiceReferralWebhookUrl;
+                // const { webhookUrl } = state.configuration.upsertTeamOrGroupNameWebhookUrl;
 
               const forms = objects;
 
@@ -128,8 +135,8 @@ workflows:
     jobs:
       HIV-Testing-Event-Snapshot:
         name: HIV Testing Event Snapshot
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           upsert(
@@ -200,8 +207,8 @@ workflows:
     jobs:
       Malaria-Testing-Event-Snapshot:
         name: Malaria Testing Event Snapshot
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           upsert(
@@ -283,8 +290,8 @@ workflows:
     jobs:
       Malaria-Testing-Event-Statistics:
         name: Malaria Testing Event Statistics
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           upsert(
@@ -356,7 +363,7 @@ workflows:
       Register-Participant---V2-Skillz:
         name: Register Participant - V2 Skillz
         adaptor: '@openfn/language-salesforce@latest'
-        credential: null
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           query(`SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
 
@@ -446,7 +453,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
-        enabled: true
+        enabled: false
     edges:
       webhook->Register-Participant---V2-Skillz:
         source_trigger: webhook
@@ -461,8 +468,8 @@ workflows:
     jobs:
       Risk-and-Vulnerability-Assessment:
         name: Risk and Vulnerability Assessment
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // Your job goes here. Testing github
           alterState(state => {
@@ -755,8 +762,8 @@ workflows:
     jobs:
       Upsert-ART-Adherence-Self-Reporting-Tool:
         name: Upsert ART Adherence Self-Reporting Tool
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // Push to production
           alterState(state => {
@@ -969,8 +976,8 @@ workflows:
     jobs:
       Upsert-Aggregate-Service-Referrals:
         name: Upsert Aggregate Service Referrals
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // Push to production
           upsert(
@@ -1088,8 +1095,8 @@ workflows:
     jobs:
       Upsert-Attendance-Skillz-Plus-Club:
         name: Upsert Attendance Skillz Plus Club
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           query(
             `SELECT Participant_Identification_Number_PID__c from Person__c where Participant_Identification_Number_PID__c  = '${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}'`
@@ -1236,8 +1243,8 @@ workflows:
     jobs:
       Upsert-Coach-Support-Visit-CSV:
         name: Upsert Coach Support Visit CSV
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           //openfn.org source
           alterState(state => {
@@ -1434,8 +1441,8 @@ workflows:
     jobs:
       Upsert-Confirm-Services-Received:
         name: Upsert Confirm Services Received
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // Your job goes here.
           alterState(state => {
@@ -1644,8 +1651,8 @@ workflows:
     jobs:
       Upsert-Register-Participant-Skillz:
         name: Upsert Register Participant Skillz
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           query(
             `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
@@ -1817,8 +1824,8 @@ workflows:
     jobs:
       Upsert-Register-Skills-plus-Club:
         name: Upsert Register Skills plus Club
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           alterState((state) => {
@@ -1887,8 +1894,8 @@ workflows:
     jobs:
       Upsert-Service-Referral-2:
         name: Upsert Service Referral 2
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           alterState(state => {
@@ -2097,8 +2104,8 @@ workflows:
     jobs:
       Upsert-Service-Referral-Followup:
         name: Upsert Service Referral Followup
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           alterState(state => {
@@ -2307,8 +2314,8 @@ workflows:
     jobs:
       Attendance-Non-Skillz:
         name: Attendance Non Skillz
-        adaptor: '@openfn/language-salesforce@latest'
-        credential: null
+        adaptor: '@openfn/language-salesforce@4.3.0'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           fn(state => {
             if (!state.data.form.attendance_list.update_participant_cases.item) {
@@ -2444,7 +2451,7 @@ workflows:
     jobs:
       Coach-Session-Register:
         name: Coach Session Register
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@2.7.4'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
@@ -2550,7 +2557,7 @@ workflows:
     jobs:
       Create-Intervention:
         name: Create Intervention
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@2.7.4'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           alterState((state) => {
@@ -2651,8 +2658,8 @@ workflows:
     jobs:
       HIV-Testing-Event-Statistics:
         name: HIV Testing Event Statistics
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
           upsert(
@@ -2890,8 +2897,8 @@ workflows:
     jobs:
       Outcome-Survey:
         name: Outcome Survey
-        adaptor: '@openfn/language-salesforce@v4.6.0'
-        credential: null
+        adaptor: '@openfn/language-salesforce@4.6.0'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           fn((state) => {
 
@@ -3136,8 +3143,8 @@ workflows:
     jobs:
       PHQ9:
         name: PHQ9
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           alterState(state => {
             function capitalizeFirstLetter(str) {
@@ -3274,8 +3281,8 @@ workflows:
     jobs:
       Upsert-Home-Visit-Log-Form:
         name: Upsert Home Visit Log Form
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // push to production
 
@@ -3371,7 +3378,7 @@ workflows:
     jobs:
       Upsert-Intervention-Notes:
         name: Upsert Intervention Notes
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@2.7.4'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           //openfn.org source 
@@ -3404,7 +3411,7 @@ workflows:
     jobs:
       Upsert-Post-Challenges:
         name: Upsert Post Challenges
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@4.3.0'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           fn(state => {
@@ -3830,7 +3837,7 @@ workflows:
                 
                 'post_challenge_mindskillz_pamumvuri':{
                   Post_1__c: 'form.post_challenge_mindskillz_pamumvuri.when_i_express_my_feelings_clearly_people_understand_me_better',
-                  Post_2__c: 'form.post_challenge_mindskillz_pamumvuri.i_have_skills_that_help_me_bounce_back_from_difficult_situations',
+                  Post_2__c: 'form.post_challenge_mindskillz_pamumvuri.have_skills_that_help_me_bounce_back_from_difficult_situations',
                   Post_3__c: 'form.post_challenge_mindskillz_pamumvuri.stress_is_a_normal_part_of_life',
                   Post_4__c: 'form.post_challenge_mindskillz_pamumvuri.i_can_reach_my_goals_in_life',
                   Post_5__c: 'form.post_challenge_mindskillz_pamumvuri.if_i_have_a_problem_i_have_someone_in_my_life_i_can_go_to_for_support',
@@ -4203,7 +4210,6 @@ workflows:
                 field('Date_of_Post__c', dataValue('form.date')),
               )
             );*/
-
     triggers:
       webhook:
         type: webhook
@@ -4222,7 +4228,7 @@ workflows:
     jobs:
       Upsert-Pre-Challenges:
         name: Upsert Pre Challenges
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@4.3.0'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           fn(state => {
@@ -4941,7 +4947,6 @@ workflows:
 
           //   )
           // );
-
     triggers:
       webhook:
         type: webhook
@@ -4960,8 +4965,8 @@ workflows:
     jobs:
       Upsert-Register-Event:
         name: Upsert Register Event
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           alterState((state) => {
             
@@ -5050,7 +5055,7 @@ workflows:
     jobs:
       Upsert-Register-Participant:
         name: Upsert Register Participant
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@4.3.0'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           query(
@@ -5223,8 +5228,8 @@ workflows:
     jobs:
       Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
         name: Upsert Risk and Vulnerability Assessment - Service Referral
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           // Your job goes here.
           alterState(state => {
@@ -5753,8 +5758,8 @@ workflows:
     jobs:
       Upsert-Service-Referral:
         name: Upsert Service Referral
-        adaptor: '@openfn/language-salesforce@v2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@4.8.6'
+        credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           alterState(state => {
             function checked(key, str) {
@@ -6031,7 +6036,7 @@ workflows:
     jobs:
       Upsert-Team-or-Group-Name:
         name: Upsert Team or Group Name
-        adaptor: '@openfn/language-salesforce@v2.7.4'
+        adaptor: '@openfn/language-salesforce@2.7.4'
         credential: null
         body: |
           // Upsert event by unique 'Name'
