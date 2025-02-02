@@ -4,10 +4,6 @@
   "description": null,
   "inserted_at": "2024-04-30T14:08:17Z",
   "updated_at": "2024-12-11T10:30:17Z",
-  "scheduled_deletion": null,
-  "history_retention_period": null,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "project_credentials": {
     "rita@openfn.org-GRS-Salesforce-Prod": {
       "id": "22c49c7c-e8b6-47aa-a0dd-6a50cd62fa5b",
@@ -20,6 +16,10 @@
       "owner": "rita@openfn.org"
     }
   },
+  "scheduled_deletion": null,
+  "history_retention_period": null,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "workflows": {
     "x-[archived]-Attendance": {
       "id": "fa06ca4b-0d2e-4a12-8ba8-3f570cb989cd",
