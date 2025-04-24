@@ -171,7 +171,7 @@ workflows:
     jobs:
       Register-Participant---V2-Skillz:
         name: Register Participant - V2 Skillz
-        adaptor: '@openfn/language-salesforce@latest'
+        adaptor: '@openfn/language-salesforce@5.0.5'
         credential: rita@openfn.org-GRS-Salesforce-Prod
         body: |
           query(`SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`);
@@ -271,7 +271,7 @@ workflows:
         condition_label: Register Participants skillz
         condition_expression: |
           state.data.form["@name"] == "Register Participants" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-        enabled: false
+        enabled: true
   "?-Malaria-Testing-Event-Statistics":
     name: '? Malaria Testing Event Statistics'
     jobs:
@@ -434,7 +434,7 @@ workflows:
         condition_label: 'Attendance (Non Skillz Only)'
         condition_expression: |
           state.data.form.attendance == "1" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-        enabled: false
+        enabled: true
   Upsert-Post-Challenges:
     name: Upsert Post Challenges
     jobs:
@@ -3539,7 +3539,18 @@ workflows:
             return state;
           });
 
-          upsertIf(dataValue('complete_service_referrals'), 'NewReferral__c', 'CommCare_Ext_ID__c', state => ({
+          upsertIf(
+            state => {
+              const referralServices = state.data.referral_services;
+              return (
+                referralServices &&
+                (parseInt(referralServices.art_support_services.count_of_art_support_services) > 0 ||
+                 parseInt(referralServices.child_protection_support_services.count_child_protection_support_services) > 0 ||
+                 parseInt(referralServices.hiv_support__care.count_of_hiv_support_care) > 0 ||
+                 parseInt(referralServices.legal_services.count_legal_services) > 0 ||
+                 parseInt(referralServices.mental_health_services.count_mental_health_services) > 0)
+              );
+            }, 'NewReferral__c', 'CommCare_Ext_ID__c', state => ({
             ...fields(
               field('CommCare_Ext_ID__c', state => {
                 if (state.data.form.subcase_0.case) return state.data.form.subcase_0.case['@case_id'];
@@ -5610,7 +5621,7 @@ workflows:
         source_trigger: cron
         target_job: 1-Get-CommCare-Forms-Bulk-Extract
         condition_type: always
-        enabled: false
+        enabled: true
   "?-Risk-and-Vulnerability-Assessment":
     name: '? Risk and Vulnerability Assessment'
     jobs:
