@@ -1,0 +1,177 @@
+{
+  "data": {
+    "app_id": "bd835ba97e1e474095bd41389a7f66de",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 4054,
+        "url": "https://www.commcarehq.org/a/grassrootsoccertrial/api/form_attachment/v1/57e678f6-a280-4b41-a640-7c498bdcff7d/form.xml"
+      }
+    },
+    "build_id": "3402b6ef27344660837613b816d254d8",
+    "domain": "grassrootsoccertrial",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "does_venue_do_malaria_testing": "",
+      "Venue": "bc1ff5dfcab048e68c39aaf61fd10713",
+      "delivery_method": "during_school",
+      "venue_name": "Test Venue",
+      "#type": "data",
+      "num_coaches": "1",
+      "does_country_have_mental_health_assessments": "",
+      "curriculum_selection": {
+        "curriculum": "34",
+        "graduate_number": "11",
+        "sessions_to_graduate": "OK"
+      },
+      "create_intervention_delegates": {
+        "case": {
+          "@case_id": "ae0ed749-13b5-4d76-bd41-6cb670942d2a",
+          "@date_modified": "2025-06-04T14:38:39.259000Z",
+          "@user_id": "9f32079d5d4d47ec8eb9d5d4ec1a2da5",
+          "@xmlns": "http://commcarehq.org/case/transaction/v2",
+          "create": {
+            "case_name": "72b60ef81d8c434a810712b89b1c1bfb",
+            "case_type": "intervention_delegate",
+            "owner_id": "-"
+          },
+          "index": {
+            "parent": {
+              "#text": "8c1ec5d6-0b94-40a4-9268-c204e6281668",
+              "@case_type": "intervention"
+            }
+          },
+          "update": {
+            "intervention_name": "Test Venue 5 2025-06-04",
+            "owner_id": "72b60ef81d8c434a810712b89b1c1bfb"
+          }
+        },
+        "coach_id": "72b60ef81d8c434a810712b89b1c1bfb",
+        "intervention_name": "Test Venue 5 2025-06-04"
+      },
+      "venue_code": "bc1ff5dfcab048e68c39aaf61fd10713",
+      "venue_custom_code": "",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+        "app_build_version": 3987,
+        "commcare_version": "2.56.1",
+        "deviceID": "commcare_68c3cfe9-1973-48df-881d-f1c648816078",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "57e678f6-a280-4b41-a640-7c498bdcff7d",
+        "timeEnd": "2025-06-04T14:38:39.259000Z",
+        "timeStart": "2025-06-04T14:38:00.589000Z",
+        "userID": "9f32079d5d4d47ec8eb9d5d4ec1a2da5",
+        "username": "sa.coach1"
+      },
+      "@version": "3929",
+      "@xmlns": "http://openrosa.org/formdesigner/40BBC9E3-C650-4F72-A027-235BF33D87AB",
+      "@name": "Create Intervention",
+      "prepost_administered": "yes",
+      "geographic_area": "urban",
+      "test_real": "Real",
+      "coaches": "72b60ef81d8c434a810712b89b1c1bfb",
+      "class_grade": "5",
+      "intervention_dates": {
+        "end_date": "2025-06-04",
+        "start_date": "2025-06-04"
+      },
+      "site": "f6002bee27cf41288975ae5f6236587b",
+      "country": "6c31d354b4be4d4f81ad5aaa6a262b25",
+      "business_unit": "26ed0b3dfc7d4dd09be5182c18fc0638",
+      "@uiVersion": "1",
+      "name_of_intervention": "Test Venue 5 2025-06-04",
+      "country_custom_code": "",
+      "site_code": "f6002bee27cf41288975ae5f6236587b",
+      "grant": "fifa_foundation",
+      "does_country_have_skillz_plus_club": "",
+      "venue_type": "secondary_school",
+      "site_country": "6c31d354b4be4d4f81ad5aaa6a262b25",
+      "case": {
+        "@case_id": "8c1ec5d6-0b94-40a4-9268-c204e6281668",
+        "@date_modified": "2025-06-04T14:38:39.259000Z",
+        "@user_id": "9f32079d5d4d47ec8eb9d5d4ec1a2da5",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2",
+        "create": {
+          "case_name": "Test Venue 5 2025-06-04",
+          "case_type": "intervention",
+          "owner_id": "-"
+        },
+        "update": {
+          "business_unit": "26ed0b3dfc7d4dd09be5182c18fc0638",
+          "class_grade": "5",
+          "coaches": "72b60ef81d8c434a810712b89b1c1bfb",
+          "country_custom_code": "",
+          "country_id": "6c31d354b4be4d4f81ad5aaa6a262b25",
+          "curriculum": "34",
+          "delivery_method": "during_school",
+          "does_country_have_mental_health_assessments": "",
+          "does_country_have_skillz_plus_club": "",
+          "does_venue_do_malaria_testing": "",
+          "end_date": "2025-06-04",
+          "owner_id": "bc1ff5dfcab048e68c39aaf61fd10713",
+          "sessions_to_graduate": "11",
+          "site": "f6002bee27cf41288975ae5f6236587b",
+          "start_date": "2025-06-04",
+          "test_real": "Real",
+          "venue": "bc1ff5dfcab048e68c39aaf61fd10713",
+          "venue_custom_code": ""
+        }
+      }
+    },
+    "id": "57e678f6-a280-4b41-a640-7c498bdcff7d",
+    "indexed_on": "2025-06-04T14:38:39.957102Z",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+      "app_build_version": 3987,
+      "commcare_version": "2.56.1",
+      "deviceID": "commcare_68c3cfe9-1973-48df-881d-f1c648816078",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "57e678f6-a280-4b41-a640-7c498bdcff7d",
+      "location": null,
+      "timeEnd": "2025-06-04T14:38:39.259000Z",
+      "timeStart": "2025-06-04T14:38:00.589000Z",
+      "userID": "9f32079d5d4d47ec8eb9d5d4ec1a2da5",
+      "username": "sa.coach1"
+    },
+    "problem": null,
+    "received_on": "2025-06-04T14:38:39.563603Z",
+    "resource_uri": "",
+    "server_modified_on": "2025-06-04T14:38:39.653718Z",
+    "submit_ip": "102.128.79.181",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3929"
+  },
+  "request": {
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate",
+      "baggage": "sentry-trace_id=9d281c1658d94d86b705f58f199b4f74,sentry-environment=production,sentry-release=2025-06-02_22.24-production,sentry-public_key=5f744d5fa24b49a695adfcbfc5d3d755",
+      "content-length": "4722",
+      "content-type": "application/json",
+      "host": "app.openfn.org",
+      "received-on": "2025-06-04T14:38:39.563603Z",
+      "sentry-trace": "9d281c1658d94d86b705f58f199b4f74-ad90c1349a881f42",
+      "user-agent": "python-requests/2.32.3",
+      "via": "1.1 google",
+      "x-cloud-trace-context": "2980400e8ac274e6f9951688ac5598bf/4614556207197722809",
+      "x-forwarded-for": "35.175.35.59,34.36.242.233",
+      "x-forwarded-proto": "https"
+    },
+    "method": "POST",
+    "path": [
+      "i",
+      "ae0536ff-41ec-494f-9ca3-5c44cadbe87b"
+    ],
+    "query_params": {
+      "app_id": "bd835ba97e1e474095bd41389a7f66de"
+    }
+  }
+}
