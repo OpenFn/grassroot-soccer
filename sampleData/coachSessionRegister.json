@@ -1,0 +1,104 @@
+{
+  "data": {
+    "app_id": "bd835ba97e1e474095bd41389a7f66de",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 1456,
+        "url": "https://www.commcarehq.org/a/grassrootsoccertrial/api/form_attachment/v1/8ee796b8-0633-4416-916a-00ddcfccb7be/form.xml"
+      }
+    },
+    "build_id": "3402b6ef27344660837613b816d254d8",
+    "domain": "grassrootsoccertrial",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "@name": "Coach Session Register",
+      "@uiVersion": "1",
+      "@version": "3639",
+      "@xmlns": "http://openrosa.org/formdesigner/3B4B1C64-092A-4922-B033-94D80A11D960",
+      "business_unit": "65680f0c4c144b03ad0f86bdc46c1ebc",
+      "case": {
+        "@case_id": "bf5e07bc-547c-43a1-a105-037394e5362c",
+        "@date_modified": "2025-06-11T11:52:22.521000Z",
+        "@user_id": "bf71a8328499445f87e35ff05867b219",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2"
+      },
+      "coach_name": "7b06f13ef2994204a2eb3f3514bad398 9543e6cbd27e4183a45382af66b7a4ab",
+      "date": "2025-06-11",
+      "duration": "60",
+      "intervention_curriculum": "35",
+      "intervention_name": "Chamboli Primary School Team Madrid 2025-06-02",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+        "app_build_version": 3987,
+        "commcare_version": "2.56.1",
+        "deviceID": "commcare_51168c86-03d8-4d67-b24c-e50e5ad4fad1",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "8ee796b8-0633-4416-916a-00ddcfccb7be",
+        "timeEnd": "2025-06-11T11:52:22.521000Z",
+        "timeStart": "2025-06-11T11:52:10.836000Z",
+        "userID": "bf71a8328499445f87e35ff05867b219",
+        "username": "antoinette_chilambe"
+      },
+      "present": "yes",
+      "session": "P7 // Finding Support",
+      "test_real": "Real"
+    },
+    "id": "8ee796b8-0633-4416-916a-00ddcfccb7be",
+    "indexed_on": "2025-06-11T11:52:23.133879Z",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+      "app_build_version": 3987,
+      "commcare_version": "2.56.1",
+      "deviceID": "commcare_51168c86-03d8-4d67-b24c-e50e5ad4fad1",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "8ee796b8-0633-4416-916a-00ddcfccb7be",
+      "location": null,
+      "timeEnd": "2025-06-11T11:52:22.521000Z",
+      "timeStart": "2025-06-11T11:52:10.836000Z",
+      "userID": "bf71a8328499445f87e35ff05867b219",
+      "username": "antoinette_chilambe"
+    },
+    "problem": null,
+    "received_on": "2025-06-11T11:52:22.857747Z",
+    "resource_uri": "",
+    "server_modified_on": "2025-06-11T11:52:22.921220Z",
+    "submit_ip": "41.223.116.244",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3639"
+  },
+  "request": {
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate",
+      "baggage": "sentry-trace_id=ac04bc6071af4452a9f45adc22d1d44a,sentry-environment=production,sentry-release=2025-06-05_20.36-production,sentry-public_key=5f744d5fa24b49a695adfcbfc5d3d755",
+      "content-length": "2624",
+      "content-type": "application/json",
+      "host": "app.openfn.org",
+      "received-on": "2025-06-11T11:52:22.857747Z",
+      "sentry-trace": "ac04bc6071af4452a9f45adc22d1d44a-afb1ebe3c6f04889",
+      "user-agent": "python-requests/2.32.3",
+      "via": "1.1 google",
+      "x-cloud-trace-context": "1825e751a4a5ec96f97f95b2d10a59e6/9602923537570773659",
+      "x-forwarded-for": "35.175.35.59,34.36.242.233",
+      "x-forwarded-proto": "https"
+    },
+    "method": "POST",
+    "path": [
+      "i",
+      "34f0acc8-ef52-4896-b2a2-857ed1fe16a5"
+    ],
+    "query_params": {
+      "app_id": "bd835ba97e1e474095bd41389a7f66de"
+    }
+  }
+}
