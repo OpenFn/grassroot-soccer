@@ -1,0 +1,2515 @@
+{
+  "data": {
+    "app_id": "bd835ba97e1e474095bd41389a7f66de",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 83841,
+        "url": "https://www.commcarehq.org/a/grassrootsoccertrial/api/form_attachment/v1/cd7f6eab-417c-44eb-bff0-c28a2dc768d5/form.xml"
+      }
+    },
+    "build_id": "3402b6ef27344660837613b816d254d8",
+    "domain": "grassrootsoccertrial",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "@name": "Attendance",
+      "@uiVersion": "1",
+      "@version": "3639",
+      "@xmlns": "http://openrosa.org/formdesigner/34DD6DFD-13E7-4E19-8A27-F18B6D39E12E",
+      "attendance": "1",
+      "attendance_list": {
+        "present": "",
+        "session": "P7 // Finding Support",
+        "session_lookup": "P7 // Finding Support",
+        "update_participant_cases": {
+          "@count": "48",
+          "@current_index": "48",
+          "@ids": "05915f7f-bcb0-447e-a341-cea9a78aadd0 12284804-370d-4112-975a-ad6ab4e8ecd5 3fd8c9cc-aebf-4153-b99a-3af4326cc5c2 73c21438-041f-470e-859c-8dbec1e905c5 7c1402c5-ce1b-43dd-bdec-ecae6944bba1 8ea0228a-fc24-484b-84a3-e4e31c1131f7 a82d581e-3cea-47c1-bd3a-912983846f21 acc1923c-9ca1-401e-8e54-d1b92cf767df c7a3c64e-2c7c-49cc-b567-0a9a08b3d80d cefd093e-3192-4f07-a867-b6fbbcd732d2 17702b2e-a418-416e-bd4a-66b6ed12a524 1b587daf-737f-46b0-a732-d3bf8b02ce46 2a6b5c28-1583-42a2-a407-c1c75283cf70 2bddc6dc-4a67-42b9-926e-79c6af399ab6 52088276-ace7-4ff1-9202-b18344bbdb96 77942bdd-b0fd-4810-b61a-81de53cd67eb 7c86f3e3-6427-46df-863c-ac47296cb606 a9a6f259-f88e-482e-9dd3-6ee7046f3e04 bbc74d5b-19ce-496a-b2c3-c3a17931c78e e7d51247-1b49-40a8-a34b-f6e1cf1f8bde 2a4816d6-9a2a-475e-943d-1e7291c2f6a7 3f77acc6-2e79-407c-a3f3-2745e7c65565 622446b8-0d95-4b43-9946-53770b5a4de9 63bc1114-69f5-4b83-a543-1743a6240810 8cbb9aed-a11f-430b-88e0-94a8f2500f95 a3daaf13-eb49-4e5c-82b5-71fdd8b44a1c b39beb6d-2d18-4437-91f7-238a07dda5ba d19874b0-737c-45bf-8f51-de4f99f19973 fe79286c-0c6d-4411-ab24-4db7265b54e9 4849e57c-834b-4bd1-8534-66a5bc723877 64d9065c-9e79-4fc3-b840-ff12ab476f54 64fd8d16-3042-45fa-acb9-cfa6eb7ce9de 65e28150-d90a-41e0-a3e5-2d4abc166087 bb6c5725-6c14-441e-a4c2-3cc5cf87193b c1e1b29c-8a91-4ce8-8075-b4f4a40c71ed d68ea16d-7f71-4f99-82d9-acb56182d42d d86bf948-2f76-4364-96b9-308b50fcb902 ecbe822a-5ef8-408e-b054-1783ba8cb009 fafdb0a6-05da-4161-a6a8-3708e2d3ff9c 1f3aa297-40c2-4bcb-bae9-d921daf897e6 26f3a31c-51db-4b0f-8554-8170b16b6b8c 393b79cd-f2c8-4fd6-970a-fd6aa90a9f8a 5a03e014-46ac-4850-a90e-6373f2f78569 9f3f602b-d821-4d6e-8b0e-95d62af453d1 aed9edc1-70af-4a9d-8eb6-878028b6d06a b7c790aa-108e-4c44-9336-d5a1e7fca236 c83bdfca-a8d5-4f5c-8deb-7c71aa29d4e4 de10a847-946d-4ad9-abaf-6861d0262f6a",
+          "item": [
+            {
+              "@id": "05915f7f-bcb0-447e-a341-cea9a78aadd0",
+              "@index": "0",
+              "attendance_name": "Emmanuel Kundu P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "d71428fd-7de4-49cd-afad-ed7be1982192",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Emmanuel Kundu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "05915f7f-bcb0-447e-a341-cea9a78aadd0",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "5",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Emmanuel Kundu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "05915f7f-bcb0-447e-a341-cea9a78aadd0",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "12284804-370d-4112-975a-ad6ab4e8ecd5",
+              "@index": "1",
+              "attendance_name": "Emmanuel Ngoma P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "48d151f3-23df-41b9-afe5-3694985d8445",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Emmanuel Ngoma P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "12284804-370d-4112-975a-ad6ab4e8ecd5",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "5",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Emmanuel Ngoma",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "12284804-370d-4112-975a-ad6ab4e8ecd5",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "3fd8c9cc-aebf-4153-b99a-3af4326cc5c2",
+              "@index": "2",
+              "attendance_name": "Luyando Asonsa P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "afd83133-c284-4b14-bbd7-369945286024",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Luyando Asonsa P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "3fd8c9cc-aebf-4153-b99a-3af4326cc5c2",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "3",
+              "participant_age": "11",
+              "participant_gender": "female",
+              "participant_name": "Luyando Asonsa",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "3fd8c9cc-aebf-4153-b99a-3af4326cc5c2",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "73c21438-041f-470e-859c-8dbec1e905c5",
+              "@index": "3",
+              "attendance_name": "Cholwe Sing'andu P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "22ce9d18-5022-455c-85e8-02eb9b63150d",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Cholwe Sing'andu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "73c21438-041f-470e-859c-8dbec1e905c5",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Cholwe Sing'andu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "73c21438-041f-470e-859c-8dbec1e905c5",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "7c1402c5-ce1b-43dd-bdec-ecae6944bba1",
+              "@index": "4",
+              "attendance_name": "Christopher Bwalya P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "3ff53055-7a0c-454c-9f17-d62610267957",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Christopher Bwalya P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "7c1402c5-ce1b-43dd-bdec-ecae6944bba1",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Christopher Bwalya",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "7c1402c5-ce1b-43dd-bdec-ecae6944bba1",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "8ea0228a-fc24-484b-84a3-e4e31c1131f7",
+              "@index": "5",
+              "attendance_name": "Mundia Monde P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "a10f3fbf-ee8f-4c02-9c92-2ddbc22486fa",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Mundia Monde P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "8ea0228a-fc24-484b-84a3-e4e31c1131f7",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Mundia Monde",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "8ea0228a-fc24-484b-84a3-e4e31c1131f7",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "a82d581e-3cea-47c1-bd3a-912983846f21",
+              "@index": "6",
+              "attendance_name": "Chimwemwe Mwale P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "ae388f78-4f28-41e4-a589-051585dcf041",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Chimwemwe Mwale P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "a82d581e-3cea-47c1-bd3a-912983846f21",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "6",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Chimwemwe Mwale",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "a82d581e-3cea-47c1-bd3a-912983846f21",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "6"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "acc1923c-9ca1-401e-8e54-d1b92cf767df",
+              "@index": "7",
+              "attendance_name": "Bridget Mweemba P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "ddc24703-02cb-4522-9274-b6014e6f7840",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Bridget Mweemba P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "acc1923c-9ca1-401e-8e54-d1b92cf767df",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "4",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Bridget Mweemba",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "acc1923c-9ca1-401e-8e54-d1b92cf767df",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "4"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "c7a3c64e-2c7c-49cc-b567-0a9a08b3d80d",
+              "@index": "8",
+              "attendance_name": "Elisha Kazhila P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "e35672f7-185c-4f8c-b33a-add5ec244c9f",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Elisha Kazhila P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "c7a3c64e-2c7c-49cc-b567-0a9a08b3d80d",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "1",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Elisha Kazhila",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "c7a3c64e-2c7c-49cc-b567-0a9a08b3d80d",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "cefd093e-3192-4f07-a867-b6fbbcd732d2",
+              "@index": "9",
+              "attendance_name": "Catherine Mwale P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "cd70a927-c342-48c1-86e5-0c80920776d8",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Catherine Mwale P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "cefd093e-3192-4f07-a867-b6fbbcd732d2",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "4",
+              "participant_age": "13",
+              "participant_gender": "female",
+              "participant_name": "Catherine Mwale",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "cefd093e-3192-4f07-a867-b6fbbcd732d2",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "4"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "17702b2e-a418-416e-bd4a-66b6ed12a524",
+              "@index": "10",
+              "attendance_name": "Gift Magoye P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "c9d7ccb1-75c3-4742-b5a3-4c2dccade128",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Gift Magoye P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "17702b2e-a418-416e-bd4a-66b6ed12a524",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Gift Magoye",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "17702b2e-a418-416e-bd4a-66b6ed12a524",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "1b587daf-737f-46b0-a732-d3bf8b02ce46",
+              "@index": "11",
+              "attendance_name": "Mitchell Musonda P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "258d7744-f174-4f5c-901d-b295b39ee9da",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Mitchell Musonda P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "1b587daf-737f-46b0-a732-d3bf8b02ce46",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "1",
+              "participant_age": "11",
+              "participant_gender": "female",
+              "participant_name": "Mitchell Musonda",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "1b587daf-737f-46b0-a732-d3bf8b02ce46",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "2a6b5c28-1583-42a2-a407-c1c75283cf70",
+              "@index": "12",
+              "attendance_name": "Indiye Konga P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "854a25a6-7249-4456-8087-31d654660f6e",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Indiye Konga P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "2a6b5c28-1583-42a2-a407-c1c75283cf70",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Indiye Konga",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "2a6b5c28-1583-42a2-a407-c1c75283cf70",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "2bddc6dc-4a67-42b9-926e-79c6af399ab6",
+              "@index": "13",
+              "attendance_name": "Prudence Kabasu P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "3fa14d0f-a597-403d-865e-eb8d3916d830",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Prudence Kabasu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "2bddc6dc-4a67-42b9-926e-79c6af399ab6",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Prudence Kabasu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "2bddc6dc-4a67-42b9-926e-79c6af399ab6",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "52088276-ace7-4ff1-9202-b18344bbdb96",
+              "@index": "14",
+              "attendance_name": "Dominic Chinza P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "b19d2263-d13f-40f7-9999-6dcef0a9eed4",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Dominic Chinza P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "52088276-ace7-4ff1-9202-b18344bbdb96",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "5",
+              "participant_age": "10",
+              "participant_gender": "male",
+              "participant_name": "Dominic Chinza",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "52088276-ace7-4ff1-9202-b18344bbdb96",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "77942bdd-b0fd-4810-b61a-81de53cd67eb",
+              "@index": "15",
+              "attendance_name": "Idah Nyeleti P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "a562b7aa-ba3a-4d0f-9986-540dd3e6320a",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Idah Nyeleti P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "77942bdd-b0fd-4810-b61a-81de53cd67eb",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "4",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Idah Nyeleti",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "77942bdd-b0fd-4810-b61a-81de53cd67eb",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "4"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "7c86f3e3-6427-46df-863c-ac47296cb606",
+              "@index": "16",
+              "attendance_name": "Benson Musongole P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "d4bcc42e-8b7b-4cdc-91d0-e94319e85262",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Benson Musongole P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "7c86f3e3-6427-46df-863c-ac47296cb606",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Benson Musongole",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "7c86f3e3-6427-46df-863c-ac47296cb606",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "a9a6f259-f88e-482e-9dd3-6ee7046f3e04",
+              "@index": "17",
+              "attendance_name": "Richard Narishiwa P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "4275bbd9-8037-4743-b6cb-6e6cdcb9cccb",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Richard Narishiwa P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "a9a6f259-f88e-482e-9dd3-6ee7046f3e04",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Richard Narishiwa",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "a9a6f259-f88e-482e-9dd3-6ee7046f3e04",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "bbc74d5b-19ce-496a-b2c3-c3a17931c78e",
+              "@index": "18",
+              "attendance_name": "Bright Sinkala P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "eb7522aa-64d5-4b5a-8483-cc78b790caf6",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Bright Sinkala P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "bbc74d5b-19ce-496a-b2c3-c3a17931c78e",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "1",
+              "participant_age": "10",
+              "participant_gender": "male",
+              "participant_name": "Bright Sinkala",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "bbc74d5b-19ce-496a-b2c3-c3a17931c78e",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "e7d51247-1b49-40a8-a34b-f6e1cf1f8bde",
+              "@index": "19",
+              "attendance_name": "Lotwell Kandiyata P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "39e1f1e4-ba85-4432-a0ab-c8ae2aceeff2",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Lotwell Kandiyata P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "e7d51247-1b49-40a8-a34b-f6e1cf1f8bde",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "13",
+              "participant_gender": "male",
+              "participant_name": "Lotwell Kandiyata",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "e7d51247-1b49-40a8-a34b-f6e1cf1f8bde",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "2a4816d6-9a2a-475e-943d-1e7291c2f6a7",
+              "@index": "20",
+              "attendance_name": "Anita Musongole P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "6f99a57a-0153-4073-9dce-f43f6d48b65e",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Anita Musongole P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "2a4816d6-9a2a-475e-943d-1e7291c2f6a7",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "6",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Anita Musongole",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "2a4816d6-9a2a-475e-943d-1e7291c2f6a7",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "6"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "3f77acc6-2e79-407c-a3f3-2745e7c65565",
+              "@index": "21",
+              "attendance_name": "Precious Chisenga P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "8936b146-960b-41e4-a466-c5e0356bbb6a",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Precious Chisenga P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "3f77acc6-2e79-407c-a3f3-2745e7c65565",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "6",
+              "participant_age": "9",
+              "participant_gender": "female",
+              "participant_name": "Precious Chisenga",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "3f77acc6-2e79-407c-a3f3-2745e7c65565",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "6"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "622446b8-0d95-4b43-9946-53770b5a4de9",
+              "@index": "22",
+              "attendance_name": "Simon Chileshe P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "59945688-63e1-44b8-b3ac-17862ade5fe1",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Simon Chileshe P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "622446b8-0d95-4b43-9946-53770b5a4de9",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "6",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Simon Chileshe",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "622446b8-0d95-4b43-9946-53770b5a4de9",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "6"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "63bc1114-69f5-4b83-a543-1743a6240810",
+              "@index": "23",
+              "attendance_name": "Issac Nyirenda P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "160dcc54-5d7d-43e3-87a1-2543b50a3f75",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Issac Nyirenda P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "63bc1114-69f5-4b83-a543-1743a6240810",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Issac Nyirenda",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "63bc1114-69f5-4b83-a543-1743a6240810",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "8cbb9aed-a11f-430b-88e0-94a8f2500f95",
+              "@index": "24",
+              "attendance_name": "Temwani Mwandila P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "343273a1-8a6b-48d0-97d3-3acc85cd5895",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Temwani Mwandila P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "8cbb9aed-a11f-430b-88e0-94a8f2500f95",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "1",
+              "participant_age": "13",
+              "participant_gender": "female",
+              "participant_name": "Temwani Mwandila",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "8cbb9aed-a11f-430b-88e0-94a8f2500f95",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "a3daaf13-eb49-4e5c-82b5-71fdd8b44a1c",
+              "@index": "25",
+              "attendance_name": "Natalia Mumba P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "9f8d435e-a9a3-422d-8310-f567e0d92b99",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Natalia Mumba P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "a3daaf13-eb49-4e5c-82b5-71fdd8b44a1c",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Natalia Mumba",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "a3daaf13-eb49-4e5c-82b5-71fdd8b44a1c",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "b39beb6d-2d18-4437-91f7-238a07dda5ba",
+              "@index": "26",
+              "attendance_name": "Issac Tembo P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "573b6725-ee4d-407b-91dd-2f397c8efc39",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Issac Tembo P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "b39beb6d-2d18-4437-91f7-238a07dda5ba",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "3",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Issac Tembo",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "b39beb6d-2d18-4437-91f7-238a07dda5ba",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "d19874b0-737c-45bf-8f51-de4f99f19973",
+              "@index": "27",
+              "attendance_name": "Mwape Mutale P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "6b9d7c7a-5e89-4fda-98b0-307a40efaba3",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Mwape Mutale P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "d19874b0-737c-45bf-8f51-de4f99f19973",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "10",
+              "participant_gender": "male",
+              "participant_name": "Mwape Mutale",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "d19874b0-737c-45bf-8f51-de4f99f19973",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "fe79286c-0c6d-4411-ab24-4db7265b54e9",
+              "@index": "28",
+              "attendance_name": "Chris Chiinga P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "d894e9cd-e302-4eca-95c8-ec97539a1cb1",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Chris Chiinga P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "fe79286c-0c6d-4411-ab24-4db7265b54e9",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "1",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Chris Chiinga",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "fe79286c-0c6d-4411-ab24-4db7265b54e9",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "4849e57c-834b-4bd1-8534-66a5bc723877",
+              "@index": "29",
+              "attendance_name": "Benson Musongole P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "c711b46a-383d-4553-9051-6f9aa5ebb0a5",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Benson Musongole P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "4849e57c-834b-4bd1-8534-66a5bc723877",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Benson Musongole",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "4849e57c-834b-4bd1-8534-66a5bc723877",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "64d9065c-9e79-4fc3-b840-ff12ab476f54",
+              "@index": "30",
+              "attendance_name": "Chipego Tembo P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "6eaa7685-92ad-4b06-bccf-18b84f20be4e",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Chipego Tembo P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "64d9065c-9e79-4fc3-b840-ff12ab476f54",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "5",
+              "participant_age": "13",
+              "participant_gender": "male",
+              "participant_name": "Chipego Tembo",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "64d9065c-9e79-4fc3-b840-ff12ab476f54",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "64fd8d16-3042-45fa-acb9-cfa6eb7ce9de",
+              "@index": "31",
+              "attendance_name": "Lontia Banda P7 // Finding Support",
+              "attendance_session": "not_delivered",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "ca4c7ef3-f406-43ce-bae3-ab298112b4fa",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Lontia Banda P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "64fd8d16-3042-45fa-acb9-cfa6eb7ce9de",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "2",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Lontia Banda",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "64fd8d16-3042-45fa-acb9-cfa6eb7ce9de",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "2"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "65e28150-d90a-41e0-a3e5-2d4abc166087",
+              "@index": "32",
+              "attendance_name": "Stella Siamwesi P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "f6b719bd-c85c-4edb-934d-3d76e3bc4ff4",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Stella Siamwesi P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "65e28150-d90a-41e0-a3e5-2d4abc166087",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "3",
+              "participant_age": "14",
+              "participant_gender": "female",
+              "participant_name": "Stella Siamwesi",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "65e28150-d90a-41e0-a3e5-2d4abc166087",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "bb6c5725-6c14-441e-a4c2-3cc5cf87193b",
+              "@index": "33",
+              "attendance_name": "Confidence Saina P7 // Finding Support",
+              "attendance_session": "not_delivered",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "0f40618b-b6b8-4b13-a1b5-2e68bdcf1076",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Confidence Saina P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "bb6c5725-6c14-441e-a4c2-3cc5cf87193b",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "3",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Confidence Saina",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "bb6c5725-6c14-441e-a4c2-3cc5cf87193b",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "c1e1b29c-8a91-4ce8-8075-b4f4a40c71ed",
+              "@index": "34",
+              "attendance_name": "Purity Nkhandu P7 // Finding Support",
+              "attendance_session": "not_delivered",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "3b4b0d4a-d69c-4aec-a29a-0e6128d67162",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Purity Nkhandu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "c1e1b29c-8a91-4ce8-8075-b4f4a40c71ed",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "14",
+              "participant_gender": "female",
+              "participant_name": "Purity Nkhandu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "c1e1b29c-8a91-4ce8-8075-b4f4a40c71ed",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "d68ea16d-7f71-4f99-82d9-acb56182d42d",
+              "@index": "35",
+              "attendance_name": "Elizabeth Monde P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "93a1c68b-30f8-464d-97ed-b5943302bf83",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Elizabeth Monde P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "d68ea16d-7f71-4f99-82d9-acb56182d42d",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "12",
+              "participant_gender": "female",
+              "participant_name": "Elizabeth Monde",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "d68ea16d-7f71-4f99-82d9-acb56182d42d",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "d86bf948-2f76-4364-96b9-308b50fcb902",
+              "@index": "36",
+              "attendance_name": "Shekaina Shata P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "341fca72-8c85-4de8-ba93-720a4ca5fffe",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Shekaina Shata P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "d86bf948-2f76-4364-96b9-308b50fcb902",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Shekaina Shata",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "d86bf948-2f76-4364-96b9-308b50fcb902",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "ecbe822a-5ef8-408e-b054-1783ba8cb009",
+              "@index": "37",
+              "attendance_name": "Mark Siakaki P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "9973d994-c198-4e57-972b-3270d24375c9",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Mark Siakaki P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "ecbe822a-5ef8-408e-b054-1783ba8cb009",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "3",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Mark Siakaki",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "ecbe822a-5ef8-408e-b054-1783ba8cb009",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "fafdb0a6-05da-4161-a6a8-3708e2d3ff9c",
+              "@index": "38",
+              "attendance_name": "Chileleko Mwila P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "fd744856-e235-407a-a1f4-3d8dafed73fa",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Chileleko Mwila P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "fafdb0a6-05da-4161-a6a8-3708e2d3ff9c",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "4",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Chileleko Mwila",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "fafdb0a6-05da-4161-a6a8-3708e2d3ff9c",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "4"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "1f3aa297-40c2-4bcb-bae9-d921daf897e6",
+              "@index": "39",
+              "attendance_name": "Luyando Mwenda P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "90729960-1360-41d7-961d-c3f49eb95497",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Luyando Mwenda P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "1f3aa297-40c2-4bcb-bae9-d921daf897e6",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "5",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Luyando Mwenda",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "1f3aa297-40c2-4bcb-bae9-d921daf897e6",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "26f3a31c-51db-4b0f-8554-8170b16b6b8c",
+              "@index": "40",
+              "attendance_name": "Elijah Fwampu P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "c420e894-f8c9-4aa2-8435-1313e0022f49",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Elijah Fwampu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "26f3a31c-51db-4b0f-8554-8170b16b6b8c",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "1",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Elijah Fwampu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "26f3a31c-51db-4b0f-8554-8170b16b6b8c",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "393b79cd-f2c8-4fd6-970a-fd6aa90a9f8a",
+              "@index": "41",
+              "attendance_name": "Joseph Shabwa P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "94dabc6a-1a22-4a6b-b92a-e6d9270189d7",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Joseph Shabwa P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "393b79cd-f2c8-4fd6-970a-fd6aa90a9f8a",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "3",
+              "participant_age": "13",
+              "participant_gender": "male",
+              "participant_name": "Joseph Shabwa",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "393b79cd-f2c8-4fd6-970a-fd6aa90a9f8a",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "5a03e014-46ac-4850-a90e-6373f2f78569",
+              "@index": "42",
+              "attendance_name": "Joshua Chaluba P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "1c37d3f1-4dd7-44e0-b92d-a7f91e1f194c",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Joshua Chaluba P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "5a03e014-46ac-4850-a90e-6373f2f78569",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "7",
+              "participant_age": "11",
+              "participant_gender": "male",
+              "participant_name": "Joshua Chaluba",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "5a03e014-46ac-4850-a90e-6373f2f78569",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "9f3f602b-d821-4d6e-8b0e-95d62af453d1",
+              "@index": "43",
+              "attendance_name": "Monica Mwanza P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "e2719b63-b432-438b-88bc-18bb5bf25ef9",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Monica Mwanza P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "9f3f602b-d821-4d6e-8b0e-95d62af453d1",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "7",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Monica Mwanza",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "9f3f602b-d821-4d6e-8b0e-95d62af453d1",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "7"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "aed9edc1-70af-4a9d-8eb6-878028b6d06a",
+              "@index": "44",
+              "attendance_name": "Julius Nkausu P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "8b48a107-bc2d-40d3-9bff-066694dee02f",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Julius Nkausu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "aed9edc1-70af-4a9d-8eb6-878028b6d06a",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "1",
+              "participant_age": "14",
+              "participant_gender": "male",
+              "participant_name": "Julius Nkausu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "aed9edc1-70af-4a9d-8eb6-878028b6d06a",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "1"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "b7c790aa-108e-4c44-9336-d5a1e7fca236",
+              "@index": "45",
+              "attendance_name": "Risper Miyamba P7 // Finding Support",
+              "attendance_session": "no",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "de070329-7f42-486e-b511-716339ae0e73",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Risper Miyamba P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "b7c790aa-108e-4c44-9336-d5a1e7fca236",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "3",
+              "participant_age": "10",
+              "participant_gender": "female",
+              "participant_name": "Risper Miyamba",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "b7c790aa-108e-4c44-9336-d5a1e7fca236",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "3"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "c83bdfca-a8d5-4f5c-8deb-7c71aa29d4e4",
+              "@index": "46",
+              "attendance_name": "Francis Tembo P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "f3519868-75db-4e38-acb7-1c9a73891904",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Francis Tembo P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "c83bdfca-a8d5-4f5c-8deb-7c71aa29d4e4",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "",
+              "date_session_register_ss": "2025-06-12",
+              "num_sessions_attended": "5",
+              "participant_age": "14",
+              "participant_gender": "female",
+              "participant_name": "Francis Tembo",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "c83bdfca-a8d5-4f5c-8deb-7c71aa29d4e4",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "",
+                    "date_session_register_ss": "2025-06-12",
+                    "num_sessions_attended": "5"
+                  }
+                }
+              }
+            },
+            {
+              "@id": "de10a847-946d-4ad9-abaf-6861d0262f6a",
+              "@index": "47",
+              "attendance_name": "Kondwani Zulu P7 // Finding Support",
+              "attendance_session": "yes",
+              "back_date_session_register_cbim": "",
+              "back_date_session_register_ss": "",
+              "create_attendance_case": {
+                "case": {
+                  "@case_id": "a2bf6652-bb70-4fd8-878e-158157d50d0d",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "create": {
+                    "case_name": "Kondwani Zulu P7 // Finding Support",
+                    "case_type": "attendance",
+                    "owner_id": "f9695587dde84de5b3d566a453808583"
+                  },
+                  "index": {
+                    "parent": {
+                      "#text": "de10a847-946d-4ad9-abaf-6861d0262f6a",
+                      "@case_type": "'participant'",
+                      "@relationship": "child"
+                    }
+                  }
+                }
+              },
+              "date_session_register_cbim": "2025-06-12",
+              "date_session_register_ss": "",
+              "num_sessions_attended": "6",
+              "participant_age": "12",
+              "participant_gender": "male",
+              "participant_name": "Kondwani Zulu",
+              "session_name": "P7 // Finding Support",
+              "update_participant_case": {
+                "case": {
+                  "@case_id": "de10a847-946d-4ad9-abaf-6861d0262f6a",
+                  "@date_modified": "2025-06-12T13:04:00.615000Z",
+                  "@user_id": "f9695587dde84de5b3d566a453808583",
+                  "@xmlns": "http://commcarehq.org/case/transaction/v2",
+                  "update": {
+                    "back_date_session_register_cbim": "",
+                    "back_date_session_register_ss": "",
+                    "date_session_register_cbim": "2025-06-12",
+                    "date_session_register_ss": "",
+                    "num_sessions_attended": "6"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      },
+      "back_capturing": {
+        "back_captured_data": "no",
+        "data_capture_date": "2025-06-12"
+      },
+      "business_unit": "65680f0c4c144b03ad0f86bdc46c1ebc",
+      "case": {
+        "@case_id": "19c31b59-d08f-4aac-aa2f-79d6541fe783",
+        "@date_modified": "2025-06-12T13:04:00.615000Z",
+        "@user_id": "f9695587dde84de5b3d566a453808583",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2"
+      },
+      "intervention_name": "Chilanga Primary 5 and 6 2025-06-03",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+        "app_build_version": 3987,
+        "commcare_version": "2.56.1",
+        "deviceID": "commcare_6e9d2136-9fd3-4de1-bf12-8b05d13411de",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "cd7f6eab-417c-44eb-bff0-c28a2dc768d5",
+        "timeEnd": "2025-06-12T13:04:00.615000Z",
+        "timeStart": "2025-06-12T09:33:40.029000Z",
+        "userID": "f9695587dde84de5b3d566a453808583",
+        "username": "shoble.muhammad"
+      },
+      "test_real": "Real"
+    },
+    "id": "cd7f6eab-417c-44eb-bff0-c28a2dc768d5",
+    "indexed_on": "2025-06-12T13:04:45.138935Z",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+      "app_build_version": 3987,
+      "commcare_version": "2.56.1",
+      "deviceID": "commcare_6e9d2136-9fd3-4de1-bf12-8b05d13411de",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "cd7f6eab-417c-44eb-bff0-c28a2dc768d5",
+      "location": null,
+      "timeEnd": "2025-06-12T13:04:00.615000Z",
+      "timeStart": "2025-06-12T09:33:40.029000Z",
+      "userID": "f9695587dde84de5b3d566a453808583",
+      "username": "shoble.muhammad"
+    },
+    "problem": null,
+    "received_on": "2025-06-12T13:04:38.346346Z",
+    "resource_uri": "",
+    "server_modified_on": "2025-06-12T13:04:43.341338Z",
+    "submit_ip": "102.212.181.11",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3639"
+  },
+  "request": {
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate",
+      "baggage": "sentry-trace_id=f6fe4318d9dc40e7aa029f2a18319dee,sentry-environment=production,sentry-release=2025-06-11_23.32-production,sentry-public_key=5f744d5fa24b49a695adfcbfc5d3d755",
+      "content-length": "72552",
+      "content-type": "application/json",
+      "host": "app.openfn.org",
+      "received-on": "2025-06-12T13:04:38.346346Z",
+      "sentry-trace": "f6fe4318d9dc40e7aa029f2a18319dee-85f77483364fcf15",
+      "user-agent": "python-requests/2.32.3",
+      "via": "1.1 google",
+      "x-cloud-trace-context": "b5832cb3bd2bc1e2001d8cfee077a743/12550948466858325684",
+      "x-forwarded-for": "35.175.35.59,34.36.242.233",
+      "x-forwarded-proto": "https"
+    },
+    "method": "POST",
+    "path": [
+      "i",
+      "54f64bbd-0351-4665-9e49-96a1508149ab"
+    ],
+    "query_params": {
+      "app_id": "bd835ba97e1e474095bd41389a7f66de"
+    }
+  }
+}
