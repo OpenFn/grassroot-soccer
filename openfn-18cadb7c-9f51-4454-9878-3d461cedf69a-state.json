@@ -6,9 +6,6 @@
   "inserted_at": "2025-05-30T04:28:28Z",
   "updated_at": "2025-06-09T08:46:50Z",
   "scheduled_deletion": null,
-  "history_retention_period": 7,
-  "dataclip_retention_period": null,
-  "retention_policy": "retain_all",
   "project_credentials": {
     "hunter@openfn.org-Salseforce-Tests": {
       "id": "22064325-01af-47ef-8498-0e53b3f98746",
@@ -26,9 +23,10 @@
       "owner": "hunter@openfn.org"
     }
   },
-  "allow_support_access": true,
+  "history_retention_period": 7,
+  "dataclip_retention_period": null,
+  "retention_policy": "retain_all",
   "collections": {},
-  "requires_mfa": false,
   "workflows": {
     "HIV-Testing-Event-Statistics": {
       "id": "0c72c582-ffc8-4163-af8f-d2104587950e",
@@ -261,5 +259,7 @@
         }
       }
     }
-  }
+  },
+  "allow_support_access": true,
+  "requires_mfa": false
 }
