@@ -90,7 +90,7 @@ workflows:
       Coach-Session-Register:
         name: Coach Session Register
         adaptor: '@openfn/language-salesforce@2.7.4'
-        credential: null
+        credential: hunter@openfn.org-Salseforce-Tests
         body: |
           // push to production
           query(
@@ -202,6 +202,9 @@ workflows:
 
           fn((state) => {
             function clean(str) {
+              if (str == "before_after_school"){
+                return "Before/After School"
+              }
               if (!!str)
                 return str
                   .split("_")
@@ -266,7 +269,7 @@ workflows:
             };
 
             console.log(state.mapping);
-            state.coachContactId = [];
+            state.coachContactIds = [];
             state.form = state.data.form
             return state;
           });
@@ -276,16 +279,22 @@ workflows:
 
 
           each('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{
-            if(state.data[0]?.Id){
-              state.coachContactId.push(state.data[0]?.Id)
+            if(state.data[0]?.CommCare_External_ID__c){
+              state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)
+            } else {
+              console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);
             }
             return state
           }))
 
-          each('$.coachesIds.[*]', upsert("Event_Participation__c", "CommCare_External_ID__c", state => ({
-              //  Event_Participation__r:{Contact: state.data},
-               Event__r:{CommCare_Case_ID__c: state.form.case["@case_id"]},
-              CommCare_External_ID__c: `${state.form.case["@case_id"]}${state.form.coach_name||''}`,
+          each('$.coachContactIds.[*]', upsert("Event_Participation__c", "CommCare_External_ID__c", state => ({
+            Contact__r: {
+              CommCare_External_ID__c: state.data
+              },
+               Event__r: {
+                CommCare_External_ID__c: state.form.case["@case_id"]
+               },
+              CommCare_External_ID__c: `${state.form.case["@case_id"]}_${state.data}`,
           })))
 
     triggers:
