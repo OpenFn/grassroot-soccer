@@ -20,6 +20,7 @@ workflows:
         adaptor: '@openfn/language-salesforce@4.3.0'
         credential: hunter@openfn.org-Salseforce-Tests
         body: |
+          
           fn(state => {
             if (!state.data.form.attendance_list.update_participant_cases.item) {
               console.log('No participant attendance data was provided, not upserting to Salesforce.');
@@ -28,70 +29,18 @@ workflows:
 
               return execute(
                 fn(state => {
-                 
-                  // function getSessionValue(present) {
-                  //   switch (present.toString().toLowerCase()) {
-                  //     case 'yes':
-                  //       return 'Attended';
-                  //     case 'no':
-                  //       return 'Not Attended';
-                  //     case '':
-                  //       return 'Not Attended';
-                  //     default:
-                  //       return 'Not Attended';
-                  //   }
-                  // }
-
-                  // function getSessionId(session_text) {
-                  //   return session_text.toString().trim().slice(0, session_text.indexOf(' ')).slice(1);
-                  // }
-
+                
                   function objectToArray(object) {
                     if (!object) return [];
                     return !Array.isArray(object) ? [object] : object;
                   }
 
                   state.data.form.attendance_list.update_participant_cases.item = objectToArray(
-                    state.data.form.attendance_list.update_participant_cases.item
+                    // state.data.form.attendance_list.update_participant_cases.item  
+                    [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items
+
                   );
-                  
-                  //When GRS enters session names incorrectly in CommCare (e.g., session: "P8 // My body is mine)
-                  // function findPValue(input) {
-                  //   // Regular expression to match "P" followed by one or more digits, then "//"
-                  //     const regex = /P(\d+)\s*\/\//;
-              
-                  //   // Match the input against the regex
-                  //   const match = input.match(regex);
-              
-                  //   // If a match is found, return the captured digits as an integer
-                  //   if (match) {
-                  //     return parseInt(match[1], 10);
-                  //   } else {
-                  //     // If no match is found, return null or handle as needed
-                  //   return 'Session_not_found';
-                  // }
-          // }
-
-                  // const sessionText = dataValue('form.attendance_list.session')(state);
-                  // const sessionId = sessionText.includes('//') ? findPValue(sessionText) : getSessionId(sessionText);
-                  
-                  // console.log('sessionText:: ', sessionText); 
-                  // console.log('sessionId:: ', sessionText); 
-                  
-                  // const sessionDate = dataValue("form.case['@date_modified']")(state);
-
-                  // state.data.form.attendance_list.update_participant_cases.item =
-                  //   state.data.form.attendance_list.update_participant_cases.item.map(item => {
-                  //     const sessionValue = getSessionValue(item.attendance_session);
-                  //     return {
-                  //       ...item,
-                  //       dynamicFields: {
-                  //         [`Session_${sessionId}__c`]: sessionValue,
-                  //         [`Session_${sessionId}_Date__c`]: sessionDate,
-                  //       },
-                  //     };
-                  //   });
-
+            
                   return state;
                 }),
 
@@ -100,21 +49,21 @@ workflows:
                     dataPath('form.attendance_list.update_participant_cases.item[*]'),
                     fields(
                       field('intervention_name', dataValue('form.intervention_name')),
-                      field('caseid', dataValue('form.case.@case_id')),
+                      field('caseid', dataValue('form.case.@case_id')), //this is event id
                       field('event_session_id', state => {
-                      return state.data.form.case['@case_id'] + "-" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
+                      return state.data.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
                     })
                     )
                   ),
                   upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
                     ...fields(
-                      relationship('Event_Session__r', 'CommCare_External_ID__c', dataValue('event_session_id')),
+                      relationship('Event_Session__r', 'CommCare_External_ID__c', state.data.event_session_id),
                       field(
                         'CommCare_External_ID__c',
-                        state => `${state.data.event_session_id}-${state.data['@id']}`
+                        state => `${state.data.event_session_id}_${state.data['@id']}`
                       ),
-                      relationship('Attendee__r', 'Contact', dataValue('@id')),
-                      field('Attended__c', dataValue('attendance_session').toString().toLowerCase() === 'yes'? "Attended": "Not Attended")
+                      relationship('Attendee__r', 'CommCare_External_ID__c', `${state.data.caseid}_${state.data['@id']}`), //@id is the PID of participant
+                      field('Attended__c', state.data.attendance_session.toString().toLowerCase() === 'yes'? "Attended": "Not Attended")
                     )
                   }))
                 )
@@ -246,11 +195,11 @@ workflows:
     jobs:
       Create-Intervention:
         name: Create Intervention
-        adaptor: '@openfn/language-salesforce@2.7.4'
+        adaptor: '@openfn/language-salesforce@7.0.0'
         credential: hunter@openfn.org-Salseforce-Tests
         body: |
           
-          query(`SELECT Id FROM Account WHERE Name = 'Test Account' Limit 1`);
+
           fn((state) => {
             function clean(str) {
               if (!!str)
@@ -264,7 +213,7 @@ workflows:
             }
 
             state.data.form.delivery_method = clean(state.data.form.delivery_method);
-
+            state.coachesIds = state.data.form.coaches.split(" ")
 
             state.data.destinationCoachFields = state.data.form.coaches
               .split(" ")
@@ -296,12 +245,12 @@ workflows:
               'RecordType': {
                 "Name": 'Intervention Event'
               },
-            
+
               ampi__Account__c: "001O300000egVbUIAU", // To be removed later
               // ampi__Account__r: {
               //   Name: "Test Account"
               // },
-                // Name: buMapping[bu] || undefined, 
+              // Name: buMapping[bu] || undefined, 
               // },
               //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work
               // Curriculum__c: { //currently doensn't have an extId configured so this doesn't work
@@ -317,11 +266,27 @@ workflows:
             };
 
             console.log(state.mapping);
+            state.coachContactId = [];
+            state.form = state.data.form
             return state;
           });
 
           // upsert("ampi__Project__c", "CommCare_External_ID__c", $.mapping)
-          upsert("ampi__Project__c", "CommCare_External_ID__c", {...$.mapping})
+          upsert("ampi__Project__c", "CommCare_External_ID__c", { ...$.mapping })
+
+
+          each('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{
+            if(state.data[0]?.Id){
+              state.coachContactId.push(state.data[0]?.Id)
+            }
+            return state
+          }))
+
+          each('$.coachesIds.[*]', upsert("Event_Participation__c", "CommCare_External_ID__c", state => ({
+              //  Event_Participation__r:{Contact: state.data},
+               Event__r:{CommCare_Case_ID__c: state.form.case["@case_id"]},
+              CommCare_External_ID__c: `${state.form.case["@case_id"]}${state.form.coach_name||''}`,
+          })))
 
     triggers:
       webhook:
@@ -574,6 +539,204 @@ workflows:
         condition_label: HIV Testing Event Statistics
         condition_expression: |
           state.data.form["@name"] == "HIV Testing Event Statistics" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+        enabled: true
+  Upsert-Coach-Support-Visit-CSV:
+    name: Upsert Coach Support Visit CSV
+    jobs:
+      Upsert-Coach-Support-Visit-CSV:
+        name: Upsert Coach Support Visit CSV
+        adaptor: '@openfn/language-salesforce@2.7.4'
+        credential: null
+        body: |
+          //openfn.org source
+          alterState(state => {
+            function clean(str) {
+              console.log('str', str);
+
+              if (!str) return '';
+
+              return str
+                .split('_')
+                .map(word => {
+                  let new_word = word.toString().toLowerCase();
+                  return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+                })
+                .join(' ');
+            }
+           
+            if (state.data.form['step_3_-_the_big_5']  !== undefined ){ 
+              state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+            }
+            else{
+            state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = 
+            clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
+            }
+            
+            function transform(value) {
+              if (!value) return;
+              switch (value.toString().trim()) {
+                case 'copy-1-of-excellent':
+                  return 'Excellent'; 
+                case 'needs_improvement':
+                  return 'Needs Improvement';      
+                case 'meets_expectations':
+                  return 'Meets Expectations'; 
+                case 'excellent':
+                  return 'Excellent';        
+                case 'unsatisfactory':
+                  return 'Unsatisfactory';
+                case 'exceeds_expectations':
+                  return 'Exceeds Expectations';        
+                default:
+                  return value;
+              }
+            }
+
+            state.data.form['step_3_-_the_big_5'].builds_personal_connections = 
+            transform(state.data.form['step_3_-_the_big_5'].builds_personal_connections)
+
+            state.data.form['step_3_-_the_big_5'].cool_down = 
+            transform(state.data.form['step_3_-_the_big_5'].cool_down)
+            
+            state.data.form['step_3_-_the_big_5'].creates_safe_space = 
+            transform(state.data.form['step_3_-_the_big_5'].creates_safe_space)
+            
+            state.data.form['step_3_-_the_big_5'].faciliation = 
+            transform(state.data.form['step_3_-_the_big_5'].faciliation)
+            
+            state.data.form['step_3_-_the_big_5'].gives_praise = 
+            transform(state.data.form['step_3_-_the_big_5'].gives_praise)
+            
+            state.data.form['step_3_-_the_big_5'].praise = 
+            transform(state.data.form['step_3_-_the_big_5'].praise)
+
+            state.data.form['step_3_-_the_big_5'].preparation = 
+            transform(state.data.form['step_3_-_the_big_5'].preparation)
+            
+            state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri = 
+            transform(state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri)
+            
+            state.data.form['step_3_-_the_big_5'].sparks_vital_conversations = 
+            transform(state.data.form['step_3_-_the_big_5'].sparks_vital_conversations)
+            
+            state.data.form['step_3_-_the_big_5'].time_management = 
+            transform(state.data.form['step_3_-_the_big_5'].time_management)
+            
+             state.data.form['step_3_-_the_big_5'].warm_up = 
+            transform(state.data.form['step_3_-_the_big_5'].warm_up)
+            
+
+            return state;
+          });
+
+          upsert(
+            'Coach_Support_Visit__c',
+            'CommCare_Ext_ID__c',
+            fields(
+              field('CommCare_Ext_ID__c', dataValue('id')),
+              relationship('Coach_Person__r', 'CommCare_Ext_ID__c', state => {
+                return dataValue('form.step_1_basic_information.select_coach')(state) || 
+                dataValue('form.step_1_csv_information.select_coach')(state); 
+              }),
+              relationship('Venue__r', 'CommCare_Ext_ID__c', state => {
+                return dataValue('form.hidden_properties.venue')(state) || 
+                dataValue('form.step_1_csv_information.venue')(state); 
+              }),
+              relationship('Event__r', 'CommCare_Ext_ID__c', state => {
+                return dataValue('form.hidden_properties.intervention')(state) || 
+                dataValue('form.step_1_csv_information.intervention')(state); 
+              }),
+              relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', state => {
+                return dataValue('form.hidden_properties.curriculum')(state) || 
+                dataValue('form.step_1_csv_information.curriculum')(state); 
+              }),    
+               relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', state => {
+                return dataValue('form.hidden_properties.site')(state) || 
+                dataValue('form.step_1_csv_information.site')(state); 
+              }), 
+              field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
+              //== TODO: FIx repeated mappings to only reference destination field 1 time ===//
+              field(
+                'Accurate_Information__c', state => {
+                return dataValue('form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri')(state) || 
+                dataValue(
+                    'form.step_3_the_big_five.question1.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'
+                  )(state); 
+              }),
+              field('Creates_safe_space__c', state => {
+                return dataValue('form.step_3_-_the_big_5.creates_safe_space')(state) || 
+                dataValue('form.step_3_the_big_five.question1.creates_safe_space')(state); 
+                
+              }),
+              field('Builds_personal_connections__c', state => {
+                return dataValue('form.step_3_-_the_big_5.builds_personal_connections')(state) || 
+                dataValue('form.step_3_the_big_five.question1.builds_personal_connections')(state); 
+              }),
+              field('Gives_praise__c', state => {
+                return dataValue('form.step_3_-_the_big_5.gives_praise')(state) ||
+                dataValue('form.step_3_the_big_five.question1.gives_powerful_praise')(state); 
+              }),
+              field('Sparks_vital_conversations__c', state => {
+                return dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')(state) || 
+                dataValue('form.step_3_the_big_five.question1.sparks_vital_conversations')(state); 
+                }),
+              field('X2_Warm_Up__c', state => {
+                return dataValue('form.step_3_-_the_big_5.warm_up')(state) || 
+                dataValue(
+                    'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.warm_up'
+                  )(state); 
+                }),
+              field('X3_Activity__c', state => {
+                return dataValue('form.step_3_-_the_big_5.activity')(state) || dataValue(
+                    'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
+                  )(state); 
+                }),
+              field('X4_Cool_Down__c', state => {
+                return dataValue('form.step_3_-_the_big_5.cool_down')(state) || dataValue(
+                    'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.cool_down'
+                  )(state); 
+                }),
+              field('X5_Facilitation__c', state => {
+                return dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
+                dataValue(
+                    'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
+                  )(state); 
+                }),
+              field(
+                'X6_Time_Management__c',
+                dataValue('form.step_3_-_the_big_5.time_management')
+              ),
+              field(
+                'X1_Preparation__c',
+                dataValue('form.step_3_-_the_big_5.preparation')
+              ),
+              field('Introduces_micromove__c', state => {
+                return //dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
+                dataValue(
+                   'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove'
+                )(state); 
+              }),
+              field(
+                'Notes__c',
+                dataValue(
+                  'form.step_3_-_the_big_5.additional_notes.include_your_obsevations_related_to_preparation_punctuality_process'
+                )
+              )
+            )
+          );
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Upsert-Coach-Support-Visit-CSV:
+        source_trigger: webhook
+        target_job: Upsert-Coach-Support-Visit-CSV
+        condition_type: js_expression
+        condition_label: Coach Support Visit Form
+        condition_expression: |
+          state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816" && state.data.form["hidden_properties"].csv == "1"
         enabled: true
   Upsert-Home-Visit-Log-Form:
     name: Upsert Home Visit Log Form

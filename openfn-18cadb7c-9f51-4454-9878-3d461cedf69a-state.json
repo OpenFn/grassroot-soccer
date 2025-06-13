@@ -127,39 +127,6 @@
         }
       }
     },
-    "Create-Intervention": {
-      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
-      "name": "Create Intervention",
-      "inserted_at": "2025-06-12T11:32:34.949786Z",
-      "lock_version": 97,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Create-Intervention": {
-          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "name": "Create Intervention",
-          "body": "\nquery(`SELECT Id FROM Account WHERE Name = 'Test Account' Limit 1`);\nfn((state) => {\n  function clean(str) {\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n\n  return state;\n});\nfn((state) => {\n  const buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    ed125ab19ec34aacab79585e59eb76f4: \"GRS Partnerships\",\n  };\n\n  const bu = state.data.form.business_unit;\n\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    // 'RecordType__r.Name':  \"Intervention Event\",\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n  \n    ampi__Account__c: \"001O300000egVbUIAU\", // To be removed later\n    // ampi__Account__r: {\n    //   Name: \"Test Account\"\n    // },\n      // Name: buMapping[bu] || undefined, \n    // },\n    //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work\n    // Curriculum__c: { //currently doensn't have an extId configured so this doesn't work\n    //   CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    // },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  return state;\n});\n\n// upsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", {...$.mapping})\n\n\n",
-          "adaptor": "@openfn/language-salesforce@2.7.4",
-          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
-        }
-      },
-      "edges": {
-        "webhook->Create-Intervention": {
-          "enabled": true,
-          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
-          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "condition_type": "js_expression",
-          "condition_label": "Create Intervention",
-          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
-        }
-      }
-    },
     "Upsert-Intervention-Notes": {
       "id": "af5d8aad-a62b-4c6f-9d58-533b5edee4d7",
       "name": "Upsert Intervention Notes",
@@ -226,11 +193,44 @@
         }
       }
     },
+    "Upsert-Coach-Support-Visit-CSV": {
+      "id": "1ca5adbf-dd11-49c0-b8ae-0e24e0ce070e",
+      "name": "Upsert Coach Support Visit CSV",
+      "inserted_at": "2025-06-13T08:36:46.635789Z",
+      "lock_version": 1,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Coach-Support-Visit-CSV": {
+          "id": "24974a49-4e76-46fa-819c-e84e7979d469",
+          "name": "Upsert Coach Support Visit CSV",
+          "body": "//openfn.org source\nalterState(state => {\n  function clean(str) {\n    console.log('str', str);\n\n    if (!str) return '';\n\n    return str\n      .split('_')\n      .map(word => {\n        let new_word = word.toString().toLowerCase();\n        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n      })\n      .join(' ');\n  }\n \n  if (state.data.form['step_3_-_the_big_5']  !== undefined ){ \n    state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);\n  }\n  else{\n  state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation = \n  clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);\n  }\n  \n  function transform(value) {\n    if (!value) return;\n    switch (value.toString().trim()) {\n      case 'copy-1-of-excellent':\n        return 'Excellent'; \n      case 'needs_improvement':\n        return 'Needs Improvement';      \n      case 'meets_expectations':\n        return 'Meets Expectations'; \n      case 'excellent':\n        return 'Excellent';        \n      case 'unsatisfactory':\n        return 'Unsatisfactory';\n      case 'exceeds_expectations':\n        return 'Exceeds Expectations';        \n      default:\n        return value;\n    }\n  }\n\n  state.data.form['step_3_-_the_big_5'].builds_personal_connections = \n  transform(state.data.form['step_3_-_the_big_5'].builds_personal_connections)\n\n  state.data.form['step_3_-_the_big_5'].cool_down = \n  transform(state.data.form['step_3_-_the_big_5'].cool_down)\n  \n  state.data.form['step_3_-_the_big_5'].creates_safe_space = \n  transform(state.data.form['step_3_-_the_big_5'].creates_safe_space)\n  \n  state.data.form['step_3_-_the_big_5'].faciliation = \n  transform(state.data.form['step_3_-_the_big_5'].faciliation)\n  \n  state.data.form['step_3_-_the_big_5'].gives_praise = \n  transform(state.data.form['step_3_-_the_big_5'].gives_praise)\n  \n  state.data.form['step_3_-_the_big_5'].praise = \n  transform(state.data.form['step_3_-_the_big_5'].praise)\n\n  state.data.form['step_3_-_the_big_5'].preparation = \n  transform(state.data.form['step_3_-_the_big_5'].preparation)\n  \n  state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri = \n  transform(state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri)\n  \n  state.data.form['step_3_-_the_big_5'].sparks_vital_conversations = \n  transform(state.data.form['step_3_-_the_big_5'].sparks_vital_conversations)\n  \n  state.data.form['step_3_-_the_big_5'].time_management = \n  transform(state.data.form['step_3_-_the_big_5'].time_management)\n  \n   state.data.form['step_3_-_the_big_5'].warm_up = \n  transform(state.data.form['step_3_-_the_big_5'].warm_up)\n  \n\n  return state;\n});\n\nupsert(\n  'Coach_Support_Visit__c',\n  'CommCare_Ext_ID__c',\n  fields(\n    field('CommCare_Ext_ID__c', dataValue('id')),\n    relationship('Coach_Person__r', 'CommCare_Ext_ID__c', state => {\n      return dataValue('form.step_1_basic_information.select_coach')(state) || \n      dataValue('form.step_1_csv_information.select_coach')(state); \n    }),\n    relationship('Venue__r', 'CommCare_Ext_ID__c', state => {\n      return dataValue('form.hidden_properties.venue')(state) || \n      dataValue('form.step_1_csv_information.venue')(state); \n    }),\n    relationship('Event__r', 'CommCare_Ext_ID__c', state => {\n      return dataValue('form.hidden_properties.intervention')(state) || \n      dataValue('form.step_1_csv_information.intervention')(state); \n    }),\n    relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', state => {\n      return dataValue('form.hidden_properties.curriculum')(state) || \n      dataValue('form.step_1_csv_information.curriculum')(state); \n    }),    \n     relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', state => {\n      return dataValue('form.hidden_properties.site')(state) || \n      dataValue('form.step_1_csv_information.site')(state); \n    }), \n    field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),\n    //== TODO: FIx repeated mappings to only reference destination field 1 time ===//\n    field(\n      'Accurate_Information__c', state => {\n      return dataValue('form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri')(state) || \n      dataValue(\n          'form.step_3_the_big_five.question1.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'\n        )(state); \n    }),\n    field('Creates_safe_space__c', state => {\n      return dataValue('form.step_3_-_the_big_5.creates_safe_space')(state) || \n      dataValue('form.step_3_the_big_five.question1.creates_safe_space')(state); \n      \n    }),\n    field('Builds_personal_connections__c', state => {\n      return dataValue('form.step_3_-_the_big_5.builds_personal_connections')(state) || \n      dataValue('form.step_3_the_big_five.question1.builds_personal_connections')(state); \n    }),\n    field('Gives_praise__c', state => {\n      return dataValue('form.step_3_-_the_big_5.gives_praise')(state) ||\n      dataValue('form.step_3_the_big_five.question1.gives_powerful_praise')(state); \n    }),\n    field('Sparks_vital_conversations__c', state => {\n      return dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')(state) || \n      dataValue('form.step_3_the_big_five.question1.sparks_vital_conversations')(state); \n      }),\n    field('X2_Warm_Up__c', state => {\n      return dataValue('form.step_3_-_the_big_5.warm_up')(state) || \n      dataValue(\n          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.warm_up'\n        )(state); \n      }),\n    field('X3_Activity__c', state => {\n      return dataValue('form.step_3_-_the_big_5.activity')(state) || dataValue(\n          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'\n        )(state); \n      }),\n    field('X4_Cool_Down__c', state => {\n      return dataValue('form.step_3_-_the_big_5.cool_down')(state) || dataValue(\n          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.cool_down'\n        )(state); \n      }),\n    field('X5_Facilitation__c', state => {\n      return dataValue('form.step_3_-_the_big_5.faciliation')(state) || \n      dataValue(\n          'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'\n        )(state); \n      }),\n    field(\n      'X6_Time_Management__c',\n      dataValue('form.step_3_-_the_big_5.time_management')\n    ),\n    field(\n      'X1_Preparation__c',\n      dataValue('form.step_3_-_the_big_5.preparation')\n    ),\n    field('Introduces_micromove__c', state => {\n      return //dataValue('form.step_3_-_the_big_5.faciliation')(state) || \n      dataValue(\n         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove'\n      )(state); \n    }),\n    field(\n      'Notes__c',\n      dataValue(\n        'form.step_3_-_the_big_5.additional_notes.include_your_obsevations_related_to_preparation_punctuality_process'\n      )\n    )\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@2.7.4",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Coach-Support-Visit-CSV": {
+          "enabled": true,
+          "id": "b28e2957-3e3a-47f6-8574-6d6c2ba0ad19",
+          "target_job_id": "24974a49-4e76-46fa-819c-e84e7979d469",
+          "source_trigger_id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
+          "condition_type": "js_expression",
+          "condition_label": "Coach Support Visit Form",
+          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"hidden_properties\"].csv == \"1\""
+        }
+      }
+    },
     "Attendance-Non-Skillz": {
       "id": "e6483b6f-68b9-436c-9125-f6be0ead714d",
       "name": "Attendance Non Skillz",
-      "inserted_at": "2025-06-12T20:11:26.055732Z",
-      "lock_version": 10,
+      "inserted_at": "2025-06-13T11:50:03.615057Z",
+      "lock_version": 16,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -242,7 +242,7 @@
         "Attendance-Non-Skillz": {
           "id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
           "name": "Attendance Non Skillz",
-          "body": "fn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    console.log('No participant attendance data was provided, not upserting to Salesforce.');\n    return state;\n  } else {\n\n    return execute(\n      fn(state => {\n       \n        // function getSessionValue(present) {\n        //   switch (present.toString().toLowerCase()) {\n        //     case 'yes':\n        //       return 'Attended';\n        //     case 'no':\n        //       return 'Not Attended';\n        //     case '':\n        //       return 'Not Attended';\n        //     default:\n        //       return 'Not Attended';\n        //   }\n        // }\n\n        // function getSessionId(session_text) {\n        //   return session_text.toString().trim().slice(0, session_text.indexOf(' ')).slice(1);\n        // }\n\n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          state.data.form.attendance_list.update_participant_cases.item\n        );\n        \n        //When GRS enters session names incorrectly in CommCare (e.g., session: \"P8 // My body is mine)\n        // function findPValue(input) {\n        //   // Regular expression to match \"P\" followed by one or more digits, then \"//\"\n        //     const regex = /P(\\d+)\\s*\\/\\//;\n    \n        //   // Match the input against the regex\n        //   const match = input.match(regex);\n    \n        //   // If a match is found, return the captured digits as an integer\n        //   if (match) {\n        //     return parseInt(match[1], 10);\n        //   } else {\n        //     // If no match is found, return null or handle as needed\n        //   return 'Session_not_found';\n        // }\n// }\n\n        // const sessionText = dataValue('form.attendance_list.session')(state);\n        // const sessionId = sessionText.includes('//') ? findPValue(sessionText) : getSessionId(sessionText);\n        \n        // console.log('sessionText:: ', sessionText); \n        // console.log('sessionId:: ', sessionText); \n        \n        // const sessionDate = dataValue(\"form.case['@date_modified']\")(state);\n\n        // state.data.form.attendance_list.update_participant_cases.item =\n        //   state.data.form.attendance_list.update_participant_cases.item.map(item => {\n        //     const sessionValue = getSessionValue(item.attendance_session);\n        //     return {\n        //       ...item,\n        //       dynamicFields: {\n        //         [`Session_${sessionId}__c`]: sessionValue,\n        //         [`Session_${sessionId}_Date__c`]: sessionDate,\n        //       },\n        //     };\n        //   });\n\n        return state;\n      }),\n\n      each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')),\n            field('event_session_id', state => {\n            return state.data.form.case['@case_id'] + \"-\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n          })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          ...fields(\n            relationship('Event_Session__r', 'CommCare_External_ID__c', dataValue('event_session_id')),\n            field(\n              'CommCare_External_ID__c',\n              state => `${state.data.event_session_id}-${state.data['@id']}`\n            ),\n            relationship('Attendee__r', 'Contact', dataValue('@id')),\n            field('Attended__c', dataValue('attendance_session').toString().toLowerCase() === 'yes'? \"Attended\": \"Not Attended\")\n          )\n        }))\n      )\n    )(state);\n  }\n});\n",
+          "body": "\nfn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    console.log('No participant attendance data was provided, not upserting to Salesforce.');\n    return state;\n  } else {\n\n    return execute(\n      fn(state => {\n      \n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          // state.data.form.attendance_list.update_participant_cases.item  \n          [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items\n\n        );\n  \n        return state;\n      }),\n\n      each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')), //this is event id\n            field('event_session_id', state => {\n            return state.data.form.case['@case_id'] + \"_\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n          })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          ...fields(\n            relationship('Event_Session__r', 'CommCare_External_ID__c', state.data.event_session_id),\n            field(\n              'CommCare_External_ID__c',\n              state => `${state.data.event_session_id}_${state.data['@id']}`\n            ),\n            relationship('Attendee__r', 'CommCare_External_ID__c', `${state.data.caseid}_${state.data['@id']}`), //@id is the PID of participant\n            field('Attended__c', state.data.attendance_session.toString().toLowerCase() === 'yes'? \"Attended\": \"Not Attended\")\n          )\n        }))\n      )\n    )(state);\n  }\n});\n",
           "adaptor": "@openfn/language-salesforce@4.3.0",
           "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
         }
@@ -256,6 +256,39 @@
           "condition_type": "js_expression",
           "condition_label": "Attendance Generic",
           "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
+    "Create-Intervention": {
+      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
+      "name": "Create Intervention",
+      "inserted_at": "2025-06-13T11:52:24.660672Z",
+      "lock_version": 115,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Create-Intervention": {
+          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "name": "Create Intervention",
+          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n\n  return state;\n});\nfn((state) => {\n  const buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    ed125ab19ec34aacab79585e59eb76f4: \"GRS Partnerships\",\n  };\n\n  const bu = state.data.form.business_unit;\n\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    // 'RecordType__r.Name':  \"Intervention Event\",\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: \"001O300000egVbUIAU\", // To be removed later\n    // ampi__Account__r: {\n    //   Name: \"Test Account\"\n    // },\n    // Name: buMapping[bu] || undefined, \n    // },\n    //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work\n    // Curriculum__c: { //currently doensn't have an extId configured so this doesn't work\n    //   CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    // },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactId = [];\n  state.form = state.data.form\n  return state;\n});\n\n// upsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", { ...$.mapping })\n\n\neach('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{\n  if(state.data[0]?.Id){\n    state.coachContactId.push(state.data[0]?.Id)\n  }\n  return state\n}))\n\neach('$.coachesIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n    //  Event_Participation__r:{Contact: state.data},\n     Event__r:{CommCare_Case_ID__c: state.form.case[\"@case_id\"]},\n    CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}${state.form.coach_name||''}`,\n})))\n\n\n\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
+        }
+      },
+      "edges": {
+        "webhook->Create-Intervention": {
+          "enabled": true,
+          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
+          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "condition_type": "js_expression",
+          "condition_label": "Create Intervention",
+          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
         }
       }
     }
