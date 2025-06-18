@@ -160,39 +160,6 @@
         }
       }
     },
-    "Create-Intervention": {
-      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
-      "name": "Create Intervention",
-      "inserted_at": "2025-06-13T12:39:34.311225Z",
-      "lock_version": 132,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Create-Intervention": {
-          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "name": "Create Intervention",
-          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\"){\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n\n  return state;\n});\nfn((state) => {\n  const buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    ed125ab19ec34aacab79585e59eb76f4: \"GRS Partnerships\",\n  };\n\n  const bu = state.data.form.business_unit;\n\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    // 'RecordType__r.Name':  \"Intervention Event\",\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: \"001O300000egVbUIAU\", // To be removed later\n    // ampi__Account__r: {\n    //   Name: \"Test Account\"\n    // },\n    // Name: buMapping[bu] || undefined, \n    // },\n    //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work\n    // Curriculum__c: { //currently doensn't have an extId configured so this doesn't work\n    //   CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    // },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n  state.form = state.data.form\n  return state;\n});\n\n// upsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", { ...$.mapping })\n\n\neach('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{\n  if(state.data[0]?.CommCare_External_ID__c){\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n    },\n     Event__r: {\n      CommCare_External_ID__c: state.form.case[\"@case_id\"]\n     },\n    CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n\n\n\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
-        }
-      },
-      "edges": {
-        "webhook->Create-Intervention": {
-          "enabled": true,
-          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
-          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "condition_type": "js_expression",
-          "condition_label": "Create Intervention",
-          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
-        }
-      }
-    },
     "Upsert-Team-or-Group-Name": {
       "id": "91488e1d-8b28-4c24-8116-3321376a89cc",
       "name": "Upsert Team or Group Name",
@@ -325,72 +292,6 @@
         }
       }
     },
-    "Upsert-Register-Participant": {
-      "id": "72f468ce-2762-4c72-92f6-7a6a13c0e788",
-      "name": "Upsert Register Participant",
-      "inserted_at": "2025-06-17T06:55:22.543288Z",
-      "lock_version": 28,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Register-Participant": {
-          "id": "99282850-e1ee-4915-8898-911206d5f126",
-          "name": "Upsert Register Participant",
-          "body": "\nfunction genderMap(gender) {\n  switch (gender) {\n    case 'female':\n      return 'Female'\n    case 'male':\n      return 'Male'\n    case 'other':\n      return 'Other'\n  }\n}\n\nfn(state => {\n  state.form = state.data.form\n  return state\n})\nquery(\n  \"SELECT Id FROM Account WHERE Name = 'Test Account'\"\n);\n\nfn(state => {\n\n  state.data.eventName = state.data[0].Id;\n  state.data.eventCase = state.form.case['@case_id'];\n\n  function objectToArray(object) {\n    return !Array.isArray(object) ? [object] : object;\n  }\n\n\n  if (state.form.question1) {\n    console.log('Ensuring that \"question1\" is an array.');\n    state.form.question1 = objectToArray(state.form.question1);\n  } else if (!state.form.new_participants) {\n    console.log('Nothing to upsert. No participants were registered');\n  } else {\n    console.log('Shifting \"new_participants\" to \"question1\" array.');\n    state.form.question1 = objectToArray(state.form.new_participants);\n    console.log('Creating a \"case\" object inside each item in that array.');\n    state.form.question1 = state.form.question1.map(item => ({\n      ...item,\n      case: item.create_skillz_plus_participant.case,\n    }));\n  }\n\n  console.log('Done with initial data manipulation.');\n  const persons = state.form.question1.map(person => {\n    return {\n      intervention_notes_to_save: state.form.intervention_notes_to_save,\n      ...person\n    }\n  })\n\n\n  const attendances = state.form.question1.map(attendee => {\n    return {\n      intervention_name: state.form.intervention_name,\n      eventCase: state.data.eventCase,\n      eventName: state.data.eventName,\n      ...attendee,\n\n    }\n  });\n\n\n  return { ...state, persons, attendances };\n});\n\n\n\neach(\n  'persons[*]',\n  upsert(\n    'Contact',\n    'CommCare_External_ID__c',\n  state => (\n      {\n      Description: state.data.intervention_notes_to_save,\n      FirstName: state.data.participant_first_name,\n      LastName: state.data.participant_surname,\n      CommCare_External_ID__c: state.form.case['@case_id'],\n      Participant_Identification_Number_PID__c: state.form.case['@case_id'],\n      // Site__c: {\n      //   ['CommCare_External_ID__c']: state.data.grp_location.site_id\n      // },\n      Site__r: {\n        CommCare_External_ID__c: state.data.grp_location.site_id\n      },\n      Gender__c: genderMap(state.data.gender),\n      MobilePhone: state.data.mobile_number,\n      Birthdate: state.data.date_of_birth,\n   //   MailingAddress: state.data.participants_home_address,\n      Age__c: state.data.participants_age_to_save,\n      Person_Type__c:'Participant'\n    }\n  )\n  )\n);\n\n// query(\n//  state =>  `SELECT Id FROM Contact WHERE CommCare_External_ID__c = '${state.form.case['@case_id']}'`\n// );\n\n// each(\n//   'attendances[*]',\n//   upsert(\n//     'Event_Participation__c',\n//     'CommCare_External_ID__c',\n//     state => ({\n//       CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data.case['@case_id'],\n//       Contact:{\n\n//       }\n//     })\n//     fields(\n//       field('CommCare_Ext_ID__c', state => {\n//         const eventid = toUTF8(`${state.data.intervention_name}` || `${state.data.eventName}`); //dataValue('intervention_name')(state) || `${state.data.eventName}`;\n//         const personid = state.data.case['@case_id'];\n//         const value = personid + '-' + eventid.replace(/\\//gi, '');\n//         return scrubEmojis(value, '');\n//       }),\n//       relationship(\n//         //Attendance looks up to Persn via the case_id\n//         'Person_Attendance__r',\n//         'Participant_Identification_Number_PID__c',\n//         state => state.data.case['@case_id']\n//       ),\n//       relationship(\n//         //Attendance looks up to Event via the Event case_id\n//         'Event__r',\n//         'CommCare_Case_ID__c',\n//         state => `${state.data.eventCase}`\n//       ),\n//       // relationship(\n//       //   //Attendance looks up to Event via the intervention_name\n//       //   'Event__r',\n//       //   'CommCare_Ext_ID__c',\n//       //   state => `${state.data.intervention_name}` || `${state.data.eventName}`\n//       // ),\n//       field('Date_of_Birth__c', dataValue('date_of_birth'))\n//     )\n//   )\n// );\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Register-Participant": {
-          "enabled": true,
-          "id": "d7a4d4bf-1b98-42f7-8c60-76439054970a",
-          "target_job_id": "99282850-e1ee-4915-8898-911206d5f126",
-          "source_trigger_id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
-          "condition_type": "js_expression",
-          "condition_label": "Register Participant",
-          "condition_expression": "state.data.form[\"@name\"] == \"Register Participant\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
-        }
-      }
-    },
-    "Coach-Session-Register": {
-      "id": "07c2e349-ffeb-45be-a7f1-147a7bccb40b",
-      "name": "Coach Session Register",
-      "inserted_at": "2025-06-17T12:32:53.512703Z",
-      "lock_version": 32,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "f4e7c67d-393a-444f-80a0-1f5a137afb28",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Coach-Session-Register": {
-          "id": "2b319a99-45a6-4377-87a4-b4403584d4c7",
-          "name": "Coach Session Register",
-          "body": "// push to production\n// query(\n//   `SELECT Attendee__c from Event_Session__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`\n// );\n\nfn(state => {\n  const { form } = state.data;\n  const present = form.present.toLowerCase();\n\n  function getSessionValue() {\n    let value;\n    switch (present) {\n      case 'yes':\n        value = 'X';\n        break;\n      case 'no':\n        value = 'A';\n        break;\n      case '':\n        value = 'N';\n        break;\n      default:\n        value = 'U';\n        break;\n    }\n    return value;\n  }\n\n  const session_text = form.session;\n\n  const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);\n  console.log(\"session_id: \", session_id);\n\n  const coachname = form.coach_name;\n  // ? form.coach_name\n  // : state.references[0].records[0].Coach_A__r.Name;\n\n  let external_id = `${form.case['@case_id']}\n    ${coachname}`; //case_id + coach_name for external Id\n\n  state.data.commcare_external_id = external_id.toLowerCase().replace(/\\s/g, '').trim();\n\n  state.data.dynamicFields = [\n    {\n      [`Session_${session_id}__c`]: getSessionValue(),\n      [`Session_${session_id}_Date__c`]: form.date\n    }\n  ];\n\n  state.data.durationFields = { [`Session_${session_id}_Duration__c`]: form.duration };\n  console.log(state.data.durationFields);\n\n  return state;\n});\n\n// describe('Event_Session__c');\n\n\nupsert('Event_Session__c',\n  'CommCare_External_ID__c',\n  state => ({\n    CommCare_External_ID__c: `${state.data.form.case['@case_id']}_${state.data.form.session.replace('//','')}`,\n    Session_Date__c: state.data.form.date,\n    Duration_of_Session__c: state.data.form.duration,\n    Event__r: {\n      CommCare_External_ID__c:state.data.form.case['@case_id']\n\n    }\n  }));\n\n// query(\n//   `SELECT Coach_A__c, Coach_A__r.CommCare_Ext_ID__c from Event__c where CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`\n// );\n\n// fn(state => {\n//   const coaches = dataValue('form.coach_name')(state).split(' ');\n//   const dynamicFields = state.data.dynamicFields;\n//   const commcare_external_id = state.data.commcare_external_id;\n//   const caseid = state.data.form.case['@case_id'];\n//   return each(\n//     coaches,\n//     upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({\n//       ...fields(\n//         //relationship('RecordType', 'Name', 'Coach Development'),\n//         field('RecordTypeId', '012500000009jqaAAA'),\n//         relationship('Event__r', 'CommCare_Case_ID__c', caseid),\n//         relationship('Person_Attendance__r', 'CommCare_Ext_ID__c', state => {\n//           const coach_name = state.data;\n//           return coach_name;\n//         }),\n//         field('CommCare_Ext_ID__c', commcare_external_id)\n//       ),\n//       ...fields(...dynamicFields),\n//     }))\n//   )(state);\n// });\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Coach-Session-Register": {
-          "enabled": true,
-          "id": "6771766e-5128-4f70-8535-2582c1dbab35",
-          "target_job_id": "2b319a99-45a6-4377-87a4-b4403584d4c7",
-          "source_trigger_id": "f4e7c67d-393a-444f-80a0-1f5a137afb28",
-          "condition_type": "js_expression",
-          "condition_label": "Coach Session Register",
-          "condition_expression": "state.data.form[\"@name\"] == \"Coach Session Register\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
-        }
-      }
-    },
     "HIV-Testing-Event-Statistics": {
       "id": "0c72c582-ffc8-4163-af8f-d2104587950e",
       "name": "HIV Testing Event Statistics",
@@ -424,11 +325,77 @@
         }
       }
     },
+    "Upsert-Register-Participant": {
+      "id": "72f468ce-2762-4c72-92f6-7a6a13c0e788",
+      "name": "Upsert Register Participant",
+      "inserted_at": "2025-06-18T06:29:39.425641Z",
+      "lock_version": 44,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Register-Participant": {
+          "id": "99282850-e1ee-4915-8898-911206d5f126",
+          "name": "Upsert Register Participant",
+          "body": "\nfunction genderMap(gender) {\n  switch (gender) {\n    case 'female':\n      return 'Female'\n    case 'male':\n      return 'Male'\n    case 'other':\n      return 'Other'\n  }\n}\n\nfn(state => {\n  state.form = state.data.form\n  return state\n})\nquery(\n  \"SELECT Id FROM Account WHERE Name = 'Test Account'\"\n);\n\nfn(state => {\n\n  state.data.eventName = state.data[0].Id;\n  state.data.eventCase = state.form.case['@case_id'];\n\n  function objectToArray(object) {\n    return !Array.isArray(object) ? [object] : object;\n  }\n\n\n  if (state.form.question1) {\n    console.log('Ensuring that \"question1\" is an array.');\n    state.form.question1 = objectToArray(state.form.question1);\n  } else if (!state.form.new_participants) {\n    console.log('Nothing to upsert. No participants were registered');\n  } else {\n    console.log('Shifting \"new_participants\" to \"question1\" array.');\n    state.form.question1 = objectToArray(state.form.new_participants);\n    console.log('Creating a \"case\" object inside each item in that array.');\n    state.form.question1 = state.form.question1.map(item => ({\n      ...item,\n      case: item.create_skillz_plus_participant.case,\n    }));\n  }\n\n  console.log('Done with initial data manipulation.');\n  const persons = state.form.question1.map(person => {\n    return {\n      intervention_notes_to_save: state.form.intervention_notes_to_save,\n      ...person\n    }\n  })\n\n\n  const attendances = state.form.question1.map(attendee => {\n    return {\n      intervention_name: state.form.intervention_name,\n      eventCase: state.data.eventCase,\n      eventName: state.data.eventName,\n      ...attendee,\n\n    }\n  });\n\n\n  return { ...state, persons, attendances };\n});\n\n\n\neach(\n  'persons[*]',\n  upsert(\n    'Contact',\n    'CommCare_External_ID__c',\n    state => (\n      {\n        Description: state.data.intervention_notes_to_save,\n        FirstName: state.data.participant_first_name,\n        LastName: state.data.participant_surname,\n        CommCare_External_ID__c: state.data.case['@case_id'],\n        Participant_Identification_Number_PID__c: state.data.case['@case_id'],\n        Site__r: {\n          CommCare_External_ID__c: state.data.grp_location.site_id\n        },\n        Gender__c: genderMap(state.data.gender),\n        MobilePhone: state.data.mobile_number,\n        Birthdate: state.data.date_of_birth,\n        //  MailingAddress: state.data.participants_home_address,\n        Age__c: state.data.participants_age_to_save,\n        Person_Type__c: 'Participant'\n      }\n    )\n  )\n);\n\n\n\neach(\n  'attendances[*]',\n  upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data.case['@case_id'],\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.data.case['@case_id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.form.case['@case_id']\n      },\n\n    })\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Register-Participant": {
+          "enabled": true,
+          "id": "d7a4d4bf-1b98-42f7-8c60-76439054970a",
+          "target_job_id": "99282850-e1ee-4915-8898-911206d5f126",
+          "source_trigger_id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
+          "condition_type": "js_expression",
+          "condition_label": "Register Participant",
+          "condition_expression": "state.data.form[\"@name\"] == \"Register Participant\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
+    "Create-Intervention": {
+      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
+      "name": "Create Intervention",
+      "inserted_at": "2025-06-18T08:19:20.397825Z",
+      "lock_version": 133,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Create-Intervention": {
+          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "name": "Create Intervention",
+          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\"){\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n\n  return state;\n});\nfn((state) => {\n  const buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    ed125ab19ec34aacab79585e59eb76f4: \"GRS Partnerships\",\n  };\n\n  const bu = state.data.form.business_unit;\n\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    // 'RecordType__r.Name':  \"Intervention Event\",\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: \"001O300000egVbUIAU\", // To be removed later\n    // ampi__Account__r: {\n    //   Name: \"Test Account\"\n    // },\n    // Name: buMapping[bu] || undefined, \n    // },\n    //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work\n    Curriculum__c: { \n      CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n  state.form = state.data.form\n  return state;\n});\n\n// upsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", { ...$.mapping })\n\n\neach('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{\n  if(state.data[0]?.CommCare_External_ID__c){\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n    },\n     Event__r: {\n      CommCare_External_ID__c: state.form.case[\"@case_id\"]\n     },\n    CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n\n\n\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
+        }
+      },
+      "edges": {
+        "webhook->Create-Intervention": {
+          "enabled": true,
+          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
+          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "condition_type": "js_expression",
+          "condition_label": "Create Intervention",
+          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
     "Upsert-Pre-Challenges": {
       "id": "29689d64-b196-4aa2-aee6-6d13f4153e0a",
       "name": "Upsert Pre Challenges",
-      "inserted_at": "2025-06-17T14:55:11.641686Z",
-      "lock_version": 34,
+      "inserted_at": "2025-06-18T09:51:32.782159Z",
+      "lock_version": 40,
       "triggers": {
         "webhook": {
           "enabled": true,
@@ -440,7 +407,7 @@
         "Upsert-Pre-Challenges": {
           "id": "3a5b7369-e040-40dc-8126-3cd581e97745",
           "name": "Upsert Pre Challenges",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n})\n// query(`\n//   SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name\n//   FROM ampi__Submission__c \n//   WHERE Active__c = true \n//   AND Type__c = 'Pre/Post Template' \n//   AND Curriculum__r.Commcare_External_ID__c = '35'\n// `);\n\n\n//    upsert(\n//     'ampi__Submission__c', \n//     'CommCare_External_ID__c', state => \n//     ({\n//       Type__c: state.form ? state.form['@name'].split(\" \")[0] : null,\n//       ampi__Parent_Submission__c: state.data[0].Id,\n//       Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },\n//       Event_Participation__r: { \n//         CommCare_External_ID__c: `${state.form.hidden_properties.intervention_name}_${state.form.case['@case_id']}` \n//       },\n//       GRS_Event__r: { Name: state.form.hidden_properties.intervention_name },\n//       RecordType: {Name: \"Submission\"},\n//       CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.hidden_properties.intervention_name}_submission`\n//     })\n//   );\nquery(`\n  SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_External_ID__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = 'a0pO40000036OPJIA2'\n`);\n\n// we need to find the form element that contains the list of questions.\n// it will start with form.pre_challenge_${curriculum_name}\n// in the object we will find a list of commcare questions\n// which we will match with ampi__Question__c CommCareExternal_ID__c and upsert the ampi__Picklist_Response__c field with \n\nfn(state => {\n  // First, find the form element that starts with pre_challenge pattern\n  const formKeys = Object.keys(state.form).filter(key => \n    key.startsWith('pre_challenge_')\n  );\n  \n  if (formKeys.length === 0) {\n    console.log('No pre_challenge keys found in form data');\n    return state;\n  }\n  \n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = state.form[formKeys[0]];\n  \n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(response) {\n    if (!response) return null;\n    const normalizedResponse = response.toString().trim().toLowerCase();\n    \n    if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {\n      return \"Yes\";\n    } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {\n      return \"No\";\n    } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {\n      return \"I don't know\";\n    // } else if (normalizedResponse === 'unanswered') {\n    //   return \"Unanswered\";\n    // } else if (normalizedResponse === 'not_applicable') {\n    //   return \"Not Applicable\";\n    } else {\n      return \"I don't know\";\n    }\n  }\n  \n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_External_ID__c\n      \n    \n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n    \n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n    \n    if (matchingKey) {\n      return {\n        Id: question.Id,\n        ampi__Picklist_Response__c: transformResponse(answer)\n      };\n    }\n    \n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n  \n  console.log(`Found ${updates.length} questions to update`);\n  \n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n  \n  return state;\n});\n\n\n// fn(state => {\n//   function transform(value) {\n//     if (!value) return;\n//     //console.log(\"value in switch\", value.toString().trim().toLowerCase());\n//     switch (value.toString().trim().toLowerCase()) {\n//       case 'true':\n//       case 'yes':\n//       case 'agree':\n//       case 'verdade':\n//       case 'concorda':\n//       case 'concordo':\n//       case 'choice1':\n//         return 1;\n//       case 'false':\n//       case 'no':\n//       case 'disagree':\n//       case 'discorda':\n//       case 'discordo':\n//       case 'falso':\n//       case 'choice6':\n//       case 'choice3':\n//         return 2;\n//       case 'i_dont_know':\n//       case 'na':\n//         return 3;\n//       case 'unanswered':\n//         return 4;\n//       case 'not_applicable':\n//         return 5;\n//       default:\n//         return value;\n//     }\n//   }\n\n//   state.helperFunctions = { transform };\n\n//   return query(\n//     `SELECT Participant_Identification_Number_PID__c from Person__c where Participant_Identification_Number_PID__c  = '${state.data.form.case['@case_id']}'`\n//   )(state);\n// });\n\n// \n\n// //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.\n// // upsert(\n// //   'Event__c',\n// //   'CommCare_Ext_ID__c',\n// //   fields(\n// //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),\n// //     field('Date_of_Pre__c', dataValue('form.date')),\n\n// //   )\n// // );",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n})\nquery(`\n  SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name\n  FROM ampi__Submission__c \n  WHERE Active__c = true \n  AND Type__c = 'Pre/Post Template' \n  AND Curriculum__r.Commcare_External_ID__c = '35'\n`);\n//query event by event name\n\n   upsert(\n    'ampi__Submission__c', \n    'CommCare_External_ID__c', state => \n    ({\n      Type__c: state.form ? state.form['@name'].split(\" \")[0] : null,\n      ampi__Parent_Submission__c: state.data[0].Id,\n      Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },\n      Event_Participation__r: { \n        CommCare_External_ID__c: `${state.form.hidden_properties.intervention_name}_${state.form.case['@case_id']}` \n      },\n      GRS_Event__r: { Name: state.form.hidden_properties.intervention_name },\n      RecordType: {Name: \"Submission\"},\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.hidden_properties.intervention_name}_pre_submission`\n    })\n  );\nquery(`\n  SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_External_ID__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = 'a0pO40000036OPJIA2'\n`);\n\n// the query returns a list of questions for the specific parent submission\n// Currently hardcoding the parent submission id i created in previous runs\n// next we will look for form keys that start with form.pre_challenge_[*]\n// under form.pre_challenge_[*] we will find a list of commcare questions with their CommCare_External_ID__c\n// which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field \n\nfn(state => {\n  // First, find the form element that starts with pre_challenge pattern\n  const formKeys = Object.keys(state.form).filter(key => \n    key.startsWith('pre_challenge_')\n  );\n  \n  if (formKeys.length === 0) {\n    console.log('No pre_challenge keys found in form data');\n    return state;\n  }\n  \n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = state.form[formKeys[0]];\n  \n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(response) {\n    if (!response) return null;\n    const normalizedResponse = response.toString().trim().toLowerCase();\n    \n    if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {\n      return \"Yes\";\n    } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {\n      return \"No\";\n    } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {\n      return \"I don't know\";\n    // } else if (normalizedResponse === 'unanswered') {\n    //   return \"Unanswered\";\n    // } else if (normalizedResponse === 'not_applicable') {\n    //   return \"Not Applicable\";\n    } else {\n      return \"I don't know\";\n    }\n  }\n  \n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_External_ID__c\n      \n    \n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n    \n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n    \n    if (matchingKey) {\n      return {\n        Id: question.Id,\n        ampi__Picklist_Response__c: transformResponse(answer)\n      };\n    }\n    \n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n  \n  console.log(`Found ${updates.length} questions to update`);\n  \n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n  \n  return state;\n});\n\n\n// fn(state => {\n//   function transform(value) {\n//     if (!value) return;\n//     //console.log(\"value in switch\", value.toString().trim().toLowerCase());\n//     switch (value.toString().trim().toLowerCase()) {\n//       case 'true':\n//       case 'yes':\n//       case 'agree':\n//       case 'verdade':\n//       case 'concorda':\n//       case 'concordo':\n//       case 'choice1':\n//         return 1;\n//       case 'false':\n//       case 'no':\n//       case 'disagree':\n//       case 'discorda':\n//       case 'discordo':\n//       case 'falso':\n//       case 'choice6':\n//       case 'choice3':\n//         return 2;\n//       case 'i_dont_know':\n//       case 'na':\n//         return 3;\n//       case 'unanswered':\n//         return 4;\n//       case 'not_applicable':\n//         return 5;\n//       default:\n//         return value;\n//     }\n//   }\n\n//   state.helperFunctions = { transform };\n\n//   return query(\n//     `SELECT Participant_Identification_Number_PID__c from Person__c where Participant_Identification_Number_PID__c  = '${state.data.form.case['@case_id']}'`\n//   )(state);\n// });\n\n// \n\n// //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.\n// // upsert(\n// //   'Event__c',\n// //   'CommCare_Ext_ID__c',\n// //   fields(\n// //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),\n// //     field('Date_of_Pre__c', dataValue('form.date')),\n\n// //   )\n// // );",
           "adaptor": "@openfn/language-salesforce@7.0.0",
           "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
         }
@@ -454,6 +421,39 @@
           "condition_type": "js_expression",
           "condition_label": "Pre Challenges",
           "condition_expression": "state.data.form[\"@name\"] == \"Pre Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
+    "Coach-Session-Register": {
+      "id": "07c2e349-ffeb-45be-a7f1-147a7bccb40b",
+      "name": "Coach Session Register",
+      "inserted_at": "2025-06-18T10:39:36.046624Z",
+      "lock_version": 46,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "f4e7c67d-393a-444f-80a0-1f5a137afb28",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Coach-Session-Register": {
+          "id": "2b319a99-45a6-4377-87a4-b4403584d4c7",
+          "name": "Coach Session Register",
+          "body": "// push to production\n\nfn(state => {\n  const { form } = state.data;\n    state.form = form;\n  const present = form.present.toLowerCase();\n\n  function getSessionValue() {\n    let value;\n    switch (present) {\n      case 'yes':\n        value = 'X';\n        break;\n      case 'no':\n        value = 'A';\n        break;\n      case '':\n        value = 'N';\n        break;\n      default:\n        value = 'U';\n        break;\n    }\n    return value;\n  }\n\n  const session_text = form.session;\n\n  const session_id = session_text.trim().slice(0, session_text.indexOf(' ')).slice(1);\n  console.log(\"session_id: \", session_id);\n\n  const coachname = form.coach_name;\n  // ? form.coach_name\n  // : state.references[0].records[0].Coach_A__r.Name;\n\n  let external_id = `${form.case['@case_id']}\n    ${coachname}`; //case_id + coach_name for external Id\n\n  state.data.commcare_external_id = external_id.toLowerCase().replace(/\\s/g, '').trim();\n\n  state.data.dynamicFields = [\n    {\n      [`Session_${session_id}__c`]: getSessionValue(),\n      [`Session_${session_id}_Date__c`]: form.date\n    }\n  ];\n\n  state.data.durationFields = { [`Session_${session_id}_Duration__c`]: form.duration };\n  console.log(state.data.durationFields);\n\n  state.coachIds = form.coach_name.split(' ');\n\n\n  return state;\n});\n\n\n\nupsert('Event_Session__c',\n  'CommCare_External_ID__c',\n  state => ({\n    CommCare_External_ID__c: `${state.data.form.case['@case_id']}_${state.data.form.session.replace('//', '')}`,\n    Session_Date__c: state.data.form.date,\n    Duration_of_Session__c: state.data.form.duration,\n    Event__r: {\n      CommCare_External_ID__c: state.data.form.case['@case_id']\n    }\n  }));\n\nfunction presentMapping(value){\n  switch (value){\n    case 'yes':\n      return 'Attended'\n    case 'no':\n      return 'Not Attended'\n    default:\n      return null\n  }\n\n}\n\neach('$.coachIds[*]', upsert('Attendance__c',\n  'CommCare_External_ID__c',\n  state => ({\n    Event_Session__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.session.replace('//', '')}`\n    },\n    Attendee__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data}`\n    },\n    Attended__c: presentMapping(state.form.present),\n     CommCare_External_ID__c: `${state.form.session.replace('//', '')}_${state.data}`\n  })\n))\n\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Coach-Session-Register": {
+          "enabled": true,
+          "id": "6771766e-5128-4f70-8535-2582c1dbab35",
+          "target_job_id": "2b319a99-45a6-4377-87a4-b4403584d4c7",
+          "source_trigger_id": "f4e7c67d-393a-444f-80a0-1f5a137afb28",
+          "condition_type": "js_expression",
+          "condition_label": "Coach Session Register",
+          "condition_expression": "state.data.form[\"@name\"] == \"Coach Session Register\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
         }
       }
     }
