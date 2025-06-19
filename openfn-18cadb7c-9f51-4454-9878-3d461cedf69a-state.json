@@ -4,7 +4,7 @@
   "description": null,
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
-  "updated_at": "2025-06-19T07:58:25Z",
+  "updated_at": "2025-06-19T08:12:11Z",
   "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-Salseforce-Admin-User": {
@@ -551,7 +551,7 @@
       },
       "concurrency": null,
       "inserted_at": "2025-06-19T07:29:41Z",
-      "updated_at": "2025-06-19T07:58:25Z",
+      "updated_at": "2025-06-19T08:12:11Z",
       "jobs": {
         "Get-data": {
           "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
@@ -570,7 +570,7 @@
         }
       },
       "deleted_at": null,
-      "lock_version": 3
+      "lock_version": 5
     }
   },
   "allow_support_access": true,
