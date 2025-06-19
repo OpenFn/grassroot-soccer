@@ -6374,6 +6374,8 @@ workflows:
                   ? 'GRS Zimbabwe'
                   : bu === 'ed125ab19ec34aacab79585e59eb76f4'
                   ? 'GRS Partnerships'
+                  : bu === '26ed0b3dfc7d4dd09be5182c18fc0638'
+                  ? 'GRS South Africa'
                   : undefined;
               })
             ),
