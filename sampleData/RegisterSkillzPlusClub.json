@@ -1,0 +1,168 @@
+{
+  "data": {
+    "app_id": "bd835ba97e1e474095bd41389a7f66de",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 3503,
+        "url": "https://www.commcarehq.org/a/***/api/form_attachment/v1/a58abca4-e213-41c4-aa6a-2c0ad5f3a360/form.xml"
+      }
+    },
+    "build_id": "3402b6ef27344660837613b816d254d8",
+    "domain": "***",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "@name": "Register Skillz Plus Club",
+      "@uiVersion": "1",
+      "@version": "3182",
+      "@xmlns": "http://openrosa.org/formdesigner/E31B9126-1DCA-4603-AD57-271A843448B3",
+      "business_unit": "65680f0c4c144b03ad0f86bdc46c1ebc",
+      "case": {
+        "@case_id": "9d49952a-f7e7-47b7-bbde-aa05c7bf7789",
+        "@date_modified": "2025-06-18T13:08:15.890000Z",
+        "@user_id": "e26fb0a81a6a4a12a62903563286fc26",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2",
+        "create": {
+          "case_name": "Test Data",
+          "case_type": "skillz_plus_club",
+          "owner_id": "e26fb0a81a6a4a12a62903563286fc26"
+        },
+        "update": {
+          "coach_ids": "0f8a8c1f6a2a420ab82dd848a3890f60",
+          "country_custom_code": "ZM",
+          "facility_name": "Lusaka Hospital",
+          "sessions_frequency": "weekly",
+          "site": "1bc984af72464ae882aa11c636f68aba",
+          "skillz_plus_site": "1bc984af72464ae882aa11c636f68aba",
+          "skillz_plus_venue": "67ba6cce9ba545bf806ea30d82c57e77",
+          "test_real": "Real",
+          "venue": "67ba6cce9ba545bf806ea30d82c57e77",
+          "venue_custom_code": ""
+        }
+      },
+      "coach_ids": "0f8a8c1f6a2a420ab82dd848a3890f60",
+      "coaches": "0f8a8c1f6a2a420ab82dd848a3890f60",
+      "country": "7cd352d69f07457790281a5b48df983d",
+      "country_custom_code": "ZM",
+      "create_skillz_plus_club_delegates": {
+        "case": {
+          "@case_id": "aad59ce1-faab-498b-bf56-c200d82d977a",
+          "@date_modified": "2025-06-18T13:08:15.890000Z",
+          "@user_id": "e26fb0a81a6a4a12a62903563286fc26",
+          "@xmlns": "http://commcarehq.org/case/transaction/v2",
+          "create": {
+            "case_name": "0f8a8c1f6a2a420ab82dd848a3890f60",
+            "case_type": "skillz_plus_club_delegate",
+            "owner_id": "-"
+          },
+          "index": {
+            "parent": {
+              "#text": "9d49952a-f7e7-47b7-bbde-aa05c7bf7789",
+              "@case_type": "skillz_plus_club"
+            }
+          },
+          "update": {
+            "owner_id": "0f8a8c1f6a2a420ab82dd848a3890f60",
+            "skillz_plus_club_id": "9d49952a-f7e7-47b7-bbde-aa05c7bf7789",
+            "skillz_plus_club_name": "Test Data"
+          }
+        },
+        "coach_id": "0f8a8c1f6a2a420ab82dd848a3890f60",
+        "skillz_plus_club_id": "9d49952a-f7e7-47b7-bbde-aa05c7bf7789",
+        "skillz_plus_club_name": "Test Data"
+      },
+      "facility_name": "Lusaka Hospital",
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+        "app_build_version": 3987,
+        "commcare_version": "2.56.1",
+        "deviceID": "commcare_68c3cfe9-1973-48df-881d-f1c648816078",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "a58abca4-e213-41c4-aa6a-2c0ad5f3a360",
+        "timeEnd": "2025-06-18T13:08:15.890000Z",
+        "timeStart": "2025-06-18T13:07:39.621000Z",
+        "userID": "e26fb0a81a6a4a12a62903563286fc26",
+        "username": "zambia.pc"
+      },
+      "name_of_skillz_plus_club": "Test Data",
+      "num_coaches": "1",
+      "sessions_frequency": "weekly",
+      "site_code": "1bc984af72464ae882aa11c636f68aba",
+      "skillz_plus_site": "1bc984af72464ae882aa11c636f68aba",
+      "skillz_plus_venue": "67ba6cce9ba545bf806ea30d82c57e77",
+      "test_real": "Real",
+      "venue_code": "67ba6cce9ba545bf806ea30d82c57e77",
+      "venue_custom_code": "",
+      "venue_type": "health_centre"
+    },
+    "id": "a58abca4-e213-41c4-aa6a-2c0ad5f3a360",
+    "indexed_on": "2025-06-18T13:08:16.921223Z",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+      "app_build_version": 3987,
+      "commcare_version": "2.56.1",
+      "deviceID": "commcare_68c3cfe9-1973-48df-881d-f1c648816078",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "a58abca4-e213-41c4-aa6a-2c0ad5f3a360",
+      "location": null,
+      "timeEnd": "2025-06-18T13:08:15.890000Z",
+      "timeStart": "2025-06-18T13:07:39.621000Z",
+      "userID": "e26fb0a81a6a4a12a62903563286fc26",
+      "username": "zambia.pc"
+    },
+    "problem": null,
+    "received_on": "2025-06-18T13:08:16.157000Z",
+    "resource_uri": "",
+    "server_modified_on": "2025-06-18T13:08:16.328574Z",
+    "submit_ip": "102.128.79.133",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3182"
+  },
+  "references": [
+    {}
+  ],
+  "response": {
+    "duration": 672,
+    "headers": {
+      "access-control-allow-headers": "Content-Type, Authorization",
+      "access-control-allow-origin": "*",
+      "cache-control": "private, no-cache, no-store, must-revalidate, proxy-revalidate",
+      "connection": "keep-alive",
+      "content-language": "en",
+      "content-length": "4209",
+      "content-type": "application/json; charset=utf-8",
+      "cross-origin-opener-policy": "same-origin",
+      "date": "Thu, 19 Jun 2025 08:10:06 GMT",
+      "expires": "Thu, 01 Dec 1994 16:00:00 GMT",
+      "http_x_openrosa_version": "1.0",
+      "pragma": "no-cache",
+      "referrer-policy": "strict-origin-when-cross-origin",
+      "server": "nginx",
+      "set-cookie": [
+        "formplayer_session=cbc657317f74c7711d167f916afcf966; HttpOnly; Path=/; Secure",
+        "sessionid=xl1dm839kzzlqh1lq19hjjj728527drh; expires=Thu, 03 Jul 2025 08:10:06 GMT; HttpOnly; Max-Age=1209600; Path=/; SameSite=Lax; Secure"
+      ],
+      "strict-transport-security": "max-age=31536000; includeSubDomains",
+      "vary": "Accept, Accept-Language, Cookie",
+      "x-content-type-options": [
+        "nosniff",
+        "nosniff"
+      ],
+      "x-frame-options": "DENY",
+      "x-xss-protection": "1; mode=block"
+    },
+    "method": "GET",
+    "statusCode": 200,
+    "statusMessage": "OK",
+    "url": "https://www.commcarehq.org/a/***/api/v0.5/form/a58abca4-e213-41c4-aa6a-2c0ad5f3a360"
+  }
+}
