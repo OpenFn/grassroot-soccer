@@ -2,6 +2,9 @@ name: grs-staging
 description: null
 collections: null
 credentials:
+  aleksa@openfn.org-grs-commcare:
+    name: grs-commcare
+    owner: aleksa@openfn.org
   "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-":
     name: 'SalesForce Sandbox Integration Oauth '
     owner: hunter@openfn.org
@@ -524,6 +527,30 @@ workflows:
         condition_label: HIV Testing Event Statistics
         condition_expression: |
           state.data.form["@name"] == "HIV Testing Event Statistics" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+        enabled: true
+  Scheduled-Workflow:
+    name: Scheduled Workflow
+    jobs:
+      Get-data:
+        name: Get data
+        adaptor: '@openfn/language-commcare@3.2.13'
+        credential: aleksa@openfn.org-grs-commcare
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          //get('https://docs.openfn.org/documentation');
+
+          get("/form/b5f58b44-d135-4c83-9287-cd3c47bae075")
+    triggers:
+      cron:
+        type: cron
+        cron_expression: '*/15 * * * *'
+        enabled: true
+    edges:
+      cron->Get-data:
+        source_trigger: cron
+        target_job: Get-data
+        condition_type: always
         enabled: true
   Upsert-Coach-Support-Visit-CSV:
     name: Upsert Coach Support Visit CSV

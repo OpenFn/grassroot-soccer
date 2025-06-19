@@ -21,6 +21,11 @@
       "id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d",
       "name": "SalesForce Sandbox Integration Oauth ",
       "owner": "hunter@openfn.org"
+    },
+    "aleksa@openfn.org-grs-commcare": {
+      "id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21",
+      "name": "grs-commcare",
+      "owner": "aleksa@openfn.org"
     }
   },
   "history_retention_period": 7,
@@ -487,6 +492,38 @@
           "condition_type": "js_expression",
           "condition_label": "Register Skillz plus Club",
           "condition_expression": "state.data.form[\"@name\"] == \"Register Skillz Plus Club\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
+    "Scheduled-Workflow": {
+      "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
+      "name": "Scheduled Workflow",
+      "inserted_at": "2025-06-19T07:29:58.554958Z",
+      "lock_version": 2,
+      "triggers": {
+        "cron": {
+          "enabled": true,
+          "id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "type": "cron",
+          "cron_expression": "*/15 * * * *"
+        }
+      },
+      "jobs": {
+        "Get-data": {
+          "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "name": "Get data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//get('https://docs.openfn.org/documentation');\n\nget(\"/form/b5f58b44-d135-4c83-9287-cd3c47bae075\")",
+          "adaptor": "@openfn/language-commcare@3.2.13",
+          "project_credential_id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21"
+        }
+      },
+      "edges": {
+        "cron->Get-data": {
+          "enabled": true,
+          "id": "5eaf167e-e7a5-4e01-8a10-3508e4165b02",
+          "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "condition_type": "always"
         }
       }
     }
