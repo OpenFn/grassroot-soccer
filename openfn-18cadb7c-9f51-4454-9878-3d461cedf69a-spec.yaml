@@ -276,7 +276,7 @@ workflows:
 
           fn((state) => {
             function clean(str) {
-              if (str == "before_after_school"){
+              if (str == "before_after_school") {
                 return "Before/After School"
               }
               if (!!str)
@@ -318,19 +318,20 @@ workflows:
             state.mapping = {
               Name: state.data.form.name_of_intervention,
               CommCare_External_ID__c: state.data.form.case["@case_id"],
-              // 'RecordType__r.Name':  "Intervention Event",
               'RecordType': {
                 "Name": 'Intervention Event'
               },
 
-              ampi__Account__c: "001O300000egVbUIAU", // To be removed later
+              // ampi__Account__c: "001O300000egVbUIAU", // To be removed later
               // ampi__Account__r: {
-              //   Name: "Test Account"
+              //   Buisness_Unit__r: {
+              //     Name: buMapping[bu]
+              //   },
               // },
-              // Name: buMapping[bu] || undefined, 
-              // },
-              //Venue__c:  state.data.form.Venue, //currently doensn't have an extId configured so this doesn't work
-              Curriculum__r: { 
+              // Venue__r:  {
+              //   CommCare_External_ID__c: state.data.form.Venue
+              // }, //currently doensn't have an extId configured so this doesn't work
+              Curriculum__r: {
                 CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,
               },
               Delivery_method__c: state.data.form.delivery_method,
@@ -348,12 +349,11 @@ workflows:
             return state;
           });
 
-          // upsert("ampi__Project__c", "CommCare_External_ID__c", $.mapping)
-          upsert("ampi__Project__c", "CommCare_External_ID__c", { ...$.mapping })
+          upsert("ampi__Project__c", "CommCare_External_ID__c", $.mapping)
 
 
-          each('$.coachesIds.[*]', query(state =>`SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state =>{
-            if(state.data[0]?.CommCare_External_ID__c){
+          each('$.coachesIds.[*]', query(state => `SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state => {
+            if (state.data[0]?.CommCare_External_ID__c) {
               state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)
             } else {
               console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);
@@ -364,11 +364,11 @@ workflows:
           each('$.coachContactIds.[*]', upsert("Event_Participation__c", "CommCare_External_ID__c", state => ({
             Contact__r: {
               CommCare_External_ID__c: state.data
-              },
-               Event__r: {
-                CommCare_External_ID__c: state.form.case["@case_id"]
-               },
-              CommCare_External_ID__c: `${state.form.case["@case_id"]}_${state.data}`,
+            },
+            Event__r: {
+              CommCare_External_ID__c: state.form.case["@case_id"]
+            },
+            CommCare_External_ID__c: `${state.form.case["@case_id"]}_${state.data}`,
           })))
 
     triggers:
@@ -1067,7 +1067,6 @@ workflows:
         body: |
           fn(state => {
             state.form = state.data.form;
-            // Check form version early
             const formVersion = Object.keys(state.form).find(key => key.includes('challenge'));
 
             state.skippingUpsert = formVersion === 'post_challenge_ecap_-_post_-_season_survey_for_athletes'
