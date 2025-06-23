@@ -565,26 +565,57 @@ workflows:
             return state;
           });
 
+
           query(
-            `SELECT Id FROM Event_Session__c
+            `SELECT CommCare_External_ID__c FROM Event_Session__c
                WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = NULL ORDER BY CreatedDate ASC Limit 1`);
 
+          fnIf(!$.data[0]?.CommCare_External_ID__c, query(
+            `SELECT CommCare_External_ID__c FROM Event_Session__c
+               WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item[0].date} ORDER BY CreatedDate ASC Limit 1`));
+
+
           fn(state => {
-            state.PID = state.data[0]?.Id;
+            state.sessionId = state.data[0]?.CommCare_External_ID__c
             return state;
           })
 
-          each('$.form.attendance_list.update_participant_cases.item[*]', 
-          upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({	
-          Contact__r:{
-            CommCare_External_ID__c:state.data['@id']
-          },
-          Event__r:{
-            CommCare_External_ID__c:state.form.case['@case_id']
-          },
-          CommCare_External_ID__c:state.form.case['@case_id'] + '_'+ state.data['@id']
+          upsert('Event_Session__c', 'CommCare_External_ID__c', state => (
+            {
+              Session_Date__c: state.form.attendance_list.update_participant_cases.item[0].date,
+              Event__r: {
+                CommCare_External_ID__c: state.form.case['@case_id']
+              },
+              CommCare_External_ID__c: state.sessionId
+            }
+          ))
 
-          })))
+          each('$.form.attendance_list.update_participant_cases.item[*]',
+            upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({
+              Contact__r: {
+                CommCare_External_ID__c: state.data['@id']
+              },
+              Event__r: {
+                CommCare_External_ID__c: state.form.case['@case_id']
+              },
+              CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']
+
+            }))
+          );
+
+          each('$.form.attendance_list.update_participant_cases.item[*]',
+            upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
+              Attended__c: state.data.attendance_session,
+              Event_Session__r: {
+                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.sessionId}`
+              },
+              Attendee__r: {
+                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`
+              },
+              CommCare_External_ID__c: state.sessionId + '_' + state.form.case['@case_id']
+
+            }))
+          );
 
           // fn(state => {
           //   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
@@ -1111,23 +1142,16 @@ workflows:
               return state;
             }
             const PID = state.data[0] && state.data[0].CommCare_External_ID__c;
+            state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
 
             if (!PID) {
               console.log(
                 `Participant not found with Participant_Identification_Number_PID__c: 
                 ${state.form.case['@case_id']}`
               );
-            }
-
-            state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
-
-            return state;
-          })
-
-          fn(state => {
-            if (state.skippingUpsert) {
               return state;
             }
+
             return query(`
             SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name
             FROM ampi__Submission__c 
@@ -1136,12 +1160,24 @@ workflows:
             AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'
           `)(state);
           })
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const submissionTemplate = state.data? state.data[0] : undefined
+            state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
 
-          fnIf((state) => !state.skippingUpsert,
-          upsert( 
-              'ampi__Submission__c',
-              'CommCare_External_ID__c', state =>
-            ({
+            if (!submissionTemplate){
+              console.log(
+                `Submission Template not found for Pre/Post template with Curriculum Id: 
+                ${state.form.hidden_properties.Curriculum}`
+              );
+              return state;
+            }
+            return upsert(
+              'ampi__Submission__c', 
+              'CommCare_External_ID__c', state => 
+              ({
               Type__c: state.form ? state.form['@name'].split(" ")[0] : null,
               ampi__Parent_Submission__c: state.data[0]?.Id,
               Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },
@@ -1152,11 +1188,11 @@ workflows:
               RecordType: { Name: "Submission" },
               CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_post_submission`
             })
-            ));
-          fnIf((state) => !state.skippingUpsert, query(`
+           )(state)});
+          fnIf((state) => !state.skippingUpsert, query(state => `
             SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c
             FROM ampi__Question__c 
-            WHERE ampi__Submission__c = 'a0pO40000038p0PIAQ'
+            WHERE ampi__Submission__c = '${state.data.id}'
           `))
 
           // the query returns a list of questions for the specific parent submission
@@ -1246,48 +1282,6 @@ workflows:
           });
 
 
-          // fn(state => {
-          //   function transform(value) {
-          //     if (!value) return;
-          //     switch (value.toString().trim().toLowerCase()) {
-          //       case 'true':
-          //       case 'yes':
-          //       case 'agree':
-          //       case 'concordo':
-          //       case 'verdade':
-          //       case 'copy-1-of-yes':
-          //       case 'choice1':
-          //         return 1;
-          //       case 'false':
-          //       case 'no':
-          //       case 'disagree':
-          //       case 'discordo':
-          //       case 'falso':
-          //       case 'copy-1-of-no':
-          //       case 'choice3': 
-          //       case 'choice6': 
-          //         return 2;
-          //       case 'i_dont_know':
-          //       case 'na':
-          //         return 3;
-          //       case 'unanswered':
-          //       case `not_sexually_active`:
-          //         return 4;
-          //       case 'not_applicable':
-          //         return 5;
-          //       default:
-          //         return value;
-          //     }
-          //   }
-
-          //   state.helperFunctions = { transform };
-
-          //   return query(
-          //     `SELECT Participant_Identification_Number_PID__c from Person__c where Participant_Identification_Number_PID__c  = '${state.data.form.case['@case_id']}'`
-          //   )(state);
-          // });
-
-
           //Removing mapping... need case_id to upsert Events. Date_of_Post__c update should be handled on the SF side.
           /*upsert(
               'Event__c',
@@ -1324,16 +1318,69 @@ workflows:
             state.form = state.data.form;
             return state;
           })
-          query(`
+          query(state => `
+            SELECT Id, Name, CommCare_External_ID__c
+            FROM ampi__Project__c 
+            WHERE Name = '${state.form.hidden_properties.intervention_name}'`);
+
+          fn(state => {
+            state.eventId = state.data[0]?.CommCare_External_ID__c;
+            if (!state.eventId) {
+              console.log(
+                `Event not found for Intervention Name: 
+                ${state.form.hidden_properties.intervention_name}`
+              );
+            }
+            state.skippingUpsert = !state.eventId;
+            if (state.skippingUpsert) {
+              return state;
+            }
+             return query(
+              `SELECT CommCare_External_ID__c from Contact 
+              where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`
+            )(state);
+          })
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const PID = state.data[0] && state.data[0].CommCare_External_ID__c;
+
+            if (!PID) {
+              console.log(
+                `Participant not found with Participant_Identification_Number_PID__c: 
+                ${state.form.case['@case_id']}`
+              );
+              return state;
+            }
+
+            state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
+            return query(`
             SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name
             FROM ampi__Submission__c 
             WHERE Active__c = true 
             AND Type__c = 'Pre/Post Template' 
             AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'
-          `);
-          //query event by event name
+          `)(state);
+          })
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const submissionTemplate = state.data? state.data[0] : undefined
+            state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
 
-             upsert(
+            if (!submissionTemplate){
+              console.log(
+                `Submission Template not found for Pre/Post template with Curriculum Id: 
+                ${state.form.hidden_properties.Curriculum}`
+              );
+              return state;
+            }
+
+
+            return upsert(
               'ampi__Submission__c', 
               'CommCare_External_ID__c', state => 
               ({
@@ -1347,12 +1394,12 @@ workflows:
                 RecordType: {Name: "Submission"},
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.hidden_properties.intervention_name}_pre_submission`
               })
-            );
-          query(`
+            )(state)});
+          fnIf((state) => !state.skippingUpsert, query(state => `
             SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c
             FROM ampi__Question__c 
-            WHERE ampi__Submission__c = '${state.data[0].Id}'
-          `);
+            WHERE ampi__Submission__c = '${state.data.id}'
+          `));
 
           // the query returns a list of questions for the specific parent submission
           // Currently hardcoding the parent submission id i created in previous runs
@@ -1361,6 +1408,9 @@ workflows:
           // which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field 
 
           fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
             // First, find the form element that starts with pre_challenge pattern
             const formKeys = Object.keys(state.form).filter(key => 
               key.startsWith('pre_challenge_')
@@ -1414,7 +1464,8 @@ workflows:
               if (matchingKey) {
                 return {
                   Id: question.Id,
-                  ampi__Picklist_Response__c: transformResponse(answer)
+                  ampi__Picklist_Response__c: transformResponse(answer),
+                  ampi__Date_Response__c: state.form.date
                 };
               }
               
@@ -1435,50 +1486,6 @@ workflows:
             
             return state;
           });
-
-
-          // fn(state => {
-          //   function transform(value) {
-          //     if (!value) return;
-          //     //console.log("value in switch", value.toString().trim().toLowerCase());
-          //     switch (value.toString().trim().toLowerCase()) {
-          //       case 'true':
-          //       case 'yes':
-          //       case 'agree':
-          //       case 'verdade':
-          //       case 'concorda':
-          //       case 'concordo':
-          //       case 'choice1':
-          //         return 1;
-          //       case 'false':
-          //       case 'no':
-          //       case 'disagree':
-          //       case 'discorda':
-          //       case 'discordo':
-          //       case 'falso':
-          //       case 'choice6':
-          //       case 'choice3':
-          //         return 2;
-          //       case 'i_dont_know':
-          //       case 'na':
-          //         return 3;
-          //       case 'unanswered':
-          //         return 4;
-          //       case 'not_applicable':
-          //         return 5;
-          //       default:
-          //         return value;
-          //     }
-          //   }
-
-          //   state.helperFunctions = { transform };
-
-          //   return query(
-          //     `SELECT Participant_Identification_Number_PID__c from Person__c where Participant_Identification_Number_PID__c  = '${state.data.form.case['@case_id']}'`
-          //   )(state);
-          // });
-
-          // 
 
           // //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.
           // // upsert(
