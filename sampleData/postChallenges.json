@@ -1,0 +1,183 @@
+{
+  "data": {
+    "app_id": "bd835ba97e1e474095bd41389a7f66de",
+    "archived": false,
+    "attachments": {
+      "form.xml": {
+        "content_type": "text/xml",
+        "length": 5593,
+        "url": "https://www.commcarehq.org/a/grassrootsoccertrial/api/form_attachment/v1/80675ef0-f406-43eb-ab9e-ebffcaec671e/form.xml"
+      }
+    },
+    "build_id": "3402b6ef27344660837613b816d254d8",
+    "domain": "grassrootsoccertrial",
+    "edited_by_user_id": null,
+    "edited_on": null,
+    "form": {
+      "#type": "data",
+      "@name": "Post Challenges",
+      "@uiVersion": "1",
+      "@version": "3987",
+      "@xmlns": "http://openrosa.org/formdesigner/D2F0F23F-9C0E-41E7-9C46-7553F8B5DCC8",
+      "case": {
+        "@case_id": "020946f6-80ff-46a5-a73d-0cfcddb8a0dd",
+        "@date_modified": "2025-06-21T09:12:43.887000Z",
+        "@user_id": "d8a16c42501b4761bc0ce194dd236e9a",
+        "@xmlns": "http://commcarehq.org/case/transaction/v2",
+        "update": {
+          "post_date_back_date": "",
+          "post_questionnaire_complete": "Yes",
+          "post_score_abuse": "",
+          "post_score_gender_eq": "",
+          "post_score_intervene": "",
+          "post_test_date": ""
+        }
+      },
+      "coach_confirmation": "check_to_confirm",
+      "ecap_indicators": {
+        "post_date_back_date": "",
+        "post_score_abuse_calc": {
+          "abuse_score_1": "",
+          "abuse_score_2": "",
+          "abuse_score_3": "",
+          "abuse_score_4": "",
+          "abuse_score_5": "",
+          "abuse_score_6": "",
+          "post_score_abuse": ""
+        },
+        "post_score_gender_eq_calc": {
+          "gender_score_1": "",
+          "gender_score_2": "",
+          "gender_score_3": "",
+          "gender_score_4": "",
+          "gender_score_5": "",
+          "gender_score_6": "",
+          "post_score_gender_eq": ""
+        },
+        "post_score_intervene_calc": {
+          "post_score_intervene": "",
+          "score_intervene_1": "",
+          "score_intervene_2": "",
+          "score_intervene_3": "",
+          "score_intervene_4": "",
+          "score_intervene_5": "",
+          "score_intervene_6": "",
+          "score_intervene_7": "",
+          "score_intervene_8": ""
+        },
+        "post_test_date": ""
+      },
+      "hidden_properties": {
+        "Curriculum": "35",
+        "back_capturing": {
+          "data_capture_date": "2025-06-21"
+        },
+        "business_unit": "65680f0c4c144b03ad0f86bdc46c1ebc",
+        "class": "A",
+        "class_grade": "8",
+        "coach_id": "d8a16c42501b4761bc0ce194dd236e9a",
+        "coach_name": "Simon Tembo",
+        "date": "2025-06-18",
+        "date_of_birth": "2011-06-08",
+        "gender": "male",
+        "grade": "8",
+        "intervention_name": "Chalimbana primary/secondary 8 2025-06-02",
+        "number_sessions": "10",
+        "participant_first_name": "Clement",
+        "participant_surname": "Mzumira",
+        "post_questionnaire_complete": "Yes",
+        "site": "b03ad555e59c4c7d8917d41d2ac7e167",
+        "test_real": "Real",
+        "venue": "8e53cb6d73844f4d8f0ee37211d04b2f"
+      },
+      "meta": {
+        "@xmlns": "http://openrosa.org/jr/xforms",
+        "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+        "app_build_version": 3987,
+        "commcare_version": "2.56.1",
+        "deviceID": "commcare_453aa02e-4ab5-42aa-91c0-254a9eb72fb0",
+        "drift": "0",
+        "geo_point": null,
+        "instanceID": "80675ef0-f406-43eb-ab9e-ebffcaec671e",
+        "timeEnd": "2025-06-21T09:12:43.887000Z",
+        "timeStart": "2025-06-21T09:11:52.021000Z",
+        "userID": "d8a16c42501b4761bc0ce194dd236e9a",
+        "username": "tembo.simon"
+      },
+      "post_challenge_mindskillz_zambia_2025": {
+        "a_mental_illness_is_a_sign_of_personal_weakness": "disagree",
+        "drinking_alcohol_can_harm_my_mental_and_physical_health": "agree",
+        "i_can_deal_with_anger_without_being_violent": "agree",
+        "i_can_identify_my_strengths_or_things_i_am_good_at": "agree",
+        "i_can_name_the_feelings_i_have_when_im_happy_sad_or_angry": "agree",
+        "i_can_name_three_people_i_can_talk_to_if_i_need_help": "agree",
+        "i_can_say_no_to_peer_pressure_like_being_asked_to_drink_alcohol": "agree",
+        "i_can_tell_when_stress_is_making_me_feel_upset": "agree",
+        "i_have_talked_to_someone_about_mental_health_in_the_last_month_outside_of_m": "disagree",
+        "i_know_how_to_share_my_feelings_with_other_people_in_healthy_ways": "agree",
+        "i_know_how_to_support_my_friends_in_making_good_choices_for_their_mental_he": "agree",
+        "i_know_of_adults_or_places_in_my_community_that_can_give_me_mental_health_s": "agree",
+        "i_know_two_ways_to_calm_myself_down_when_i_feel_stressed": "agree",
+        "if_i_had_a_mental_illness_i_would_not_seek_help_from_a_mental_health_profes": "disagree",
+        "if_i_had_a_mental_illness_i_would_not_tell_anyone": "disagree",
+        "it_is_best_to_avoid_people_with_mental_illness_so_that_you_dont_develop_thi": "disagree",
+        "mental_health_is_about_how_we_think_feel_and_act": "agree",
+        "mental_health_is_the_same_thing_as_mental_illness": "disagree",
+        "people_with_mental_illness_are_dangerous": "disagree",
+        "stress_is_a_normal_part_of_life_but_too_much_stress_can_hurt_your_mental_he": "agree",
+        "taking_care_of_my_mental_health_can_help_me_achieve_my_goals": "agree"
+      }
+    },
+    "id": "80675ef0-f406-43eb-ab9e-ebffcaec671e",
+    "indexed_on": "2025-06-21T10:07:39.746216Z",
+    "initial_processing_complete": true,
+    "is_phone_submission": true,
+    "metadata": {
+      "appVersion": "CommCare Android, version \"2.56.1\"(471796). App v3987. CommCare Version 2.56.1. Build 471796, built on: 2025-05-12",
+      "app_build_version": 3987,
+      "commcare_version": "2.56.1",
+      "deviceID": "commcare_453aa02e-4ab5-42aa-91c0-254a9eb72fb0",
+      "drift": "0",
+      "geo_point": null,
+      "instanceID": "80675ef0-f406-43eb-ab9e-ebffcaec671e",
+      "location": null,
+      "timeEnd": "2025-06-21T09:12:43.887000Z",
+      "timeStart": "2025-06-21T09:11:52.021000Z",
+      "userID": "d8a16c42501b4761bc0ce194dd236e9a",
+      "username": "tembo.simon"
+    },
+    "problem": null,
+    "received_on": "2025-06-21T10:07:39.283412Z",
+    "resource_uri": "",
+    "server_modified_on": "2025-06-21T10:07:39.347633Z",
+    "submit_ip": "41.223.117.44",
+    "type": "data",
+    "uiversion": "1",
+    "version": "3987"
+  },
+  "request": {
+    "headers": {
+      "accept": "*/*",
+      "accept-encoding": "gzip, deflate",
+      "baggage": "sentry-trace_id=b7340331c4144f86ae89dbd4532ffd2a,sentry-environment=production,sentry-release=2025-06-18_20.07-production,sentry-public_key=5f744d5fa24b49a695adfcbfc5d3d755",
+      "content-length": "5387",
+      "content-type": "application/json",
+      "host": "app.openfn.org",
+      "received-on": "2025-06-21T10:07:39.283412Z",
+      "sentry-trace": "b7340331c4144f86ae89dbd4532ffd2a-9522c5d9364c64c9",
+      "user-agent": "python-requests/2.32.3",
+      "via": "1.1 google",
+      "x-cloud-trace-context": "90c22d41bfd0c22df90141d2e9458472/11161937645750931758",
+      "x-forwarded-for": "35.175.35.59,34.36.242.233",
+      "x-forwarded-proto": "https"
+    },
+    "method": "POST",
+    "path": [
+      "i",
+      "4103bc37-484c-46b5-bccf-ef495b3e8ca2"
+    ],
+    "query_params": {
+      "app_id": "bd835ba97e1e474095bd41389a7f66de"
+    }
+  }
+}
