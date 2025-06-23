@@ -5,6 +5,7 @@
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
   "updated_at": "2025-06-21T18:45:46Z",
+  "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
       "id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d",
@@ -17,45 +18,11 @@
       "owner": "aleksa@openfn.org"
     }
   },
-  "scheduled_deletion": null,
   "history_retention_period": 365,
   "dataclip_retention_period": 365,
   "retention_policy": "retain_all",
   "collections": {},
   "workflows": {
-    "Upsert-Intervention-Notes": {
-      "id": "af5d8aad-a62b-4c6f-9d58-533b5edee4d7",
-      "name": "Upsert Intervention Notes",
-      "inserted_at": "2025-06-19T07:58:25.772478Z",
-      "lock_version": 6,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "ebd0adec-f328-4b50-8d9e-dc2e5b88c4c0",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Intervention-Notes": {
-          "id": "2665ba02-76bb-4433-8460-58384c8779e3",
-          "name": "Upsert Intervention Notes",
-          "body": "//openfn.org source \nupsert(\n  'ampi__Project__c',\n  'CommCare_External_ID__c',\n  fields(\n    field('CommCare_External_ID__c', dataValue('form.case.@case_id')),\n    //field('Name', dataValue('form.intervention_name')),\n    field('Notes__c', dataValue('form.intervention_notes_to_save')),\n    relationship('RecordType', 'Name', 'Intervention Event')\n  )\n);\n",
-          "adaptor": "@openfn/language-salesforce@2.7.4",
-          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Intervention-Notes": {
-          "enabled": true,
-          "id": "614e0b06-212b-4cdf-8c09-d0a1c81ff7b4",
-          "target_job_id": "2665ba02-76bb-4433-8460-58384c8779e3",
-          "source_trigger_id": "ebd0adec-f328-4b50-8d9e-dc2e5b88c4c0",
-          "condition_type": "js_expression",
-          "condition_label": "Intervention Notes",
-          "condition_expression": "state.data.form[\"@name\"] == \"Intervention Notes\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
     "Upsert-Home-Visit-Log-Form": {
       "id": "0f33067f-02da-47fb-bd70-641fcd3206c7",
       "name": "Upsert Home Visit Log Form",
@@ -86,39 +53,6 @@
           "condition_type": "js_expression",
           "condition_label": "Home Visit Log Form",
           "condition_expression": "state.data.form[\"@name\"] == \"Home Visit Log Form\" && state.data.form[\"basic_information\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
-    "Attendance-Non-Skillz": {
-      "id": "e6483b6f-68b9-436c-9125-f6be0ead714d",
-      "name": "Attendance Non Skillz",
-      "inserted_at": "2025-06-19T07:58:25.779486Z",
-      "lock_version": 17,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Attendance-Non-Skillz": {
-          "id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
-          "name": "Attendance Non Skillz",
-          "body": "\nfn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    console.log('No participant attendance data was provided, not upserting to Salesforce.');\n    return state;\n  } else {\n\n    return execute(\n      fn(state => {\n      \n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          // state.data.form.attendance_list.update_participant_cases.item  \n          [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items\n\n        );\n  \n        return state;\n      }),\n\n      each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')), //this is event id\n            field('event_session_id', state => {\n            return state.data.form.case['@case_id'] + \"_\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n          })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          ...fields(\n            relationship('Event_Session__r', 'CommCare_External_ID__c', state.data.event_session_id),\n            field(\n              'CommCare_External_ID__c',\n              state => `${state.data.event_session_id}_${state.data['@id']}`\n            ),\n            relationship('Attendee__r', 'CommCare_External_ID__c', `${state.data.caseid}_${state.data['@id']}`), //@id is the PID of participant\n            field('Attended__c', state.data.attendance_session.toString().toLowerCase() === 'yes'? \"Attended\": \"Not Attended\")\n          )\n        }))\n      )\n    )(state);\n  }\n});\n",
-          "adaptor": "@openfn/language-salesforce@4.3.0",
-          "project_credential_id": "22064325-01af-47ef-8498-0e53b3f98746"
-        }
-      },
-      "edges": {
-        "webhook->Attendance-Non-Skillz": {
-          "enabled": true,
-          "id": "fb25c92c-6f96-4e76-8648-b8ec2bd6825b",
-          "target_job_id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
-          "source_trigger_id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
-          "condition_type": "js_expression",
-          "condition_label": "Attendance Generic",
-          "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
     },
@@ -254,39 +188,6 @@
         }
       }
     },
-    "Upsert-Register-Participant": {
-      "id": "72f468ce-2762-4c72-92f6-7a6a13c0e788",
-      "name": "Upsert Register Participant",
-      "inserted_at": "2025-06-19T07:58:25.793692Z",
-      "lock_version": 47,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Register-Participant": {
-          "id": "99282850-e1ee-4915-8898-911206d5f126",
-          "name": "Upsert Register Participant",
-          "body": "\nfunction genderMap(gender) {\n  switch (gender) {\n    case 'female':\n      return 'Female'\n    case 'male':\n      return 'Male'\n    case 'other':\n      return 'Other'\n  }\n}\n\nfn(state => {\n  state.form = state.data.form\n  return state\n})\nquery(\n  \"SELECT Id FROM Account WHERE Name = 'Test Account'\"\n);\n\nfn(state => {\n\n  state.data.eventName = state.data[0].Id;\n  state.data.eventCase = state.form.case['@case_id'];\n\n  function objectToArray(object) {\n    return !Array.isArray(object) ? [object] : object;\n  }\n\n\n  if (state.form.question1) {\n    console.log('Ensuring that \"question1\" is an array.');\n    state.form.question1 = objectToArray(state.form.question1);\n  } else if (!state.form.new_participants) {\n    console.log('Nothing to upsert. No participants were registered');\n  } else {\n    console.log('Shifting \"new_participants\" to \"question1\" array.');\n    state.form.question1 = objectToArray(state.form.new_participants);\n    console.log('Creating a \"case\" object inside each item in that array.');\n    state.form.question1 = state.form.question1.map(item => ({\n      ...item,\n      case: item.create_skillz_plus_participant.case,\n    }));\n  }\n\n  console.log('Done with initial data manipulation.');\n  const persons = state.form.question1.map(person => {\n    return {\n      intervention_notes_to_save: state.form.intervention_notes_to_save,\n      ...person\n    }\n  })\n\n\n  const attendances = state.form.question1.map(attendee => {\n    return {\n      intervention_name: state.form.intervention_name,\n      eventCase: state.data.eventCase,\n      eventName: state.data.eventName,\n      ...attendee,\n\n    }\n  });\n\n\n  return { ...state, persons, attendances };\n});\n\n\n\neach(\n  'persons[*]',\n  upsert(\n    'Contact',\n    'CommCare_External_ID__c',\n    state => (\n      {\n        //Account is not being saved yet\n        Contact_Description__c: state.data.intervention_notes_to_save,\n        FirstName: state.data.participant_first_name,\n        LastName: state.data.participant_surname,\n        CommCare_External_ID__c: state.data.case['@case_id'],\n        Participant_Identification_Number_PID__c: state.data.case['@case_id'],\n        Site__r: {\n          CommCare_External_ID__c: state.data.grp_location.site_id\n        },\n        Gender__c: genderMap(state.data.gender),\n        MobilePhone: state.data.mobile_number,\n        Birthdate: state.data.date_of_birth,\n        //  MailingAddress: state.data.participants_home_address,\n        Age__c: state.data.participants_age_to_save,\n        Person_Type__c: 'Participant'\n      }\n    )\n  )\n);\n\n\n\neach(\n  'attendances[*]',\n  upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data.case['@case_id'],\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.data.case['@case_id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.form.case['@case_id']\n      },\n\n    })\n  )\n);\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Register-Participant": {
-          "enabled": true,
-          "id": "d7a4d4bf-1b98-42f7-8c60-76439054970a",
-          "target_job_id": "99282850-e1ee-4915-8898-911206d5f126",
-          "source_trigger_id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
-          "condition_type": "js_expression",
-          "condition_label": "Register Participant",
-          "condition_expression": "state.data.form[\"@name\"] == \"Register Participant\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
     "Coach-Session-Register": {
       "id": "07c2e349-ffeb-45be-a7f1-147a7bccb40b",
       "name": "Coach Session Register",
@@ -350,38 +251,6 @@
           "condition_type": "js_expression",
           "condition_label": "Register Skillz plus Club",
           "condition_expression": "state.data.form[\"@name\"] == \"Register Skillz Plus Club\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
-    "Load-Commcare-Data": {
-      "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
-      "name": "Load Commcare Data",
-      "inserted_at": "2025-06-19T09:41:52.816490Z",
-      "lock_version": 8,
-      "triggers": {
-        "cron": {
-          "enabled": true,
-          "id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
-          "type": "cron",
-          "cron_expression": "*/15 * * * *"
-        }
-      },
-      "jobs": {
-        "Get-data": {
-          "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
-          "name": "Get data",
-          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//get('https://docs.openfn.org/documentation');\n\nget(\"/form/b5f58b44-d135-4c83-9287-cd3c47bae075\")\n",
-          "adaptor": "@openfn/language-commcare@3.2.13",
-          "project_credential_id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21"
-        }
-      },
-      "edges": {
-        "cron->Get-data": {
-          "enabled": true,
-          "id": "5eaf167e-e7a5-4e01-8a10-3508e4165b02",
-          "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
-          "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
-          "condition_type": "always"
         }
       }
     },
@@ -451,72 +320,6 @@
         }
       }
     },
-    "Create-Intervention": {
-      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
-      "name": "Create Intervention",
-      "inserted_at": "2025-06-22T18:50:05.167344Z",
-      "lock_version": 140,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Create-Intervention": {
-          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "name": "Create Intervention",
-          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\") {\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n\n  return state;\n});\nfn((state) => {\n  const buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    ed125ab19ec34aacab79585e59eb76f4: \"GRS Partnerships\",\n  };\n\n  const bu = state.data.form.business_unit;\n\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    // ampi__Account__c: \"001O300000egVbUIAU\", // To be removed later\n    // ampi__Account__r: {\n    //   Buisness_Unit__r: {\n    //     Name: buMapping[bu]\n    //   },\n    // },\n    // Venue__r:  {\n    //   CommCare_External_ID__c: state.data.form.Venue\n    // }, //currently doensn't have an extId configured so this doesn't work\n    Curriculum__r: {\n      CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n  state.form = state.data.form\n  return state;\n});\n\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\n\n\neach('$.coachesIds.[*]', query(state => `SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state => {\n  if (state.data[0]?.CommCare_External_ID__c) {\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case[\"@case_id\"]\n  },\n  CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Create-Intervention": {
-          "enabled": true,
-          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
-          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "condition_type": "js_expression",
-          "condition_label": "Create Intervention",
-          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
-    "Upsert-Attendance-Skillz-Plus-Club": {
-      "id": "0949f64f-ead0-4591-8c9c-b929b9b79e78",
-      "name": "Upsert Attendance Skillz Plus Club",
-      "inserted_at": "2025-06-23T10:44:39.547363Z",
-      "lock_version": 45,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "43309656-d99d-46ab-877b-644d7746c51c",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Attendance-Skillz-Plus-Club": {
-          "id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
-          "name": "Upsert Attendance Skillz Plus Club",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n});\n\n\nquery(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = NULL ORDER BY CreatedDate ASC Limit 1`);\n\nfnIf(!$.data[0]?.CommCare_External_ID__c, query(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item[0].date} ORDER BY CreatedDate ASC Limit 1`));\n\n\nfn(state => {\n  state.sessionId = state.data[0]?.CommCare_External_ID__c\n  return state;\n})\n\nupsert('Event_Session__c', 'CommCare_External_ID__c', state => (\n  {\n    Session_Date__c: state.form.attendance_list.update_participant_cases.item[0].date,\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.sessionId\n  }\n))\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n    Contact__r: {\n      CommCare_External_ID__c: state.data['@id']\n    },\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']\n\n  }))\n);\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n    Attended__c: state.data.attendance_session,\n    Event_Session__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.sessionId}`\n    },\n    Attendee__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`\n    },\n    CommCare_External_ID__c: state.sessionId + '_' + state.form.case['@case_id']\n\n  }))\n);\n\n// fn(state => {\n//   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);\n\n//   if (!PID) {\n//     console.log(\n//       `Participant not found with Participant_Identification_Number_PID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`\n//     );\n//     return state;\n//   }\n//   return execute(\n//     // Set state.references to event record\n//     query(\n//       `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`\n//     ),\n//     // Organise data and keep it safe\n//     fn(state => {\n//       function objectToArray(object) {\n//         if (!object) return [];\n//         return !Array.isArray(object) ? [object] : object;\n//       }\n\n//       const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);\n//       state.data.eventName = eventName;\n\n//       state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n//         state.data.form.attendance_list.update_participant_cases.item\n//       );\n\n//       state.data.form.attendance_list.update_participant_cases.item =\n//         state.data.form.attendance_list.update_participant_cases.item.map(item => ({\n//           ...item,\n//           CommCare_Ext_ID__c: `${item['@id']}-${eventName}`,\n//           event_case_id: state.data.form.case['@case_id'],\n//         }));\n\n//       //  Keep our data safe\n//       state.items = state.data.form.attendance_list.update_participant_cases.item;\n\n//       // Reset references\n//       state.references = [];\n\n//       return state;\n//     }),\n//     // Set state.references to an array of attendance records for each participant\n//     beta.each(\n//       '$.items[*]',\n//       query(\n//         state => `SELECT CommCare_Ext_ID__c, Session_1__c, Session_2__c, Session_3__c, Session_4__c, Session_5__c, Session_6__c, Session_7__c, Session_8__c, Session_9__c, Session_10__c, Session_11__c, Session_12__c, Session_13__c, Session_14__c, Session_15__c, Session_16__c, Session_17__c, Session_18__c, Session_19__c, Session_20__c, Session_21__c, Session_22__c, Session_23__c,Session_24__c, Session_25__c, Session_26__c, Session_27__c, Session_28__c\n//          FROM Attendance__c\n//          WHERE CommCare_Ext_ID__c = '${state.data.CommCare_Ext_ID__c}'\n//          `\n//       )\n//     ),\n//     // Calculate dynamic fields\n//     fn(state => {\n//       state.items = state.items.map(item => {\n//         const record = state.references.find(rec =>\n//           rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : true\n//         ).records[0];\n\n//         function getSessionValue(present) {\n//           if (!present) return 'U';\n//           switch (present.toString().toLowerCase()) {\n//             case 'yes':\n//               return 'X';\n//             case 'no':\n//               return 'A';\n//             case '':\n//               return 'N';\n//             default:\n//               return 'U';\n//           }\n//         }\n\n//         function getSessionFieldName(record) {\n//           if (!record || Object.keys(record).length === 0) {\n//             return 'Session_1__c';\n//           }\n\n//           const fieldName = Object.entries(record)\n//             .filter(rec => rec[1] === null && rec[0] !== 'CommCare_Ext_ID__c')\n//             .sort(function (a, b) {\n//               return a[0].split('_')[1] - b[0].split('_')[1];\n//             })[0][0];\n\n//           return fieldName;\n//         }\n\n//         const sessionValue = getSessionValue(item.attendance_session);\n//         const sessionDate = item.date;\n//         const sessionFieldName = getSessionFieldName(record);\n//         const sessionDateFieldName = `Session_${sessionFieldName.split('_')[1]}_Date__c`;\n\n//         return {\n//           ...item,\n//           dynamicFields: {\n//             [sessionFieldName]: sessionValue,\n//             [sessionDateFieldName]: sessionDate,\n//           },\n//         };\n//       });\n\n//       //  Reset state.references\n//       state.references = [];\n\n//       return state;\n//     }),\n\n//     // Upsert\n//     beta.each(\n//       '$.items[*]',\n//       upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({\n//         ...fields(\n//           field('CommCare_Ext_ID__c', dataValue('CommCare_Ext_ID__c')),\n//           relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id')),\n//           relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id'))\n//         ),\n//         ...state.data.dynamicFields,\n//       }))\n//     )\n//   )(state);\n// });\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Attendance-Skillz-Plus-Club": {
-          "enabled": true,
-          "id": "cc7019a6-0071-466d-8b23-e0de4ac54d83",
-          "target_job_id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
-          "source_trigger_id": "43309656-d99d-46ab-877b-644d7746c51c",
-          "condition_type": "js_expression",
-          "condition_label": "Attendance Skillz Plus Club",
-          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"skillz_attendance\"] == \"1\"\n"
-        }
-      }
-    },
     "Upsert-Pre-Challenges": {
       "id": "29689d64-b196-4aa2-aee6-6d13f4153e0a",
       "name": "Upsert Pre Challenges",
@@ -580,6 +383,202 @@
           "condition_type": "js_expression",
           "condition_label": "Post Challenges",
           "condition_expression": "state.data.form[\"@name\"] == \"Post Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Upsert-Attendance-Skillz-Plus-Club": {
+      "id": "0949f64f-ead0-4591-8c9c-b929b9b79e78",
+      "name": "Upsert Attendance Skillz Plus Club",
+      "inserted_at": "2025-06-23T12:58:48.526065Z",
+      "lock_version": 47,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "43309656-d99d-46ab-877b-644d7746c51c",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Attendance-Skillz-Plus-Club": {
+          "id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
+          "name": "Upsert Attendance Skillz Plus Club",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n});\n\n\nquery(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = NULL ORDER BY CreatedDate ASC Limit 1`);\n\nfnIf(!$.data[0]?.CommCare_External_ID__c, query(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item[0].date} ORDER BY CreatedDate ASC Limit 1`));\n\n\nfn(state => {\n  state.sessionId = state.data[0]?.CommCare_External_ID__c\n  return state;\n})\n\nupsert('Event_Session__c', 'CommCare_External_ID__c', state => (\n  {\n    Session_Date__c: state.form.attendance_list.update_participant_cases.item[0].date,\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.sessionId\n  }\n))\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n    Contact__r: {\n      CommCare_External_ID__c: state.data['@id']\n    },\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']\n\n  }))\n);\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n    Attended__c: state.data.attendance_session,\n    Event_Session__r: {\n      CommCare_External_ID__c: `${state.sessionId}`\n    },\n    Attendee__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`\n    },\n    CommCare_External_ID__c: state.sessionId + '_' + state.form.case['@case_id']\n\n  }))\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Attendance-Skillz-Plus-Club": {
+          "enabled": true,
+          "id": "cc7019a6-0071-466d-8b23-e0de4ac54d83",
+          "target_job_id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
+          "source_trigger_id": "43309656-d99d-46ab-877b-644d7746c51c",
+          "condition_type": "js_expression",
+          "condition_label": "Attendance Skillz Plus Club",
+          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"skillz_attendance\"] == \"1\"\n"
+        }
+      }
+    },
+    "Upsert-Intervention-Notes": {
+      "id": "af5d8aad-a62b-4c6f-9d58-533b5edee4d7",
+      "name": "Upsert Intervention Notes",
+      "inserted_at": "2025-06-23T13:02:46.406357Z",
+      "lock_version": 7,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "ebd0adec-f328-4b50-8d9e-dc2e5b88c4c0",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Intervention-Notes": {
+          "id": "2665ba02-76bb-4433-8460-58384c8779e3",
+          "name": "Upsert Intervention Notes",
+          "body": "//openfn.org source \nupsert(\n  'ampi__Project__c',\n  'CommCare_External_ID__c',\n  fields(\n    field('CommCare_External_ID__c', dataValue('form.case.@case_id')),\n    field('Notes__c', dataValue('form.intervention_notes_to_save')),\n    relationship('RecordType', 'Name', 'Intervention Event')\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@2.7.4",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Intervention-Notes": {
+          "enabled": true,
+          "id": "614e0b06-212b-4cdf-8c09-d0a1c81ff7b4",
+          "target_job_id": "2665ba02-76bb-4433-8460-58384c8779e3",
+          "source_trigger_id": "ebd0adec-f328-4b50-8d9e-dc2e5b88c4c0",
+          "condition_type": "js_expression",
+          "condition_label": "Intervention Notes",
+          "condition_expression": "state.data.form[\"@name\"] == \"Intervention Notes\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Create-Intervention": {
+      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
+      "name": "Create Intervention",
+      "inserted_at": "2025-06-23T13:10:34.139163Z",
+      "lock_version": 152,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Create-Intervention": {
+          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "name": "Create Intervention",
+          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\") {\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n    state.form = state.data.form;\n\nconst buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    \"ed125ab19ec34aacab79585e59eb76f4\": \"GRS Partnerships\",\n  };\n\n    state.businessUnit = buMapping[state.data.form.business_unit];\n  return state;\n});\nquery(state => `SELECT Id, Name\n  FROM Account \n  WHERE Name = '${state.businessUnit}' `)\n\nfn((state) => {\n  const accountId = state.data[0].Id;\nconsole.log(\"accountid\", accountId);\n  state.data.form = state.form;\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: accountId,\n    Venue__r:  {\n      CommCare_External_ID__c: state.data.form.Venue\n    }, \n    Curriculum__r: {\n      CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    ampi__Project_Status__c: \"Ongoing\",\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n // state.form = state.data.form\n  return state;\n});\n\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\n\n\neach('$.coachesIds.[*]', query(state => `SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state => {\n  if (state.data[0]?.CommCare_External_ID__c) {\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case[\"@case_id\"]\n  },\n  CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Create-Intervention": {
+          "enabled": true,
+          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
+          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "condition_type": "js_expression",
+          "condition_label": "Create Intervention",
+          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Upsert-Register-Participant": {
+      "id": "72f468ce-2762-4c72-92f6-7a6a13c0e788",
+      "name": "Upsert Register Participant",
+      "inserted_at": "2025-06-23T17:17:08.203234Z",
+      "lock_version": 55,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Register-Participant": {
+          "id": "99282850-e1ee-4915-8898-911206d5f126",
+          "name": "Upsert Register Participant",
+          "body": "\nfunction genderMap(gender) {\n  switch (gender) {\n    case 'female':\n      return 'Female'\n    case 'male':\n      return 'Male'\n    case 'other':\n      return 'Other'\n  }\n}\n\nfn(state => {\n  state.form = state.data.form\n  return state\n})\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.form.question1[0].case.update.business_unit_name}'`\n);\n\nfn(state => {\n\n  state.accountId = state.data[0].Id;\n  state.data.eventCase = state.form.case['@case_id'];\n\n  function objectToArray(object) {\n    return !Array.isArray(object) ? [object] : object;\n  }\n\n\n  if (state.form.question1) {\n    console.log('Ensuring that \"question1\" is an array.');\n    state.form.question1 = objectToArray(state.form.question1);\n  } else if (!state.form.new_participants) {\n    console.log('Nothing to upsert. No participants were registered');\n  } else {\n    console.log('Shifting \"new_participants\" to \"question1\" array.');\n    state.form.question1 = objectToArray(state.form.new_participants);\n    console.log('Creating a \"case\" object inside each item in that array.');\n    state.form.question1 = state.form.question1.map(item => ({\n      ...item,\n      case: item.create_skillz_plus_participant.case,\n    }));\n  }\n\n  console.log('Done with initial data manipulation.');\n  const persons = state.form.question1.map(person => {\n    return {\n      AccountId: state.accountId,\n      intervention_notes_to_save: state.form.intervention_notes_to_save,\n      ...person\n    }\n  })\n\n\n  const attendances = state.form.question1.map(attendee => {\n    return {\n      intervention_name: state.form.intervention_name,\n      eventCase: state.data.eventCase,\n      ...attendee,\n\n    }\n  });\n\n\n  return { ...state, persons, attendances };\n});\n\n\n\neach(\n  'persons[*]',\n  upsert(\n    'Contact',\n    'CommCare_External_ID__c',\n    state => (\n      {\n        AccountId: state.data.AccountId,\n        Contact_Description__c: state.data.intervention_notes_to_save,\n        FirstName: state.data.participant_first_name,\n        LastName: state.data.participant_surname,\n        CommCare_External_ID__c: state.data.case['@case_id'],\n        Participant_Identification_Number_PID__c: state.data.case['@case_id'],\n        Site__r: {\n          CommCare_External_ID__c: state.data.grp_location.site_id\n        },\n        Gender__c: genderMap(state.data.gender),\n        MobilePhone: state.data.mobile_number,\n        Birthdate: state.data.date_of_birth,\n        MailingStreet: state.data.participants_home_address,\n        Age__c: state.data.participants_age_to_save,\n        Person_Type__c: 'Participant'\n      }\n    )\n  )\n);\n\n\n\neach(\n  'attendances[*]',\n  upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data.case['@case_id'],\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.data.case['@case_id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.form.case['@case_id']\n      },\n\n    })\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Register-Participant": {
+          "enabled": true,
+          "id": "d7a4d4bf-1b98-42f7-8c60-76439054970a",
+          "target_job_id": "99282850-e1ee-4915-8898-911206d5f126",
+          "source_trigger_id": "40ab87b7-c0f7-4849-8ba6-2bb1eb614af8",
+          "condition_type": "js_expression",
+          "condition_label": "Register Participant",
+          "condition_expression": "state.data.form[\"@name\"] == \"Register Participant\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Attendance-Non-Skillz": {
+      "id": "e6483b6f-68b9-436c-9125-f6be0ead714d",
+      "name": "Attendance Non Skillz",
+      "inserted_at": "2025-06-23T19:19:03.967339Z",
+      "lock_version": 21,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Attendance-Non-Skillz": {
+          "id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
+          "name": "Attendance Non Skillz",
+          "body": "\nfn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    console.log('No participant attendance data was provided, not upserting to Salesforce.');\n    return state;\n  } else {\n\n    return execute(\n      fn(state => {\n\n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          state.data.form.attendance_list.update_participant_cases.item  \n          // [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items\n\n        );\n\n        return state;\n      }),\n\n      each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')), //this is event id\n            field('event_session_id', state => {\n              return state.data.form.case['@case_id'] + \"_\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n            })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          'CommCare_External_ID__c': `${state.data.event_session_id}_${state.data['@id']}`,\n          'Event_Session__r': {\n            'CommCare_External_ID__c': state.data.event_session_id\n          },\n          'Attendee__r': {\n            'CommCare_External_ID__c': `${state.data.caseid}_${state.data['@id']}`\n          }, //@id is the PID of participant\n          'Attended__c': state.data.attendance_session.toString().toLowerCase() === 'yes' ? \"Attended\" : \"Not Attended\"\n\n        }))\n      )\n    )(state);\n  }\n});\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Attendance-Non-Skillz": {
+          "enabled": true,
+          "id": "fb25c92c-6f96-4e76-8648-b8ec2bd6825b",
+          "target_job_id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
+          "source_trigger_id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
+          "condition_type": "js_expression",
+          "condition_label": "Attendance Generic",
+          "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Load-Commcare-Data": {
+      "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
+      "name": "Load Commcare Data",
+      "inserted_at": "2025-06-23T19:22:23.363955Z",
+      "lock_version": 10,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Get-data": {
+          "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "name": "Get data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//get('https://docs.openfn.org/documentation');\n\nget(\"/form/b5f58b44-d135-4c83-9287-cd3c47bae075\")\n",
+          "adaptor": "@openfn/language-commcare@3.2.13",
+          "project_credential_id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21"
+        }
+      },
+      "edges": {
+        "webhook->Get-data": {
+          "enabled": true,
+          "id": "5eaf167e-e7a5-4e01-8a10-3508e4165b02",
+          "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "condition_type": "always"
         }
       }
     }

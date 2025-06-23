@@ -79,8 +79,8 @@ workflows:
     jobs:
       Attendance-Non-Skillz:
         name: Attendance Non Skillz
-        adaptor: '@openfn/language-salesforce@4.3.0'
-        credential: null
+        adaptor: '@openfn/language-salesforce@7.0.0'
+        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
           
           fn(state => {
@@ -91,18 +91,18 @@ workflows:
 
               return execute(
                 fn(state => {
-                
+
                   function objectToArray(object) {
                     if (!object) return [];
                     return !Array.isArray(object) ? [object] : object;
                   }
 
                   state.data.form.attendance_list.update_participant_cases.item = objectToArray(
-                    // state.data.form.attendance_list.update_participant_cases.item  
-                    [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items
+                    state.data.form.attendance_list.update_participant_cases.item  
+                    // [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items
 
                   );
-            
+
                   return state;
                 }),
 
@@ -113,20 +113,20 @@ workflows:
                       field('intervention_name', dataValue('form.intervention_name')),
                       field('caseid', dataValue('form.case.@case_id')), //this is event id
                       field('event_session_id', state => {
-                      return state.data.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
-                    })
+                        return state.data.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
+                      })
                     )
                   ),
                   upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
-                    ...fields(
-                      relationship('Event_Session__r', 'CommCare_External_ID__c', state.data.event_session_id),
-                      field(
-                        'CommCare_External_ID__c',
-                        state => `${state.data.event_session_id}_${state.data['@id']}`
-                      ),
-                      relationship('Attendee__r', 'CommCare_External_ID__c', `${state.data.caseid}_${state.data['@id']}`), //@id is the PID of participant
-                      field('Attended__c', state.data.attendance_session.toString().toLowerCase() === 'yes'? "Attended": "Not Attended")
-                    )
+                    'CommCare_External_ID__c': `${state.data.event_session_id}_${state.data['@id']}`,
+                    'Event_Session__r': {
+                      'CommCare_External_ID__c': state.data.event_session_id
+                    },
+                    'Attendee__r': {
+                      'CommCare_External_ID__c': `${state.data.caseid}_${state.data['@id']}`
+                    }, //@id is the PID of participant
+                    'Attended__c': state.data.attendance_session.toString().toLowerCase() === 'yes' ? "Attended" : "Not Attended"
+
                   }))
                 )
               )(state);
@@ -303,18 +303,25 @@ workflows:
                 }
                 return accumulator;
               }, {});
+              state.form = state.data.form;
 
-            return state;
-          });
-          fn((state) => {
-            const buMapping = {
+          const buMapping = {
               "65680f0c4c144b03ad0f86bdc46c1ebc": "GRS Zambia",
               "04d98397e28046118fade28ced6b65cb": "GRS Zimbabwe",
-              ed125ab19ec34aacab79585e59eb76f4: "GRS Partnerships",
+              "ed125ab19ec34aacab79585e59eb76f4": "GRS Partnerships",
             };
 
-            const bu = state.data.form.business_unit;
+              state.businessUnit = buMapping[state.data.form.business_unit];
+            return state;
+          });
+          query(state => `SELECT Id, Name
+            FROM Account 
+            WHERE Name = '${state.businessUnit}' `)
 
+          fn((state) => {
+            const accountId = state.data[0].Id;
+          console.log("accountid", accountId);
+            state.data.form = state.form;
             state.mapping = {
               Name: state.data.form.name_of_intervention,
               CommCare_External_ID__c: state.data.form.case["@case_id"],
@@ -322,20 +329,16 @@ workflows:
                 "Name": 'Intervention Event'
               },
 
-              // ampi__Account__c: "001O300000egVbUIAU", // To be removed later
-              // ampi__Account__r: {
-              //   Buisness_Unit__r: {
-              //     Name: buMapping[bu]
-              //   },
-              // },
-              // Venue__r:  {
-              //   CommCare_External_ID__c: state.data.form.Venue
-              // }, //currently doensn't have an extId configured so this doesn't work
+              ampi__Account__c: accountId,
+              Venue__r:  {
+                CommCare_External_ID__c: state.data.form.Venue
+              }, 
               Curriculum__r: {
                 CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,
               },
               Delivery_method__c: state.data.form.delivery_method,
               Class_Group_Team__c: state.data.form.class_grade,
+              ampi__Project_Status__c: "Ongoing",
               // Pre_Post_Administered__c: state.data.form.prepost_administered,
               ampi__Start_Date__c: state.data.form.intervention_dates.start_date,
               ampi__End_Date__c: state.data.form.intervention_dates.end_date,
@@ -345,7 +348,7 @@ workflows:
 
             console.log(state.mapping);
             state.coachContactIds = [];
-            state.form = state.data.form
+           // state.form = state.data.form
             return state;
           });
 
@@ -542,13 +545,12 @@ workflows:
           get("/form/b5f58b44-d135-4c83-9287-cd3c47bae075")
 
     triggers:
-      cron:
-        type: cron
-        cron_expression: '*/15 * * * *'
-        enabled: true
+      webhook:
+        type: webhook
+        enabled: false
     edges:
-      cron->Get-data:
-        source_trigger: cron
+      webhook->Get-data:
+        source_trigger: webhook
         target_job: Get-data
         condition_type: always
         enabled: true
@@ -607,7 +609,7 @@ workflows:
             upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
               Attended__c: state.data.attendance_session,
               Event_Session__r: {
-                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.sessionId}`
+                CommCare_External_ID__c: `${state.sessionId}`
               },
               Attendee__r: {
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`
@@ -616,129 +618,6 @@ workflows:
 
             }))
           );
-
-          // fn(state => {
-          //   const PID = lastReferenceValue('records[0].Participant_Identification_Number_PID__c')(state);
-
-          //   if (!PID) {
-          //     console.log(
-          //       `Participant not found with Participant_Identification_Number_PID__c: ${state.data.form.attendance_list.update_participant_cases.item[0]['@id']}`
-          //     );
-          //     return state;
-          //   }
-          //   return execute(
-          //     // Set state.references to event record
-          //     query(
-          //       `SELECT Id, Name, CommCare_Ext_ID__c FROM Event__c WHERE CommCare_Case_ID__c = '${state.data.form.case['@case_id']}'`
-          //     ),
-          //     // Organise data and keep it safe
-          //     fn(state => {
-          //       function objectToArray(object) {
-          //         if (!object) return [];
-          //         return !Array.isArray(object) ? [object] : object;
-          //       }
-
-          //       const eventName = lastReferenceValue('records[0].CommCare_Ext_ID__c')(state);
-          //       state.data.eventName = eventName;
-
-          //       state.data.form.attendance_list.update_participant_cases.item = objectToArray(
-          //         state.data.form.attendance_list.update_participant_cases.item
-          //       );
-
-          //       state.data.form.attendance_list.update_participant_cases.item =
-          //         state.data.form.attendance_list.update_participant_cases.item.map(item => ({
-          //           ...item,
-          //           CommCare_Ext_ID__c: `${item['@id']}-${eventName}`,
-          //           event_case_id: state.data.form.case['@case_id'],
-          //         }));
-
-          //       //  Keep our data safe
-          //       state.items = state.data.form.attendance_list.update_participant_cases.item;
-
-          //       // Reset references
-          //       state.references = [];
-
-          //       return state;
-          //     }),
-          //     // Set state.references to an array of attendance records for each participant
-          //     beta.each(
-          //       '$.items[*]',
-          //       query(
-          //         state => `SELECT CommCare_Ext_ID__c, Session_1__c, Session_2__c, Session_3__c, Session_4__c, Session_5__c, Session_6__c, Session_7__c, Session_8__c, Session_9__c, Session_10__c, Session_11__c, Session_12__c, Session_13__c, Session_14__c, Session_15__c, Session_16__c, Session_17__c, Session_18__c, Session_19__c, Session_20__c, Session_21__c, Session_22__c, Session_23__c,Session_24__c, Session_25__c, Session_26__c, Session_27__c, Session_28__c
-          //          FROM Attendance__c
-          //          WHERE CommCare_Ext_ID__c = '${state.data.CommCare_Ext_ID__c}'
-          //          `
-          //       )
-          //     ),
-          //     // Calculate dynamic fields
-          //     fn(state => {
-          //       state.items = state.items.map(item => {
-          //         const record = state.references.find(rec =>
-          //           rec.records[0] ? rec.records[0].CommCare_Ext_ID__c === item.CommCare_Ext_ID__c : true
-          //         ).records[0];
-
-          //         function getSessionValue(present) {
-          //           if (!present) return 'U';
-          //           switch (present.toString().toLowerCase()) {
-          //             case 'yes':
-          //               return 'X';
-          //             case 'no':
-          //               return 'A';
-          //             case '':
-          //               return 'N';
-          //             default:
-          //               return 'U';
-          //           }
-          //         }
-
-          //         function getSessionFieldName(record) {
-          //           if (!record || Object.keys(record).length === 0) {
-          //             return 'Session_1__c';
-          //           }
-
-          //           const fieldName = Object.entries(record)
-          //             .filter(rec => rec[1] === null && rec[0] !== 'CommCare_Ext_ID__c')
-          //             .sort(function (a, b) {
-          //               return a[0].split('_')[1] - b[0].split('_')[1];
-          //             })[0][0];
-
-          //           return fieldName;
-          //         }
-
-          //         const sessionValue = getSessionValue(item.attendance_session);
-          //         const sessionDate = item.date;
-          //         const sessionFieldName = getSessionFieldName(record);
-          //         const sessionDateFieldName = `Session_${sessionFieldName.split('_')[1]}_Date__c`;
-
-          //         return {
-          //           ...item,
-          //           dynamicFields: {
-          //             [sessionFieldName]: sessionValue,
-          //             [sessionDateFieldName]: sessionDate,
-          //           },
-          //         };
-          //       });
-
-          //       //  Reset state.references
-          //       state.references = [];
-
-          //       return state;
-          //     }),
-
-          //     // Upsert
-          //     beta.each(
-          //       '$.items[*]',
-          //       upsert('Attendance__c', 'CommCare_Ext_ID__c', state => ({
-          //         ...fields(
-          //           field('CommCare_Ext_ID__c', dataValue('CommCare_Ext_ID__c')),
-          //           relationship('Person_Attendance__r', 'Participant_Identification_Number_PID__c', dataValue('@id')),
-          //           relationship('Event__r', 'CommCare_Case_ID__c', dataValue('event_case_id'))
-          //         ),
-          //         ...state.data.dynamicFields,
-          //       }))
-          //     )
-          //   )(state);
-          // });
 
     triggers:
       webhook:
@@ -1068,7 +947,6 @@ workflows:
             'CommCare_External_ID__c',
             fields(
               field('CommCare_External_ID__c', dataValue('form.case.@case_id')),
-              //field('Name', dataValue('form.intervention_name')),
               field('Notes__c', dataValue('form.intervention_notes_to_save')),
               relationship('RecordType', 'Name', 'Intervention Event')
             )
@@ -1627,13 +1505,13 @@ workflows:
             state.form = state.data.form
             return state
           })
-          query(
-            "SELECT Id FROM Account WHERE Name = 'Test Account'"
+          query( state =>
+            `SELECT Id FROM Account WHERE Name = '${state.form.question1[0].case.update.business_unit_name}'`
           );
 
           fn(state => {
 
-            state.data.eventName = state.data[0].Id;
+            state.accountId = state.data[0].Id;
             state.data.eventCase = state.form.case['@case_id'];
 
             function objectToArray(object) {
@@ -1659,6 +1537,7 @@ workflows:
             console.log('Done with initial data manipulation.');
             const persons = state.form.question1.map(person => {
               return {
+                AccountId: state.accountId,
                 intervention_notes_to_save: state.form.intervention_notes_to_save,
                 ...person
               }
@@ -1669,7 +1548,6 @@ workflows:
               return {
                 intervention_name: state.form.intervention_name,
                 eventCase: state.data.eventCase,
-                eventName: state.data.eventName,
                 ...attendee,
 
               }
@@ -1688,7 +1566,7 @@ workflows:
               'CommCare_External_ID__c',
               state => (
                 {
-                  //Account is not being saved yet
+                  AccountId: state.data.AccountId,
                   Contact_Description__c: state.data.intervention_notes_to_save,
                   FirstName: state.data.participant_first_name,
                   LastName: state.data.participant_surname,
@@ -1700,7 +1578,7 @@ workflows:
                   Gender__c: genderMap(state.data.gender),
                   MobilePhone: state.data.mobile_number,
                   Birthdate: state.data.date_of_birth,
-                  //  MailingAddress: state.data.participants_home_address,
+                  MailingStreet: state.data.participants_home_address,
                   Age__c: state.data.participants_age_to_save,
                   Person_Type__c: 'Participant'
                 }
