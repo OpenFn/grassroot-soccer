@@ -9,71 +9,6 @@ credentials:
     name: 'SalesForce Sandbox Integration Oauth '
     owner: hunter@openfn.org
 workflows:
-  "?-Upsert-Register-Skills-plus-Club":
-    name: '? Upsert Register Skills plus Club'
-    jobs:
-      Upsert-Register-Skills-plus-Club:
-        name: Upsert Register Skills plus Club
-        adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
-        body: |
-          // push to production
-          function clean(str) {
-            if (!!str)
-              return str
-                .split('_')
-                .map(word => {
-                  let new_word = word.toString().toLowerCase();
-                  return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
-                })
-                .join(' ');
-          }
-
-          fn((state) => {
-            state.coaches = state.data.form.coaches.split(' ');
-            state.form = state.data.form;
-            return state;
-          });
-
-
-
-          upsert(
-            'ampi__Project__c',
-            'CommCare_External_ID__c',
-            state => ({
-              Name: clean(state.data.form.name_of_skillz_plus_club),
-              CommCare_External_ID__c: state.data.form.case['@case_id'],
-              // Venue__c: {
-              //   CommCare_External_ID__c:  state.data.form.case['@case_id']
-              // },
-
-            })
-          );
-
-          each('$.coaches[*]', upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({
-            Contact__r: {
-              CommCare_External_ID__c: state.data
-            },
-            Event__r: {
-              CommCare_External_ID__c: state.form.case['@case_id']
-            },
-            CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data
-          })))
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->Upsert-Register-Skills-plus-Club:
-        source_trigger: webhook
-        target_job: Upsert-Register-Skills-plus-Club
-        condition_type: js_expression
-        condition_label: Register Skillz plus Club
-        condition_expression: |
-          state.data.form["@name"] == "Register Skillz Plus Club" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-
-        enabled: true
   Attendance-Non-Skillz:
     name: Attendance Non Skillz
     jobs:
@@ -386,148 +321,6 @@ workflows:
         condition_label: Create Intervention
         condition_expression: |
           state.data.form["@name"] == "Create Intervention" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-
-        enabled: true
-  HIV-Testing-Event-Statistics:
-    name: HIV Testing Event Statistics
-    jobs:
-      HIV-Testing-Event-Statistics:
-        name: HIV Testing Event Statistics
-        adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
-        body: |
-          // push to production
-
-          fn(state => {
-            const totalAttendance = state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.community_members +
-              state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_coaches +
-              state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.staff +
-              state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants;
-
-
-            const totalMalesTested09 = state.form.table_1_testing_results.male_hiv_negative.question2 +
-              state.form.table_1_testing_results.question33.question36;
-            const totalMalesTested1014 = state.form.table_1_testing_results.male_hiv_negative.question7 +
-              state.form.table_1_testing_results.question33.question41;
-            const totalMalesTested1519 = state.form.table_1_testing_results.male_hiv_negative.question13 +
-              state.form.table_1_testing_results.question33.question45;
-            const totalMalesTested2024 = state.form.table_1_testing_results.male_hiv_negative.question18 +
-              state.form.table_1_testing_results.question33.question50;
-            const totalMalesTested25 = state.form.table_1_testing_results.male_hiv_negative.question28 +
-              state.form.table_1_testing_results.male_hiv_negative.question32 +
-              state.form.table_1_testing_results.question33.question56 +
-              state.form.table_1_testing_results.question33.question60;
-
-
-            const totalFemalesTested09 = state.form.table_1_testing_results.question61.question65 +
-              state.form.table_1_testing_results.question89.question92;
-            const totalFemalesTested1014 = state.form.table_1_testing_results.question61.question69 +
-              state.form.table_1_testing_results.question89.question97;
-            const totalFemalesTested1519 = state.form.table_1_testing_results.question61.question73 +
-              state.form.table_1_testing_results.question89.question101;
-            const totalFemalesTested2024 = state.form.table_1_testing_results.question61.question78 +
-              state.form.table_1_testing_results.question89.question106;
-            const totalFemalesTested25 = state.form.table_1_testing_results.question61.question84 +
-              state.form.table_1_testing_results.question61.question88 +
-              state.form.table_1_testing_results.question89.question112 +
-              state.form.table_1_testing_results.question89.question116;
-
-            const totalPositive25 = state.form.table_1_testing_results.question89.question112 +
-              state.form.table_1_testing_results.question89.question116 +
-              state.form.table_1_testing_results.question33.question56 +
-              state.form.table_1_testing_results.question33.question60;
-
-            state.mapping = [
-              {
-                Name: state.form.event_name,
-                RecordType: { Name: "Aggregated Data - Testing Event" },
-                Event_Focus__c: 'HIV',
-                Testing_Event_Type__c: 'HIV Testing Event (General Event)',
-                CommCare_External_ID__c: state.form.case['@case_id'],
-                Number_in_Attendance__c: totalAttendance,
-                Number_of_Participants_tested__c: state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants,
-                Number_of_Males_Tested__c: totalMalesTested09,
-                Number_of_Females_Tested__c: totalFemalesTested09,
-                Number_Testing_Positive__c: state.form.table_1_testing_results.question33.question36 + state.form.table_1_testing_results.question89.question92,
-                Age_Range__c: "0-9",
-                Number_of_Individuals_Tested__c: totalFemalesTested09 + totalMalesTested09,
-              },
-              {
-                Name: state.form.event_name,
-                RecordType: { Name: "Aggregated Data - Testing Event" },
-                Event_Focus__c: 'HIV',
-                Testing_Event_Type__c: 'HIV Testing Event (General Event)',
-                CommCare_External_ID__c: state.form.case['@case_id'],
-                Number_in_Attendance__c: totalAttendance,
-                Number_of_Participants_tested__c: state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants,
-                Number_of_Males_Tested__c: totalMalesTested1014,
-                Number_of_Females_Tested__c: totalFemalesTested1014,
-                Number_Testing_Positive__c: state.form.table_1_testing_results.question33.question41 + state.form.table_1_testing_results.question89.question97,
-                Age_Range__c: "10-14",
-                Number_of_Individuals_Tested__c: totalFemalesTested1014 + totalMalesTested1014,
-              },
-              {
-                Name: state.form.event_name,
-                RecordType: { Name: "Aggregated Data - Testing Event" },
-                Event_Focus__c: 'HIV',
-                Testing_Event_Type__c: 'HIV Testing Event (General Event)',
-                CommCare_External_ID__c: state.form.case['@case_id'],
-                Number_in_Attendance__c: totalAttendance,
-                Number_of_Participants_tested__c: state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants,
-                Number_of_Males_Tested__c: totalMalesTested1519,
-                Number_of_Females_Tested__c: totalFemalesTested1519,
-                Number_Testing_Positive__c: state.form.table_1_testing_results.question33.question45 + state.form.table_1_testing_results.question89.question101,
-                Age_Range__c: "15-19",
-                Number_of_Individuals_Tested__c: totalFemalesTested1519 + totalMalesTested1519,
-              },
-              {
-                Name: state.form.event_name,
-                RecordType: { Name: "Aggregated Data - Testing Event" },
-                Event_Focus__c: 'HIV',
-                Testing_Event_Type__c: 'HIV Testing Event (General Event)',
-                CommCare_External_ID__c: state.form.case['@case_id'],
-                Number_in_Attendance__c: totalAttendance,
-                Number_of_Participants_tested__c: state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants,
-                Number_of_Males_Tested__c: totalMalesTested2024,
-                Number_of_Females_Tested__c: totalFemalesTested2024,
-                Number_Testing_Positive__c: state.form.table_1_testing_results.question33.question50 + state.form.table_1_testing_results.question89.question106,
-                Age_Range__c: "20-24",
-                Number_of_Individuals_Tested__c: totalFemalesTested2024 + totalMalesTested2024,
-              },
-              {
-                Name: state.form.event_name,
-                RecordType: { Name: "Aggregated Data - Testing Event" },
-                Event_Focus__c: 'HIV',
-                Testing_Event_Type__c: 'HIV Testing Event (General Event)',
-                CommCare_External_ID__c: state.form.case['@case_id'],
-                Number_in_Attendance__c: totalAttendance,
-                Number_of_Participants_tested__c: state.form.table_2_tested_profile.enter_the_number_tested_for_each_following_profile.skillz_participants,
-                Number_of_Males_Tested__c: totalMalesTested25,
-                Number_of_Females_Tested__c: totalFemalesTested25,
-                Number_Testing_Positive__c: totalPositive25,
-                Age_Range__c: "25+",
-                Number_of_Individuals_Tested__c: totalFemalesTested25 + totalMalesTested25,
-              }
-            ]
-            return state
-          })
-
-          each('$.mapping[*]', upsert('ampi__Project__c',
-            'CommCare_External_ID__c',
-            state => state.data))
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->HIV-Testing-Event-Statistics:
-        source_trigger: webhook
-        target_job: HIV-Testing-Event-Statistics
-        condition_type: js_expression
-        condition_label: HIV Testing Event Statistics
-        condition_expression: |
-          state.data.form["@name"] == "HIV Testing Event Statistics" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
   Load-Commcare-Data:
@@ -860,24 +653,38 @@ workflows:
     jobs:
       Upsert-Home-Visit-Log-Form:
         name: Upsert Home Visit Log Form
-        adaptor: '@openfn/language-salesforce@2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@7.0.0'
+        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
           // push to production
 
-          query(
-            `SELECT Participant_Identification_Number_PID__c from Contact where Participant_Identification_Number_PID__c  = '${state.data.form.case['@case_id']}'`
-          );
-          query(
+          fn(state => {
+            state.form = state.data.form;
+            state.id = state.data.id;
+            return state;
+          });
+
+          query(state => 
+                  `SELECT CommCare_External_ID__c
+                  FROM ampi__Project__c
+                  WHERE Name = '${state.form.basic_information.intervention_hidden}'`
+                ).then(state => {
+                  state.eventCommcareExternalId = state.data[0].CommCare_External_ID__c;
+                  return state;
+                });
+
+          query(state => 
                   `SELECT Id, Event_Session__c, CreatedDate, Attendee__c, Attendee__r.Contact__r.Participant_Identification_Number_PID__c, Attendee__r.Event__c
                   FROM Attendance__c
-                  WHERE Attendee__r.Contact__r.Participant_Identification_Number_PID__c = '${state.data.form.case['@case_id']}'
-                  ORDER BY CreatedDate DESC LIMIT 1`
+                  WHERE Attendee__r.Contact__r.Participant_Identification_Number_PID__c = '${state.form.case['@case_id']}'
+                  ORDER BY CreatedDate DESC limit 1`
                 ).then(state => {
-                  const { records } = state.references[0];
-                  const eventId = records[0].Attendee__r.Event__c;
+                  console.log(state.data)
+                 // const { records } = state.data[0];
+                  const eventId = state.data[0].Attendee__r.Event__c;
                   state.data.eventField = [field('Event__c', eventId)];
                   state.data.eventId = eventId
+                  state.data.form = state.form;
                   return state;
                 });
           fn(state => {
@@ -889,26 +696,24 @@ workflows:
             //   return state;
             // } // @hunter this should throw an error, not just return state
              state.mapping = {
-                CommCare_External_ID__c: state.data.id,
-
+                CommCare_External_ID__c: state.id,
                 Parent_mobile_number__c: state.data.form.basic_information.Mobile_number,
                 Visit_Date__c: state.data.form.participant_infomation.visit_information.visit_date,
                 // Pre_Post_Administered__c: state.data.form.prepost_administered,
                 Description__c: state.data.form.administrative.visit_notes,
                 Parent_consent__c: state.data.form.basic_information.consent_received === 'yes'?true:false,
-             
+
                 Reason_for_Home_Visit__c: state.data.form.participant_infomation.reason_for_home_visit,
-                // Event_Participation__r: { 
-                //   CommCare_External_ID__c: state.data.eventId + "-" + state.data.form.case['@case_id']
-                // },
-                // Coach__r: {
-                //   CommCare_External_ID__c: state.data.eventId + "-" + state.data.form.basic_information.coach_id
-                // },
+                Event_Participation__r: { 
+                  CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.case['@case_id']
+                },
+                Coach__r: {
+                  CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.basic_information.coach_id
+                },
                 Intervention__c: state.eventId,
                 RecordType: {
                   Name: "Home Visit"
                 } 
-               
               }
 
               console.log(state.mapping)
@@ -1390,97 +1195,6 @@ workflows:
           state.data.form["@name"] == "Pre Challenges" && state.data.form["hidden_properties"]["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
-  Upsert-Register-Event:
-    name: Upsert Register Event
-    jobs:
-      Upsert-Register-Event:
-        name: Upsert Register Event
-        adaptor: '@openfn/language-salesforce@2.7.4'
-        credential: null
-        body: |
-          alterState((state) => {
-            
-            function clean(str) {
-              if (!!str)
-                return str
-                  .split('_')
-                  .map(word => {
-                    let new_word = word.toString().toLowerCase();
-                    return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
-                  })
-                  .join(' ');
-            }
-            
-            const coachFieldNames = ['Coach_A__r','Coach_B__r','Coach_C__r','Coach_D__r']
-           
-            state.data.destinationCoachFields = state.data.form.event_information.coaches
-            .split(' ')
-            .reduce(
-              (accumulator, currentValue, currentIndex) => [
-                ...accumulator,
-                (currentIndex < coachFieldNames.length && !!currentValue
-                  ? relationship(coachFieldNames[currentIndex], 'CommCare_Ext_ID__c', currentValue)
-                  : []),
-              ],
-              []
-            );
-            
-            const eventtype = state.data.form.event_information.event_type; 
-            
-            const recordtype = eventtype==='community_health_event' || eventtype==='soccer_tournament' ? 'Testing Event' : 'Malaria Testing Event'; 
-            console.log(recordtype)
-            
-            state.data.recordtype = recordtype; 
-            
-            return state; 
-          }); 
-
-          upsert(
-            'Event__c',
-            'CommCare_Case_ID__c',
-            state=>({
-            ...fields(
-              field('Name', dataValue('form.event_information.Event_Name')),
-              relationship('RecordType', 'Name', dataValue('recordtype')),
-              field('CommCare_Ext_ID__c', state => {
-                var event = dataValue('form.event_information.Event_Name')(state);
-                return event ? event.replace(/\//gi, '') : event;
-                }),
-              field('CommCare_Case_ID__c', dataValue('form.case.@case_id')),
-              field('Business_Unit__c', state => {
-                const bu = dataValue('form.event_information.business_unit')(state); 
-                return bu==='65680f0c4c144b03ad0f86bdc46c1ebc' ? 'GRS Zambia' : 
-                bu==='04d98397e28046118fade28ced6b65cb' ? 'GRS Zimbabwe' : 
-                bu==='ed125ab19ec34aacab79585e59eb76f4' ? 'GRS Partnerships': undefined ; 
-              }),
-              relationship('Site__r','CommCare_Ext_ID__c', dataValue('form.event_information.site')),
-              relationship('Venue__r', 'CommCare_Ext_ID__c',dataValue('form.event_information.Venue')),
-              field('Date__c', dataValue('form.event_information.event_date')),
-              field('Event_Type__c', dataValue('recordtype')),
-              field('Testing_Event_Type__c', state => {
-                const type = dataValue('form.event_information.event_type')(state); 
-                return type.includes('malaria') ? 'Malaria Testing Event (General Event)' : 'Other';
-              }),
-              field('Coordinator__c', dataValue('form.event_information.event_coordinator')),
-            ),
-            ...fields(...state.data.destinationCoachFields)
-            })
-          );
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->Upsert-Register-Event:
-        source_trigger: webhook
-        target_job: Upsert-Register-Event
-        condition_type: js_expression
-        condition_label: Register Event
-        condition_expression: |
-          state.data.form["@name"] == "Register Event" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-
-        enabled: true
   Upsert-Register-Participant:
     name: Upsert Register Participant
     jobs:
@@ -1621,563 +1335,187 @@ workflows:
           state.data.form["@name"] == "Register Participant" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
-  Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
-    name: Upsert Risk and Vulnerability Assessment - Service Referral
+  Upsert-Register-Skills-plus-Club:
+    name: Upsert Register Skills plus Club
     jobs:
-      Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
-        name: Upsert Risk and Vulnerability Assessment - Service Referral
+      Upsert-Register-Skills-plus-Club:
+        name: Upsert Register Skills plus Club
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
-          // Your job goes here.
-          alterState(state => {
-            function split(str, separator) {
-              if (!str) {
-                return [];
-              } else {
-                return str.toString().split(separator);
-              }
-            }
-            function checked(key, str) {
-              if (!str) return false;
-              return split(str.toString(), ' ').indexOf(key) >= 0;
-            }
+          // push to production
+          function clean(str) {
+            if (!!str)
+              return str
+                .split('_')
+                .map(word => {
+                  let new_word = word.toString().toLowerCase();
+                  return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+                })
+                .join(' ');
+          }
 
-            function capitalizeFirstLetter(str) {
-              if (!str) return;
-              let new_str = str.toString().toLowerCase();
-              return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);
-            }
-
-            function transformDont(str) {
-              if (!str) return str;
-              return split(str.toString(), '_')
-                .map(word => word.replace(/dont/i, "don't"))
-                .join('_')
-                .toString()
-                .trim();
-            }
-
-            function transformCant(str) {
-              if (!str) return str;
-              return split(str.toString(), '_')
-                .map(word => word.replace(/cant/i, "can't"))
-                .join('_')
-                .toString()
-                .trim();
-            }
-
-            function splitAndJoin(str, splitDelimiter, joinDelimiter) {
-              if (!str) return;
-
-              return split(str.toString(), splitDelimiter).join(joinDelimiter).toString().trim();
-            }
-
-            function transformHowOften(str) {
-              if (!str) return;
-              if (str === 'special_occasions') return 'Special Occasions';
-              if (str === 'no_dont_want_to_disclose') return "Don't want to disclose";
-              if (str === 'dont_want_to_disclose') return "Don't want to disclose";
-              return transformGenericText(str).toString().trim();
-            }
-
-            function transformHIVStatus(status) {
-              switch (status) {
-                case 'yes_negative':
-                  return 'Yes,Negative';
-                case 'yes_positive':
-                  return 'Yes,Positive';
-                case 'no_i_dont':
-                  return "No,I don't know";
-                case 'yes_dont_want_to_disclose':
-                  return "Yes, don't want to disclose";
-                default:
-                  return;
-              }
-            }
-
-            function transformLastTested(str) {
-              if (!str) return;
-              switch (str.toString()) {
-                case 'yes_negative':
-                  return 'Yes,Negative';
-                case 'yes_positive':
-                  return 'Yes,Positive';
-                case 'no_i_dont':
-                  return "No,I don't know";
-                case 'yes_dont_want_to_disclose':
-                  return "Yes, don't want to disclose";
-                default:
-                  return;
-              }
-            }
-
-            function transformMonthAgo(str) {
-              if (!str) return;
-              switch (str) {
-                case 'month_ago':
-                  return '1 month ago';
-                case 'months_ago':
-                  return '3 months ago';
-                case 'month_ago':
-                  return 'copy-1-of-months_ago ';
-                case 'month_ago':
-                  return '6 months ago';
-                case 'a_year_or_more_ago':
-                  return 'A year or more';
-                default:
-                  return;
-              }
-            }
-
-            function transformGenericText(str) {
-              if (!str) return;
-              return capitalizeFirstLetter(splitAndJoin(transformDont(str), '_', ' '))
-                .toString()
-                .trim();
-            }
-
-            function transformRange(range) {
-              if (!range) return;
-              return range
-                .toString()
-                .replace(/\d_\d/i, match => match.replace('_', '-'))
-                .toString()
-                .trim();
-            }
-
-            function transformAgeRange(range) {
-              if (!range) return;
-              if (range === '10_years') return '< 10 years';
-              if (range === 'greater_than_19') return '> 19 years';
-              return capitalizeFirstLetter(transformDont(transformCant(splitAndJoin(transformRange(range), '_', ' '))))
-                .toString()
-                .trim();
-            }
-
-            function transformAbuseExperienced(str) {
-              if (!str) return;
-              return split(str, ' ')
-                .map(word => capitalizeFirstLetter(word))
-                .join(';')
-                .toString()
-                .trim();
-            }
-
-            function getAge(dateString) {
-              if (!dateString) return;
-
-              const today = new Date();
-              const birthDate = new Date(dateString);
-              var age = today.getFullYear() - birthDate.getFullYear();
-              var m = today.getMonth() - birthDate.getMonth();
-              if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-              }
-              return age;
-            }
-
-            state.data.perform_a_risk_assessment = state.data.form.do_you_want_to_perform_a_risk_assessment === 'yes';
-
-            state.data.complete_service_referrals = state.data.form.referral_services ? true : false;
-
-            state.data.form.client_information.gender = capitalizeFirstLetter(state.data.form.client_information.gender);
-
-            state.helperFunctions = {
-              split,
-              checked,
-              transformAgeRange,
-              transformHIVStatus,
-              transformLastTested,
-              transformMonthAgo,
-              transformGenericText,
-              transformDont,
-              splitAndJoin,
-              transformHowOften,
-              transformAbuseExperienced,
-              getAge,
-            };
+          fn((state) => {
+            state.coaches = state.data.form.coaches.split(' ');
+            state.form = state.data.form;
             return state;
           });
 
-          upsertIf(
-            dataValue('perform_a_risk_assessment'),
-            'Risk_Assessment__c',
-            'CommCare_Ext_ID__c',
-            fields(
-              field('CommCare_Ext_ID__c', dataValue('id')),
-              field('Date__c', dataValue('form.risk_assessment.date')),
-              field('Participant_Name__c', dataValue('form.client_information.participant_full_name')),
-              field('Participant_Age__c', state => {
-                const dob = dataValue('form.client_information.date_of_birth')(state);
 
-                return state.helperFunctions.getAge(dob);
-              }),
-              relationship('Site2__r', 'CommCare_Ext_ID__c', dataValue('form.client_information.site')),
-              relationship('EventLink__r', 'CommCare_Ext_ID__c', dataValue('form.client_information.intervention_name')),
-              relationship('Venue__r', 'CommCare_Ext_ID__c', dataValue('form.client_information.venue')),
 
-              field('Participant_Sex__c', dataValue('form.client_information.gender')),
-              field('X1_0_Sexually_Active_past_12_month__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.sexual_risk_and_pregnancy.sexually_active_12_months')(state)
-                )
-              ),
-              field('X1_1_Age_at_first_sex__c', state =>
-                state.helperFunctions.transformAgeRange(
-                  dataValue('form.risk_assessment.sexual_risk_and_pregnancy.age_at_first_sex')(state)
-                )
-              ),
-              field('X1_2_Have_you_ever_had_unprotected_sex__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.sexual_risk_and_pregnancy.have_you_ever_had_unprotected_sex')(state)
-                )
-              ),
-              field('X1_3_Sex_for_monetary_or_material_benefi__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.sexual_risk_and_pregnancy.sex_monetary_material')(state)
-                )
-              ),
-              field('Do_you_know_your_HIV_status__c', state =>
-                state.helperFunctions.transformHIVStatus(
-                  dataValue('form.risk_assessment.hiv_status.do_you_know_your_hiv_status')(state)
-                )
-              ),
-              field('X2_1_When_last_did_you_test_for_HIV__c', state =>
-                state.helperFunctions.transformMonthAgo(
-                  dataValue('form.risk_assessment.hiv_status.when_last_did_you_test_for_hiv')(state)
-                )
-              ),
-              field('X2_2_Are_you_on_treatment_ART__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.hiv_status.are_you_on_treatment_art')(state)
-                )
-              ),
-              field('X3_0_Had_an_STI_in_the_last_12months_yea__c', state =>
-                state.helperFunctions.transformHowOften(dataValue('form.risk_assessment.sti_and_pep.hiv_last_12_months')(state))
-              ),
-              field('X3_1_Past_12_months_sex_HIV_status_part__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.sti_and_pep.knowing_partners_hiv_status')(state)
-                )
-              ),
-              field('X4_0_Forms_of_abuse_experienced_before__c', state => {
-                const abusesArray = state.helperFunctions.split(
-                  dataValue('form.risk_assessment.gender_based_violence.abuse_experienced')(state),
-                  ' '
-                );
-                const abuses = [];
-                abusesArray.forEach(ab => {
-                  abuses.push(state.helperFunctions.transformGenericText(ab));
-                });
-                return abuses.join(';');
-              }),
-              field('X4_1_Feel_unsafe_any1_interact_with_ofte__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.gender_based_violence.unsafe_with_others')(state)
-                )
-              ),
-              field('X4_2_Of_what_relationship_person_to_you__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.gender_based_violence.relationship_of_abuser')(state)
-                )
-              ),
-              field('X5_0_Do_you_take_alcohol_or_drugs__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.drugs_and_alcohol_use.do_you_take_alcohol_andor_drugs')(state)
-                )
-              ),
-              field('X5_1_On_average_how_often_drink_alcohol__c', state =>
-                state.helperFunctions.transformHowOften(
-                  dataValue('form.risk_assessment.drugs_and_alcohol_use.how_often_alcohol')(state)
-                )
-              ),
-              field('X5_2_On_average_how_often_take_drugs__c', state =>
-                state.helperFunctions.transformHowOften(
-                  dataValue('form.risk_assessment.drugs_and_alcohol_use.how_often_drugs')(state)
-                )
-              ),
-              field('X5_3_Easy_for_teens_to_obtain_alcohol__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.drugs_and_alcohol_use.alcohol_19')(state)
-                )
-              ),
-              field('X5_4__c', state =>
-                state.helperFunctions.transformGenericText(
-                  dataValue('form.risk_assessment.drugs_and_alcohol_use.illegal_drugs_19')(state)
-                )
-              )
-            )
+          upsert(
+            'ampi__Project__c',
+            'CommCare_External_ID__c',
+            state => ({
+              Name: clean(state.data.form.name_of_skillz_plus_club),
+              CommCare_External_ID__c: state.data.form.case['@case_id'],
+              // Venue__c: {
+              //   CommCare_External_ID__c:  state.data.form.case['@case_id']
+              // },
+
+            })
           );
 
-          fn(state => {
-            state.data.intervention_name = state.data.form.client_information.intervention_name
-              ? [relationship('Event__r', 'CommCare_Ext_ID__c', dataValue('form.client_information.intervention_name'))]
-              : [];
-
-            return state;
-          });
-
-          upsertIf(
-            state => {
-              const referralServices = state.data.form.referral_services;
-              return (
-                referralServices &&
-                (parseInt(referralServices.art_support_services.count_of_art_support_services) > 0 ||
-                 parseInt(referralServices.child_protection_support_services.count_child_protection_support_services) > 0 ||
-                 parseInt(referralServices.hiv_support__care.count_of_hiv_support_care) > 0 ||
-                 parseInt(referralServices.legal_services.count_legal_services) > 0 ||
-                 parseInt(referralServices.mental_health_services.count_mental_health_services) > 0)
-              );
-            }, 'NewReferral__c', 'CommCare_Ext_ID__c', state => ({
-            ...fields(
-              field('CommCare_Ext_ID__c', state => {
-                if (state.data.form.subcase_0.case) return state.data.form.subcase_0.case['@case_id'];
-                else if (state.data.form.referral_services) {
-                  if (state.data.form.referral_services.art_support_services.skillz_plus_club_details)
-                    return state.data.form.referral_services.art_support_services.skillz_plus_club_details
-                      .create_skillz_plus_club_participant_case.case['@case_id'];
-                }
-                return undefined;
-              }),
-              field('Participants_Full_Name__c', dataValue('form.client_information.participant_full_name')),
-              field('Service_Provider_Name__c', dataValue('form.client_information.coach_name')),
-              field('Parent_Guardian_Full_Name__c', dataValue('form.parent__guardian_information.parent__guardian_full_name')),
-              field('Relationship__c', dataValue('form.parent__guardian_information.relationship_to_client')),
-              //field('', dataValue('form.parent__guardian_information.please_specify')),
-              field('Parent_Guardian_Contact_Number__c', dataValue('form.parent__guardian_information.contact_number')),
-              //field('', dataValue('form.parent__guardian_information.guardian_consent')),
-              field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
-              field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
-              field('Institution_Referred_To_3__c', dataValue('form.referral_information.copy-2-of-institution_referred_to')),
-              field('HIV_Testing_Services_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'hiv_testing_services',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('HIV_Other__c', dataValue('form.referral_services.hiv_support__care.please_specify')),
-              field('ART_Initiation_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'art_initiationenrollment',
-                  dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('SKILLZ_Plus_Club_Support_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'grs_skillz_plus_club',
-                  dataValue('form.referral_services.art_support_services.skillz_plus_club_option')(state)
-                )
-              ),
-              field('PMTCT_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'pmtct',
-                  dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('VMMC_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'vmmc',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('TB_Screening_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'tb_screening_treatment_adherence',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('Legal_Other__c', dataValue('form.referral_services.legal_services.please_specify_other_legal')),
-              field('Post_Exposure_Prophylaxis_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'post_exposure_prophylaxis',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('PrEP_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'prep',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('HIV_STI_PREVENTION_Other_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'other',
-                  dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('HIV_Other__c', dataValue('form.referral_services.hiv_support__care.please_specify')),
-              field(
-                'Victim_Friendly_Services_GRS_Staff__c',
-                state =>
-                  state.helperFunctions.checked(
-                    'suspected_abuse_reported_police_court_other_authority',
-                    dataValue(
-                      'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                    )(state)
-                  ) ||
-                  state.helperFunctions.checked(
-                    'post_violence_care_medical_legal_counseling',
-                    dataValue(
-                      'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                    )(state)
-                  ) ||
-                  state.helperFunctions.checked(
-                    'child_support_grant_social_foster_general_support',
-                    dataValue(
-                      'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                    )(state)
-                  ) ||
-                  state.helperFunctions.checked(
-                    'other',
-                    dataValue(
-                      'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                    )(state)
-                  )
-              ),
-
-              field('Sexual_and_GBV_Abuse_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'sexual__gender-based_violenceabus',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-
-              // field('missing in SF', dataValue('form.referral_services.child_protection_support_services.type_of_post_violence_care')),
-              // field('missing in SF', dataValue('form.referral_services.child_protection_support_services.child_support_grant_for')),
-              field(
-                'Legal_Services_Other_GRS_Staff__c',
-                state =>
-                  state.helperFunctions.checked(
-                    'other',
-                    dataValue('form.referral_services.legal_services.legal_services')(state)
-                  ) ||
-                  state.helperFunctions.checked('id', dataValue('form.referral_services.legal_services.legal_services')(state)) ||
-                  state.helperFunctions.checked(
-                    'birth_bertificate',
-                    dataValue('form.referral_services.legal_services.legal_services')(state)
-                  )
-              ),
-              field('Legal_Other__c', dataValue('form.referral_services.legal_services.please_specify_other_legal')),
-              field('IPTG_Health_Facility__c', state =>
-                state.helperFunctions.checked(
-                  'iptg_to_health_facility',
-                  dataValue('form.referral_services.mental_health_services.mental_health_select_services')
-                )
-              ),
-              field('IPTG_Specialized_to_SMZ__c', state =>
-                state.helperFunctions.checked(
-                  'iptg_specialised_to_smz',
-                  dataValue('form.referral_services.mental_health_services.mental_health_select_services')
-                )
-              ),
-              field('STI_Screen_Testing_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'sti_screening_diagnosis_treatment',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('Contraception_Family_Plan_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'contraceptivesfamily_planning',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('Cervical_Cancer_Screening_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'cervical_cancer_screening',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('HPV_vaccine_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'hpv',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('Antenatal_Care_ANC_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'antenatal_care_anc',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-
-              field(
-                'Psycho_Social_Support_GRS_Staff__c',
-                state =>
-                  state.helperFunctions.checked(
-                    'drug_or_alcohol_abuse',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  ) ||
-                  state.helperFunctions.checked(
-                    'psychiatric_careintensive_counseling',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  ) ||
-                  state.helperFunctions.checked(
-                    'psychosocial_support',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-              ),
-              field('Psycho_Social_Services_Other_GRS_Staff__c', state =>
-                state.helperFunctions.checked(
-                  'other',
-                  dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                )
-              ),
-              field('Psycho_Other__c', dataValue('form.referral_services.other_srhr_services.please_specify_srhr_referred')),
-
-              field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
-              field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
-              field('Client_Follow_up_Consent_given__c', state =>
-                state.helperFunctions.checked('client_follow-up_consent_given', dataValue('form.follow-up.select')(state))
-              ),
-              field('Client_Linked_to_care__c', state =>
-                state.helperFunctions.checked('client_linked_to_care', dataValue('form.follow-up.select')(state))
-              ),
-
-              field('Business_Unit_Site__c', state => {
-                const bu = dataValue('form.client_information.business_unit')(state);
-                return bu === '65680f0c4c144b03ad0f86bdc46c1ebc'
-                  ? 'GRS Zambia'
-                  : bu === '04d98397e28046118fade28ced6b65cb'
-                  ? 'GRS Zimbabwe'
-                  : bu === 'ed125ab19ec34aacab79585e59eb76f4'
-                  ? 'GRS Partnerships'
-                  : undefined;
-              })
-            ),
-            ...fields(...state.data.intervention_name),
-          }));
+          each('$.coaches[*]', upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({
+            Contact__r: {
+              CommCare_External_ID__c: state.data
+            },
+            Event__r: {
+              CommCare_External_ID__c: state.form.case['@case_id']
+            },
+            CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data
+          })))
 
     triggers:
       webhook:
         type: webhook
         enabled: true
     edges:
-      webhook->Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
+      webhook->Upsert-Register-Skills-plus-Club:
         source_trigger: webhook
-        target_job: Upsert-Risk-and-Vulnerability-Assessment---Service-Referral
+        target_job: Upsert-Register-Skills-plus-Club
         condition_type: js_expression
-        condition_label: 'Risk & Vulnerability Assessment | Service Referral'
+        condition_label: Register Skillz plus Club
         condition_expression: |
-          state.data.form["@name"] == "Risk & Vulnerability Assessment | Service Referral - Treatment, Care and Support" && state.data.form["client_information"]["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+          state.data.form["@name"] == "Register Skillz Plus Club" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
-  Upsert-Service-Referral:
-    name: Upsert Service Referral
+  Upsert-Service-Referral-1:
+    name: Upsert Service Referral 1
     jobs:
       Upsert-Service-Referral:
         name: Upsert Service Referral
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: null
+        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
-          alterState(state => {
-            function checked(key, str) {
-              if (!str) return false;
-              return str.split(' ').indexOf(key) >= 0;
+          fn(state => {
+            state.form = state.data.form;
+            state.id = state.data.id;
+            let businessUnit;
+            switch (state.form.business_unit) {
+              case '04d98397e28046118fade28ced6b65cb':
+                businessUnit = 'GRS Zimbabwe';
+                break;
+              case 'ed125ab19ec34aacab79585e59eb76f4':
+                businessUnit = 'GRS Partnerships';
+                break;
+              case '65680f0c4c144b03ad0f86bdc46c1ebc':
+                businessUnit = 'GRS Zambia';
+                break;
+              default:
+                businessUnit = undefined;
             }
+            state.businessUnit = businessUnit;
+            return state
+          });
 
-            state.helperFunctions = { checked };
+          // Query coach to get its external Id using coach name
+          query(`SELECT Id, Name, CommCare_External_ID__c, Phone FROM Contact WHERE Person_Type__c = 'Coach'  AND Name = '${$.form.hidden_props.coach_name}'`).then(state=>{
+            state.coachId = state.data[0]?.CommCare_External_ID__c;
+            return state
+          });
+
+          //Query Account using business unit name to be used for creating participant
+          query( state =>
+            `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`
+          ).then (state => {
+            state.accountId = state.data[0].Id
+            return state;
+          });
+
+          //Upsert Contact of type Participant
+          upsert(
+              'Contact',
+              'CommCare_External_ID__c',
+              state => (
+                {
+                  AccountId: state.accountId,
+                  FirstName: state.form.client_registration.participant_full_name.split(" ")[0],
+                  LastName: state.form.client_registration.participant_full_name.split(" ")[1],
+                  CommCare_External_ID__c: state.form.subcase_0.case['@case_id'],
+                  Participant_Identification_Number_PID__c: state.form.subcase_0.case['@case_id'],
+                  MobilePhone: state.form.client_registration.mobile_number,
+                  Person_Type__c: 'Participant'
+                }
+              )
+            )
+
+            // Query event using event name 
+            query(state => `
+            SELECT Id, Name, CommCare_External_ID__c
+            FROM ampi__Project__c 
+            WHERE Name = '${state.form.event_name}'`).then(state => {
+              state.eventId = state.data[0]?.CommCare_External_ID__c;
+            if (!state.eventId) {
+              console.log(
+                `Event not found for Intervention Name: 
+                ${state.form.event_name}`
+              );
+            }
+            return state;
+            });
+
+            //Upsert event participation for newly created participant
+           upsert(
+              'Event_Participation__c',
+              'CommCare_External_ID__c',
+              state => ({
+                CommCare_External_ID__c: state.eventId + '_' + state.form.subcase_0.case['@case_id'],
+                Contact__r: 
+                {
+                  CommCare_External_ID__c: state.form.subcase_0.case['@case_id']
+                },
+                Event__r: {
+                  CommCare_External_ID__c: state.eventId
+                },
+
+              })
+            )
+
+
+
+            
+          fn(state => {
+
+
+              const servicesObj = state.form.referral_services;
+            const servicesList = [];
+
+            Object.keys(servicesObj).forEach(category => {
+              if (servicesObj[category] && 
+                  servicesObj[category].check_the_services_that_client_was_referred_to) {
+                
+                const services = servicesObj[category].check_the_services_that_client_was_referred_to
+                  .split(' ')
+                  .filter(s => s);
+                
+                servicesList.push(...services);
+              }
+            });
+
+
+            // Prepare the case ID for participant lookup
+              const caseId = state.form.subcase_0.case['@case_id'];
 
             function capitalizeFirstLetter(str) {
               if (!str) return;
@@ -2199,234 +1537,56 @@ workflows:
                 default:
                   return value;
               }
+            };
+            function checked(key, str) {
+              if (!str) return false;
+              return str.split(' ').indexOf(key) >= 0;
             }
 
-            state.data.form.parent__guardian_information.relationship_to_client = transform(
-              capitalizeFirstLetter(state.data.form.parent__guardian_information.relationship_to_client)
-            );
+              state.helperFunctions = { checked };
+              let subid = state.form.subcase_0;
+              state.externalId = subid && subid !== '' ? state.form.subcase_0.case['@case_id'] : state.id; 
 
-            return state;
+            // Create mapping object
+            const mapping = {
+              GRS_Event__r: {
+                CommCare_External_ID__c: state.eventId
+              },
+              Participant__r: {
+                CommCare_External_ID__c: `${state.eventId}_${caseId}`
+              },
+              Event_Participation__r: {
+                CommCare_External_ID__c: `${state.eventId}_${state.coachId}`
+              },
+              // Participant_Name__c: state.form.client_registration.participant_full_name,
+              Type__c: "Individual",
+              Date_of_Referral__c: state.form['follow-up'] ? state.form['follow-up'].date_referred : null,
+              Referred_By__r: { 
+                  CommCare_External_ID__c: `${state.eventId}_${state.coachId}`
+                  },
+              Parent_s_Full_Name__c: state.form.parent__guardian_information ? 
+                state.form.parent__guardian_information.parent__guardian_full_name : null,
+              Relationship_To_Participant__c: transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)),
+              Participant_Linked_to_Care__c: state.helperFunctions.checked(
+                'client_linked_to_care', 
+                state.form['follow-up'] ? state.form['follow-up'].select : ''
+              ),
+              Expected_Visit_Date__c: state.form['follow-up'] ? state.form['follow-up'].expected_visit_date : null,
+              Business_Unit__r: {
+                CommCare_External_ID__c: state.form.business_unit
+              }
+            };
+
+            return { ...state, referralServiceMapping: mapping, servicesList };
           });
 
-          alterState(state => {
-            if (!state.data.form.subcase_0) {
-              console.log('No referral services to upsert');
-              return state;
-            }
-            return upsert(
-              'NewReferral__c',
-              'CommCare_Ext_ID__c',
-              fields(
-                //  field('Enter_Partner_s_Name__c', dataValue('form.referral_information.institution_referred_to')),
-                //  field('Type_of_Referral__c', dataValue('form.referral_information.type_of_referral')),
-                field('Participants_Full_Name__c', dataValue('form.client_registration.participant_full_name')),
-                //field('Parent_Guardian_Contact_Number__c', dataValue('form.client_registration.mobile_number')),
-                relationship('Event__r', 'CommCare_Case_ID__c', dataValue('form.event_name')),
-                field('CommCare_Ext_ID__c', state => {
-                  var subid = state.data.form.subcase_0;
-                  return subid && subid !== '' ? state.data.form.subcase_0.case['@case_id'] : dataValue('id')(state); //Set external id to 'service' subcase if available, otherwise use formid
-                }),
-                //field('Venue__c', dataValue('form.client_registration.school_name')),
-                //field('Grade__c', dataValue('form.client_registration.grade')),
-                //field('Class__c', dataValue('form.client_registration.class')),
-                field('Parent_Guardian_Full_Name__c', dataValue('form.parent__guardian_information.parent__guardian_full_name')),
-                field('Relationship_To_Client__c', dataValue('form.parent__guardian_information.relationship_to_client')),
-                field('Parent_Guardian_Contact_Number__c', dataValue('form.parent__guardian_information.contact_number')),
-                field('Institution_Referred_To_1__c', dataValue('form.referral_information.institution_referred_to')),
-                field('Institution_Referred_To_2__c', dataValue('form.referral_information.copy-1-of-institution_referred_to')),
-                field('Institution_Referred_To_3__c', dataValue('form.referral_information.copy-2-of-institution_referred_to')),
-                field('Service_Provider_Name__c', dataValue('form.hidden_props.coach_name')),
-                field('HIV_Testing_Services_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'hiv_testing_services',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('VMMC_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'vmmc',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('TB_Screening_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'tb_screening_treatment_adherence',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Post_Exposure_Prophylaxis_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'post_exposure_prophylaxis',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('PrEP_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'prep',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('HIV_STI_PREVENTION_Other_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'other',
-                    dataValue('form.referral_services.hiv_support__care.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('HIV_Other__c', dataValue('form.referral_services.hiv_support__care.please_specify')),
-                field('ART_Initiation_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'art_initiationenrollment',
-                    dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('PMTCT_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'pmtct',
-                    dataValue('form.referral_services.art_support_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('SKILLZ_Plus_Club_Support_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'grs_skillz_plus_club',
-                    dataValue('form.referral_services.art_support_services.skillz_plus_club_option')(state)
-                  )
-                ),
-                field(
-                  'Victim_Friendly_Services_GRS_Staff__c',
-                  state =>
-                    state.helperFunctions.checked(
-                      'suspected_abuse_reported_police_court_other_authority',
-                      dataValue(
-                        'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                      )(state)
-                    ) ||
-                    state.helperFunctions.checked(
-                      'post_violence_care_medical_legal_counseling',
-                      dataValue(
-                        'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                      )(state)
-                    ) ||
-                    state.helperFunctions.checked(
-                      'child_support_grant_social_foster_general_support',
-                      dataValue(
-                        'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                      )(state)
-                    ) ||
-                    state.helperFunctions.checked(
-                      'other',
-                      dataValue(
-                        'form.referral_services.child_protection_support_services.check_the_services_that_client_was_referred_to'
-                      )(state)
-                    )
-                ),
-                field('Business_Unit_Site__c', state => {
-                  const bu = dataValue('form.business_unit')(state);
-                  return bu === '65680f0c4c144b03ad0f86bdc46c1ebc'
-                    ? 'GRS Zambia'
-                    : bu === '04d98397e28046118fade28ced6b65cb'
-                    ? 'GRS Zimbabwe'
-                    : bu === 'ed125ab19ec34aacab79585e59eb76f4'
-                    ? 'GRS Partnerships'
-                    : undefined;
-                }),
-                field(
-                  'Sexual_and_GBV_Abuse_GRS_Staff__c',
-                  dataValue('form.referral_services.child_protection_support_services.abuse_reported_to')
-                ),
-
-                field('Legal_Other__c', dataValue('form.referral_services.legal_services.please_specify_other_legal')),
-                field(
-                  'Legal_Services_Other_GRS_Staff__c',
-                  state =>
-                    state.helperFunctions.checked(
-                      'other',
-                      dataValue('form.referral_services.legal_services.legal_services')(state)
-                    ) ||
-                    state.helperFunctions.checked(
-                      'id',
-                      dataValue('form.referral_services.legal_services.legal_services')(state)
-                    ) ||
-                    state.helperFunctions.checked(
-                      'birth_bertificate',
-                      dataValue('form.referral_services.legal_services.legal_services')(state)
-                    )
-                ),
-                field('STI_Screen_Testing_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'sti_screening_diagnosis_treatment',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Contraception_Family_Plan_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'contraceptivesfamily_planning',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Cervical_Cancer_Screening_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'cervical_cancer_screening',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('HPV_vaccine_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'hpv',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Antenatal_Care_ANC_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'antenatal_care_anc',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Sexual_and_GBV_Abuse_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'based_violenceabus',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field(
-                  'Psycho_Social_Support_GRS_Staff__c',
-                  state =>
-                    state.helperFunctions.checked(
-                      'drug_or_alcohol_abuse',
-                      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(
-                        state
-                      )
-                    ) ||
-                    state.helperFunctions.checked(
-                      'psychiatric_careintensive_counseling',
-                      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(
-                        state
-                      )
-                    ) ||
-                    state.helperFunctions.checked(
-                      'psychosocial_support',
-                      dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(
-                        state
-                      )
-                    )
-                ),
-                field('Psycho_Social_Services_Other_GRS_Staff__c', state =>
-                  state.helperFunctions.checked(
-                    'other',
-                    dataValue('form.referral_services.other_srhr_services.check_the_services_that_client_was_referred_to')(state)
-                  )
-                ),
-                field('Psycho_Other__c', dataValue('form.referral_services.other_srhr_services.please_specify_srhr_referred')),
-                field('Date_Referred__c', dataValue('form.follow-up.date_referred')),
-                field('Expected_Visit_Date__c', dataValue('form.follow-up.expected_visit_date')),
-                field('Client_Follow_up_Consent_given__c', state =>
-                  state.helperFunctions.checked('client_follow-up_consent_given', dataValue('form.follow-up.select')(state))
-                ),
-                field('Client_Linked_to_care__c', state =>
-                  state.helperFunctions.checked('client_linked_to_care', dataValue('form.follow-up.select')(state))
-                )
-              )
-            )(state);
-          });
+          each('$.servicesList[*]', 
+          upsert('Referral_Service__c','CommCare_External_ID__c', state =>({
+            GRS_Referral__r: {CommCare_External_ID__c: state.data},
+            CommCare_External_ID__c: `${state.externalId}_${state.data}`,
+            ...state.referralServiceMapping
+          }))
+          )
 
     triggers:
       webhook:
@@ -2440,37 +1600,5 @@ workflows:
         condition_label: Service Referral
         condition_expression: |
           state.data.form["@name"] == "Service Referral" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-
-        enabled: true
-  Upsert-Team-or-Group-Name:
-    name: Upsert Team or Group Name
-    jobs:
-      Upsert-Team-or-Group-Name:
-        name: Upsert Team or Group Name
-        adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: null
-        body: |
-          // Upsert event by unique 'CommCare_External__ID__c'
-          upsert(
-            'ampi__Project__c',
-            'CommCare_External_ID__c', 
-            state => ({
-              Class_Group_Team__c: state.data.form.question_group.group__team_name,
-              CommCare_External_ID__c: state.data.form.case['@case_id']
-            })
-          );
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->Upsert-Team-or-Group-Name:
-        source_trigger: webhook
-        target_job: Upsert-Team-or-Group-Name
-        condition_type: js_expression
-        condition_label: 'My Team/Group Name'
-        condition_expression: |
-          state.data.form["@name"] == "My Team/Group Name" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
