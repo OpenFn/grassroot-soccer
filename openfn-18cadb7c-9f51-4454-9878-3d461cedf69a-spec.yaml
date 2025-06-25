@@ -407,7 +407,7 @@ workflows:
               Attendee__r: {
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`
               },
-              CommCare_External_ID__c: state.sessionId + '_' + state.form.case['@case_id']
+              CommCare_External_ID__c: state.sessionId + '_' + `${state.form.case['@case_id']}_${state.data['@id']}`
 
             }))
           );
