@@ -1071,11 +1071,11 @@ workflows:
                 ampi__Parent_Submission__c: state.data[0].Id,
                 Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },
                 Event_Participation__r: { 
-                  CommCare_External_ID__c: `${state.form.hidden_properties.intervention_name}_${state.form.case['@case_id']}` 
+                  CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}` 
                 },
                 GRS_Event__r: { Name: state.form.hidden_properties.intervention_name },
                 RecordType: {Name: "Submission"},
-                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.hidden_properties.intervention_name}_pre_submission`
+                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`
               })
             )(state)});
           fnIf((state) => !state.skippingUpsert, query(state => `
@@ -1130,7 +1130,7 @@ workflows:
             // For each question in our data array, find matching answer and update
             const updates = state.data.map(question => {
               // Extract the question ID part to match with CommCare keys
-              const questionName = question.CommCare_External_ID__c
+              const questionName = question.CommCare_Property_Name__c
                 
               
               // Look for matching keys in questionAnswers
