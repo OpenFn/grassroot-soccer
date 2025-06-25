@@ -400,7 +400,7 @@ workflows:
 
           each('$.form.attendance_list.update_participant_cases.item[*]',
             upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
-              Attended__c: state.data.attendance_session,
+              Attended__c: state.data.attendance_session.toString().toLowerCase() === 'yes' ? "Attended" : "Not Attended",
               Event_Session__r: {
                 CommCare_External_ID__c: `${state.sessionId}`
               },
