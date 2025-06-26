@@ -5,7 +5,6 @@
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
   "updated_at": "2025-06-23T20:01:28Z",
-  "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
       "id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d",
@@ -18,10 +17,13 @@
       "owner": "aleksa@openfn.org"
     }
   },
+  "scheduled_deletion": null,
   "history_retention_period": 365,
   "dataclip_retention_period": 365,
   "retention_policy": "retain_all",
+  "allow_support_access": true,
   "collections": {},
+  "requires_mfa": false,
   "workflows": {
     "Coach-Session-Register": {
       "id": "07c2e349-ffeb-45be-a7f1-147a7bccb40b",
@@ -351,39 +353,6 @@
         }
       }
     },
-    "Upsert-Service-Referral-1": {
-      "id": "94ffb47a-155c-45a1-9fd9-aad04070d2b0",
-      "name": "Upsert Service Referral 1",
-      "inserted_at": "2025-06-24T17:51:33.611123Z",
-      "lock_version": 26,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "ffb95fbd-aa3e-4137-8e5e-300fa5cbac2b",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Service-Referral": {
-          "id": "f5f72a3c-786c-47d5-87fe-17c9068d34b8",
-          "name": "Upsert Service Referral",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  state.id = state.data.id;\n  let businessUnit;\n  switch (state.form.business_unit) {\n    case '04d98397e28046118fade28ced6b65cb':\n      businessUnit = 'GRS Zimbabwe';\n      break;\n    case 'ed125ab19ec34aacab79585e59eb76f4':\n      businessUnit = 'GRS Partnerships';\n      break;\n    case '65680f0c4c144b03ad0f86bdc46c1ebc':\n      businessUnit = 'GRS Zambia';\n      break;\n    default:\n      businessUnit = undefined;\n  }\n  state.businessUnit = businessUnit;\n  return state\n});\n\n// Query coach to get its external Id using coach name\nquery(`SELECT Id, Name, CommCare_External_ID__c, Phone FROM Contact WHERE Person_Type__c = 'Coach'  AND Name = '${$.form.hidden_props.coach_name}'`).then(state=>{\n  state.coachId = state.data[0]?.CommCare_External_ID__c;\n  return state\n});\n\n//Query Account using business unit name to be used for creating participant\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`\n).then (state => {\n  state.accountId = state.data[0].Id\n  return state;\n});\n\n//Upsert Contact of type Participant\nupsert(\n    'Contact',\n    'CommCare_External_ID__c',\n    state => (\n      {\n        AccountId: state.accountId,\n        FirstName: state.form.client_registration.participant_full_name.split(\" \")[0],\n        LastName: state.form.client_registration.participant_full_name.split(\" \")[1],\n        CommCare_External_ID__c: state.form.subcase_0.case['@case_id'],\n        Participant_Identification_Number_PID__c: state.form.subcase_0.case['@case_id'],\n        MobilePhone: state.form.client_registration.mobile_number,\n        Person_Type__c: 'Participant'\n      }\n    )\n  )\n\n  // Query event using event name \n  query(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.event_name}'`).then(state => {\n    state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.event_name}`\n    );\n  }\n  return state;\n  });\n\n  //Upsert event participation for newly created participant\n upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: state.eventId + '_' + state.form.subcase_0.case['@case_id'],\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.form.subcase_0.case['@case_id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.eventId\n      },\n\n    })\n  )\n\n\n\n  \nfn(state => {\n\n\n    const servicesObj = state.form.referral_services;\n  const servicesList = [];\n\n  Object.keys(servicesObj).forEach(category => {\n    if (servicesObj[category] && \n        servicesObj[category].check_the_services_that_client_was_referred_to) {\n      \n      const services = servicesObj[category].check_the_services_that_client_was_referred_to\n        .split(' ')\n        .filter(s => s);\n      \n      servicesList.push(...services);\n    }\n  });\n\n\n  // Prepare the case ID for participant lookup\n    const caseId = state.form.subcase_0.case['@case_id'];\n\n  function capitalizeFirstLetter(str) {\n    if (!str) return;\n    let new_str = str.toString().toLowerCase();\n    return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);\n  }\n\n  function transform(value) {\n    if (!value) return;\n    switch (value.toString().trim()) {\n      case 'Daughterson':\n        return 'Daughter/Son';\n      case 'Other_specify':\n        return 'Other';\n      case 'Single_never_married':\n        return 'Single/Never Married';\n      case 'Divorced__separated':\n        return 'Divorced/separated';\n      default:\n        return value;\n    }\n  };\n  function checked(key, str) {\n    if (!str) return false;\n    return str.split(' ').indexOf(key) >= 0;\n  }\n\n    state.helperFunctions = { checked };\n    let subid = state.form.subcase_0;\n    state.externalId = subid && subid !== '' ? state.form.subcase_0.case['@case_id'] : state.id; \n\n  // Create mapping object\n  const mapping = {\n    GRS_Event__r: {\n      CommCare_External_ID__c: state.eventId\n    },\n    Participant__r: {\n      CommCare_External_ID__c: `${state.eventId}_${caseId}`\n    },\n    Event_Participation__r: {\n      CommCare_External_ID__c: `${state.eventId}_${state.coachId}`\n    },\n    // Participant_Name__c: state.form.client_registration.participant_full_name,\n    Type__c: \"Individual\",\n    Date_of_Referral__c: state.form['follow-up'] ? state.form['follow-up'].date_referred : null,\n    Referred_By__r: { \n        CommCare_External_ID__c: `${state.eventId}_${state.coachId}`\n        },\n    Parent_s_Full_Name__c: state.form.parent__guardian_information ? \n      state.form.parent__guardian_information.parent__guardian_full_name : null,\n    Relationship_To_Participant__c: transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)),\n    Participant_Linked_to_Care__c: state.helperFunctions.checked(\n      'client_linked_to_care', \n      state.form['follow-up'] ? state.form['follow-up'].select : ''\n    ),\n    Expected_Visit_Date__c: state.form['follow-up'] ? state.form['follow-up'].expected_visit_date : null,\n    Business_Unit__r: {\n      CommCare_External_ID__c: state.form.business_unit\n    }\n  };\n\n  return { ...state, referralServiceMapping: mapping, servicesList };\n});\n\neach('$.servicesList[*]', \nupsert('Referral_Service__c','CommCare_External_ID__c', state =>({\n  GRS_Referral__r: {CommCare_External_ID__c: state.data},\n  CommCare_External_ID__c: `${state.externalId}_${state.data}`,\n  ...state.referralServiceMapping\n}))\n)\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Service-Referral": {
-          "enabled": true,
-          "id": "a52f3b17-058a-457b-8498-f2dd9dfef4ab",
-          "target_job_id": "f5f72a3c-786c-47d5-87fe-17c9068d34b8",
-          "source_trigger_id": "ffb95fbd-aa3e-4137-8e5e-300fa5cbac2b",
-          "condition_type": "js_expression",
-          "condition_label": "Service Referral",
-          "condition_expression": "state.data.form[\"@name\"] == \"Service Referral\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
     "Upsert-Attendance-Skillz-Plus-Club": {
       "id": "0949f64f-ead0-4591-8c9c-b929b9b79e78",
       "name": "Upsert Attendance Skillz Plus Club",
@@ -449,8 +418,72 @@
           "condition_expression": "state.data.form[\"@name\"] == \"Pre Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
+    },
+    "Upsert-Service-Referral-1": {
+      "id": "94ffb47a-155c-45a1-9fd9-aad04070d2b0",
+      "name": "Upsert Service Referral 1",
+      "inserted_at": "2025-06-26T10:20:36.270628Z",
+      "lock_version": 27,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "ffb95fbd-aa3e-4137-8e5e-300fa5cbac2b",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Service-Referral": {
+          "id": "f5f72a3c-786c-47d5-87fe-17c9068d34b8",
+          "name": "Upsert Service Referral",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  state.id = state.data.id;\n  let businessUnit;\n  switch (state.form.business_unit) {\n    case '04d98397e28046118fade28ced6b65cb':\n      businessUnit = 'GRS Zimbabwe';\n      break;\n    case 'ed125ab19ec34aacab79585e59eb76f4':\n      businessUnit = 'GRS Partnerships';\n      break;\n    case '65680f0c4c144b03ad0f86bdc46c1ebc':\n      businessUnit = 'GRS Zambia';\n      break;\n    default:\n      businessUnit = undefined;\n  }\n  state.businessUnit = businessUnit;\n  return state\n});\n\n// Query coach to get its external Id using coach name\nquery(`SELECT Id, Name, CommCare_External_ID__c, Phone FROM Contact WHERE Person_Type__c = 'Coach'  AND Name = '${$.form.hidden_props.coach_name}'`).then(state=>{\n  state.coachId = state.data[0]?.CommCare_External_ID__c;\n  return state\n});\n\n//Query Account using business unit name to be used for creating participant\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`\n).then (state => {\n  state.accountId = state.data[0].Id\n  return state;\n});\n\n//Upsert Contact of type Participant\nupsert(\n    'Contact',\n    'CommCare_External_ID__c',\n    state => (\n      {\n        AccountId: state.accountId,\n        FirstName: state.form.client_registration.participant_full_name.split(\" \")[0],\n        LastName: state.form.client_registration.participant_full_name.split(\" \")[1],\n        CommCare_External_ID__c: state.form.subcase_0.case['@case_id'],\n        Participant_Identification_Number_PID__c: state.form.subcase_0.case['@case_id'],\n        MobilePhone: state.form.client_registration.mobile_number,\n        Person_Type__c: 'Participant'\n      }\n    )\n  )\n\n  // Query event using event name \n  query(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.event_name}'`).then(state => {\n    state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.event_name}`\n    );\n  }\n  return state;\n  });\n\n  //Upsert event participation for newly created participant\n upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: state.eventId + '_' + state.form.subcase_0.case['@case_id'],\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.form.subcase_0.case['@case_id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.eventId\n      },\n\n    })\n  )\n\n\n\n  \nfn(state => {\n  const servicesObj = state.form.referral_services;\n  const servicesList = [];\n\n  Object.keys(servicesObj).forEach(category => {\n    if (servicesObj[category] && \n        servicesObj[category].check_the_services_that_client_was_referred_to) {\n      \n      const services = servicesObj[category].check_the_services_that_client_was_referred_to\n        .split(' ')\n        .filter(s => s);\n      \n      servicesList.push(...services);\n    }\n  });\n\n\n  // Prepare the case ID for participant lookup\n    const caseId = state.form.subcase_0.case['@case_id'];\n\n  function capitalizeFirstLetter(str) {\n    if (!str) return;\n    let new_str = str.toString().toLowerCase();\n    return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);\n  }\n\n  function transform(value) {\n    if (!value) return;\n    switch (value.toString().trim()) {\n      case 'Daughterson':\n        return 'Daughter/Son';\n      case 'Other_specify':\n        return 'Other';\n      case 'Single_never_married':\n        return 'Single/Never Married';\n      case 'Divorced__separated':\n        return 'Divorced/separated';\n      default:\n        return value;\n    }\n  };\n  function checked(key, str) {\n    if (!str) return false;\n    return str.split(' ').indexOf(key) >= 0;\n  }\n\n    state.helperFunctions = { checked };\n    let subid = state.form.subcase_0;\n    state.externalId = subid && subid !== '' ? state.form.subcase_0.case['@case_id'] : state.id; \n\n  // Create mapping object\n  const mapping = {\n    GRS_Event__r: {\n      CommCare_External_ID__c: state.eventId\n    },\n    Participant__r: {\n      CommCare_External_ID__c: `${state.eventId}_${caseId}`\n    },\n    Event_Participation__r: {\n      CommCare_External_ID__c: `${state.eventId}_${state.coachId}`\n    },\n    // Participant_Name__c: state.form.client_registration.participant_full_name,\n    Type__c: \"Individual\",\n    Date_of_Referral__c: state.form['follow-up'] ? state.form['follow-up'].date_referred : null,\n    Referred_By__r: { \n        CommCare_External_ID__c: `${state.eventId}_${state.coachId}`\n        },\n    Parent_s_Full_Name__c: state.form.parent__guardian_information ? \n      state.form.parent__guardian_information.parent__guardian_full_name : null,\n    Relationship_To_Participant__c: transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)),\n    Participant_Linked_to_Care__c: state.helperFunctions.checked(\n      'client_linked_to_care', \n      state.form['follow-up'] ? state.form['follow-up'].select : ''\n    ),\n    Expected_Visit_Date__c: state.form['follow-up'] ? state.form['follow-up'].expected_visit_date : null,\n    Business_Unit__r: {\n      CommCare_External_ID__c: state.form.business_unit\n    }\n  };\n\n  return { ...state, referralServiceMapping: mapping, servicesList };\n});\n\neach('$.servicesList[*]', \nupsert('Referral_Service__c','CommCare_External_ID__c', state =>({\n  GRS_Referral__r: {CommCare_External_ID__c: state.data},\n  CommCare_External_ID__c: `${state.externalId}_${state.data}`,\n  ...state.referralServiceMapping\n}))\n)\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Service-Referral": {
+          "enabled": true,
+          "id": "a52f3b17-058a-457b-8498-f2dd9dfef4ab",
+          "target_job_id": "f5f72a3c-786c-47d5-87fe-17c9068d34b8",
+          "source_trigger_id": "ffb95fbd-aa3e-4137-8e5e-300fa5cbac2b",
+          "condition_type": "js_expression",
+          "condition_label": "Service Referral",
+          "condition_expression": "state.data.form[\"@name\"] == \"Service Referral\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "?-Upsert-Aggregate-Service-Referrals": {
+      "id": "122f0521-7fa3-45db-ae88-e09dcf0f8889",
+      "name": "? Upsert Aggregate Service Referrals",
+      "inserted_at": "2025-06-26T11:16:07.215702Z",
+      "lock_version": 11,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "3ce3eb52-5f61-4a90-802a-36d028149377",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Aggregate-Service-Referrals": {
+          "id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
+          "name": "Upsert Aggregate Service Referrals",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  state.id = state.data.id;\n  let businessUnit;\n  switch (state.form.general_referral_information.event_information.business_unit) {\n    case '04d98397e28046118fade28ced6b65cb':\n      businessUnit = 'GRS Zimbabwe';\n      break;\n    case 'ed125ab19ec34aacab79585e59eb76f4':\n      businessUnit = 'GRS Partnerships';\n      break;\n    case '65680f0c4c144b03ad0f86bdc46c1ebc':\n      businessUnit = 'GRS Zambia';\n      break;\n    default:\n      businessUnit = undefined;\n  }\n  state.businessUnit = businessUnit;\n  return state\n});\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`\n).then (state => {\n  state.accountId = state.data[0].Id\n  return state;\n});\n\n// Query event using event name \n  query(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {\n    state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.general_referral_information.event_information.event_name}`\n    );\n  }\n  return state;\n  });\nfn(state => {\n  // Get the form data\n  const form = state.form;\n  \n  // Create an array of all service counts (excluding general_referral_information)\n  let allServices = [];\n  \n  // Loop through each service group in the form\n  Object.keys(form).forEach(groupKey => {\n    // Skip general_referral_information\n    if (groupKey === 'general_referral_information') return;\n    \n    const serviceGroup = form[groupKey];\n    \n    // Add each service count to the allServices array\n    if (typeof serviceGroup === 'object' && serviceGroup !== null) {\n      Object.keys(serviceGroup).forEach(serviceKey => {\n        allServices.push({\n          service: serviceKey,\n          count: parseInt(serviceGroup[serviceKey]) || 0\n        });\n      });\n    }\n  });\n  \n  // Group services by type and sum counts\n  const serviceGroups = {};\n  \n  allServices.forEach(item => {\n    // Extract the service type (remove gender prefix and \"referred_for_\" part)\n    let serviceType = item.service\n      .replace(/^(males|females)_referred_for_/, '')\n      .replace(/^number_of_(male|female)_condoms_/, 'condoms_')\n      .replace(/-/g, '_');\n    \n    // Initialize the service type in the groups object if it doesn't exist\n    if (!serviceGroups[serviceType]) {\n      serviceGroups[serviceType] = 0;\n    }\n    \n    // Add the count to the service type total\n    serviceGroups[serviceType] += item.count;\n  });\n  \n  // Add the processed data to state\n  state.allServices = allServices;\n  state.serviceGroups = serviceGroups;\n  \n  // Keep the original form\n  state.form = form;\n  \n  return state;\n});\n\nfn(state => {\n  // Ensure we have the required data\n  if (!state.serviceGroups || !state.businessUnit || !state.accountId || !state.eventId) {\n    console.log('Missing required data for Service_Referral__c creation');\n    return state;\n  }\n\n  // Create an array to hold all the Service_Referral__c objects\n  const serviceReferrals = [];\n\n  // Loop through each service type in serviceGroups\n  Object.keys(state.serviceGroups).forEach(serviceType => {\n    const count = state.serviceGroups[serviceType];\n    \n    // Skip if count is 0\n    if (count === 0) return;\n    \n    // Create a Service_Referral__c object for this service type\n    const serviceReferral = {\n      // Relationship to GRS_Referral__r using the service type as external ID\n      GRS_Referral__r: {\n        CommCare_External_ID__c: serviceType\n      },\n      // Relationship to GRS_Event__c (ampi__Project__c)\n      GRS_Event__c: {\n      CommCare_External_ID__c: state.eventId\n      },\n      // Type is hardcoded to \"Aggregate\"\n      Type__c: \"Aggregate\",\n      // Date of Referral from the form\n      Date_of_Referral__c: state.form.general_referral_information.date_referred,\n      // Business Unit from the previously derived value\n      Business_Unit__r: {\n      CommCare_External_ID__c: state.form.general_referral_information.event_information.business_unit\n      },\n      // Count of referrals for this service: This is yet to be added by Vera\n      Count__c: count,\n      // CommCare External ID - using the form ID TODO: when seeing the real service data construct an external id\n      CommCare_External_ID__c: state.id ? `${state.id}_${serviceType}` : `${serviceType}_${state.form.general_referral_information.event_information.date_referred}`\n    };\n    \n    serviceReferrals.push(serviceReferral);\n  });\n  \n  // Add the service referrals to state for use in upsert operation\n  state.serviceReferrals = serviceReferrals;\n  \n  return state;\n});\n\n// Now upsert each Service_Referral__c\neach(\n  \"serviceReferrals[*]\",\n  upsert(\n    \"Service_Referral__c\",\n    \"CommCare_External_ID__c\",\n    fields(\n      field(\"GRS_Referral__r\", state => ({\n        CommCare_External_ID__c: state.data.GRS_Referral__r.CommCare_External_ID__c\n      })),\n      field(\"GRS_Event__r\", dataValue(\"GRS_Event__c\")),\n      field(\"Type__c\", dataValue(\"Type__c\")),\n      field(\"Date_of_Referral__c\", dataValue(\"Date_of_Referral__c\")),\n      field(\"Business_Unit__r\", dataValue(\"Business_Unit__r\")),\n      field(\"Count__c\", dataValue(\"Count__c\")),\n      field(\"CommCare_External_ID__c\", dataValue(\"CommCare_External_ID__c\"))\n    )\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Aggregate-Service-Referrals": {
+          "enabled": true,
+          "id": "b36d6cbf-ac03-4080-8270-bacc7b41f1dd",
+          "target_job_id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
+          "source_trigger_id": "3ce3eb52-5f61-4a90-802a-36d028149377",
+          "condition_type": "js_expression",
+          "condition_label": "Aggregate Service Referrals",
+          "condition_expression": "state.data.form[\"@name\"] == \"Aggregate Service Referrals\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
     }
-  },
-  "allow_support_access": true,
-  "requires_mfa": false
+  }
 }
