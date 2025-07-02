@@ -221,39 +221,6 @@
         }
       }
     },
-    "Upsert-Attendance-Skillz-Plus-Club": {
-      "id": "0949f64f-ead0-4591-8c9c-b929b9b79e78",
-      "name": "Upsert Attendance Skillz Plus Club",
-      "inserted_at": "2025-06-27T11:47:58.931241Z",
-      "lock_version": 53,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "43309656-d99d-46ab-877b-644d7746c51c",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Attendance-Skillz-Plus-Club": {
-          "id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
-          "name": "Upsert Attendance Skillz Plus Club",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n});\n\n\nquery(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = NULL ORDER BY CreatedDate ASC Limit 1`);\n\nfnIf(!$.data[0]?.CommCare_External_ID__c, query(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item.date} ORDER BY CreatedDate ASC Limit 1`));\n\n\nfn(state => {\n  state.sessionId = state.data[0]?.CommCare_External_ID__c\n  return state;\n})\n\nupsert('Event_Session__c', 'CommCare_External_ID__c', state => (\n  {\n    Session_Date__c: state.form.attendance_list.update_participant_cases.item.date,\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.sessionId\n  }\n))\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n    Contact__r: {\n      CommCare_External_ID__c: state.data['@id']\n    },\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']\n\n  }))\n);\n\neach('$.form.attendance_list.update_participant_cases.item[*]',\n  upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n    Attended__c: state.data.attendance_session.toString().toLowerCase() === 'yes' ? \"Attended\" : \"Not Attended\",\n    Event_Session__r: {\n      CommCare_External_ID__c: `${state.sessionId}`\n    },\n    Attendee__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`\n    },\n    CommCare_External_ID__c: state.sessionId + '_' + `${state.form.case['@case_id']}_${state.data['@id']}`\n\n  }))\n);\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Attendance-Skillz-Plus-Club": {
-          "enabled": true,
-          "id": "cc7019a6-0071-466d-8b23-e0de4ac54d83",
-          "target_job_id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
-          "source_trigger_id": "43309656-d99d-46ab-877b-644d7746c51c",
-          "condition_type": "js_expression",
-          "condition_label": "Attendance Skillz Plus Club",
-          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"skillz_attendance\"] == \"1\"\n"
-        }
-      }
-    },
     "Load-Commcare-Data": {
       "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
       "name": "Load Commcare Data",
@@ -315,39 +282,6 @@
           "condition_type": "js_expression",
           "condition_label": "Attendance Generic",
           "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
-    "Upsert-Register-Skills-plus-Club": {
-      "id": "e6597175-fad2-4227-b252-97d30d6bceb2",
-      "name": "Upsert Register Skills plus Club",
-      "inserted_at": "2025-06-30T10:09:09.498046Z",
-      "lock_version": 29,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "6eb0a639-abd9-4608-827b-4b5c9c906326",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Register-Skills-plus-Club": {
-          "id": "e3540280-5b82-44cf-8b30-86d37297e217",
-          "name": "Upsert Register Skills plus Club",
-          "body": "// push to production\nfunction clean(str) {\n  if (!!str)\n    return str\n      .split('_')\n      .map(word => {\n        let new_word = word.toString().toLowerCase();\n        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n      })\n      .join(' ');\n}\n\nfn((state) => {\n  state.coaches = state.data.form.coaches.split(' ');\n  state.form = state.data.form;\n  return state;\n});\n\n\n\nupsert(\n  'ampi__Project__c',\n  'CommCare_External_ID__c',\n  state => ({\n    Name: clean(state.data.form.name_of_skillz_plus_club),\n    CommCare_External_ID__c: state.data.form.case['@case_id'],\n    Venue__r: {\n      CommCare_External_ID__c:  state.data.form.skillz_plus_venue\n    },\n    RecordType: {\n      Name: \"Intervention Event\"\n    },\n    ampi__Project_Status__c: \"Ongoing\",\n  })\n);\n\neach('$.coaches[*]', upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case['@case_id']\n  },\n  CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data\n})))\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Register-Skills-plus-Club": {
-          "enabled": true,
-          "id": "9b67b2aa-ca3f-4c5e-8b50-55c8b227639d",
-          "target_job_id": "e3540280-5b82-44cf-8b30-86d37297e217",
-          "source_trigger_id": "6eb0a639-abd9-4608-827b-4b5c9c906326",
-          "condition_type": "js_expression",
-          "condition_label": "Register Skillz plus Club",
-          "condition_expression": "state.data.form[\"@name\"] == \"Register Skillz Plus Club\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
     },
@@ -480,6 +414,72 @@
           "condition_type": "js_expression",
           "condition_label": "Coach Support Visit Form",
           "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"hidden_properties\"].csv == \"1\"\n"
+        }
+      }
+    },
+    "Upsert-Register-Skills-plus-Club": {
+      "id": "e6597175-fad2-4227-b252-97d30d6bceb2",
+      "name": "Upsert Register Skills plus Club",
+      "inserted_at": "2025-07-02T08:51:56.805633Z",
+      "lock_version": 32,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "6eb0a639-abd9-4608-827b-4b5c9c906326",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Register-Skills-plus-Club": {
+          "id": "e3540280-5b82-44cf-8b30-86d37297e217",
+          "name": "Upsert Register Skills plus Club",
+          "body": "// push to production\nfunction clean(str) {\n  if (!!str)\n    return str\n      .split('_')\n      .map(word => {\n        let new_word = word.toString().toLowerCase();\n        return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n      })\n      .join(' ');\n}\n\nfn((state) => {\n  state.coaches = state.data.form.coaches.split(' ');\n  state.form = state.data.form;\n  return state;\n});\n\n\n\nupsert(\n  'ampi__Project__c',\n  'CommCare_External_ID__c',\n  state => ({\n    Name: clean(state.data.form.name_of_skillz_plus_club),\n    CommCare_External_ID__c: state.data.form.case['@case_id'],\n    Venue__r: {\n      CommCare_External_ID__c:  state.data.form.skillz_plus_venue\n    },\n    Curriculum__r: {\n      CommCare_External_ID__c: 36 // Hardcoding this id because skillz club runs all year round\n    }, \n    RecordType: {\n      Name: \"Intervention Event\"\n    },\n    ampi__Project_Status__c: \"Ongoing\",\n  })\n);\n\neach('$.coaches[*]', upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case['@case_id']\n  },\n  CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data\n})))\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Register-Skills-plus-Club": {
+          "enabled": true,
+          "id": "9b67b2aa-ca3f-4c5e-8b50-55c8b227639d",
+          "target_job_id": "e3540280-5b82-44cf-8b30-86d37297e217",
+          "source_trigger_id": "6eb0a639-abd9-4608-827b-4b5c9c906326",
+          "condition_type": "js_expression",
+          "condition_label": "Register Skillz plus Club",
+          "condition_expression": "state.data.form[\"@name\"] == \"Register Skillz Plus Club\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Upsert-Attendance-Skillz-Plus-Club": {
+      "id": "0949f64f-ead0-4591-8c9c-b929b9b79e78",
+      "name": "Upsert Attendance Skillz Plus Club",
+      "inserted_at": "2025-07-02T09:34:43.133494Z",
+      "lock_version": 60,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "43309656-d99d-46ab-877b-644d7746c51c",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Attendance-Skillz-Plus-Club": {
+          "id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
+          "name": "Upsert Attendance Skillz Plus Club",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n});\n\n\nquery(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = NULL ORDER BY CreatedDate ASC Limit 1`);\n\nfnIf(!$.data[0]?.CommCare_External_ID__c, query(\n  `SELECT CommCare_External_ID__c FROM Event_Session__c\n     WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item.date} ORDER BY CreatedDate ASC Limit 1`));\n\n\nfn(state => {\n  state.sessionId = state.data[0]?.CommCare_External_ID__c\n  return state;\n})\n\nupsert('Event_Session__c', 'CommCare_External_ID__c', state => (\n  {\n    Session_Date__c: state.form.attendance_list.update_participant_cases.item.date,\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.sessionId\n  }\n))\n\nfn(state => {\n  // Check if item is an array or a single object\n  const participants = Array.isArray(state.form.attendance_list.update_participant_cases.item) \n    ? state.form.attendance_list.update_participant_cases.item\n    : [state.form.attendance_list.update_participant_cases.item];\n  \n  state.participants = participants;\n  return state;\n});\n\n// Use the participants array in each\neach('$.participants[*]',\n  upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({\n    Contact__r: {\n      CommCare_External_ID__c: state.data['@id']\n    },\n    Event__r: {\n      CommCare_External_ID__c: state.form.case['@case_id']\n    },\n    CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']\n  }))\n);\n\n// Also update the Attendance upsert to use the participants array\neach('$.participants[*]',\n  upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n    Attended__c: state.data.attendance_session.toString().toLowerCase() === 'yes' ? \"Attended\" : \"Not Attended\",\n    Event_Session__r: {\n      CommCare_External_ID__c: `${state.sessionId}`\n    },\n    Attendee__r: {\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`\n    },\n    CommCare_External_ID__c: state.sessionId + '_' + `${state.form.case['@case_id']}_${state.data['@id']}`\n  }))\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Attendance-Skillz-Plus-Club": {
+          "enabled": true,
+          "id": "cc7019a6-0071-466d-8b23-e0de4ac54d83",
+          "target_job_id": "52e8ad37-7a15-42ef-83e4-0d45d54e32d8",
+          "source_trigger_id": "43309656-d99d-46ab-877b-644d7746c51c",
+          "condition_type": "js_expression",
+          "condition_label": "Attendance Skillz Plus Club",
+          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"skillz_attendance\"] == \"1\"\n"
         }
       }
     }

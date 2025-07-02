@@ -569,7 +569,18 @@ workflows:
             }
           ))
 
-          each('$.form.attendance_list.update_participant_cases.item[*]',
+          fn(state => {
+            // Check if item is an array or a single object
+            const participants = Array.isArray(state.form.attendance_list.update_participant_cases.item) 
+              ? state.form.attendance_list.update_participant_cases.item
+              : [state.form.attendance_list.update_participant_cases.item];
+            
+            state.participants = participants;
+            return state;
+          });
+
+          // Use the participants array in each
+          each('$.participants[*]',
             upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({
               Contact__r: {
                 CommCare_External_ID__c: state.data['@id']
@@ -578,11 +589,11 @@ workflows:
                 CommCare_External_ID__c: state.form.case['@case_id']
               },
               CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data['@id']
-
             }))
           );
 
-          each('$.form.attendance_list.update_participant_cases.item[*]',
+          // Also update the Attendance upsert to use the participants array
+          each('$.participants[*]',
             upsert('Attendance__c', 'CommCare_External_ID__c', state => ({
               Attended__c: state.data.attendance_session.toString().toLowerCase() === 'yes' ? "Attended" : "Not Attended",
               Event_Session__r: {
@@ -592,7 +603,6 @@ workflows:
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data['@id']}`
               },
               CommCare_External_ID__c: state.sessionId + '_' + `${state.form.case['@case_id']}_${state.data['@id']}`
-
             }))
           );
 
@@ -1613,6 +1623,9 @@ workflows:
               Venue__r: {
                 CommCare_External_ID__c:  state.data.form.skillz_plus_venue
               },
+              Curriculum__r: {
+                CommCare_External_ID__c: 36 // Hardcoding this id because skillz club runs all year round
+              }, 
               RecordType: {
                 Name: "Intervention Event"
               },
