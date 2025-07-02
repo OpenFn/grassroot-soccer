@@ -9,192 +9,6 @@ credentials:
     name: 'SalesForce Sandbox Integration Oauth '
     owner: hunter@openfn.org
 workflows:
-  "?-Upsert-Aggregate-Service-Referrals":
-    name: '? Upsert Aggregate Service Referrals'
-    jobs:
-      Upsert-Aggregate-Service-Referrals:
-        name: Upsert Aggregate Service Referrals
-        adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
-        body: |
-          fn(state => {
-            state.form = state.data.form;
-            state.id = state.data.id;
-            let businessUnit;
-            switch (state.form.general_referral_information.event_information.business_unit) {
-              case '04d98397e28046118fade28ced6b65cb':
-                businessUnit = 'GRS Zimbabwe';
-                break;
-              case 'ed125ab19ec34aacab79585e59eb76f4':
-                businessUnit = 'GRS Partnerships';
-                break;
-              case '65680f0c4c144b03ad0f86bdc46c1ebc':
-                businessUnit = 'GRS Zambia';
-                break;
-              default:
-                businessUnit = undefined;
-            }
-            state.businessUnit = businessUnit;
-            return state
-          });
-          query( state =>
-            `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`
-          ).then (state => {
-            state.accountId = state.data[0].Id
-            return state;
-          });
-
-          // Query event using event name 
-            query(state => `
-            SELECT Id, Name, CommCare_External_ID__c
-            FROM ampi__Project__c 
-            WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {
-              state.eventId = state.data[0]?.CommCare_External_ID__c;
-            if (!state.eventId) {
-              console.log(
-                `Event not found for Intervention Name: 
-                ${state.form.general_referral_information.event_information.event_name}`
-              );
-            }
-            return state;
-            });
-          fn(state => {
-            // Get the form data
-            const form = state.form;
-            
-            // Create an array of all service counts (excluding general_referral_information)
-            let allServices = [];
-            
-            // Loop through each service group in the form
-            Object.keys(form).forEach(groupKey => {
-              // Skip general_referral_information
-              if (groupKey === 'general_referral_information') return;
-              
-              const serviceGroup = form[groupKey];
-              
-              // Add each service count to the allServices array
-              if (typeof serviceGroup === 'object' && serviceGroup !== null) {
-                Object.keys(serviceGroup).forEach(serviceKey => {
-                  allServices.push({
-                    service: serviceKey,
-                    count: parseInt(serviceGroup[serviceKey]) || 0
-                  });
-                });
-              }
-            });
-            
-            // Group services by type and sum counts
-            const serviceGroups = {};
-            
-            allServices.forEach(item => {
-              // Extract the service type (remove gender prefix and "referred_for_" part)
-              let serviceType = item.service
-                .replace(/^(males|females)_referred_for_/, '')
-                .replace(/^number_of_(male|female)_condoms_/, 'condoms_')
-                .replace(/-/g, '_');
-              
-              // Initialize the service type in the groups object if it doesn't exist
-              if (!serviceGroups[serviceType]) {
-                serviceGroups[serviceType] = 0;
-              }
-              
-              // Add the count to the service type total
-              serviceGroups[serviceType] += item.count;
-            });
-            
-            // Add the processed data to state
-            state.allServices = allServices;
-            state.serviceGroups = serviceGroups;
-            
-            // Keep the original form
-            state.form = form;
-            
-            return state;
-          });
-
-          fn(state => {
-            // Ensure we have the required data
-            if (!state.serviceGroups || !state.businessUnit || !state.accountId || !state.eventId) {
-              console.log('Missing required data for Service_Referral__c creation');
-              return state;
-            }
-
-            // Create an array to hold all the Service_Referral__c objects
-            const serviceReferrals = [];
-
-            // Loop through each service type in serviceGroups
-            Object.keys(state.serviceGroups).forEach(serviceType => {
-              const count = state.serviceGroups[serviceType];
-              
-              // Skip if count is 0
-              if (count === 0) return;
-              
-              // Create a Service_Referral__c object for this service type
-              const serviceReferral = {
-                // Relationship to GRS_Referral__r using the service type as external ID
-                GRS_Referral__r: {
-                  CommCare_External_ID__c: serviceType
-                },
-                // Relationship to GRS_Event__c (ampi__Project__c)
-                GRS_Event__c: {
-                CommCare_External_ID__c: state.eventId
-                },
-                // Type is hardcoded to "Aggregate"
-                Type__c: "Aggregate",
-                // Date of Referral from the form
-                Date_of_Referral__c: state.form.general_referral_information.date_referred,
-                // Business Unit from the previously derived value
-                Business_Unit__r: {
-                CommCare_External_ID__c: state.form.general_referral_information.event_information.business_unit
-                },
-                // Count of referrals for this service: This is yet to be added by Vera
-                Count__c: count,
-                // CommCare External ID - using the form ID TODO: when seeing the real service data construct an external id
-                CommCare_External_ID__c: state.id ? `${state.id}_${serviceType}` : `${serviceType}_${state.form.general_referral_information.event_information.date_referred}`
-              };
-              
-              serviceReferrals.push(serviceReferral);
-            });
-            
-            // Add the service referrals to state for use in upsert operation
-            state.serviceReferrals = serviceReferrals;
-            
-            return state;
-          });
-
-          // Now upsert each Service_Referral__c
-          each(
-            "serviceReferrals[*]",
-            upsert(
-              "Service_Referral__c",
-              "CommCare_External_ID__c",
-              fields(
-                field("GRS_Referral__r", state => ({
-                  CommCare_External_ID__c: state.data.GRS_Referral__r.CommCare_External_ID__c
-                })),
-                field("GRS_Event__r", dataValue("GRS_Event__c")),
-                field("Type__c", dataValue("Type__c")),
-                field("Date_of_Referral__c", dataValue("Date_of_Referral__c")),
-                field("Business_Unit__r", dataValue("Business_Unit__r")),
-                field("Count__c", dataValue("Count__c")),
-                field("CommCare_External_ID__c", dataValue("CommCare_External_ID__c"))
-              )
-            )
-          );
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: true
-    edges:
-      webhook->Upsert-Aggregate-Service-Referrals:
-        source_trigger: webhook
-        target_job: Upsert-Aggregate-Service-Referrals
-        condition_type: js_expression
-        condition_label: Aggregate Service Referrals
-        condition_expression: |
-          state.data.form["@name"] == "Aggregate Service Referrals" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-        enabled: true
   Attendance-Non-Skillz:
     name: Attendance Non Skillz
     jobs:
@@ -507,7 +321,6 @@ workflows:
         condition_label: Create Intervention
         condition_expression: |
           state.data.form["@name"] == "Create Intervention" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
-
         enabled: true
   Load-Commcare-Data:
     name: Load Commcare Data
@@ -521,8 +334,9 @@ workflows:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           //get('https://docs.openfn.org/documentation');
 
-          get("/form/b5f58b44-d135-4c83-9287-cd3c47bae075")
+          get("/form/8ae81b97-4382-4f62-977e-966d42e79c60")
 
+          //get("")
     triggers:
       webhook:
         type: webhook
@@ -532,6 +346,190 @@ workflows:
         source_trigger: webhook
         target_job: Get-data
         condition_type: always
+        enabled: true
+  Upsert-Aggregate-Service-Referrals:
+    name: Upsert Aggregate Service Referrals
+    jobs:
+      Upsert-Aggregate-Service-Referrals:
+        name: Upsert Aggregate Service Referrals
+        adaptor: '@openfn/language-salesforce@7.0.0'
+        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        body: |
+          fn(state => {
+            state.form = state.data.form;
+            state.id = state.data.id;
+            let businessUnit;
+            switch (state.form.general_referral_information.event_information.business_unit) {
+              case '04d98397e28046118fade28ced6b65cb':
+                businessUnit = 'GRS Zimbabwe';
+                break;
+              case 'ed125ab19ec34aacab79585e59eb76f4':
+                businessUnit = 'GRS Partnerships';
+                break;
+              case '65680f0c4c144b03ad0f86bdc46c1ebc':
+                businessUnit = 'GRS Zambia';
+                break;
+              default:
+                businessUnit = undefined;
+            }
+            state.businessUnit = businessUnit;
+            return state
+          });
+          query( state =>
+            `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`
+          ).then (state => {
+            state.accountId = state.data[0].Id
+            return state;
+          });
+
+          // Query event using event name 
+            query(state => `
+            SELECT Id, Name, CommCare_External_ID__c
+            FROM ampi__Project__c 
+            WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {
+              state.eventId = state.data[0]?.CommCare_External_ID__c;
+            if (!state.eventId) {
+              console.log(
+                `Event not found for Intervention Name: 
+                ${state.form.general_referral_information.event_information.event_name}`
+              );
+            }
+            return state;
+            });
+          fn(state => {
+            // Get the form data
+            const form = state.form;
+            
+            // Create an array of all service counts (excluding general_referral_information)
+            let allServices = [];
+            
+            // Loop through each service group in the form
+            Object.keys(form).forEach(groupKey => {
+              // Skip general_referral_information
+              if (groupKey === 'general_referral_information') return;
+              
+              const serviceGroup = form[groupKey];
+              
+              // Add each service count to the allServices array
+              if (typeof serviceGroup === 'object' && serviceGroup !== null) {
+                Object.keys(serviceGroup).forEach(serviceKey => {
+                  allServices.push({
+                    service: serviceKey,
+                    count: parseInt(serviceGroup[serviceKey]) || 0
+                  });
+                });
+              }
+            });
+            
+            // Group services by type and sum counts
+            const serviceGroups = {};
+            
+            allServices.forEach(item => {
+              // Extract the service type (remove gender prefix and "referred_for_" part)
+              let serviceType = item.service
+                .replace(/^(males|females)_referred_for_/, '')
+                .replace(/^number_of_(male|female)_condoms_/, 'condoms_')
+                .replace(/-/g, '_');
+              
+              // Initialize the service type in the groups object if it doesn't exist
+              if (!serviceGroups[serviceType]) {
+                serviceGroups[serviceType] = 0;
+              }
+              
+              // Add the count to the service type total
+              serviceGroups[serviceType] += item.count;
+            });
+            
+            // Add the processed data to state
+            state.allServices = allServices;
+            state.serviceGroups = serviceGroups;
+            
+            // Keep the original form
+            state.form = form;
+            
+            return state;
+          });
+
+          fn(state => {
+            // Ensure we have the required data
+            if (!state.serviceGroups || !state.businessUnit || !state.accountId || !state.eventId) {
+              console.log('Missing required data for Service_Referral__c creation');
+              return state;
+            }
+
+            // Create an array to hold all the Service_Referral__c objects
+            const serviceReferrals = [];
+
+            // Loop through each service type in serviceGroups
+            Object.keys(state.serviceGroups).forEach(serviceType => {
+              const count = state.serviceGroups[serviceType];
+              
+              // Skip if count is 0
+              if (count === 0) return;
+              
+              // Create a Service_Referral__c object for this service type
+              const serviceReferral = {
+                // Relationship to GRS_Referral__r using the service type as external ID
+                GRS_Referral__r: {
+                  CommCare_External_ID__c: serviceType
+                },
+                // Relationship to GRS_Event__c (ampi__Project__c)
+                GRS_Event__c: {
+                CommCare_External_ID__c: state.eventId
+                },
+                // Type is hardcoded to "Aggregate"
+                Type__c: "Aggregated",
+                // Date of Referral from the form
+                Date_of_Referral__c: state.form.general_referral_information.date_referred,
+                // Business Unit from the previously derived value
+                Business_Unit__r: {
+                CommCare_External_ID__c: state.form.general_referral_information.event_information.business_unit
+                },
+                Number_of_Referrals__c: count,
+                CommCare_External_ID__c: `${serviceType}_${state.form.general_referral_information.event_information.date_referred}`
+              };
+              
+              serviceReferrals.push(serviceReferral);
+            });
+            
+            // Add the service referrals to state for use in upsert operation
+            state.serviceReferrals = serviceReferrals;
+            
+            return state;
+          });
+
+          // Now upsert each Service_Referral__c
+          each(
+            "serviceReferrals[*]",
+            upsert(
+              "Referral_Service__c",
+              "CommCare_External_ID__c",
+              fields(
+                field("GRS_Referral__r", state => ({
+                  CommCare_External_ID__c: state.data.GRS_Referral__r.CommCare_External_ID__c
+                })),
+                field("GRS_Event__r", dataValue("GRS_Event__c")),
+                field("Type__c", dataValue("Type__c")),
+                field("Date_of_Referral__c", dataValue("Date_of_Referral__c")),
+                field("Business_Unit__r", dataValue("Business_Unit__r")),
+                field("Number_of_Referrals__c", dataValue("Number_of_Referrals__c")),
+                field("CommCare_External_ID__c", dataValue("CommCare_External_ID__c"))
+              )
+            )
+          );
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Upsert-Aggregate-Service-Referrals:
+        source_trigger: webhook
+        target_job: Upsert-Aggregate-Service-Referrals
+        condition_type: js_expression
+        condition_label: Aggregate Service Referrals
+        condition_expression: |
+          state.data.form["@name"] == "Aggregate Service Referrals" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
         enabled: true
   Upsert-Attendance-Skillz-Plus-Club:
     name: Upsert Attendance Skillz Plus Club
@@ -553,7 +551,7 @@ workflows:
 
           fnIf(!$.data[0]?.CommCare_External_ID__c, query(
             `SELECT CommCare_External_ID__c FROM Event_Session__c
-               WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item[0].date} ORDER BY CreatedDate ASC Limit 1`));
+               WHERE Event__r.CommCare_External_ID__c = '${state.data.form.case['@case_id']}' AND Session_Date__c = ${state.data.form.attendance_list.update_participant_cases.item.date} ORDER BY CreatedDate ASC Limit 1`));
 
 
           fn(state => {
@@ -563,7 +561,7 @@ workflows:
 
           upsert('Event_Session__c', 'CommCare_External_ID__c', state => (
             {
-              Session_Date__c: state.form.attendance_list.update_participant_cases.item[0].date,
+              Session_Date__c: state.form.attendance_list.update_participant_cases.item.date,
               Event__r: {
                 CommCare_External_ID__c: state.form.case['@case_id']
               },
@@ -620,8 +618,156 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
-          //openfn.org source
-          function transform(value) {
+          function clean(str) {
+            if (!str) return '';
+
+            return str
+              .split('_')
+              .map(word => {
+                let new_word = word.toString().toLowerCase();
+                return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
+              })
+              .join(' ');
+          };
+
+          fn(state => {
+            state.form = state.data.form;
+            state.commcareId = state.data.id
+            return state;
+          });
+
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}'`
+          )(state);
+          });
+
+          fn(state => {
+          state.eventExternalId = state.data[0]['CommCare_External_ID__c'];
+
+          if (!state.eventExternalId) {
+              console.log(
+                `Event not found for Intervention Name: 
+                ${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}`
+              );
+            }
+            state.skippingUpsert = state.skippingUpsert || !state.eventExternalId;
+            if (state.skippingUpsert) {
+              return state;
+            }
+
+          return upsert('Visit__c', 'Commcare_External_ID__c',
+            state => ({
+              Coach__r: {
+                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach
+              },
+              Intervention__r: {
+                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c']
+              },
+              CSV_Date__c: state.form.step_2_practice_information.date_of_csv,
+
+              RecordType: {
+                Name:'Coach Support Visit'
+              },
+              Commcare_External_ID__c: state.commcareId,
+            })
+          )(state)});
+
+          fn(state => {
+            if (!state.data.success) {
+              return state;
+            }
+
+            state.visitId = state.data.id
+
+            return query(`SELECT Id, Name, ampi__Description__c
+            FROM ampi__Submission__c 
+            WHERE Active__c = true 
+            AND Type__c = 'Coach Support Visit'
+            AND RecordType.Name = 'Template'
+            LIMIT 1`)(state);
+          })
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const submissionTemplate = state.data? state.data[0] : undefined
+            state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
+            
+            if (!submissionTemplate){
+              console.log(
+                `Submission Template not found for Coach Support Visit template`
+              );
+              return state;
+            }
+
+            return upsert(
+              'ampi__Submission__c', 
+              'CommCare_External_ID__c', state => 
+              ({
+                Type__c: 'Coach Support Visit',
+                ampi__Parent_Submission__c: state.data[0].Id,
+                Event_Participation__r: { 
+                  CommCare_External_ID__c: state.eventExternalId +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach 
+                },
+                GRS_Event__r: { 
+                  CommCare_External_ID__c: state.eventExternalId
+                },
+                RecordType: {Name: "Submission"},
+                CommCare_External_ID__c: `${state.eventExternalId}_${state.commcareId}_coach_support_visit_submission`,
+                Visit__c: state.visitId
+              })
+            )(state)});
+
+          fnIf((state) => !state.skippingUpsert, query(state => 
+            `SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c
+            FROM ampi__Question__c 
+            WHERE ampi__Submission__c = '${state.data.id}'`
+            ));
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            // First, find the form element that starts with pre_challenge pattern
+            console.log('questionsfetched', state.data);
+            const formKeys = Object.keys(state.form).filter(key =>
+              key.startsWith('step_3_') || key.startsWith('step_4_') || key.startsWith('additional_notes')
+            );
+
+            if (formKeys.length === 0) {
+              console.log('No coach support visit keys found in form data');
+              return state;
+            }
+
+            // Extract the question-answer pairs from the first matching key
+            const questionAnswers = formKeys.reduce((acc, key) => {
+            const formSection = state.form[key];
+            
+            // If this is an object, merge its properties
+            if (typeof formSection === 'object') {
+              // Check for any nested objects and merge them too
+              Object.keys(formSection).forEach(nestedKey => {
+                if (typeof formSection[nestedKey] === 'object' && formSection[nestedKey] !== null) {
+                  Object.assign(acc, formSection[nestedKey]);
+                }
+              });
+              
+              // Merge all direct properties
+              Object.assign(acc, formSection);
+            }
+            
+            return acc;
+          }, {});
+
+          console.log("questionAnswers", questionAnswers);
+
+            // Function to transform CommCare responses to Salesforce format
+            function transformResponse(value) {
             if (!value) return;
             switch (value.toString().trim()) {
               case 'copy-1-of-excellent':
@@ -641,185 +787,66 @@ workflows:
             }
           };
 
-          function clean(str) {
-            if (!str) return '';
+            // For each question in our data array, find matching answer and update
+            const updates = state.data.map(question => {
+              // Extract the question ID part to match with CommCare keys
+              const questionName = question.CommCare_Property_Name__c
 
-            return str
-              .split('_')
-              .map(word => {
-                let new_word = word.toString().toLowerCase();
-                return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);
-              })
-              .join(' ');
-          };
+              // Look for matching keys in questionAnswers
+              // Try direct match or substring match
+              let matchingKey = null;
+              let answer = null;
 
-          fn(state => {
+              // Try direct match
+              if (questionName && questionAnswers[questionName]) {
+                matchingKey = questionName;
+                answer = questionAnswers[questionName];
+              }
 
-
-            if (state.data.form['step_3_-_the_big_5'] !== undefined) {
-              state.data.form['step_3_-_the_big_5'].faciliation = clean(state.data.form['step_3_-_the_big_5'].faciliation);
+              if (matchingKey) {
+            // Create a base object with the ID
+            const responseObj = {
+              Id: question.Id,
+              ampi__Date_Response__c: state.form.hidden_properties.date
+            };
+            
+            // Set the appropriate response field based on response type
+            switch (question.ampi__Response_Type__c) {
+              case 'Picklist':
+                responseObj.ampi__Picklist_Response__c = transformResponse(answer);
+                break;
+              case 'Qualitative':
+                responseObj.ampi__Text_Response__c = answer;
+                break;
+              case 'Multi-select Picklist':
+                responseObj.ampi__Multi_Select_Picklist_Response__c = answer;
+                break;
+              default:
+                console.log(`Unknown response type: ${question.ampi__Response_Type__c} for question: ${question.ampi__Description__c}`);
+                // Set a default field if needed
+                responseObj.ampi__Text_Response__c = answer;
             }
-            else {
-              state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation =
-                clean(state.data.form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation);
+            
+            return responseObj;
+          }
+
+              // No match found
+              console.log(`No match found for question: ${question.ampi__Description__c}`);
+              return null;
+            }).filter(update => update !== null);
+
+            console.log(`Found ${updates.length} questions to update`);
+
+            // If we have updates, perform them
+            if (updates.length > 0) {
+              return update(
+                'ampi__Question__c',
+                updates
+              )(state);
             }
 
-
-
-            state.data.form['step_3_-_the_big_5'].builds_personal_connections =
-              transform(state.data.form['step_3_-_the_big_5'].builds_personal_connections)
-
-            state.data.form['step_3_-_the_big_5'].cool_down =
-              transform(state.data.form['step_3_-_the_big_5'].cool_down)
-
-            state.data.form['step_3_-_the_big_5'].creates_safe_space =
-              transform(state.data.form['step_3_-_the_big_5'].creates_safe_space)
-
-            state.data.form['step_3_-_the_big_5'].faciliation =
-              transform(state.data.form['step_3_-_the_big_5'].faciliation)
-
-            state.data.form['step_3_-_the_big_5'].gives_praise =
-              transform(state.data.form['step_3_-_the_big_5'].gives_praise)
-
-            state.data.form['step_3_-_the_big_5'].praise =
-              transform(state.data.form['step_3_-_the_big_5'].praise)
-
-            state.data.form['step_3_-_the_big_5'].preparation =
-              transform(state.data.form['step_3_-_the_big_5'].preparation)
-
-            state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri =
-              transform(state.data.form['step_3_-_the_big_5'].shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri)
-
-            state.data.form['step_3_-_the_big_5'].sparks_vital_conversations =
-              transform(state.data.form['step_3_-_the_big_5'].sparks_vital_conversations)
-
-            state.data.form['step_3_-_the_big_5'].time_management =
-              transform(state.data.form['step_3_-_the_big_5'].time_management)
-
-            state.data.form['step_3_-_the_big_5'].warm_up =
-              transform(state.data.form['step_3_-_the_big_5'].warm_up)
-            state.form = state.data.form;
-            state.commcareId = state.data.id
             return state;
           });
-
-          query(
-            state => `SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}'`
-          )
-
-          upsert('Visit__c', 'Commcare_External_ID__c',
-            state => ({
-              Coach__r: {
-                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach
-              },
-              Intervention__r: {
-                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c']
-              },
-              CSV_Date__c: state.form.step_2_practice_information.date_of_csv,
-
-              RecordType: {
-                Name:'Coach Support Visit'
-              },
-              Commcare_External_ID__c: state.commcareId,
-            })
-          )
-
-          // upsert(
-          //   'Coach_Support_Visit__c',
-          //   'CommCare_Ext_ID__c',
-          //   fields(
-          //     field('CommCare_Ext_ID__c', dataValue('id')),
-          //     relationship('Coach_Person__r', 'CommCare_Ext_ID__c', state => {
-          //       return dataValue('form.step_1_basic_information.select_coach')(state) ||
-          //         dataValue('form.step_1_csv_information.select_coach')(state);
-          //     }),
-          //     relationship('Venue__r', 'CommCare_Ext_ID__c', state => {
-          //       return dataValue('form.hidden_properties.venue')(state) ||
-          //         dataValue('form.step_1_csv_information.venue')(state);
-          //     }),
-          //     relationship('Event__r', 'CommCare_Ext_ID__c', state => {
-          //       return dataValue('form.hidden_properties.intervention')(state) ||
-          //         dataValue('form.step_1_csv_information.intervention')(state);
-          //     }),
-          //     relationship('Curriculum_Aggregate__r', 'CommCare_Ext_ID__c', state => {
-          //       return dataValue('form.hidden_properties.curriculum')(state) ||
-          //         dataValue('form.step_1_csv_information.curriculum')(state);
-          //     }),
-          //     relationship('Site_Lookup__r', 'CommCare_Ext_ID__c', state => {
-          //       return dataValue('form.hidden_properties.site')(state) ||
-          //         dataValue('form.step_1_csv_information.site')(state);
-          //     }),
-          //     field('Date__c', dataValue('form.step_2_practice_information.date_of_csv')),
-          //     //== TODO: FIx repeated mappings to only reference destination field 1 time ===//
-          //     field(
-          //       'Accurate_Information__c', state => {
-          //         return dataValue('form.step_3_-_the_big_5.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri')(state) ||
-          //           dataValue(
-          //             'form.step_3_the_big_five.question1.shares_accurate_information_about_hivaids_sexual_reproductive_health_and_ri'
-          //           )(state);
-          //       }),
-          //     field('Creates_safe_space__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.creates_safe_space')(state) ||
-          //         dataValue('form.step_3_the_big_five.question1.creates_safe_space')(state);
-
-          //     }),
-          //     field('Builds_personal_connections__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.builds_personal_connections')(state) ||
-          //         dataValue('form.step_3_the_big_five.question1.builds_personal_connections')(state);
-          //     }),
-          //     field('Gives_praise__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.gives_praise')(state) ||
-          //         dataValue('form.step_3_the_big_five.question1.gives_powerful_praise')(state);
-          //     }),
-          //     field('Sparks_vital_conversations__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.sparks_vital_conversations')(state) ||
-          //         dataValue('form.step_3_the_big_five.question1.sparks_vital_conversations')(state);
-          //     }),
-          //     field('X2_Warm_Up__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.warm_up')(state) ||
-          //         dataValue(
-          //           'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.warm_up'
-          //         )(state);
-          //     }),
-          //     field('X3_Activity__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.activity')(state) || dataValue(
-          //         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.activity'
-          //       )(state);
-          //     }),
-          //     field('X4_Cool_Down__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.cool_down')(state) || dataValue(
-          //         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.cool_down'
-          //       )(state);
-          //     }),
-          //     field('X5_Facilitation__c', state => {
-          //       return dataValue('form.step_3_-_the_big_5.faciliation')(state) ||
-          //         dataValue(
-          //           'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.faciliation'
-          //         )(state);
-          //     }),
-          //     field(
-          //       'X6_Time_Management__c',
-          //       dataValue('form.step_3_-_the_big_5.time_management')
-          //     ),
-          //     field(
-          //       'X1_Preparation__c',
-          //       dataValue('form.step_3_-_the_big_5.preparation')
-          //     ),
-          //     field('Introduces_micromove__c', state => {
-          //       return //dataValue('form.step_3_-_the_big_5.faciliation')(state) || 
-          //       dataValue(
-          //         'form.step_4_comments.for_each_practice_component_describe_what_the_coach_did_well_and_how_the_co.micromove'
-          //       )(state);
-          //     }),
-          //     field(
-          //       'Notes__c',
-          //       dataValue(
-          //         'form.step_3_-_the_big_5.additional_notes.include_your_obsevations_related_to_preparation_punctuality_process'
-          //       )
-          //     )
-          //   )
-          // );
-
     triggers:
       webhook:
         type: webhook
@@ -851,28 +878,43 @@ workflows:
           });
 
           query(state => 
-                  `SELECT CommCare_External_ID__c
+                  `SELECT CommCare_External_ID__c, Id
                   FROM ampi__Project__c
                   WHERE Name = '${state.form.basic_information.intervention_hidden}'`
                 ).then(state => {
                   state.eventCommcareExternalId = state.data[0].CommCare_External_ID__c;
-                  return state;
-                });
-
-          query(state => 
-                  `SELECT Id, Event_Session__c, CreatedDate, Attendee__c, Attendee__r.Contact__r.Participant_Identification_Number_PID__c, Attendee__r.Event__c
-                  FROM Attendance__c
-                  WHERE Attendee__r.Contact__r.Participant_Identification_Number_PID__c = '${state.form.case['@case_id']}'
-                  ORDER BY CreatedDate DESC limit 1`
-                ).then(state => {
-                  console.log(state.data)
-                 // const { records } = state.data[0];
-                  const eventId = state.data[0].Attendee__r.Event__c;
-                  state.data.eventField = [field('Event__c', eventId)];
-                  state.data.eventId = eventId
+                  state.eventId = state.data[0].Id
                   state.data.form = state.form;
+
                   return state;
                 });
+          //upserting the participant if it doesn't exist
+          upsert('Event_Participation__c', "CommCare_External_ID__c", state => ({
+            CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.form.case['@case_id'],
+            contact__r: { 
+              CommCare_External_ID__c: state.form.case['@case_id'] 
+            },
+            Event__r: {
+              CommCare_External_ID__c: state.eventCommcareExternalId
+            },
+            RecordType: {
+              Name: "Participant"
+            }
+          }));
+
+          //upserting the coach if it doesn't exist
+          upsert('Event_Participation__c', "CommCare_External_ID__c", state => ({
+            CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.form.basic_information.coach_id,
+            contact__r: { 
+              CommCare_External_ID__c: state.form.basic_information.coach_id
+            },
+            Event__r: {
+              CommCare_External_ID__c: state.eventCommcareExternalId
+            },  
+            RecordType: {
+              Name: "Coach"
+            }
+          }));
           fn(state => {
             // const PID = lastReferenceValue('records[1].Participant_Identification_Number_PID__c')(state);
             // if (!PID) {
@@ -881,6 +923,17 @@ workflows:
             //   );
             //   return state;
             // } // @hunter this should throw an error, not just return state
+            state.data.form = state.form;
+            const reasonMapping = {
+              'hiv_test_consent': 'HIV Test Consent',
+              'inform_guardians_about_home_visit': 'HIV Test Results',
+              'hiv_counselling': 'HIV Counselling',
+              'referral_follow_up': 'Referral Follow-up',
+              'inform_guardian_about_skillz': 'Other',
+              'skillz_health_consent': 'Other',
+              'inform_guardian_about_index_testing': 'Other',
+              'other_srhr_service': 'Other'
+            };
              state.mapping = {
                 CommCare_External_ID__c: state.id,
                 Parent_mobile_number__c: state.data.form.basic_information.Mobile_number,
@@ -889,7 +942,7 @@ workflows:
                 Description__c: state.data.form.administrative.visit_notes,
                 Parent_consent__c: state.data.form.basic_information.consent_received === 'yes'?true:false,
 
-                Reason_for_Home_Visit__c: state.data.form.participant_infomation.reason_for_home_visit,
+                Reason_for_Home_Visit__c: reasonMapping[state.data.form.participant_infomation.reason_for_home_visit] || 'Other', 
                 Event_Participation__r: { 
                   CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.case['@case_id']
                 },
@@ -929,18 +982,20 @@ workflows:
     jobs:
       Upsert-Intervention-Notes:
         name: Upsert Intervention Notes
-        adaptor: '@openfn/language-salesforce@2.7.4'
-        credential: null
+        adaptor: '@openfn/language-salesforce@7.0.0'
+        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
         body: |
           //openfn.org source 
           upsert(
             'ampi__Project__c',
             'CommCare_External_ID__c',
-            fields(
-              field('CommCare_External_ID__c', dataValue('form.case.@case_id')),
-              field('Notes__c', dataValue('form.intervention_notes_to_save')),
-              relationship('RecordType', 'Name', 'Intervention Event')
-            )
+            state => ({
+              CommCare_External_ID__c: state.data.form.case["@case_id"],
+              Comments__c: state.data.form.intervention_notes_to_save,
+              'RecordType': {
+                "Name": 'Intervention Event'
+              }
+            })
           );
 
     triggers:
@@ -1406,7 +1461,7 @@ workflows:
             return state
           })
           query( state =>
-            `SELECT Id FROM Account WHERE Name = '${state.form.question1[0].case.update.business_unit_name}'`
+            `SELECT Id FROM Account WHERE Name = '${state.form.question1.case.update.business_unit_name}'`
           );
 
           fn(state => {
@@ -1555,10 +1610,13 @@ workflows:
             state => ({
               Name: clean(state.data.form.name_of_skillz_plus_club),
               CommCare_External_ID__c: state.data.form.case['@case_id'],
-              // Venue__c: {
-              //   CommCare_External_ID__c:  state.data.form.case['@case_id']
-              // },
-
+              Venue__r: {
+                CommCare_External_ID__c:  state.data.form.skillz_plus_venue
+              },
+              RecordType: {
+                Name: "Intervention Event"
+              },
+              ampi__Project_Status__c: "Ongoing",
             })
           );
 
