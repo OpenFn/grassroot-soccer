@@ -20,8 +20,7 @@ workflows:
           
           fn(state => {
             if (!state.data.form.attendance_list.update_participant_cases.item) {
-              console.log('No participant attendance data was provided, not upserting to Salesforce.');
-              return state;
+              throw Error('No participant attendance data was provided, not upserting to Salesforce.');
             } else {
 
               return execute(
@@ -37,18 +36,45 @@ workflows:
                     // [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items
 
                   );
+                  state.form = state.data.form;
 
                   return state;
                 }),
+          each( 
+            merge(
+              dataPath('form.attendance_list.update_participant_cases.item[*]'),
+              fields(
+                      field('caseid', dataValue('form.case.@case_id'))
+                    )
+                  ),
+                upsert(
+              'Event_Participation__c',
+              'CommCare_External_ID__c',
+              state => ({
+                CommCare_External_ID__c: `${state.data.caseid}_${state.data['@id']}`,
+                Contact__r: 
+                {
+                  CommCare_External_ID__c: state.data['@id']
+                },
+                Event__r: {
+                  CommCare_External_ID__c: state.data.caseid
+                },
 
-                each(
+              })
+            )
+              ),
+              fn(state => {
+                state.data.form = state.form;
+                return state;
+              }),
+             each(
                   merge(
                     dataPath('form.attendance_list.update_participant_cases.item[*]'),
                     fields(
                       field('intervention_name', dataValue('form.intervention_name')),
                       field('caseid', dataValue('form.case.@case_id')), //this is event id
                       field('event_session_id', state => {
-                        return state.data.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
+                        return state.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
                       })
                     )
                   ),
@@ -63,7 +89,7 @@ workflows:
                     'Attended__c': state.data.attendance_session.toString().toLowerCase() === 'yes' ? "Attended" : "Not Attended"
 
                   }))
-                )
+                ) 
               )(state);
             }
           });
@@ -389,10 +415,12 @@ workflows:
             WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {
               state.eventId = state.data[0]?.CommCare_External_ID__c;
             if (!state.eventId) {
-              console.log(
-                `Event not found for Intervention Name: 
-                ${state.form.general_referral_information.event_information.event_name}`
-              );
+              // console.log(
+              //   `Event not found for Intervention Name: 
+              //   ${state.form.general_referral_information.event_information.event_name}`
+              // );
+              throw Error(`Event not found for Intervention Name: 
+                ${state.form.general_referral_information.event_information.event_name}`);
             }
             return state;
             });
@@ -651,28 +679,35 @@ workflows:
             if (state.skippingUpsert) {
               return state;
             }
-            return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}'`
+            return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention}'`
           )(state);
           });
 
           fn(state => {
-          state.eventExternalId = state.data[0]['CommCare_External_ID__c'];
+          state.eventExternalId = state.data[0]?.CommCare_External_ID__c;
 
           if (!state.eventExternalId) {
               console.log(
                 `Event not found for Intervention Name: 
-                ${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}`
+                ${state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention}`
               );
             }
             state.skippingUpsert = state.skippingUpsert || !state.eventExternalId;
             if (state.skippingUpsert) {
               return state;
             }
+            let coach_id 
+             if (state.form.step_1_basic_information && state.form.step_1_basic_information.select_coach) {
+              coach_id = state.form.step_1_basic_information.select_coach
+             } else {
+              coach_id = state.form.step_1_csv_information.coach_id
+             }
+          state.coach_id = coach_id;
 
           return upsert('Visit__c', 'Commcare_External_ID__c',
             state => ({
               Coach__r: {
-                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach
+                Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+coach_id
               },
               Intervention__r: {
                 Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c']
@@ -722,7 +757,7 @@ workflows:
                 Type__c: 'Coach Support Visit',
                 ampi__Parent_Submission__c: state.data[0].Id,
                 Event_Participation__r: { 
-                  CommCare_External_ID__c: state.eventExternalId +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach 
+                  CommCare_External_ID__c: state.eventExternalId +'_'+state.coach_id
                 },
                 GRS_Event__r: { 
                   CommCare_External_ID__c: state.eventExternalId
@@ -817,7 +852,7 @@ workflows:
             // Create a base object with the ID
             const responseObj = {
               Id: question.Id,
-              ampi__Date_Response__c: state.form.hidden_properties.date
+              ampi__Date_Response__c: state.form.step_2_practice_information.date_of_csv
             };
             
             // Set the appropriate response field based on response type
@@ -868,7 +903,7 @@ workflows:
         condition_type: js_expression
         condition_label: Coach Support Visit Form
         condition_expression: |
-          state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816" && state.data.form["hidden_properties"].csv == "1"
+          state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816" && state.data.form.csv == "1"
 
         enabled: true
   Upsert-Home-Visit-Log-Form:
@@ -1324,7 +1359,7 @@ workflows:
                 Event_Participation__r: { 
                   CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}` 
                 },
-                GRS_Event__r: { Name: state.form.hidden_properties.intervention_name },
+                GRS_Event__r: { CommCare_External_ID__c: state.eventId },
                 RecordType: {Name: "Submission"},
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`
               })

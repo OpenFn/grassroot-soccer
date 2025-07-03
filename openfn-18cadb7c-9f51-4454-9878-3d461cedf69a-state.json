@@ -89,39 +89,6 @@
         }
       }
     },
-    "Upsert-Pre-Challenges": {
-      "id": "29689d64-b196-4aa2-aee6-6d13f4153e0a",
-      "name": "Upsert Pre Challenges",
-      "inserted_at": "2025-06-25T19:27:22.718466Z",
-      "lock_version": 55,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "418f0ce8-ddcf-473f-88e4-68aac700bc97",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Pre-Challenges": {
-          "id": "3a5b7369-e040-40dc-8126-3cd581e97745",
-          "name": "Upsert Pre Challenges",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n})\nquery(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.hidden_properties.intervention_name}'`);\n\nfn(state => {\n  state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.hidden_properties.intervention_name}`\n    );\n  }\n  state.skippingUpsert = !state.eventId;\n  if (state.skippingUpsert) {\n    return state;\n  }\n   return query(\n    `SELECT CommCare_External_ID__c from Contact \n    where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`\n  )(state);\n})\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const PID = state.data[0] && state.data[0].CommCare_External_ID__c;\n\n  if (!PID) {\n    console.log(\n      `Participant not found with Participant_Identification_Number_PID__c: \n      ${state.form.case['@case_id']}`\n    );\n    return state;\n  }\n\n  state.skippingUpsert = state.skippingUpsert || !Boolean(PID)\n  return query(`\n  SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name\n  FROM ampi__Submission__c \n  WHERE Active__c = true \n  AND Type__c = 'Pre/Post Template' \n  AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'\n`)(state);\n})\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const submissionTemplate = state.data? state.data[0] : undefined\n  state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)\n\n  if (!submissionTemplate){\n    console.log(\n      `Submission Template not found for Pre/Post template with Curriculum Id: \n      ${state.form.hidden_properties.Curriculum}`\n    );\n    return state;\n  }\n\n\n  return upsert(\n    'ampi__Submission__c', \n    'CommCare_External_ID__c', state => \n    ({\n      Type__c: state.form ? state.form['@name'].split(\" \")[0] : null,\n      ampi__Parent_Submission__c: state.data[0].Id,\n      Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },\n      Event_Participation__r: { \n        CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}` \n      },\n      GRS_Event__r: { Name: state.form.hidden_properties.intervention_name },\n      RecordType: {Name: \"Submission\"},\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`\n    })\n  )(state)});\nfnIf((state) => !state.skippingUpsert, query(state => `\n  SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = '${state.data.id}'\n`));\n\n// the query returns a list of questions for the specific parent submission\n// Currently hardcoding the parent submission id i created in previous runs\n// next we will look for form keys that start with form.pre_challenge_[*]\n// under form.pre_challenge_[*] we will find a list of commcare questions with their CommCare_External_ID__c\n// which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field \n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  // First, find the form element that starts with pre_challenge pattern\n  const formKeys = Object.keys(state.form).filter(key => \n    key.startsWith('pre_challenge_')\n  );\n  \n  if (formKeys.length === 0) {\n    console.log('No pre_challenge keys found in form data');\n    return state;\n  }\n  \n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = state.form[formKeys[0]];\n  \n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(response) {\n    if (!response) return null;\n    const normalizedResponse = response.toString().trim().toLowerCase();\n    \n    if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {\n      return \"Yes\";\n    } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {\n      return \"No\";\n    } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {\n      return \"I don't know\";\n    // } else if (normalizedResponse === 'unanswered') {\n    //   return \"Unanswered\";\n    // } else if (normalizedResponse === 'not_applicable') {\n    //   return \"Not Applicable\";\n    } else {\n      return \"I don't know\";\n    }\n  }\n  \n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_Property_Name__c\n      \n    \n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n    \n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n    \n    if (matchingKey) {\n      return {\n        Id: question.Id,\n        ampi__Picklist_Response__c: transformResponse(answer),\n        ampi__Date_Response__c: state.form.date\n      };\n    }\n    \n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n  \n  console.log(`Found ${updates.length} questions to update`);\n  \n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n  \n  return state;\n});\n\n// //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.\n// // upsert(\n// //   'Event__c',\n// //   'CommCare_Ext_ID__c',\n// //   fields(\n// //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),\n// //     field('Date_of_Pre__c', dataValue('form.date')),\n\n// //   )\n// // );\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Pre-Challenges": {
-          "enabled": true,
-          "id": "b8b2762f-1902-4c65-88eb-c982fab18b25",
-          "target_job_id": "3a5b7369-e040-40dc-8126-3cd581e97745",
-          "source_trigger_id": "418f0ce8-ddcf-473f-88e4-68aac700bc97",
-          "condition_type": "js_expression",
-          "condition_label": "Pre Challenges",
-          "condition_expression": "state.data.form[\"@name\"] == \"Pre Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
     "Upsert-Service-Referral-1": {
       "id": "94ffb47a-155c-45a1-9fd9-aad04070d2b0",
       "name": "Upsert Service Referral 1",
@@ -252,39 +219,6 @@
         }
       }
     },
-    "Attendance-Non-Skillz": {
-      "id": "e6483b6f-68b9-436c-9125-f6be0ead714d",
-      "name": "Attendance Non Skillz",
-      "inserted_at": "2025-06-30T09:18:07.471152Z",
-      "lock_version": 26,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Attendance-Non-Skillz": {
-          "id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
-          "name": "Attendance Non Skillz",
-          "body": "\nfn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    console.log('No participant attendance data was provided, not upserting to Salesforce.');\n    return state;\n  } else {\n\n    return execute(\n      fn(state => {\n\n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          state.data.form.attendance_list.update_participant_cases.item  \n          // [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items\n\n        );\n\n        return state;\n      }),\n\n      each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')), //this is event id\n            field('event_session_id', state => {\n              return state.data.form.case['@case_id'] + \"_\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n            })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          'CommCare_External_ID__c': `${state.data.event_session_id}_${state.data['@id']}`,\n          'Event_Session__r': {\n            'CommCare_External_ID__c': state.data.event_session_id\n          },\n          'Attendee__r': {\n            'CommCare_External_ID__c': `${state.data.caseid}_${state.data['@id']}`\n          }, //@id is the PID of participant\n          'Attended__c': state.data.attendance_session.toString().toLowerCase() === 'yes' ? \"Attended\" : \"Not Attended\"\n\n        }))\n      )\n    )(state);\n  }\n});\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Attendance-Non-Skillz": {
-          "enabled": true,
-          "id": "fb25c92c-6f96-4e76-8648-b8ec2bd6825b",
-          "target_job_id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
-          "source_trigger_id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
-          "condition_type": "js_expression",
-          "condition_label": "Attendance Generic",
-          "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
-        }
-      }
-    },
     "Upsert-Home-Visit-Log-Form": {
       "id": "0f33067f-02da-47fb-bd70-641fcd3206c7",
       "name": "Upsert Home Visit Log Form",
@@ -351,72 +285,6 @@
         }
       }
     },
-    "Upsert-Aggregate-Service-Referrals": {
-      "id": "122f0521-7fa3-45db-ae88-e09dcf0f8889",
-      "name": "Upsert Aggregate Service Referrals",
-      "inserted_at": "2025-07-01T13:23:02.867232Z",
-      "lock_version": 16,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "3ce3eb52-5f61-4a90-802a-36d028149377",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Aggregate-Service-Referrals": {
-          "id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
-          "name": "Upsert Aggregate Service Referrals",
-          "body": "fn(state => {\n  state.form = state.data.form;\n  state.id = state.data.id;\n  let businessUnit;\n  switch (state.form.general_referral_information.event_information.business_unit) {\n    case '04d98397e28046118fade28ced6b65cb':\n      businessUnit = 'GRS Zimbabwe';\n      break;\n    case 'ed125ab19ec34aacab79585e59eb76f4':\n      businessUnit = 'GRS Partnerships';\n      break;\n    case '65680f0c4c144b03ad0f86bdc46c1ebc':\n      businessUnit = 'GRS Zambia';\n      break;\n    default:\n      businessUnit = undefined;\n  }\n  state.businessUnit = businessUnit;\n  return state\n});\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`\n).then (state => {\n  state.accountId = state.data[0].Id\n  return state;\n});\n\n// Query event using event name \n  query(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {\n    state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.general_referral_information.event_information.event_name}`\n    );\n  }\n  return state;\n  });\nfn(state => {\n  // Get the form data\n  const form = state.form;\n  \n  // Create an array of all service counts (excluding general_referral_information)\n  let allServices = [];\n  \n  // Loop through each service group in the form\n  Object.keys(form).forEach(groupKey => {\n    // Skip general_referral_information\n    if (groupKey === 'general_referral_information') return;\n    \n    const serviceGroup = form[groupKey];\n    \n    // Add each service count to the allServices array\n    if (typeof serviceGroup === 'object' && serviceGroup !== null) {\n      Object.keys(serviceGroup).forEach(serviceKey => {\n        allServices.push({\n          service: serviceKey,\n          count: parseInt(serviceGroup[serviceKey]) || 0\n        });\n      });\n    }\n  });\n  \n  // Group services by type and sum counts\n  const serviceGroups = {};\n  \n  allServices.forEach(item => {\n    // Extract the service type (remove gender prefix and \"referred_for_\" part)\n    let serviceType = item.service\n      .replace(/^(males|females)_referred_for_/, '')\n      .replace(/^number_of_(male|female)_condoms_/, 'condoms_')\n      .replace(/-/g, '_');\n    \n    // Initialize the service type in the groups object if it doesn't exist\n    if (!serviceGroups[serviceType]) {\n      serviceGroups[serviceType] = 0;\n    }\n    \n    // Add the count to the service type total\n    serviceGroups[serviceType] += item.count;\n  });\n  \n  // Add the processed data to state\n  state.allServices = allServices;\n  state.serviceGroups = serviceGroups;\n  \n  // Keep the original form\n  state.form = form;\n  \n  return state;\n});\n\nfn(state => {\n  // Ensure we have the required data\n  if (!state.serviceGroups || !state.businessUnit || !state.accountId || !state.eventId) {\n    console.log('Missing required data for Service_Referral__c creation');\n    return state;\n  }\n\n  // Create an array to hold all the Service_Referral__c objects\n  const serviceReferrals = [];\n\n  // Loop through each service type in serviceGroups\n  Object.keys(state.serviceGroups).forEach(serviceType => {\n    const count = state.serviceGroups[serviceType];\n    \n    // Skip if count is 0\n    if (count === 0) return;\n    \n    // Create a Service_Referral__c object for this service type\n    const serviceReferral = {\n      // Relationship to GRS_Referral__r using the service type as external ID\n      GRS_Referral__r: {\n        CommCare_External_ID__c: serviceType\n      },\n      // Relationship to GRS_Event__c (ampi__Project__c)\n      GRS_Event__c: {\n      CommCare_External_ID__c: state.eventId\n      },\n      // Type is hardcoded to \"Aggregate\"\n      Type__c: \"Aggregated\",\n      // Date of Referral from the form\n      Date_of_Referral__c: state.form.general_referral_information.date_referred,\n      // Business Unit from the previously derived value\n      Business_Unit__r: {\n      CommCare_External_ID__c: state.form.general_referral_information.event_information.business_unit\n      },\n      Number_of_Referrals__c: count,\n      CommCare_External_ID__c: `${serviceType}_${state.form.general_referral_information.event_information.date_referred}`\n    };\n    \n    serviceReferrals.push(serviceReferral);\n  });\n  \n  // Add the service referrals to state for use in upsert operation\n  state.serviceReferrals = serviceReferrals;\n  \n  return state;\n});\n\n// Now upsert each Service_Referral__c\neach(\n  \"serviceReferrals[*]\",\n  upsert(\n    \"Referral_Service__c\",\n    \"CommCare_External_ID__c\",\n    fields(\n      field(\"GRS_Referral__r\", state => ({\n        CommCare_External_ID__c: state.data.GRS_Referral__r.CommCare_External_ID__c\n      })),\n      field(\"GRS_Event__r\", dataValue(\"GRS_Event__c\")),\n      field(\"Type__c\", dataValue(\"Type__c\")),\n      field(\"Date_of_Referral__c\", dataValue(\"Date_of_Referral__c\")),\n      field(\"Business_Unit__r\", dataValue(\"Business_Unit__r\")),\n      field(\"Number_of_Referrals__c\", dataValue(\"Number_of_Referrals__c\")),\n      field(\"CommCare_External_ID__c\", dataValue(\"CommCare_External_ID__c\"))\n    )\n  )\n);\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Aggregate-Service-Referrals": {
-          "enabled": true,
-          "id": "b36d6cbf-ac03-4080-8270-bacc7b41f1dd",
-          "target_job_id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
-          "source_trigger_id": "3ce3eb52-5f61-4a90-802a-36d028149377",
-          "condition_type": "js_expression",
-          "condition_label": "Aggregate Service Referrals",
-          "condition_expression": "state.data.form[\"@name\"] == \"Aggregate Service Referrals\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
-        }
-      }
-    },
-    "Upsert-Coach-Support-Visit-CSV": {
-      "id": "1ca5adbf-dd11-49c0-b8ae-0e24e0ce070e",
-      "name": "Upsert Coach Support Visit CSV",
-      "inserted_at": "2025-07-02T08:40:00.706230Z",
-      "lock_version": 85,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Upsert-Coach-Support-Visit-CSV": {
-          "id": "24974a49-4e76-46fa-819c-e84e7979d469",
-          "name": "Upsert Coach Support Visit CSV",
-          "body": "function clean(str) {\n  if (!str) return '';\n\n  return str\n    .split('_')\n    .map(word => {\n      let new_word = word.toString().toLowerCase();\n      return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n    })\n    .join(' ');\n};\n\nfn(state => {\n  state.form = state.data.form;\n  state.commcareId = state.data.id\n  return state;\n});\n\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}'`\n)(state);\n});\n\nfn(state => {\nstate.eventExternalId = state.data[0]['CommCare_External_ID__c'];\n\nif (!state.eventExternalId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.hidden_properties.intervention || state.form.step_1_csv_information.intervention}`\n    );\n  }\n  state.skippingUpsert = state.skippingUpsert || !state.eventExternalId;\n  if (state.skippingUpsert) {\n    return state;\n  }\n\nreturn upsert('Visit__c', 'Commcare_External_ID__c',\n  state => ({\n    Coach__r: {\n      Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach\n    },\n    Intervention__r: {\n      Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c']\n    },\n    CSV_Date__c: state.form.step_2_practice_information.date_of_csv,\n\n    RecordType: {\n      Name:'Coach Support Visit'\n    },\n    Commcare_External_ID__c: state.commcareId,\n  })\n)(state)});\n\nfn(state => {\n  if (!state.data.success) {\n    return state;\n  }\n\n  state.visitId = state.data.id\n\n  return query(`SELECT Id, Name, ampi__Description__c\n  FROM ampi__Submission__c \n  WHERE Active__c = true \n  AND Type__c = 'Coach Support Visit'\n  AND RecordType.Name = 'Template'\n  LIMIT 1`)(state);\n})\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const submissionTemplate = state.data? state.data[0] : undefined\n  state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)\n  \n  if (!submissionTemplate){\n    console.log(\n      `Submission Template not found for Coach Support Visit template`\n    );\n    return state;\n  }\n\n  return upsert(\n    'ampi__Submission__c', \n    'CommCare_External_ID__c', state => \n    ({\n      Type__c: 'Coach Support Visit',\n      ampi__Parent_Submission__c: state.data[0].Id,\n      Event_Participation__r: { \n        CommCare_External_ID__c: state.eventExternalId +'_'+state.form.step_1_basic_information?.select_coach || state.form.step_1_csv_information.select_coach \n      },\n      GRS_Event__r: { \n        CommCare_External_ID__c: state.eventExternalId\n      },\n      RecordType: {Name: \"Submission\"},\n      CommCare_External_ID__c: `${state.eventExternalId}_${state.commcareId}_coach_support_visit_submission`,\n      Visit__c: state.visitId\n    })\n  )(state)});\n\nfnIf((state) => !state.skippingUpsert, query(state => \n  `SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = '${state.data.id}'`\n  ));\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  // First, find the form element that starts with pre_challenge pattern\n  console.log('questionsfetched', state.data);\n  const formKeys = Object.keys(state.form).filter(key =>\n    key.startsWith('step_3_') || key.startsWith('step_4_') || key.startsWith('additional_notes')\n  );\n\n  if (formKeys.length === 0) {\n    console.log('No coach support visit keys found in form data');\n    return state;\n  }\n\n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = formKeys.reduce((acc, key) => {\n  const formSection = state.form[key];\n  \n  // If this is an object, merge its properties\n  if (typeof formSection === 'object') {\n    // Check for any nested objects and merge them too\n    Object.keys(formSection).forEach(nestedKey => {\n      if (typeof formSection[nestedKey] === 'object' && formSection[nestedKey] !== null) {\n        Object.assign(acc, formSection[nestedKey]);\n      }\n    });\n    \n    // Merge all direct properties\n    Object.assign(acc, formSection);\n  }\n  \n  return acc;\n}, {});\n\nconsole.log(\"questionAnswers\", questionAnswers);\n\n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(value) {\n  if (!value) return;\n  switch (value.toString().trim()) {\n    case 'copy-1-of-excellent':\n      return 'Excellent';\n    case 'needs_improvement':\n      return 'Needs Improvement';\n    case 'meets_expectations':\n      return 'Meets Expectations';\n    case 'excellent':\n      return 'Excellent';\n    case 'unsatisfactory':\n      return 'Unsatisfactory';\n    case 'exceeds_expectations':\n      return 'Exceeds Expectations';\n    default:\n      return value;\n  }\n};\n\n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_Property_Name__c\n\n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n\n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n\n    if (matchingKey) {\n  // Create a base object with the ID\n  const responseObj = {\n    Id: question.Id,\n    ampi__Date_Response__c: state.form.hidden_properties.date\n  };\n  \n  // Set the appropriate response field based on response type\n  switch (question.ampi__Response_Type__c) {\n    case 'Picklist':\n      responseObj.ampi__Picklist_Response__c = transformResponse(answer);\n      break;\n    case 'Qualitative':\n      responseObj.ampi__Text_Response__c = answer;\n      break;\n    case 'Multi-select Picklist':\n      responseObj.ampi__Multi_Select_Picklist_Response__c = answer;\n      break;\n    default:\n      console.log(`Unknown response type: ${question.ampi__Response_Type__c} for question: ${question.ampi__Description__c}`);\n      // Set a default field if needed\n      responseObj.ampi__Text_Response__c = answer;\n  }\n  \n  return responseObj;\n}\n\n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n\n  console.log(`Found ${updates.length} questions to update`);\n\n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n\n  return state;\n});",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
-        }
-      },
-      "edges": {
-        "webhook->Upsert-Coach-Support-Visit-CSV": {
-          "enabled": true,
-          "id": "b28e2957-3e3a-47f6-8574-6d6c2ba0ad19",
-          "target_job_id": "24974a49-4e76-46fa-819c-e84e7979d469",
-          "source_trigger_id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
-          "condition_type": "js_expression",
-          "condition_label": "Coach Support Visit Form",
-          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"hidden_properties\"].csv == \"1\"\n"
-        }
-      }
-    },
     "Upsert-Register-Skills-plus-Club": {
       "id": "e6597175-fad2-4227-b252-97d30d6bceb2",
       "name": "Upsert Register Skills plus Club",
@@ -480,6 +348,138 @@
           "condition_type": "js_expression",
           "condition_label": "Attendance Skillz Plus Club",
           "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form[\"skillz_attendance\"] == \"1\"\n"
+        }
+      }
+    },
+    "Upsert-Pre-Challenges": {
+      "id": "29689d64-b196-4aa2-aee6-6d13f4153e0a",
+      "name": "Upsert Pre Challenges",
+      "inserted_at": "2025-07-02T18:21:24.788291Z",
+      "lock_version": 56,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "418f0ce8-ddcf-473f-88e4-68aac700bc97",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Pre-Challenges": {
+          "id": "3a5b7369-e040-40dc-8126-3cd581e97745",
+          "name": "Upsert Pre Challenges",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  return state;\n})\nquery(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.hidden_properties.intervention_name}'`);\n\nfn(state => {\n  state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.hidden_properties.intervention_name}`\n    );\n  }\n  state.skippingUpsert = !state.eventId;\n  if (state.skippingUpsert) {\n    return state;\n  }\n   return query(\n    `SELECT CommCare_External_ID__c from Contact \n    where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`\n  )(state);\n})\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const PID = state.data[0] && state.data[0].CommCare_External_ID__c;\n\n  if (!PID) {\n    console.log(\n      `Participant not found with Participant_Identification_Number_PID__c: \n      ${state.form.case['@case_id']}`\n    );\n    return state;\n  }\n\n  state.skippingUpsert = state.skippingUpsert || !Boolean(PID)\n  return query(`\n  SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name\n  FROM ampi__Submission__c \n  WHERE Active__c = true \n  AND Type__c = 'Pre/Post Template' \n  AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'\n`)(state);\n})\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const submissionTemplate = state.data? state.data[0] : undefined\n  state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)\n\n  if (!submissionTemplate){\n    console.log(\n      `Submission Template not found for Pre/Post template with Curriculum Id: \n      ${state.form.hidden_properties.Curriculum}`\n    );\n    return state;\n  }\n\n\n  return upsert(\n    'ampi__Submission__c', \n    'CommCare_External_ID__c', state => \n    ({\n      Type__c: state.form ? state.form['@name'].split(\" \")[0] : null,\n      ampi__Parent_Submission__c: state.data[0].Id,\n      Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },\n      Event_Participation__r: { \n        CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}` \n      },\n      GRS_Event__r: { CommCare_External_ID__c: state.eventId },\n      RecordType: {Name: \"Submission\"},\n      CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`\n    })\n  )(state)});\nfnIf((state) => !state.skippingUpsert, query(state => `\n  SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = '${state.data.id}'\n`));\n\n// the query returns a list of questions for the specific parent submission\n// Currently hardcoding the parent submission id i created in previous runs\n// next we will look for form keys that start with form.pre_challenge_[*]\n// under form.pre_challenge_[*] we will find a list of commcare questions with their CommCare_External_ID__c\n// which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field \n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  // First, find the form element that starts with pre_challenge pattern\n  const formKeys = Object.keys(state.form).filter(key => \n    key.startsWith('pre_challenge_')\n  );\n  \n  if (formKeys.length === 0) {\n    console.log('No pre_challenge keys found in form data');\n    return state;\n  }\n  \n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = state.form[formKeys[0]];\n  \n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(response) {\n    if (!response) return null;\n    const normalizedResponse = response.toString().trim().toLowerCase();\n    \n    if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {\n      return \"Yes\";\n    } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {\n      return \"No\";\n    } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {\n      return \"I don't know\";\n    // } else if (normalizedResponse === 'unanswered') {\n    //   return \"Unanswered\";\n    // } else if (normalizedResponse === 'not_applicable') {\n    //   return \"Not Applicable\";\n    } else {\n      return \"I don't know\";\n    }\n  }\n  \n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_Property_Name__c\n      \n    \n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n    \n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n    \n    if (matchingKey) {\n      return {\n        Id: question.Id,\n        ampi__Picklist_Response__c: transformResponse(answer),\n        ampi__Date_Response__c: state.form.date\n      };\n    }\n    \n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n  \n  console.log(`Found ${updates.length} questions to update`);\n  \n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n  \n  return state;\n});\n\n// //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.\n// // upsert(\n// //   'Event__c',\n// //   'CommCare_Ext_ID__c',\n// //   fields(\n// //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),\n// //     field('Date_of_Pre__c', dataValue('form.date')),\n\n// //   )\n// // );\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Pre-Challenges": {
+          "enabled": true,
+          "id": "b8b2762f-1902-4c65-88eb-c982fab18b25",
+          "target_job_id": "3a5b7369-e040-40dc-8126-3cd581e97745",
+          "source_trigger_id": "418f0ce8-ddcf-473f-88e4-68aac700bc97",
+          "condition_type": "js_expression",
+          "condition_label": "Pre Challenges",
+          "condition_expression": "state.data.form[\"@name\"] == \"Pre Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Upsert-Aggregate-Service-Referrals": {
+      "id": "122f0521-7fa3-45db-ae88-e09dcf0f8889",
+      "name": "Upsert Aggregate Service Referrals",
+      "inserted_at": "2025-07-03T10:00:46.317403Z",
+      "lock_version": 19,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "3ce3eb52-5f61-4a90-802a-36d028149377",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Aggregate-Service-Referrals": {
+          "id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
+          "name": "Upsert Aggregate Service Referrals",
+          "body": "fn(state => {\n  state.form = state.data.form;\n  state.id = state.data.id;\n  let businessUnit;\n  switch (state.form.general_referral_information.event_information.business_unit) {\n    case '04d98397e28046118fade28ced6b65cb':\n      businessUnit = 'GRS Zimbabwe';\n      break;\n    case 'ed125ab19ec34aacab79585e59eb76f4':\n      businessUnit = 'GRS Partnerships';\n      break;\n    case '65680f0c4c144b03ad0f86bdc46c1ebc':\n      businessUnit = 'GRS Zambia';\n      break;\n    default:\n      businessUnit = undefined;\n  }\n  state.businessUnit = businessUnit;\n  return state\n});\nquery( state =>\n  `SELECT Id FROM Account WHERE Name = '${state.businessUnit}'`\n).then (state => {\n  state.accountId = state.data[0].Id\n  return state;\n});\n\n// Query event using event name \n  query(state => `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${state.form.general_referral_information.event_information.event_name}'`).then(state => {\n    state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    // console.log(\n    //   `Event not found for Intervention Name: \n    //   ${state.form.general_referral_information.event_information.event_name}`\n    // );\n    throw Error(`Event not found for Intervention Name: \n      ${state.form.general_referral_information.event_information.event_name}`);\n  }\n  return state;\n  });\nfn(state => {\n  // Get the form data\n  const form = state.form;\n  \n  // Create an array of all service counts (excluding general_referral_information)\n  let allServices = [];\n  \n  // Loop through each service group in the form\n  Object.keys(form).forEach(groupKey => {\n    // Skip general_referral_information\n    if (groupKey === 'general_referral_information') return;\n    \n    const serviceGroup = form[groupKey];\n    \n    // Add each service count to the allServices array\n    if (typeof serviceGroup === 'object' && serviceGroup !== null) {\n      Object.keys(serviceGroup).forEach(serviceKey => {\n        allServices.push({\n          service: serviceKey,\n          count: parseInt(serviceGroup[serviceKey]) || 0\n        });\n      });\n    }\n  });\n  \n  // Group services by type and sum counts\n  const serviceGroups = {};\n  \n  allServices.forEach(item => {\n    // Extract the service type (remove gender prefix and \"referred_for_\" part)\n    let serviceType = item.service\n      .replace(/^(males|females)_referred_for_/, '')\n      .replace(/^number_of_(male|female)_condoms_/, 'condoms_')\n      .replace(/-/g, '_');\n    \n    // Initialize the service type in the groups object if it doesn't exist\n    if (!serviceGroups[serviceType]) {\n      serviceGroups[serviceType] = 0;\n    }\n    \n    // Add the count to the service type total\n    serviceGroups[serviceType] += item.count;\n  });\n  \n  // Add the processed data to state\n  state.allServices = allServices;\n  state.serviceGroups = serviceGroups;\n  \n  // Keep the original form\n  state.form = form;\n  \n  return state;\n});\n\nfn(state => {\n  // Ensure we have the required data\n  if (!state.serviceGroups || !state.businessUnit || !state.accountId || !state.eventId) {\n    console.log('Missing required data for Service_Referral__c creation');\n    return state;\n  }\n\n  // Create an array to hold all the Service_Referral__c objects\n  const serviceReferrals = [];\n\n  // Loop through each service type in serviceGroups\n  Object.keys(state.serviceGroups).forEach(serviceType => {\n    const count = state.serviceGroups[serviceType];\n    \n    // Skip if count is 0\n    if (count === 0) return;\n    \n    // Create a Service_Referral__c object for this service type\n    const serviceReferral = {\n      // Relationship to GRS_Referral__r using the service type as external ID\n      GRS_Referral__r: {\n        CommCare_External_ID__c: serviceType\n      },\n      // Relationship to GRS_Event__c (ampi__Project__c)\n      GRS_Event__c: {\n      CommCare_External_ID__c: state.eventId\n      },\n      // Type is hardcoded to \"Aggregate\"\n      Type__c: \"Aggregated\",\n      // Date of Referral from the form\n      Date_of_Referral__c: state.form.general_referral_information.date_referred,\n      // Business Unit from the previously derived value\n      Business_Unit__r: {\n      CommCare_External_ID__c: state.form.general_referral_information.event_information.business_unit\n      },\n      Number_of_Referrals__c: count,\n      CommCare_External_ID__c: `${serviceType}_${state.form.general_referral_information.event_information.date_referred}`\n    };\n    \n    serviceReferrals.push(serviceReferral);\n  });\n  \n  // Add the service referrals to state for use in upsert operation\n  state.serviceReferrals = serviceReferrals;\n  \n  return state;\n});\n\n// Now upsert each Service_Referral__c\neach(\n  \"serviceReferrals[*]\",\n  upsert(\n    \"Referral_Service__c\",\n    \"CommCare_External_ID__c\",\n    fields(\n      field(\"GRS_Referral__r\", state => ({\n        CommCare_External_ID__c: state.data.GRS_Referral__r.CommCare_External_ID__c\n      })),\n      field(\"GRS_Event__r\", dataValue(\"GRS_Event__c\")),\n      field(\"Type__c\", dataValue(\"Type__c\")),\n      field(\"Date_of_Referral__c\", dataValue(\"Date_of_Referral__c\")),\n      field(\"Business_Unit__r\", dataValue(\"Business_Unit__r\")),\n      field(\"Number_of_Referrals__c\", dataValue(\"Number_of_Referrals__c\")),\n      field(\"CommCare_External_ID__c\", dataValue(\"CommCare_External_ID__c\"))\n    )\n  )\n);\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Aggregate-Service-Referrals": {
+          "enabled": true,
+          "id": "b36d6cbf-ac03-4080-8270-bacc7b41f1dd",
+          "target_job_id": "c919b02a-8c5d-466d-8ed8-e21627884adb",
+          "source_trigger_id": "3ce3eb52-5f61-4a90-802a-36d028149377",
+          "condition_type": "js_expression",
+          "condition_label": "Aggregate Service Referrals",
+          "condition_expression": "state.data.form[\"@name\"] == \"Aggregate Service Referrals\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\""
+        }
+      }
+    },
+    "Attendance-Non-Skillz": {
+      "id": "e6483b6f-68b9-436c-9125-f6be0ead714d",
+      "name": "Attendance Non Skillz",
+      "inserted_at": "2025-07-03T10:20:56.011364Z",
+      "lock_version": 33,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Attendance-Non-Skillz": {
+          "id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
+          "name": "Attendance Non Skillz",
+          "body": "\nfn(state => {\n  if (!state.data.form.attendance_list.update_participant_cases.item) {\n    throw Error('No participant attendance data was provided, not upserting to Salesforce.');\n  } else {\n\n    return execute(\n      fn(state => {\n\n        function objectToArray(object) {\n          if (!object) return [];\n          return !Array.isArray(object) ? [object] : object;\n        }\n\n        state.data.form.attendance_list.update_participant_cases.item = objectToArray(\n          state.data.form.attendance_list.update_participant_cases.item  \n          // [state.data.form.attendance_list.update_participant_cases.item[0]] //TODO: Remove this line and uncomment the line above for full list of items\n\n        );\n        state.form = state.data.form;\n\n        return state;\n      }),\neach( \n  merge(\n    dataPath('form.attendance_list.update_participant_cases.item[*]'),\n    fields(\n            field('caseid', dataValue('form.case.@case_id'))\n          )\n        ),\n      upsert(\n    'Event_Participation__c',\n    'CommCare_External_ID__c',\n    state => ({\n      CommCare_External_ID__c: `${state.data.caseid}_${state.data['@id']}`,\n      Contact__r: \n      {\n        CommCare_External_ID__c: state.data['@id']\n      },\n      Event__r: {\n        CommCare_External_ID__c: state.data.caseid\n      },\n\n    })\n  )\n    ),\n    fn(state => {\n      state.data.form = state.form;\n      return state;\n    }),\n   each(\n        merge(\n          dataPath('form.attendance_list.update_participant_cases.item[*]'),\n          fields(\n            field('intervention_name', dataValue('form.intervention_name')),\n            field('caseid', dataValue('form.case.@case_id')), //this is event id\n            field('event_session_id', state => {\n              return state.form.case['@case_id'] + \"_\" + state.data.form.attendance_list.session.replace(/\\/\\/\\s*/g, '');\n            })\n          )\n        ),\n        upsert('Attendance__c', 'CommCare_External_ID__c', state => ({\n          'CommCare_External_ID__c': `${state.data.event_session_id}_${state.data['@id']}`,\n          'Event_Session__r': {\n            'CommCare_External_ID__c': state.data.event_session_id\n          },\n          'Attendee__r': {\n            'CommCare_External_ID__c': `${state.data.caseid}_${state.data['@id']}`\n          }, //@id is the PID of participant\n          'Attended__c': state.data.attendance_session.toString().toLowerCase() === 'yes' ? \"Attended\" : \"Not Attended\"\n\n        }))\n      ) \n    )(state);\n  }\n});\n\n\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Attendance-Non-Skillz": {
+          "enabled": true,
+          "id": "fb25c92c-6f96-4e76-8648-b8ec2bd6825b",
+          "target_job_id": "cfb5934c-9f60-4ce3-89e7-c3b534ce755e",
+          "source_trigger_id": "503f2fa4-9829-4e8a-8e50-ad715cecd975",
+          "condition_type": "js_expression",
+          "condition_label": "Attendance Generic",
+          "condition_expression": "state.data.form[\"@name\"] == \"Attendance\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "Upsert-Coach-Support-Visit-CSV": {
+      "id": "1ca5adbf-dd11-49c0-b8ae-0e24e0ce070e",
+      "name": "Upsert Coach Support Visit CSV",
+      "inserted_at": "2025-07-03T11:03:24.229130Z",
+      "lock_version": 95,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-Coach-Support-Visit-CSV": {
+          "id": "24974a49-4e76-46fa-819c-e84e7979d469",
+          "name": "Upsert Coach Support Visit CSV",
+          "body": "function clean(str) {\n  if (!str) return '';\n\n  return str\n    .split('_')\n    .map(word => {\n      let new_word = word.toString().toLowerCase();\n      return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n    })\n    .join(' ');\n};\n\nfn(state => {\n  state.form = state.data.form;\n  state.commcareId = state.data.id\n  return state;\n});\n\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention}'`\n)(state);\n});\n\nfn(state => {\nstate.eventExternalId = state.data[0]?.CommCare_External_ID__c;\n\nif (!state.eventExternalId) {\n    console.log(\n      `Event not found for Intervention Name: \n      ${state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention}`\n    );\n  }\n  state.skippingUpsert = state.skippingUpsert || !state.eventExternalId;\n  if (state.skippingUpsert) {\n    return state;\n  }\n  let coach_id \n   if (state.form.step_1_basic_information && state.form.step_1_basic_information.select_coach) {\n    coach_id = state.form.step_1_basic_information.select_coach\n   } else {\n    coach_id = state.form.step_1_csv_information.coach_id\n   }\nstate.coach_id = coach_id;\n\nreturn upsert('Visit__c', 'Commcare_External_ID__c',\n  state => ({\n    Coach__r: {\n      Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c'] +'_'+coach_id\n    },\n    Intervention__r: {\n      Commcare_External_ID__c: state.data[0]['CommCare_External_ID__c']\n    },\n    CSV_Date__c: state.form.step_2_practice_information.date_of_csv,\n\n    RecordType: {\n      Name:'Coach Support Visit'\n    },\n    Commcare_External_ID__c: state.commcareId,\n  })\n)(state)});\n\nfn(state => {\n  if (!state.data.success) {\n    return state;\n  }\n\n  state.visitId = state.data.id\n\n  return query(`SELECT Id, Name, ampi__Description__c\n  FROM ampi__Submission__c \n  WHERE Active__c = true \n  AND Type__c = 'Coach Support Visit'\n  AND RecordType.Name = 'Template'\n  LIMIT 1`)(state);\n})\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const submissionTemplate = state.data? state.data[0] : undefined\n  state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)\n  \n  if (!submissionTemplate){\n    console.log(\n      `Submission Template not found for Coach Support Visit template`\n    );\n    return state;\n  }\n\n  return upsert(\n    'ampi__Submission__c', \n    'CommCare_External_ID__c', state => \n    ({\n      Type__c: 'Coach Support Visit',\n      ampi__Parent_Submission__c: state.data[0].Id,\n      Event_Participation__r: { \n        CommCare_External_ID__c: state.eventExternalId +'_'+state.coach_id\n      },\n      GRS_Event__r: { \n        CommCare_External_ID__c: state.eventExternalId\n      },\n      RecordType: {Name: \"Submission\"},\n      CommCare_External_ID__c: `${state.eventExternalId}_${state.commcareId}_coach_support_visit_submission`,\n      Visit__c: state.visitId\n    })\n  )(state)});\n\nfnIf((state) => !state.skippingUpsert, query(state => \n  `SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c\n  FROM ampi__Question__c \n  WHERE ampi__Submission__c = '${state.data.id}'`\n  ));\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  // First, find the form element that starts with pre_challenge pattern\n  console.log('questionsfetched', state.data);\n  const formKeys = Object.keys(state.form).filter(key =>\n    key.startsWith('step_3_') || key.startsWith('step_4_') || key.startsWith('additional_notes')\n  );\n\n  if (formKeys.length === 0) {\n    console.log('No coach support visit keys found in form data');\n    return state;\n  }\n\n  // Extract the question-answer pairs from the first matching key\n  const questionAnswers = formKeys.reduce((acc, key) => {\n  const formSection = state.form[key];\n  \n  // If this is an object, merge its properties\n  if (typeof formSection === 'object') {\n    // Check for any nested objects and merge them too\n    Object.keys(formSection).forEach(nestedKey => {\n      if (typeof formSection[nestedKey] === 'object' && formSection[nestedKey] !== null) {\n        Object.assign(acc, formSection[nestedKey]);\n      }\n    });\n    \n    // Merge all direct properties\n    Object.assign(acc, formSection);\n  }\n  \n  return acc;\n}, {});\n\nconsole.log(\"questionAnswers\", questionAnswers);\n\n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(value) {\n  if (!value) return;\n  switch (value.toString().trim()) {\n    case 'copy-1-of-excellent':\n      return 'Excellent';\n    case 'needs_improvement':\n      return 'Needs Improvement';\n    case 'meets_expectations':\n      return 'Meets Expectations';\n    case 'excellent':\n      return 'Excellent';\n    case 'unsatisfactory':\n      return 'Unsatisfactory';\n    case 'exceeds_expectations':\n      return 'Exceeds Expectations';\n    default:\n      return value;\n  }\n};\n\n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_Property_Name__c\n\n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n\n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n\n    if (matchingKey) {\n  // Create a base object with the ID\n  const responseObj = {\n    Id: question.Id,\n    ampi__Date_Response__c: state.form.step_2_practice_information.date_of_csv\n  };\n  \n  // Set the appropriate response field based on response type\n  switch (question.ampi__Response_Type__c) {\n    case 'Picklist':\n      responseObj.ampi__Picklist_Response__c = transformResponse(answer);\n      break;\n    case 'Qualitative':\n      responseObj.ampi__Text_Response__c = answer;\n      break;\n    case 'Multi-select Picklist':\n      responseObj.ampi__Multi_Select_Picklist_Response__c = answer;\n      break;\n    default:\n      console.log(`Unknown response type: ${question.ampi__Response_Type__c} for question: ${question.ampi__Description__c}`);\n      // Set a default field if needed\n      responseObj.ampi__Text_Response__c = answer;\n  }\n  \n  return responseObj;\n}\n\n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n\n  console.log(`Found ${updates.length} questions to update`);\n\n  // If we have updates, perform them\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n\n  return state;\n});",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d"
+        }
+      },
+      "edges": {
+        "webhook->Upsert-Coach-Support-Visit-CSV": {
+          "enabled": true,
+          "id": "b28e2957-3e3a-47f6-8574-6d6c2ba0ad19",
+          "target_job_id": "24974a49-4e76-46fa-819c-e84e7979d469",
+          "source_trigger_id": "a1301f38-7be0-4f6f-8d98-7fc759bf0fd7",
+          "condition_type": "js_expression",
+          "condition_label": "Coach Support Visit Form",
+          "condition_expression": "state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\" && state.data.form.csv == \"1\"\n"
         }
       }
     }
