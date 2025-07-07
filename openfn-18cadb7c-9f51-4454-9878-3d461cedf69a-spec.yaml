@@ -280,7 +280,10 @@ workflows:
             WHERE Name = '${state.businessUnit}' `)
 
           fn((state) => {
-            const accountId = state.data[0].Id;
+            const accountId = state.data[0]?.Id;
+            if (!accountId) {
+              throw Error(`Account not found for business unit: ${state.businessUnit}`)
+            }
           console.log("accountid", accountId);
             state.data.form = state.form;
             state.mapping = {
@@ -1091,7 +1094,7 @@ workflows:
           fn(state => {
             state.eventId = state.data[0]?.CommCare_External_ID__c;
             if (!state.eventId) {
-              console.log(
+              throw Error(
                 `Event not found for Intervention Name: 
                 ${state.form.hidden_properties.intervention_name}`
               );
@@ -1114,11 +1117,10 @@ workflows:
             state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
 
             if (!PID) {
-              console.log(
+             throw Error(
                 `Participant not found with Participant_Identification_Number_PID__c: 
                 ${state.form.case['@case_id']}`
               );
-              return state;
             }
 
             return query(`
@@ -1137,11 +1139,10 @@ workflows:
             state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
 
             if (!submissionTemplate){
-              console.log(
+              throw Error(
                 `Submission Template not found for Pre/Post template with Curriculum Id: 
                 ${state.form.hidden_properties.Curriculum}`
               );
-              return state;
             }
             return upsert(
               'ampi__Submission__c', 
@@ -1295,7 +1296,7 @@ workflows:
           fn(state => {
             state.eventId = state.data[0]?.CommCare_External_ID__c;
             if (!state.eventId) {
-              console.log(
+              throw Error(
                 `Event not found for Intervention Name: 
                 ${state.form.hidden_properties.intervention_name}`
               );
@@ -1317,11 +1318,10 @@ workflows:
             const PID = state.data[0] && state.data[0].CommCare_External_ID__c;
 
             if (!PID) {
-              console.log(
+              throw Error(
                 `Participant not found with Participant_Identification_Number_PID__c: 
                 ${state.form.case['@case_id']}`
               );
-              return state;
             }
 
             state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
@@ -1341,7 +1341,7 @@ workflows:
             state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
 
             if (!submissionTemplate){
-              console.log(
+              throw Error(
                 `Submission Template not found for Pre/Post template with Curriculum Id: 
                 ${state.form.hidden_properties.Curriculum}`
               );
@@ -1511,7 +1511,10 @@ workflows:
 
           fn(state => {
 
-            state.accountId = state.data[0].Id;
+            state.accountId = state.data[0]?.Id;
+            if (!state.accountId) {
+              throw Error(`Account not found for Business Unit: ${state.form.question1.case.update.business_unit_name}`)
+            }
             state.data.eventCase = state.form.case['@case_id'];
 
             function objectToArray(object) {
