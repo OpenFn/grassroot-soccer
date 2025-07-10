@@ -1,4 +1,4 @@
-<img width="274" alt="Screen_Shot_2021-05-30_at_22 24 28-removebg-preview" src="https://user-images.githubusercontent.com/80456839/120684457-b2310080-c46c-11eb-9579-d090700caceb.png">
+<img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/4bb179c8-ba01-4aaa-858e-4b903b6f3c20" /><img width="274" alt="Screen_Shot_2021-05-30_at_22 24 28-removebg-preview" src="https://user-images.githubusercontent.com/80456839/120684457-b2310080-c46c-11eb-9579-d090700caceb.png">
 
 
 # Grassroot Soccer Integrations
@@ -51,7 +51,7 @@ A message filter trigger has been configured for each of the forms above. The co
 | `Event_Participation` (Participant) | `CommCare_External_ID__c` | This is the case ID of the event + "_" + the case ID of the participant                    |
 | `Event` (Aggregate Testing)    | `CommCare_External_ID__c`     | This is the case ID of the event + "_" + age range                                         |
 | `Attendance__c`                | `CommCare_External_ID__c`     | This is the CommCare External ID of Event Session + "_" + that of the Participant          |
-| `Referral_Services__c`         | *(Not explicitly mapped)*     | Case ID of the CommCare referral record + "_" + referral service type                      |
+| `Referral_Services__c`         | `CommCare_External_ID__c`     | Case ID of the CommCare referral record + "_" + referral service type                      |
 | `Contact`                      | `CommCare_External_ID__c`     |                                                                                             |
 | `GRS_Referral__c`              | `CommCare_External_ID__c`     | Service type text, e.g., "hiv_testing"                                                     |
 | `Visit__c`                     | `CommCare_External_ID__c`     | Case ID of the CommCare record                                                              |
@@ -60,14 +60,14 @@ A message filter trigger has been configured for each of the forms above. The co
 | `Event_Session__c`             | `CommCare_External_ID__c`     | Event External ID + "_" + session name                                                     |
 | `ampi__Geographical_Area__c`   | `CommCare_External_ID__c`     | Case ID of the CommCare record                                                              |
 | `Curriculum__c`                | `CommCare_External_ID__c`     | Case ID of the CommCare record                                                              |
-| `ampi__Question__c`            | `CommCare_preoprty_Name__c`   | This is the code used on CommCare to identify the question                                 |
+| `ampi__Question__c`            | `CommCare_Property_Name__c`   | This is the code used on CommCare to identify the question                                 |
 
 
 
 ## (3) Assumptions & Considerations for Change Management
-1. **Amp Impact Automation:** When an event is created with a curriculum using OpenFn workflows, **event sessions will be automatically created** in Amp Impact based on **session templates**.
+1. **[Amp Impact Automation](https://docs.google.com/presentation/d/1VF-JdRQIctpY_b8ErYCbOO_IkveuZNOoYupDYgyWZeg/edit?slide=id.p#slide=id.p):** When an event is created with a curriculum using OpenFn workflows, **event sessions will be automatically created** in Amp Impact based on **session templates**.
 
-2. **Amp Impact Automation:** When a **submission is created**, **questions** will be automatically created for that submission based on **template questions configured** for that curriculum.
+2. **[Amp Impact Automation](https://docs.google.com/presentation/d/1VF-JdRQIctpY_b8ErYCbOO_IkveuZNOoYupDYgyWZeg/edit?slide=id.g36e8a6c3d82_0_78#slide=id.g36e8a6c3d82_0_78):** When a **submission is created**, **questions** will be automatically created for that submission based on **template questions configured** for that curriculum.
 
 3. **Event session names** on Amp Impact are assumed to be the **exact same as those created on CommCare**.
 
@@ -91,6 +91,7 @@ To add a new Curriculum to the integration, please follow this process:
 4. Run tests to confirm the curriculum works as expected
 
 ### Process for Adding a Question to Pre/Post and Coach Support Visit
+To add a new question for Pre/Post or Coach Support visit, please follow this process
 1. Configure the question on CommCare and make a note of the Question ID
 <img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/0df56f9f-8a55-486b-9a04-4ee7dda916eb" />
 
@@ -99,10 +100,16 @@ To add a new Curriculum to the integration, please follow this process:
 
 
 ### Process for adding a new GRS Service on Amp Impact
+To add a new GRS Service for `Aggregate Service Referral` or `Risk and Vulnerability Assessment - Service Referral`, please follow the following steps:
+1. Configure a case property on CommCare and make a note of the `Choice Value`(for Risk and Vulnerability Assessment - Service Referral) or the `Question ID`(for Aggregate Service Referral) you have set for that case property
+<img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/a180235b-50ed-4975-ac54-5f6701b327c5" />
+<img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/3eb5e449-7d65-4a1c-8998-00d1392649a7" />
+
+2. Then create a GRS Service on Amp Impact, use the Choice Value/Question ID as `CommCare External ID`
 
 ## Workflow Diagrams
 
-Detailed workflow diagrams for each of the above workflows can be found in [this lucid chart diagram](https://lucid.app/lucidchart/3a186950-ba59-4a61-a2d5-5ef1c1fe0bb4/edit?invitationId=inv_b0f3129e-ec23-443f-9f41-9149683dd12d&referringApp=slack&page=U57tu2nbn2Mu#).
+Detailed workflow diagrams for each of the above workflows can be found in [this doc diagram](https://docs.google.com/presentation/d/1VF-JdRQIctpY_b8ErYCbOO_IkveuZNOoYupDYgyWZeg/edit?slide=id.g36e8a6c3d82_0_87#slide=id.g36e8a6c3d82_0_87).
 
 The workflows were designed based on [this](https://docs.google.com/spreadsheets/d/1CXrMYL0hELSeRkjJLUROTR0A3udJ0Yq8PQZhUtTQokk/edit?gid=544330146#gid=544330146) updated mapping spec as per the transition to Amp Impact in June 2025.
 
@@ -110,6 +117,15 @@ The workflows were designed based on [this](https://docs.google.com/spreadsheets
 Primary GRS support contact: dvumbi@grassrootsoccer.org
 
 Contact support@openfn.org with any OpenFn questions or troubleshooting support.
+
+### Important Links
+1. [Salesforce new data model](https://drive.google.com/file/d/1pJeABynp42uQbumfYj0MaBmlBWn00ZDF/view?usp=drive_link)
+3. [Salesforce System Walkthrough](https://drive.google.com/file/d/1UCq2e3Qw8rjF7mapP_PR-vxb0602k_Dj/view)
+4. [Automations that run(or don't run) for the Integration User on Salesforce](https://docs.google.com/spreadsheets/d/1jk_J4RPQMVZhia8GJcgfsvT2-LA5LzE3yIMNMenV9BI/edit?gid=0#gid=0)
+5. [Mapping Specification](https://docs.google.com/spreadsheets/d/1CXrMYL0hELSeRkjJLUROTR0A3udJ0Yq8PQZhUtTQokk/edit?gid=544330146#gid=544330146)
+6. [Workflow Diagrams](https://docs.google.com/presentation/d/1VF-JdRQIctpY_b8ErYCbOO_IkveuZNOoYupDYgyWZeg/edit?slide=id.g36e8a6c3d82_0_87#slide=id.g36e8a6c3d82_0_87)
+
+
 
 ### Training Materials
 Video & Slide deck: https://drive.google.com/drive/folders/1KtKTFfqc0jcgrmF7jcW7BmiN5-_6Jpk5
