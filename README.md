@@ -1,4 +1,4 @@
-<img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/4bb179c8-ba01-4aaa-858e-4b903b6f3c20" /><img width="274" alt="Screen_Shot_2021-05-30_at_22 24 28-removebg-preview" src="https://user-images.githubusercontent.com/80456839/120684457-b2310080-c46c-11eb-9579-d090700caceb.png">
+<img width="274" alt="Screen_Shot_2021-05-30_at_22 24 28-removebg-preview" src="https://user-images.githubusercontent.com/80456839/120684457-b2310080-c46c-11eb-9579-d090700caceb.png">
 
 
 # Grassroot Soccer Integrations
