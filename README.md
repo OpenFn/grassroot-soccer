@@ -13,7 +13,7 @@ GRS is working with Dimagi to design and deploy CommCare workflows across their 
 
 
 ## (2) Integration Flows
-The solution is a one-way CommCare-to-Salesforce integration that connects the following CommCare forms:  
+The solution is a one-way CommCare-to-Salesforce integration that connects the following CommCare forms. These workflows have been updated in June 2025 in line with GRS's migration to a new Salesforce org(Amp Impact) which uses [this](https://drive.google.com/file/d/1pJeABynp42uQbumfYj0MaBmlBWn00ZDF/view?usp=drive_link) data model. The workflows below have been updated and remapped to work with the new data model:  
 | WF Code | Workflow Name                           | WF Steps                                                                                                                                                                                                                                            | Amp Impact Object(s)                                                                 |
 |---------|-----------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
 | WF1     | Create Intervention                     | - Upsert GRS event with type "Intervention" <br> - Event session gets created automatically <br> - Upsert Event Participation using Coach external ID                                                                                              | `GRS Event (Intervention)` <br> `Event_Participation__c`                              |
@@ -31,7 +31,7 @@ The solution is a one-way CommCare-to-Salesforce integration that connects the f
 | WF13    | Update Aggregate Service Referrals      | - Remap input into array of referral services <br> - Create a Service Referral of type "Aggregated" for each Service Type                                                                                                                        | `Service_Referral__c`                                                                  |
 
 ## Remaining workflows 
-The following workflows have not been migrated or remapped to work with Amp Impact because they have been identified as out of scope for this iteration.
+The following workflows **have not** been migrated or remapped to work with Amp Impact because they have been identified as out of scope for this iteration as confirmed by GRS in June 2025.
 - Upsert Service Referral  
 - Outcome Survey  
 - Upsert Register Event  
@@ -90,10 +90,21 @@ To add a new Curriculum to the integration, please follow this process:
 3. Configure pre/post template questions to on Amp Impact with `CommCare _Property_Name` field configured to match the questions keys configured on CommCare
 4. Run tests to confirm the curriculum works as expected
 
+### Process for Adding a Question to Pre/Post and Coach Support Visit
+1. Configure the question on CommCare and make a note of the Question ID
+<img width="914" height="252" alt="image" src="https://github.com/user-attachments/assets/0df56f9f-8a55-486b-9a04-4ee7dda916eb" />
+
+2. When creating the corresponding Question Template on Amp Impact, use the Question ID as `CommCare Property Name`
+<img width="1056" height="693" alt="Screenshot 2025-07-10 at 16 12 30" src="https://github.com/user-attachments/assets/b620d10c-8f87-4c31-af75-6dc14a1b5537" />
+
+
+### Process for adding a new GRS Service on Amp Impact
+
 ## Workflow Diagrams
 
 Detailed workflow diagrams for each of the above workflows can be found in [this lucid chart diagram](https://lucid.app/lucidchart/3a186950-ba59-4a61-a2d5-5ef1c1fe0bb4/edit?invitationId=inv_b0f3129e-ec23-443f-9f41-9149683dd12d&referringApp=slack&page=U57tu2nbn2Mu#).
 
+The workflows were designed based on [this](https://docs.google.com/spreadsheets/d/1CXrMYL0hELSeRkjJLUROTR0A3udJ0Yq8PQZhUtTQokk/edit?gid=544330146#gid=544330146) updated mapping spec as per the transition to Amp Impact in June 2025.
 
 ### Support
 Primary GRS support contact: dvumbi@grassrootsoccer.org
