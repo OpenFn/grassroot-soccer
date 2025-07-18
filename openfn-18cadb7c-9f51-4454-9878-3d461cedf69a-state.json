@@ -4,7 +4,7 @@
   "description": null,
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
-  "updated_at": "2025-06-30T12:06:01Z",
+  "updated_at": "2025-07-15T07:38:21Z",
   "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
@@ -19,7 +19,7 @@
     }
   },
   "history_retention_period": 365,
-  "dataclip_retention_period": 365,
+  "dataclip_retention_period": null,
   "retention_policy": "retain_all",
   "collections": {},
   "workflows": {
