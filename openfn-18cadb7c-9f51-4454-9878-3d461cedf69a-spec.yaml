@@ -1,7 +1,10 @@
-name: grs-staging
+name: grassroot-soccer-prod-v2
 description: null
 collections: null
 credentials:
+  aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025:
+    name: GRS Salesforce Prod oauth - July 2025
+    owner: aisha@openfn.org
   aleksa@openfn.org-grs-commcare:
     name: grs-commcare
     owner: aleksa@openfn.org
@@ -15,7 +18,7 @@ workflows:
       Attendance-Non-Skillz:
         name: Attendance Non Skillz
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
           fn(state => {
@@ -114,7 +117,7 @@ workflows:
       Coach-Session-Register:
         name: Coach Session Register
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
 
@@ -231,7 +234,7 @@ workflows:
       Create-Intervention:
         name: Create Intervention
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
 
@@ -350,6 +353,7 @@ workflows:
         condition_label: Create Intervention
         condition_expression: |
           state.data.form["@name"] == "Create Intervention" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+
         enabled: true
   Load-Commcare-Data:
     name: Load Commcare Data
@@ -366,6 +370,7 @@ workflows:
           get("/form/8ae81b97-4382-4f62-977e-966d42e79c60")
 
           //get("")
+
     triggers:
       webhook:
         type: webhook
@@ -382,7 +387,7 @@ workflows:
       Upsert-Aggregate-Service-Referrals:
         name: Upsert Aggregate Service Referrals
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
             state.form = state.data.form;
@@ -561,6 +566,7 @@ workflows:
         condition_label: Aggregate Service Referrals
         condition_expression: |
           state.data.form["@name"] == "Aggregate Service Referrals" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+
         enabled: true
   Upsert-Attendance-Skillz-Plus-Club:
     name: Upsert Attendance Skillz Plus Club
@@ -568,7 +574,7 @@ workflows:
       Upsert-Attendance-Skillz-Plus-Club:
         name: Upsert Attendance Skillz Plus Club
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
             state.form = state.data.form;
@@ -657,7 +663,7 @@ workflows:
       Upsert-Coach-Support-Visit-CSV:
         name: Upsert Coach Support Visit CSV
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function clean(str) {
             if (!str) return '';
@@ -895,6 +901,7 @@ workflows:
 
             return state;
           });
+
     triggers:
       webhook:
         type: webhook
@@ -915,7 +922,7 @@ workflows:
       Upsert-Home-Visit-Log-Form:
         name: Upsert Home Visit Log Form
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
 
@@ -1031,7 +1038,7 @@ workflows:
       Upsert-Intervention-Notes:
         name: Upsert Intervention Notes
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           //openfn.org source 
           upsert(
@@ -1066,7 +1073,7 @@ workflows:
       Upsert-Post-Challenges:
         name: Upsert Post Challenges
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
             state.form = state.data.form;
@@ -1282,7 +1289,7 @@ workflows:
       Upsert-Pre-Challenges:
         name: Upsert Pre Challenges
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
             state.form = state.data.form;
@@ -1487,7 +1494,7 @@ workflows:
       Upsert-Register-Participant:
         name: Upsert Register Participant
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
           function genderMap(gender) {
@@ -1630,7 +1637,7 @@ workflows:
       Upsert-Register-Skills-plus-Club:
         name: Upsert Register Skills plus Club
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
           function clean(str) {
@@ -1701,7 +1708,7 @@ workflows:
       Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
         name: Upsert Risk and Vulnerability Assessment - Service Referral
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // Your job goes here.
           alterState(state => {
@@ -2079,6 +2086,7 @@ workflows:
         condition_label: 'Risk & Vulnerability Assessment | Service Referral'
         condition_expression: |
           state.data.form["@name"] == "Risk & Vulnerability Assessment | Service Referral - Treatment, Care and Support" && state.data.form["client_information"]["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
+
         enabled: true
   Upsert-Service-Referral-1:
     name: Upsert Service Referral 1
@@ -2086,7 +2094,7 @@ workflows:
       Upsert-Service-Referral:
         name: Upsert Service Referral
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: 'hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
             state.form = state.data.form;
@@ -2279,4 +2287,25 @@ workflows:
         condition_expression: |
           state.data.form["@name"] == "Service Referral" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
+        enabled: true
+  test-salesforce-creds:
+    name: test salesforce creds
+    jobs:
+      Test-creds:
+        name: Test creds
+        adaptor: '@openfn/language-salesforce@7.1.2'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          describe()
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Test-creds:
+        source_trigger: webhook
+        target_job: Test-creds
+        condition_type: always
         enabled: true
