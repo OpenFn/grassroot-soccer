@@ -57,7 +57,7 @@ workflows:
                 CommCare_External_ID__c: `${state.data.caseid}_${state.data['@id']}`,
                 Contact__r: 
                 {
-                  CommCare_External_ID__c: state.data['@id']
+                  Participant_Identification_Number_PID__c: state.data['@id']
                 },
                 Event__r: {
                   CommCare_External_ID__c: state.data.caseid
@@ -77,7 +77,9 @@ workflows:
                       field('intervention_name', dataValue('form.intervention_name')),
                       field('caseid', dataValue('form.case.@case_id')), //this is event id
                       field('event_session_id', state => {
-                        return state.form.case['@case_id'] + "_" + state.data.form.attendance_list.session.replace(/\/\/\s*/g, '');
+                          const session = state.data.form.attendance_list.session.replace(/\/\/\s*/g, '').replace(/\s+/g, '');
+                          console.log({session})
+                        return state.form.case['@case_id'] + "_" + session;
                       })
                     )
                   ),
@@ -159,13 +161,6 @@ workflows:
 
             state.data.commcare_external_id = external_id.toLowerCase().replace(/\s/g, '').trim();
 
-            state.data.dynamicFields = [
-              {
-                [`Session_${session_id}__c`]: getSessionValue(),
-                [`Session_${session_id}_Date__c`]: form.date
-              }
-            ];
-
             state.data.durationFields = { [`Session_${session_id}_Duration__c`]: form.duration };
             console.log(state.data.durationFields);
 
@@ -180,7 +175,7 @@ workflows:
           upsert('Event_Session__c',
             'CommCare_External_ID__c',
             state => ({
-              CommCare_External_ID__c: `${state.data.form.case['@case_id']}_${state.data.form.session.replace('//', '')}`,
+              CommCare_External_ID__c: `${state.data.form.case['@case_id']}_${state.data.form.session.replace('//', '').replace(/\s+/g, '')}`,
               Session_Date__c: state.data.form.date,
               Duration_of_Session__c: state.data.form.duration,
               Event__r: {
@@ -204,13 +199,13 @@ workflows:
             'CommCare_External_ID__c',
             state => ({
               Event_Session__r: {
-                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.session.replace('//', '')}`
+                CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.session.replace('//', '').replace('//', '').replace(/\s+/g, '')}`
               },
               Attendee__r: {
                 CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.data}`
               },
               Attended__c: presentMapping(state.form.present),
-              CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.session.replace('//', '')}_${state.form.case['@case_id']}_${state.data}`
+              CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.form.session.replace('//', '').replace(/\s+/g, '')}_${state.form.case['@case_id']}_${state.data}`
             })
           ))
 
@@ -620,7 +615,7 @@ workflows:
           each('$.participants[*]',
             upsert('Event_Participation__c', 'CommCare_External_ID__c', state => ({
               Contact__r: {
-                CommCare_External_ID__c: state.data['@id']
+                Participant_Identification_Number_PID__c: state.data['@id']
               },
               Event__r: {
                 CommCare_External_ID__c: state.form.case['@case_id']
@@ -937,6 +932,9 @@ workflows:
                   FROM ampi__Project__c
                   WHERE Name = '${state.form.basic_information.intervention_hidden}'`
                 ).then(state => {
+                  if (!state.data || !state.data[0]) {
+                    throw Error(`Event with Name: ${state.form.basic_information.intervention_hidden} not found`)
+                  }
                   state.eventCommcareExternalId = state.data[0].CommCare_External_ID__c;
                   state.eventId = state.data[0].Id
                   state.data.form = state.form;
@@ -947,7 +945,7 @@ workflows:
           upsert('Event_Participation__c', "CommCare_External_ID__c", state => ({
             CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.form.case['@case_id'],
             contact__r: { 
-              CommCare_External_ID__c: state.form.case['@case_id'] 
+              Participant_Identification_Number_PID__c: state.form.case['@case_id'] 
             },
             Event__r: {
               CommCare_External_ID__c: state.eventCommcareExternalId
@@ -971,13 +969,6 @@ workflows:
             }
           }));
           fn(state => {
-            // const PID = lastReferenceValue('records[1].Participant_Identification_Number_PID__c')(state);
-            // if (!PID) {
-            //   console.log(
-            //     `Participant not found with Participant_Identification_Number_PID__c: ${state.data.form.case['@case_id']}`
-            //   );
-            //   return state;
-            // } // @hunter this should throw an error, not just return state
             state.data.form = state.form;
             const reasonMapping = {
               'hiv_test_consent': 'HIV Test Consent',
@@ -1016,7 +1007,7 @@ workflows:
 
           });
 
-          upsert('Visit__c', 'CommCare_External_ID__c', {...$.mapping}) //@hunter this will execute even if participant is not found
+          upsert('Visit__c', 'CommCare_External_ID__c', {...$.mapping}) 
 
     triggers:
       webhook:
@@ -1111,7 +1102,7 @@ workflows:
               return state;
             }
             return query(
-              `SELECT CommCare_External_ID__c from Contact 
+              `SELECT Id, Participant_Identification_Number_PID__c from Contact 
               where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`
             )(state);
           })
@@ -1120,7 +1111,7 @@ workflows:
             if (state.skippingUpsert) {
               return state;
             }
-            const PID = state.data[0] && state.data[0].CommCare_External_ID__c;
+            const PID = state.data[0] && state.data[0].Participant_Identification_Number_PID__c;
             state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
 
             if (!PID) {
@@ -1313,7 +1304,7 @@ workflows:
               return state;
             }
              return query(
-              `SELECT CommCare_External_ID__c from Contact 
+              `SELECT Id, Participant_Identification_Number_PID__c from Contact 
               where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`
             )(state);
           })
@@ -1322,7 +1313,7 @@ workflows:
             if (state.skippingUpsert) {
               return state;
             }
-            const PID = state.data[0] && state.data[0].CommCare_External_ID__c;
+            const PID = state.data[0] && state.data[0].Participant_Identification_Number_PID__c;
 
             if (!PID) {
               throw Error(
@@ -1510,24 +1501,10 @@ workflows:
 
           fn(state => {
             state.form = state.data.form
-            return state
-          })
-          query( state =>
-            `SELECT Id FROM Account WHERE Name = '${state.form.question1.case.update.business_unit_name}'`
-          );
-
-          fn(state => {
-
-            state.accountId = state.data[0]?.Id;
-            if (!state.accountId) {
-              throw Error(`Account not found for Business Unit: ${state.form.question1.case.update.business_unit_name}`)
-            }
-            state.data.eventCase = state.form.case['@case_id'];
 
             function objectToArray(object) {
               return !Array.isArray(object) ? [object] : object;
             }
-
 
             if (state.form.question1) {
               console.log('Ensuring that "question1" is an array.');
@@ -1545,6 +1522,21 @@ workflows:
             }
 
             console.log('Done with initial data manipulation.');
+
+            return state
+          })
+          query(state =>
+            `SELECT Id FROM Account WHERE Name = '${state.form.question1[0].case.update.business_unit_name}'`
+          );
+
+          fn(state => {
+
+            state.accountId = state.data[0]?.Id;
+            if (!state.accountId) {
+              throw Error(`Account not found for Business Unit: ${state.form.question1.case.update.business_unit_name}`)
+            }
+            state.data.eventCase = state.form.case['@case_id'];
+
             const persons = state.form.question1.map(person => {
               return {
                 AccountId: state.accountId,
@@ -1573,14 +1565,13 @@ workflows:
             'persons[*]',
             upsert(
               'Contact',
-              'CommCare_External_ID__c',
+              'Participant_Identification_Number_PID__c',
               state => (
                 {
                   AccountId: state.data.AccountId,
                   Contact_Description__c: state.data.intervention_notes_to_save,
                   FirstName: state.data.participant_first_name,
                   LastName: state.data.participant_surname,
-                  CommCare_External_ID__c: state.data.case['@case_id'],
                   Participant_Identification_Number_PID__c: state.data.case['@case_id'],
                   Site__r: {
                     CommCare_External_ID__c: state.data.grp_location.site_id
@@ -1596,8 +1587,6 @@ workflows:
             )
           );
 
-
-
           each(
             'attendances[*]',
             upsert(
@@ -1605,9 +1594,9 @@ workflows:
               'CommCare_External_ID__c',
               state => ({
                 CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data.case['@case_id'],
-                Contact__r: 
+                Contact__r:
                 {
-                  CommCare_External_ID__c: state.data.case['@case_id']
+                  Participant_Identification_Number_PID__c: state.data.case['@case_id']
                 },
                 Event__r: {
                   CommCare_External_ID__c: state.form.case['@case_id']
@@ -1639,7 +1628,6 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
-          // push to production
           function clean(str) {
             if (!!str)
               return str
@@ -1913,26 +1901,25 @@ workflows:
             return state;
           });
 
-          query( state =>
-            `SELECT Id FROM Account 
-            WHERE Name = '${state.form.referral_information.institution_referred_to}'
-            AND Type = 'Service Provider' 
-          `
-          ).then (state => {
-            state.serviceProviderId = state.data[0]?.Id
-            return state;
-          });
+          // query( state =>
+          //   `SELECT Id FROM Account 
+          //   WHERE Name = '${state.form.referral_information.institution_referred_to}'
+          //   AND Type = 'Service Provider' 
+          // `
+          // ).then (state => {
+          //   state.serviceProviderId = state.data[0]?.Id
+          //   return state;
+          // });
 
           //Upsert Contact of type Participant
           upsert(
               'Contact',
-              'CommCare_External_ID__c',
+              'Participant_Identification_Number_PID__c',
               state => (
                 {
                   AccountId: state.accountId,
                   FirstName: state.form.client_information.participant_full_name.split(" ")[0],
                   LastName: state.form.client_information.participant_full_name.split(" ")[1],
-                  CommCare_External_ID__c: state.form.case['@case_id'],
                   Participant_Identification_Number_PID__c: state.form.case['@case_id'],
                   MobilePhone: state.form.client_information.mobile_number,
                   Person_Type__c: 'Participant'
@@ -1947,7 +1934,7 @@ workflows:
             WHERE Name = '${state.form.client_information.intervention_name}'`).then(state => {
               state.eventId = state.data[0]?.CommCare_External_ID__c;
             if (!state.eventId) {
-              console.log(
+              throw Error(
                 `Event not found for Intervention Name: 
                 ${state.form.client_information.intervention_name}`
               );
@@ -1963,7 +1950,7 @@ workflows:
                 CommCare_External_ID__c: state.eventId + '_' + state.form.case['@case_id'],
                 Contact__r: 
                 {
-                  CommCare_External_ID__c: state.form.case['@case_id']
+                  Participant_Identification_Number_PID__c: state.form.case['@case_id']
                 },
                 Event__r: {
                   CommCare_External_ID__c: state.eventId
@@ -2062,6 +2049,7 @@ workflows:
               },
               Service_Provider__c: state.serviceProviderId
             };
+            console.log({servicesList})
 
             return { ...state, referralServiceMapping: mapping, servicesList };
           });
@@ -2296,9 +2284,61 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.1.2'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
-          // Check out the Job Writing Guide for help getting started:
-          // https://docs.openfn.org/documentation/jobs/job-writing-guide
-          describe()
+          // // Check out the Job Writing Guide for help getting started:
+          // // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          // // describe("ampi__Project__c")
+
+          // query("SELECT COUNT() FROM ampi__Project__c WHERE CommCare_External_ID__c = null AND recordTypeId = '012fK000000k8qkQAA'")
+          // .then(state => {
+          //   console.log(`Intervention Events with no external id: ${state.response.totalSize}`)
+          //   return state;
+          // });
+
+          // query("SELECT COUNT() FROM ampi__Geographical_Area__c WHERE CommCare_External_ID__c = null").then(state => {
+          //   console.log(`Geographic areas with no external id: ${state.response.totalSize}`)
+          //     return state;
+          // });
+
+
+          // query("SELECT COUNT() FROM Contact WHERE CommCare_External_ID__c = null").then(state => {
+          //   console.log(`Contact with no external id: ${state.response.totalSize}`)
+          //     return state;
+          // });
+
+
+          // query("SELECT COUNT() FROM GRS_Referrals__c WHERE CommCare_External_ID__c = null").then(state => {
+          //   console.log(`GRS_Referrals__c with no external id: ${state.response.totalSize}`)
+          //     return state;
+          // });
+
+
+          // query("SELECT COUNT() FROM Curriculum__c WHERE CommCare_External_ID__c = null").then(state => {
+          //   console.log(`Curriculum__c with no external id: ${state.response.totalSize}`)
+          //     return state;
+          // });
+
+
+          // query("SELECT COUNT() FROM ampi__Question__c WHERE CommCare_Property_Name__c = null").then(state => {
+          //   console.log(`ampi__Question__c with no external id: ${state.response.totalSize}`)
+          //     return state;
+          // });
+          // // Contact
+          // // GRS Referral
+          // // Account
+          // // ampi_Geographical_Area__c
+          // // Curriculum__c
+          // // ampi_Question__c
+
+          // describe("Contact")
+
+          // query("SELECT Id, Name, CommCare_External_ID__c, Event__c, Event__r.Name FROM Event_Session__c WHERE Event__r.CommCare_External_ID__c = '50352e77-5cb3-4dc7-9f2a-9967e40c0c76'")
+
+
+          // query("SELECT Id, Name, CommCare_External_ID__c FROM Curriculum__c")
+
+          // upsert("Referral_Service__c", "CommCare_External_ID__c", {"Business_Unit__r":{"CommCare_External_ID__c":"65680f0c4c144b03ad0f86bdc46c1ebc"},"CommCare_External_ID__c":"59276547-ee9b-4a8c-8c5f-5b53b6f59a20_hiv_testing","Date_of_Referral__c":"2025-08-19","Event_Participation__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d627fe23-911c-490b-b012-a97a246ec644"},"Expected_Visit_Date__c":"2025-08-19","GRS_Event__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1"},"GRS_Referral__r":{"CommCare_External_ID__c":"hiv_testing"},"Parent_s_Full_Name__c":null,"Participant_Linked_to_Care__c":true,"Participant__r":{"Participant_Identification_Number_PID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d627fe23-911c-490b-b012-a97a246ec644"},"Referred_By__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d8660627556d450daf79df44f8126ec1"},"Relationship_To_Participant__c":null,"Type__c":"Individual"})
+
+          describe("Referral_Service__c")
     triggers:
       webhook:
         type: webhook
