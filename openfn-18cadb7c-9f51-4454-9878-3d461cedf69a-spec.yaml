@@ -1185,7 +1185,11 @@ workflows:
 
             // Extract the question-answer pairs from the first matching key
             const questionAnswers = state.form[formKeys[0]];
-
+           function snakeToSentenceCase(snakeCase) {
+            const words = snakeCase.split('_');
+            return words[0].charAt(0).toUpperCase() + words[0].slice(1) + 
+                   ' ' + words.slice(1).join(' ');
+          }
             // Function to transform CommCare responses to Salesforce format
             function transformResponse(response) {
               if (!response) return null;
@@ -1202,7 +1206,7 @@ workflows:
                 // } else if (normalizedResponse === 'not_applicable') {
                 //   return "Not Applicable";
               } else {
-                return "I don't know";
+                return snakeToSentenceCase(response.toString());
               }
             }
 
