@@ -955,19 +955,19 @@ workflows:
             }
           }));
 
-          //upserting the coach if it doesn't exist
-          upsert('Event_Participation__c', "CommCare_External_ID__c", state => ({
-            CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.form.basic_information.coach_id,
-            contact__r: { 
-              CommCare_External_ID__c: state.form.basic_information.coach_id
-            },
-            Event__r: {
-              CommCare_External_ID__c: state.eventCommcareExternalId
-            },  
-            RecordType: {
-              Name: "Coach"
-            }
-          }));
+          // //upserting the coach if it doesn't exist
+          // upsert('Event_Participation__c', "CommCare_External_ID__c", state => ({
+          //   CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.form.basic_information.coach_id,
+          //   contact__r: { 
+          //     CommCare_External_ID__c: state.form.basic_information.coach_id
+          //   },
+          //   Event__r: {
+          //     CommCare_External_ID__c: state.eventCommcareExternalId
+          //   },  
+          //   RecordType: {
+          //     Name: "Coach"
+          //   }
+          // }));
           fn(state => {
             state.data.form = state.form;
             const reasonMapping = {
@@ -992,9 +992,9 @@ workflows:
                 Event_Participation__r: { 
                   CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.case['@case_id']
                 },
-                Coach__r: {
-                  CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.basic_information.coach_id
-                },
+                // Coach__r: {
+                //   CommCare_External_ID__c: state.eventCommcareExternalId + "_" + state.data.form.basic_information.coach_id
+                // },
                 Intervention__c: state.eventId,
                 RecordType: {
                   Name: "Home Visit"
@@ -1390,7 +1390,11 @@ workflows:
             
             // Extract the question-answer pairs from the first matching key
             const questionAnswers = state.form[formKeys[0]];
-            
+            function snakeToSentenceCase(snakeCase) {
+            const words = snakeCase.split('_');
+            return words[0].charAt(0).toUpperCase() + words[0].slice(1) + 
+                   ' ' + words.slice(1).join(' ');
+          }
             // Function to transform CommCare responses to Salesforce format
             function transformResponse(response) {
               if (!response) return null;
@@ -1407,7 +1411,7 @@ workflows:
               // } else if (normalizedResponse === 'not_applicable') {
               //   return "Not Applicable";
               } else {
-                return "I don't know";
+                return snakeToSentenceCase(response.toString());
               }
             }
             
@@ -2033,9 +2037,9 @@ workflows:
               },
               Type__c: "Individual",
               Date_of_Referral__c: state.form['follow-up'] ? state.form['follow-up'].date_referred : null,
-              Referred_By__r: { 
-                  CommCare_External_ID__c: `${state.eventId}_${state.form.client_information.coach_id}`
-                  },
+              // Referred_By__r: { 
+              //     CommCare_External_ID__c: `${state.eventId}_${state.form.client_information.coach_id}`
+              //     },
               Parent_s_Full_Name__c: state.form.parent__guardian_information ? 
                 state.form.parent__guardian_information.parent__guardian_full_name : null,
               Relationship_To_Participant__c: state.form.parent__guardian_information? transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)): null,
@@ -2044,9 +2048,9 @@ workflows:
                 state.form['follow-up'] ? state.form['follow-up'].select : ''
               ),
               Expected_Visit_Date__c: state.form['follow-up'] ? state.form['follow-up'].expected_visit_date : null,
-              Business_Unit__r: {
-                CommCare_External_ID__c: state.form.business_unit
-              },
+              // Business_Unit__r: {
+              //   CommCare_External_ID__c: state.form.business_unit
+              // },
               Service_Provider__c: state.serviceProviderId
             };
             console.log({servicesList})
@@ -2336,9 +2340,17 @@ workflows:
 
           // query("SELECT Id, Name, CommCare_External_ID__c FROM Curriculum__c")
 
-          // upsert("Referral_Service__c", "CommCare_External_ID__c", {"Business_Unit__r":{"CommCare_External_ID__c":"65680f0c4c144b03ad0f86bdc46c1ebc"},"CommCare_External_ID__c":"59276547-ee9b-4a8c-8c5f-5b53b6f59a20_hiv_testing","Date_of_Referral__c":"2025-08-19","Event_Participation__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d627fe23-911c-490b-b012-a97a246ec644"},"Expected_Visit_Date__c":"2025-08-19","GRS_Event__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1"},"GRS_Referral__r":{"CommCare_External_ID__c":"hiv_testing"},"Parent_s_Full_Name__c":null,"Participant_Linked_to_Care__c":true,"Participant__r":{"Participant_Identification_Number_PID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d627fe23-911c-490b-b012-a97a246ec644"},"Referred_By__r":{"CommCare_External_ID__c":"2f650bc9-6dd4-4312-a91e-f442f0f350e1_d8660627556d450daf79df44f8126ec1"},"Relationship_To_Participant__c":null,"Type__c":"Individual"})
+          // update("GRS_Referrals__c", {"CommCare_External_ID__c":"hiv_testing", "Id": "a19QO0000038fcnYAA"})
 
-          describe("Referral_Service__c")
+          // describe("Contact")
+
+          // query("SELECT Id, Name,CommCare_External_ID__c, Person_Type__c  FROM Contact WHERE Name LIKE '%GLORIA MWANZA%'");
+
+          // query("SELECT Id, Name,CommCare_External_ID__c  FROM GRS_Referrals__c");
+
+          // query("Select Id, Name, CommCare_External_ID__c FROM Event_Participation__c WHERE Id = 'a17QO00006lpP4pYAE'")
+
+          query("SELECT Id, Name, ampi__Date_Response__c,ampi__Picklist_Response__c FROM ampi__Question__c WHERE Id = 'a0gQO00000EXAx6YAH'")
     triggers:
       webhook:
         type: webhook
