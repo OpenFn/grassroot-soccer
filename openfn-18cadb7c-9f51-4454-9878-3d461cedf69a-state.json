@@ -4,7 +4,7 @@
   "description": null,
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
-  "updated_at": "2025-07-25T05:34:46Z",
+  "updated_at": "2025-09-11T10:07:20Z",
   "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
@@ -26,9 +26,7 @@
   "history_retention_period": 365,
   "dataclip_retention_period": null,
   "retention_policy": "retain_all",
-  "allow_support_access": true,
   "collections": {},
-  "requires_mfa": false,
   "workflows": {
     "Load-Commcare-Data": {
       "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
@@ -58,39 +56,6 @@
           "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
           "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
           "condition_type": "always"
-        }
-      }
-    },
-    "Create-Intervention": {
-      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
-      "name": "Create Intervention",
-      "inserted_at": "2025-07-25T05:30:13.603710Z",
-      "lock_version": 165,
-      "triggers": {
-        "webhook": {
-          "enabled": true,
-          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Create-Intervention": {
-          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "name": "Create Intervention",
-          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\") {\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n    state.form = state.data.form;\n\nconst buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    \"ed125ab19ec34aacab79585e59eb76f4\": \"GRS Partnerships\",\n  };\n\n    state.businessUnit = buMapping[state.data.form.business_unit];\n  return state;\n});\nquery(state => `SELECT Id, Name\n  FROM Account \n  WHERE Name = '${state.businessUnit}' `)\n\nfn((state) => {\n  const accountId = state.data[0]?.Id;\n  if (!accountId) {\n    throw Error(`Account not found for business unit: ${state.businessUnit}`)\n  }\nconsole.log(\"accountid\", accountId);\n  state.data.form = state.form;\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: accountId,\n    Venue__r:  {\n      CommCare_External_ID__c: state.data.form.Venue\n    }, \n    Curriculum__r: {\n      CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    ampi__Project_Status__c: \"Ongoing\",\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n // state.form = state.data.form\n  return state;\n});\n\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\n\n\neach('$.coachesIds.[*]', query(state => `SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state => {\n  if (state.data[0]?.CommCare_External_ID__c) {\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case[\"@case_id\"]\n  },\n  CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n",
-          "adaptor": "@openfn/language-salesforce@7.0.0",
-          "project_credential_id": "97db786f-a40d-45fb-93ad-9b44eb7e48d9"
-        }
-      },
-      "edges": {
-        "webhook->Create-Intervention": {
-          "enabled": true,
-          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
-          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
-          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
-          "condition_type": "js_expression",
-          "condition_label": "Create Intervention",
-          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
     },
@@ -553,6 +518,72 @@
           "condition_expression": "state.data.form[\"@name\"] == \"Post Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
+    },
+    "Create-Intervention": {
+      "id": "6b1b0e6d-4f63-48a8-91e1-95e12af6f05d",
+      "name": "Create Intervention",
+      "inserted_at": "2025-09-11T21:34:42.572841Z",
+      "lock_version": 166,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Create-Intervention": {
+          "id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "name": "Create Intervention",
+          "body": "\n\nfn((state) => {\n  function clean(str) {\n    if (str == \"before_after_school\") {\n      return \"Before/After School\"\n    }\n    if (!!str)\n      return str\n        .split(\"_\")\n        .map((word) => {\n          let new_word = word.toString().toLowerCase();\n          return new_word.slice(0, 1).toUpperCase() + new_word.slice(1);\n        })\n        .join(\" \");\n  }\n\n  state.data.form.delivery_method = clean(state.data.form.delivery_method);\n  state.coachesIds = state.data.form.coaches.split(\" \")\n\n  state.data.destinationCoachFields = state.data.form.coaches\n    .split(\" \")\n    .reduce((accumulator, currentValue, currentIndex) => {\n      if (!!currentValue) {\n        return {\n          ...accumulator,\n          [`Event_Participation__r`]: { CommCare_External_ID__c: currentValue },\n        };\n      }\n      return accumulator;\n    }, {});\n    state.form = state.data.form;\n\nconst buMapping = {\n    \"65680f0c4c144b03ad0f86bdc46c1ebc\": \"GRS Zambia\",\n    \"04d98397e28046118fade28ced6b65cb\": \"GRS Zimbabwe\",\n    \"ed125ab19ec34aacab79585e59eb76f4\": \"GRS Partnerships\",\n    \"26ed0b3dfc7d4dd09be5182c18fc0638\": \"GRS South Africa\",\n  };\n\n    state.businessUnit = buMapping[state.data.form.business_unit];\n  return state;\n});\nquery(state => `SELECT Id, Name\n  FROM Account \n  WHERE Name = '${state.businessUnit}' `)\n\nfn((state) => {\n  const accountId = state.data[0]?.Id;\n  if (!accountId) {\n    throw Error(`Account not found for business unit: ${state.businessUnit}`)\n  }\nconsole.log(\"accountid\", accountId);\n  state.data.form = state.form;\n  state.mapping = {\n    Name: state.data.form.name_of_intervention,\n    CommCare_External_ID__c: state.data.form.case[\"@case_id\"],\n    'RecordType': {\n      \"Name\": 'Intervention Event'\n    },\n\n    ampi__Account__c: accountId,\n    Venue__r:  {\n      CommCare_External_ID__c: state.data.form.Venue\n    }, \n    Curriculum__r: {\n      CommCare_External_ID__c: state.data.form.curriculum_selection.curriculum,\n    },\n    Delivery_method__c: state.data.form.delivery_method,\n    Class_Group_Team__c: state.data.form.class_grade,\n    ampi__Project_Status__c: \"Ongoing\",\n    // Pre_Post_Administered__c: state.data.form.prepost_administered,\n    ampi__Start_Date__c: state.data.form.intervention_dates.start_date,\n    ampi__End_Date__c: state.data.form.intervention_dates.end_date,\n    Number_of_Coaches__c: state.data.form.num_coaches\n    // ...state.data.destinationCoachFields,\n  };\n\n  console.log(state.mapping);\n  state.coachContactIds = [];\n // state.form = state.data.form\n  return state;\n});\n\nupsert(\"ampi__Project__c\", \"CommCare_External_ID__c\", $.mapping)\n\n\neach('$.coachesIds.[*]', query(state => `SELECT Id, CommCare_External_ID__c from Contact where CommCare_External_ID__c = '${state.data}'`).then(state => {\n  if (state.data[0]?.CommCare_External_ID__c) {\n    state.coachContactIds.push(state.data[0]?.CommCare_External_ID__c)\n  } else {\n    console.log(`WARNING: Coach with ID '${state.data}' not found in Amp Impact`);\n  }\n  return state\n}))\n\neach('$.coachContactIds.[*]', upsert(\"Event_Participation__c\", \"CommCare_External_ID__c\", state => ({\n  Contact__r: {\n    CommCare_External_ID__c: state.data\n  },\n  Event__r: {\n    CommCare_External_ID__c: state.form.case[\"@case_id\"]\n  },\n  CommCare_External_ID__c: `${state.form.case[\"@case_id\"]}_${state.data}`,\n})))\n",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": "97db786f-a40d-45fb-93ad-9b44eb7e48d9"
+        }
+      },
+      "edges": {
+        "webhook->Create-Intervention": {
+          "enabled": true,
+          "id": "4cfe6233-ef8d-4564-87ce-219626cf1168",
+          "target_job_id": "dc57d852-9ca5-4761-8399-e68acd9bb7f4",
+          "source_trigger_id": "12f161f8-8e03-42fb-8f42-44258e6396f9",
+          "condition_type": "js_expression",
+          "condition_label": "Create Intervention",
+          "condition_expression": "state.data.form[\"@name\"] == \"Create Intervention\" && state.data.form[\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
+        }
+      }
+    },
+    "x-test-sfauth": {
+      "id": "89f99bca-24b1-4c1f-94b4-29c3065419de",
+      "name": "x-test-sfauth",
+      "inserted_at": "2025-09-11T21:35:55.572784Z",
+      "lock_version": 5,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "099b399f-445c-4288-889c-2285c95137cb",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Query-test": {
+          "id": "a7ca207a-2d00-4410-83cd-2784aca2d4f4",
+          "name": "Query test",
+          "body": "query(state => `SELECT Id, Name, CommCare_External_ID__c, Business_Unit__c, Business_Unit__r.Name, Business_Unit__r.CommCare_External_ID__c\n  FROM Account \n  WHERE Business_Unit__c!=null`)",
+          "adaptor": "@openfn/language-salesforce@8.0.0",
+          "project_credential_id": "97db786f-a40d-45fb-93ad-9b44eb7e48d9"
+        }
+      },
+      "edges": {
+        "webhook->Query-test": {
+          "enabled": true,
+          "id": "85674471-a62a-41df-8865-f4168603f7f0",
+          "target_job_id": "a7ca207a-2d00-4410-83cd-2784aca2d4f4",
+          "source_trigger_id": "099b399f-445c-4288-889c-2285c95137cb",
+          "condition_type": "always"
+        }
+      }
     }
-  }
+  },
+  "allow_support_access": true,
+  "requires_mfa": false
 }

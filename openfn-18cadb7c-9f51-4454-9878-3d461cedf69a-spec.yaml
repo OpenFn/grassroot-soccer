@@ -268,6 +268,7 @@ workflows:
               "65680f0c4c144b03ad0f86bdc46c1ebc": "GRS Zambia",
               "04d98397e28046118fade28ced6b65cb": "GRS Zimbabwe",
               "ed125ab19ec34aacab79585e59eb76f4": "GRS Partnerships",
+              "26ed0b3dfc7d4dd09be5182c18fc0638": "GRS South Africa",
             };
 
               state.businessUnit = buMapping[state.data.form.business_unit];
@@ -2363,5 +2364,26 @@ workflows:
       webhook->Test-creds:
         source_trigger: webhook
         target_job: Test-creds
+        condition_type: always
+        enabled: true
+  x-test-sfauth:
+    name: x-test-sfauth
+    jobs:
+      Query-test:
+        name: Query test
+        adaptor: '@openfn/language-salesforce@8.0.0'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
+        body: |
+          query(state => `SELECT Id, Name, CommCare_External_ID__c, Business_Unit__c, Business_Unit__r.Name, Business_Unit__r.CommCare_External_ID__c
+            FROM Account 
+            WHERE Business_Unit__c!=null`)
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Query-test:
+        source_trigger: webhook
+        target_job: Query-test
         condition_type: always
         enabled: true
