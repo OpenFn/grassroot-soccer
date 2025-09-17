@@ -69,6 +69,34 @@ workflows:
             console.log("form version", formVersion);
 
             const sfFieldMapping = {
+              'pre_challenge_blazing_boots_comic_magazine': {
+                Pre_1__c: 'form.pre_challenge_blazing_boots_comic_magazine.i_have_people_in_my_life_who_can_help_me_achieve_my_goals',
+                Pre_2__c: 'form.pre_challenge_blazing_boots_comic_magazine.young_people_should_always_obey_their_parents_wishes_and_give_up_on_their_o',
+                Pre_3__c: 'form.pre_challenge_blazing_boots_comic_magazine.healthy_relationships_are_based_on_mutual_respect',
+                Pre_4__c: 'form.pre_challenge_blazing_boots_comic_magazine.it_is_always_good_to_change_who_you_are_so_that_you_can_be_accepted_by_your',
+                Pre_5__c: 'form.pre_challenge_blazing_boots_comic_magazine.seeking_mentorship_before_making_tough_decisions_is_a_sign_of_weakness',
+                Pre_6__c: 'form.pre_challenge_blazing_boots_comic_magazine.there_is_someone_in_my_life_who_can_support_me_during_difficult_times',
+                Pre_7__c: 'form.pre_challenge_blazing_boots_comic_magazine.i_would_not_feel_worthless_even_if_most_of_my_peers_performed_a_given_task_',
+                Pre_8__c: 'form.pre_challenge_blazing_boots_comic_magazine.it_is_a_mans_responsibility_to_make_decisions_in_a_relationship',
+                Pre_9__c: 'form.pre_challenge_blazing_boots_comic_magazine.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+                Pre_10__c: 'form.pre_challenge_blazing_boots_comic_magazine.boys_are_better_suited_to_lead_and_succeed_under_pressure_than_girls',
+                Pre_11__c: 'form.pre_challenge_blazing_boots_comic_magazine.menstruation_does_not_limit_girls_to_achieve_their_goals_in_life',
+                Pre_12__c: 'form.pre_challenge_blazing_boots_comic_magazine.i_know_what_changes_happen_to_the_body_at_puberty',
+              },
+              'pre_challenge_blazing_boots_assembly': {
+                Pre_1__c: 'form.pre_challenge_blazing_boots_assembly.i_have_people_in_my_life_who_can_help_me_achieve_my_goals',
+                Pre_2__c: 'form.pre_challenge_blazing_boots_assembly.young_people_should_always_obey_their_parents_wishes_and_give_up_on_their_o',
+                Pre_3__c: 'form.pre_challenge_blazing_boots_assembly.healthy_relationships_are_based_on_mutual_respect',
+                Pre_4__c: 'form.pre_challenge_blazing_boots_assembly.it_is_always_good_to_change_who_you_are_so_that_you_can_be_accepted_by_your',
+                Pre_5__c: 'form.pre_challenge_blazing_boots_assembly.seeking_mentorship_before_making_tough_decisions_is_a_sign_of_weakness',
+                Pre_6__c: 'form.pre_challenge_blazing_boots_assembly.there_is_someone_in_my_life_who_can_support_me_during_difficult_times',
+                Pre_7__c: 'form.pre_challenge_blazing_boots_assembly.i_would_not_feel_worthless_even_if_most_of_my_peers_performed_a_given_task_',
+                Pre_8__c: 'form.pre_challenge_blazing_boots_assembly.it_is_a_mans_responsibility_to_make_decisions_in_a_relationship',
+                Pre_9__c: 'form.pre_challenge_blazing_boots_assembly.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+                Pre_10__c: 'form.pre_challenge_blazing_boots_assembly.boys_are_better_suited_to_lead_and_succeed_under_pressure_than_girls',
+                Pre_11__c: 'form.pre_challenge_blazing_boots_assembly.menstruation_does_not_limit_girls_to_achieve_their_goals_in_life',
+                Pre_12__c: 'form.pre_challenge_blazing_boots_assembly.i_know_what_changes_happen_to_the_body_at_puberty',
+              },
               'pre_challenge_south_africa_-_skillz_girl': {
                 Pre_1__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_have_an_older_person_in_my_life_i_can_go_to_for_advice_i_have_an_older_pe',
                 Pre_2__c: 'form.pre_challenge_south_africa_-_skillz_girl.i_know_how_to_make_a_plan_to_deal_with_the_challenges_i_may_face_in_reachin',
@@ -2234,6 +2262,34 @@ workflows:
             console.log('form version', formVersion);
 
             const sfFieldMapping = {
+              'post_challenge_blazing_boots_comic_magazine': {
+                Post_1__c: 'form.post_challenge_blazing_boots_comic_magazine.i_have_people_in_my_life_who_can_help_me_achieve_my_goals',
+                Post_2__c: 'form.post_challenge_blazing_boots_comic_magazine.young_people_should_always_obey_their_parents_wishes_and_give_up_on_their_o',
+                Post_3__c: 'form.post_challenge_blazing_boots_comic_magazine.healthy_relationships_are_based_on_mutual_respect',
+                Post_4__c: 'form.post_challenge_blazing_boots_comic_magazine.it_is_always_good_to_change_who_you_are_so_that_you_can_be_accepted_by_your',
+                Post_5__c: 'form.post_challenge_blazing_boots_comic_magazine.seeking_mentorship_before_making_tough_decisions_is_a_sign_of_weakness',
+                Post_6__c: 'form.post_challenge_blazing_boots_comic_magazine.there_is_someone_in_my_life_who_can_support_me_during_difficult_times',
+                Post_7__c: 'form.post_challenge_blazing_boots_comic_magazine.i_would_not_feel_worthless_even_if_most_of_my_peers_performed_a_given_task_',
+                Post_8__c: 'form.post_challenge_blazing_boots_comic_magazine.it_is_a_mans_responsibility_to_make_decisions_in_a_relationship',
+                Post_9__c: 'form.post_challenge_blazing_boots_comic_magazine.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+                Post_10__c: 'form.post_challenge_blazing_boots_comic_magazine.boys_are_better_suited_to_lead_and_succeed_under_pressure_than_girls',
+                Post_11__c: 'form.post_challenge_blazing_boots_comic_magazine.menstruation_does_not_limit_girls_to_achieve_their_goals_in_life',
+                Post_12__c: 'form.post_challenge_blazing_boots_comic_magazine.i_know_what_changes_happen_to_the_body_at_puberty',
+              },
+              'post_challenge_blazing_boots_assembly': {
+                Post_1__c: 'form.post_challenge_blazing_boots_assembly.i_have_people_in_my_life_who_can_help_me_achieve_my_goals',
+                Post_2__c: 'form.post_challenge_blazing_boots_assembly.young_people_should_always_obey_their_parents_wishes_and_give_up_on_their_o',
+                Post_3__c: 'form.post_challenge_blazing_boots_assembly.healthy_relationships_are_based_on_mutual_respect',
+                Post_4__c: 'form.post_challenge_blazing_boots_assembly.it_is_always_good_to_change_who_you_are_so_that_you_can_be_accepted_by_your',
+                Post_5__c: 'form.post_challenge_blazing_boots_assembly.seeking_mentorship_before_making_tough_decisions_is_a_sign_of_weakness',
+                Post_6__c: 'form.post_challenge_blazing_boots_assembly.there_is_someone_in_my_life_who_can_support_me_during_difficult_times',
+                Post_7__c: 'form.post_challenge_blazing_boots_assembly.i_would_not_feel_worthless_even_if_most_of_my_peers_performed_a_given_task_',
+                Post_8__c: 'form.post_challenge_blazing_boots_assembly.it_is_a_mans_responsibility_to_make_decisions_in_a_relationship',
+                Post_9__c: 'form.post_challenge_blazing_boots_assembly.i_can_make_my_own_informed_decisions_about_my_sexual_healthcare',
+                Post_10__c: 'form.post_challenge_blazing_boots_assembly.boys_are_better_suited_to_lead_and_succeed_under_pressure_than_girls',
+                Post_11__c: 'form.post_challenge_blazing_boots_assembly.menstruation_does_not_limit_girls_to_achieve_their_goals_in_life',
+                Post_12__c: 'form.post_challenge_blazing_boots_assembly.i_know_what_changes_happen_to_the_body_at_puberty',
+              },
               'portuguese_pre_challenge_gcr_-_skillz_malaria': {
                 Post_1__c:
                   'form.portuguese_pre_challenge_gcr_-_skillz_malaria.dormir_dentro_da_rede_mosquiteira_tratada_todas_as_noites_pode_proteger_me_',
