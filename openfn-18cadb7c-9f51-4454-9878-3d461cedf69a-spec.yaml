@@ -180,7 +180,9 @@ workflows:
               Duration_of_Session__c: state.data.form.duration,
               Event__r: {
                 CommCare_External_ID__c: state.data.form.case['@case_id']
-              }
+              },
+              //need to add session name here
+              Name: state.data.form.session.replace('//', '').replace(/\s+/g, '')
             }));
 
           function presentMapping(value){
@@ -335,6 +337,9 @@ workflows:
               CommCare_External_ID__c: state.form.case["@case_id"]
             },
             CommCare_External_ID__c: `${state.form.case["@case_id"]}_${state.data}`,
+            RecordType: {
+                "Name": "Coach"
+            }
           })))
 
     triggers:
@@ -1682,7 +1687,10 @@ workflows:
             Event__r: {
               CommCare_External_ID__c: state.form.case['@case_id']
             },
-            CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data
+            CommCare_External_ID__c: state.form.case['@case_id'] + '_' + state.data,
+             RecordType: {
+                "Name": "Coach"
+            }
           })))
 
     triggers:
@@ -1936,12 +1944,17 @@ workflows:
               )
           )
 
-            // Query event using event name 
-            query(state => `
+          query(state => {
+            // First normalize all quote-like characters to standard apostrophe, then escape
+            const sanitizedName = state.form.client_information.intervention_name
+              .replace(/'/g, "\'")  // Replace smart quotes with standard apostrophe
+            
+            return `
             SELECT Id, Name, CommCare_External_ID__c
             FROM ampi__Project__c 
-            WHERE Name = '${state.form.client_information.intervention_name}'`).then(state => {
-              state.eventId = state.data[0]?.CommCare_External_ID__c;
+            WHERE Name = '${sanitizedName}'`;
+          }).then(state => {
+            state.eventId = state.data[0]?.CommCare_External_ID__c;
             if (!state.eventId) {
               throw Error(
                 `Event not found for Intervention Name: 
@@ -1949,7 +1962,7 @@ workflows:
               );
             }
             return state;
-            });
+          });
 
            //Upsert event participation for newly created participant
            upsert(
