@@ -304,7 +304,7 @@ workflows:
               Delivery_method__c: state.data.form.delivery_method,
               Class_Group_Team__c: state.data.form.class_grade,
               ampi__Project_Status__c: "Ongoing",
-              // Pre_Post_Administered__c: state.data.form.prepost_administered,
+              Pre_Post_Required__c: Boolean(state.data.form.prepost_administered == "yes"),
               ampi__Start_Date__c: state.data.form.intervention_dates.start_date,
               ampi__End_Date__c: state.data.form.intervention_dates.end_date,
               Number_of_Coaches__c: state.data.form.num_coaches
@@ -1259,16 +1259,20 @@ workflows:
             return state;
           });
 
-
-          //Removing mapping... need case_id to upsert Events. Date_of_Post__c update should be handled on the SF side.
-          /*upsert(
-              'Event__c',
-              'CommCare_Ext_ID__c',
-              fields(
-                field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
-                field('Date_of_Post__c', dataValue('form.date')),
-              )
-            );*/
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            } 
+            return upsert(
+                'ampi__Project__c',
+                'CommCare_External_ID__c',
+                state => 
+              ({
+                  'CommCare_External_ID__c': state.eventId,
+                  'Date_of_Post__c': state.form.hidden_properties.date
+              })
+              )(state);
+          })
 
     triggers:
       webhook:
@@ -1468,16 +1472,20 @@ workflows:
             return state;
           });
 
-          // //Removing mapping... need case_id to upsert Events. Date_of_Pre__c update should be handled on the SF side.
-          // // upsert(
-          // //   'Event__c',
-          // //   'CommCare_Ext_ID__c',
-          // //   fields(
-          // //     field('CommCare_Ext_ID__c', dataValue('form.hidden_properties.intervention_name')),
-          // //     field('Date_of_Pre__c', dataValue('form.date')),
-
-          // //   )
-          // // );
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            } 
+            return upsert(
+                'ampi__Project__c',
+                'CommCare_External_ID__c',
+                state => 
+              ({
+                  'CommCare_External_ID__c': state.eventId,
+                  'Date_of_Pre__c': state.form.date
+              })
+              )(state);
+          })
 
     triggers:
       webhook:
@@ -2368,7 +2376,11 @@ workflows:
 
           // query("Select Id, Name, CommCare_External_ID__c FROM Event_Participation__c WHERE Id = 'a17QO00006lpP4pYAE'")
 
-          query("SELECT Id, Name, ampi__Date_Response__c,ampi__Picklist_Response__c FROM ampi__Question__c WHERE Id = 'a0gQO00000EXAx6YAH'")
+          // query("SELECT Id, Name, ampi__Date_Response__c,ampi__Picklist_Response__c FROM ampi__Question__c WHERE Id = 'a0gQO00000EXAx6YAH'")
+
+          // describe('ampi__Project__c')
+
+          query("SELECT Id, Name, Pre_Post_Required__c, CommCare_External_ID__c FROM ampi__Project__c WHERE Id='a0fQO000001CnNlYAK'")
     triggers:
       webhook:
         type: webhook
