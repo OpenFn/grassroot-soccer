@@ -1723,158 +1723,168 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
-          // Your job goes here.
-          alterState(state => {
-            function split(str, separator) {
-              if (!str) {
-                return [];
-              } else {
-                return str.toString().split(separator);
-              }
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
+          function split(str, separator) {
+            if (!str) {
+              return [];
+            } else {
+              return str.toString().split(separator);
             }
-            function checked(key, str) {
-              if (!str) return false;
-              return split(str.toString(), ' ').indexOf(key) >= 0;
+          }
+          function checked(key, str) {
+            if (!str) return false;
+            return split(str.toString(), ' ').indexOf(key) >= 0;
+          }
+
+          function capitalizeFirstLetter(str) {
+            if (!str) return;
+            let new_str = str.toString().toLowerCase();
+            return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);
+          }
+
+          function transformDont(str) {
+            if (!str) return str;
+            return split(str.toString(), '_')
+              .map(word => word.replace(/dont/i, "don't"))
+              .join('_')
+              .toString()
+              .trim();
+          }
+
+          function transformCant(str) {
+            if (!str) return str;
+            return split(str.toString(), '_')
+              .map(word => word.replace(/cant/i, "can't"))
+              .join('_')
+              .toString()
+              .trim();
+          }
+
+          function splitAndJoin(str, splitDelimiter, joinDelimiter) {
+            if (!str) return;
+
+            return split(str.toString(), splitDelimiter).join(joinDelimiter).toString().trim();
+          }
+
+          function transformHowOften(str) {
+            if (!str) return;
+            if (str === 'special_occasions') return 'Special Occasions';
+            if (str === 'no_dont_want_to_disclose') return "Don't want to disclose";
+            if (str === 'dont_want_to_disclose') return "Don't want to disclose";
+            return transformGenericText(str).toString().trim();
+          }
+
+          function transformHIVStatus(status) {
+            switch (status) {
+              case 'yes_negative':
+                return 'Yes,Negative';
+              case 'yes_positive':
+                return 'Yes,Positive';
+              case 'no_i_dont':
+                return "No,I don't know";
+              case 'yes_dont_want_to_disclose':
+                return "Yes, don't want to disclose";
+              default:
+                return;
             }
+          }
 
-            function capitalizeFirstLetter(str) {
-              if (!str) return;
-              let new_str = str.toString().toLowerCase();
-              return new_str.slice(0, 1).toUpperCase() + new_str.slice(1);
+          function transformLastTested(str) {
+            if (!str) return;
+            switch (str.toString()) {
+              case 'yes_negative':
+                return 'Yes,Negative';
+              case 'yes_positive':
+                return 'Yes,Positive';
+              case 'no_i_dont':
+                return "No,I don't know";
+              case 'yes_dont_want_to_disclose':
+                return "Yes, don't want to disclose";
+              default:
+                return;
             }
+          }
 
-            function transformDont(str) {
-              if (!str) return str;
-              return split(str.toString(), '_')
-                .map(word => word.replace(/dont/i, "don't"))
-                .join('_')
-                .toString()
-                .trim();
+          function transformMonthAgo(str) {
+            if (!str) return;
+            switch (str) {
+              case 'month_ago':
+                return '1 month ago';
+              case 'months_ago':
+                return '3 months ago';
+              case 'month_ago':
+                return 'copy-1-of-months_ago ';
+              case 'month_ago':
+                return '6 months ago';
+              case 'a_year_or_more_ago':
+                return 'A year or more';
+              default:
+                return;
             }
+          }
 
-            function transformCant(str) {
-              if (!str) return str;
-              return split(str.toString(), '_')
-                .map(word => word.replace(/cant/i, "can't"))
-                .join('_')
-                .toString()
-                .trim();
+          function transformGenericText(str) {
+            if (!str) return;
+            return capitalizeFirstLetter(splitAndJoin(transformDont(str), '_', ' '))
+              .toString()
+              .trim();
+          }
+
+          function transformRange(range) {
+            if (!range) return;
+            return range
+              .toString()
+              .replace(/\d_\d/i, match => match.replace('_', '-'))
+              .toString()
+              .trim();
+          }
+
+          function transformAgeRange(range) {
+            if (!range) return;
+            if (range === '10_years') return '< 10 years';
+            if (range === 'greater_than_19') return '> 19 years';
+            return capitalizeFirstLetter(transformDont(transformCant(splitAndJoin(transformRange(range), '_', ' '))))
+              .toString()
+              .trim();
+          }
+
+          function transformAbuseExperienced(str) {
+            if (!str) return;
+            return split(str, ' ')
+              .map(word => capitalizeFirstLetter(word))
+              .join(';')
+              .toString()
+              .trim();
+          }
+
+          function getAge(dateString) {
+            if (!dateString) return;
+
+            const today = new Date();
+            const birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+              age--;
             }
+            return age;
+          }
 
-            function splitAndJoin(str, splitDelimiter, joinDelimiter) {
-              if (!str) return;
-
-              return split(str.toString(), splitDelimiter).join(joinDelimiter).toString().trim();
-            }
-
-            function transformHowOften(str) {
-              if (!str) return;
-              if (str === 'special_occasions') return 'Special Occasions';
-              if (str === 'no_dont_want_to_disclose') return "Don't want to disclose";
-              if (str === 'dont_want_to_disclose') return "Don't want to disclose";
-              return transformGenericText(str).toString().trim();
-            }
-
-            function transformHIVStatus(status) {
-              switch (status) {
-                case 'yes_negative':
-                  return 'Yes,Negative';
-                case 'yes_positive':
-                  return 'Yes,Positive';
-                case 'no_i_dont':
-                  return "No,I don't know";
-                case 'yes_dont_want_to_disclose':
-                  return "Yes, don't want to disclose";
-                default:
-                  return;
-              }
-            }
-
-            function transformLastTested(str) {
-              if (!str) return;
-              switch (str.toString()) {
-                case 'yes_negative':
-                  return 'Yes,Negative';
-                case 'yes_positive':
-                  return 'Yes,Positive';
-                case 'no_i_dont':
-                  return "No,I don't know";
-                case 'yes_dont_want_to_disclose':
-                  return "Yes, don't want to disclose";
-                default:
-                  return;
-              }
-            }
-
-            function transformMonthAgo(str) {
-              if (!str) return;
-              switch (str) {
-                case 'month_ago':
-                  return '1 month ago';
-                case 'months_ago':
-                  return '3 months ago';
-                case 'month_ago':
-                  return 'copy-1-of-months_ago ';
-                case 'month_ago':
-                  return '6 months ago';
-                case 'a_year_or_more_ago':
-                  return 'A year or more';
-                default:
-                  return;
-              }
-            }
-
-            function transformGenericText(str) {
-              if (!str) return;
-              return capitalizeFirstLetter(splitAndJoin(transformDont(str), '_', ' '))
-                .toString()
-                .trim();
-            }
-
-            function transformRange(range) {
-              if (!range) return;
-              return range
-                .toString()
-                .replace(/\d_\d/i, match => match.replace('_', '-'))
-                .toString()
-                .trim();
-            }
-
-            function transformAgeRange(range) {
-              if (!range) return;
-              if (range === '10_years') return '< 10 years';
-              if (range === 'greater_than_19') return '> 19 years';
-              return capitalizeFirstLetter(transformDont(transformCant(splitAndJoin(transformRange(range), '_', ' '))))
-                .toString()
-                .trim();
-            }
-
-            function transformAbuseExperienced(str) {
-              if (!str) return;
-              return split(str, ' ')
-                .map(word => capitalizeFirstLetter(word))
-                .join(';')
-                .toString()
-                .trim();
-            }
-
-            function getAge(dateString) {
-              if (!dateString) return;
-
-              const today = new Date();
-              const birthDate = new Date(dateString);
-              var age = today.getFullYear() - birthDate.getFullYear();
-              var m = today.getMonth() - birthDate.getMonth();
-              if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-              }
-              return age;
-            }
-
+          fn(state => {
             state.data.complete_service_referrals = state.data.form.referral_services ? true : false;
 
             state.data.form.client_information.gender = capitalizeFirstLetter(state.data.form.client_information.gender);
-            
+
             state.form = state.data.form;
             state.id = state.data.id;
 
@@ -1918,10 +1928,10 @@ workflows:
           // });
 
           //Query Account using business unit name to be used for creating participant
-          query( state =>
+          query(state =>
             `SELECT Id FROM Account 
             WHERE Name = '${state.businessUnit}'`
-          ).then (state => {
+          ).then(state => {
             state.accountId = state.data[0]?.Id
             return state;
           });
@@ -1938,25 +1948,24 @@ workflows:
 
           //Upsert Contact of type Participant
           upsert(
-              'Contact',
-              'Participant_Identification_Number_PID__c',
-              state => (
-                {
-                  AccountId: state.accountId,
-                  FirstName: state.form.client_information.participant_full_name.split(" ")[0],
-                  LastName: state.form.client_information.participant_full_name.split(" ")[1],
-                  Participant_Identification_Number_PID__c: state.form.case['@case_id'],
-                  MobilePhone: state.form.client_information.mobile_number,
-                  Person_Type__c: 'Participant'
-                }
-              )
+            'Contact',
+            'Participant_Identification_Number_PID__c',
+            state => (
+              {
+                AccountId: state.accountId,
+                FirstName: state.form.client_information.participant_full_name.split(" ")[0],
+                LastName: state.form.client_information.participant_full_name.split(" ")[1],
+                Participant_Identification_Number_PID__c: state.form.case['@case_id'],
+                MobilePhone: state.form.client_information.mobile_number,
+                Person_Type__c: 'Participant'
+              }
+            )
           )
 
           query(state => {
             // First normalize all quote-like characters to standard apostrophe, then escape
-            const sanitizedName = state.form.client_information.intervention_name
-              .replace(/'/g, "\'")  // Replace smart quotes with standard apostrophe
-            
+            const sanitizedName = escapeStr(state.form.client_information.intervention_name)
+
             return `
             SELECT Id, Name, CommCare_External_ID__c
             FROM ampi__Project__c 
@@ -1972,32 +1981,32 @@ workflows:
             return state;
           });
 
-           //Upsert event participation for newly created participant
-           upsert(
-              'Event_Participation__c',
-              'CommCare_External_ID__c',
-              state => ({
-                CommCare_External_ID__c: state.eventId + '_' + state.form.case['@case_id'],
-                Contact__r: 
-                {
-                  Participant_Identification_Number_PID__c: state.form.case['@case_id']
-                },
-                Event__r: {
-                  CommCare_External_ID__c: state.eventId
-                },
+          //Upsert event participation for newly created participant
+          upsert(
+            'Event_Participation__c',
+            'CommCare_External_ID__c',
+            state => ({
+              CommCare_External_ID__c: state.eventId + '_' + state.form.case['@case_id'],
+              Contact__r:
+              {
+                Participant_Identification_Number_PID__c: state.form.case['@case_id']
+              },
+              Event__r: {
+                CommCare_External_ID__c: state.eventId
+              },
 
-              })
-            )
+            })
+          )
 
           fn(state => {
             const referralServices = state.form.referral_services;
-            state.hasReferralServices =referralServices && 
-            (parseInt(referralServices.art_support_services.count_of_art_support_services) > 0 ||
-                 parseInt(referralServices.child_protection_support_services.count_child_protection_support_services) > 0 ||
-                 parseInt(referralServices.hiv_support__care.count_of_hiv_support_care) > 0 ||
-                 parseInt(referralServices.legal_services.count_legal_services) > 0 ||
-                 parseInt(referralServices.mental_health_services.count_mental_health_services) > 0)
-            
+            state.hasReferralServices = referralServices &&
+              (parseInt(referralServices.art_support_services.count_of_art_support_services) > 0 ||
+                parseInt(referralServices.child_protection_support_services.count_child_protection_support_services) > 0 ||
+                parseInt(referralServices.hiv_support__care.count_of_hiv_support_care) > 0 ||
+                parseInt(referralServices.legal_services.count_legal_services) > 0 ||
+                parseInt(referralServices.mental_health_services.count_mental_health_services) > 0)
+
             if (!state.hasReferralServices) {
               return state;
             }
@@ -2005,20 +2014,20 @@ workflows:
             const servicesList = [];
 
             Object.keys(servicesObj).forEach(category => {
-              if (servicesObj[category] && 
-                  servicesObj[category].check_the_services_that_client_was_referred_to) {
-                
+              if (servicesObj[category] &&
+                servicesObj[category].check_the_services_that_client_was_referred_to) {
+
                 const services = servicesObj[category].check_the_services_that_client_was_referred_to
                   .split(' ')
                   .filter(s => s);
-                
+
                 servicesList.push(...services);
               }
             });
 
 
             // Prepare the case ID for participant lookup
-              const caseId = state.form.case['@case_id'];
+            const caseId = state.form.case['@case_id'];
 
             function capitalizeFirstLetter(str) {
               if (!str) return;
@@ -2046,9 +2055,9 @@ workflows:
               return str.split(' ').indexOf(key) >= 0;
             }
 
-              state.helperFunctions = { checked };
-              let subid = state.form.subcase_0;
-              state.externalId = subid && subid !== '' ? state.form.subcase_0.case['@case_id'] : state.id; 
+            state.helperFunctions = { checked };
+            let subid = state.form.subcase_0;
+            state.externalId = subid && subid !== '' ? state.form.subcase_0.case['@case_id'] : state.id;
 
             // Create mapping object
             const mapping = {
@@ -2066,11 +2075,11 @@ workflows:
               // Referred_By__r: { 
               //     CommCare_External_ID__c: `${state.eventId}_${state.form.client_information.coach_id}`
               //     },
-              Parent_s_Full_Name__c: state.form.parent__guardian_information ? 
+              Parent_s_Full_Name__c: state.form.parent__guardian_information ?
                 state.form.parent__guardian_information.parent__guardian_full_name : null,
-              Relationship_To_Participant__c: state.form.parent__guardian_information? transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)): null,
+              Relationship_To_Participant__c: state.form.parent__guardian_information ? transform(capitalizeFirstLetter(state.form.parent__guardian_information.relationship_to_client)) : null,
               Participant_Linked_to_Care__c: state.helperFunctions.checked(
-                'client_linked_to_care', 
+                'client_linked_to_care',
                 state.form['follow-up'] ? state.form['follow-up'].select : ''
               ),
               Expected_Visit_Date__c: state.form['follow-up'] ? state.form['follow-up'].expected_visit_date : null,
@@ -2079,17 +2088,17 @@ workflows:
               // },
               Service_Provider__c: state.serviceProviderId
             };
-            console.log({servicesList})
+            console.log({ servicesList })
 
             return { ...state, referralServiceMapping: mapping, servicesList };
           });
 
-          each('$.servicesList[*]', 
-          upsert('Referral_Service__c','CommCare_External_ID__c', state =>({
-            GRS_Referral__r: {CommCare_External_ID__c: state.data.replace('_services', '')},
-            CommCare_External_ID__c: `${state.externalId}_${state.data.replace('_services', '')}`,
-            ...state.referralServiceMapping
-          }))
+          each('$.servicesList[*]',
+            upsert('Referral_Service__c', 'CommCare_External_ID__c', state => ({
+              GRS_Referral__r: { CommCare_External_ID__c: state.data.replace('_services', '') },
+              CommCare_External_ID__c: `${state.externalId}_${state.data.replace('_services', '')}`,
+              ...state.referralServiceMapping
+            }))
           )
 
     triggers:
@@ -2381,6 +2390,29 @@ workflows:
           // describe('ampi__Project__c')
 
           query("SELECT Id, Name, Pre_Post_Required__c, CommCare_External_ID__c FROM ampi__Project__c WHERE Id='a0fQO000001CnNlYAK'")
+      Escape-Input:
+        name: Escape Input
+        adaptor: '@openfn/language-salesforce@9.0.0'
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
+        body: |
+          function escapeSoqlString(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
+          query(state => {
+            const sanitizedName = escapeSoqlString("Kasusu Primary Titang'e Rangers 2025-08-27")
+            const query = `SELECT Id, Name, CommCare_External_ID__c FROM ampi__Project__c WHERE Name = '${sanitizedName}'`
+            return query
+          })
+          // query("SELECT Id, Name, CommCare_External_ID__c FROM ampi__Project__c WHERE Name = 'Kasusu Primary Titang\\'e Rangers 2025-08-27'")
+          // query("SELECT Id, Name, CommCare_External_ID__c FROM ampi__Project__c WHERE Name LIKE 'Kasusu Primary%'")
     triggers:
       webhook:
         type: webhook
@@ -2390,6 +2422,11 @@ workflows:
         source_trigger: webhook
         target_job: Test-creds
         condition_type: always
+        enabled: true
+      Test-creds->Escape-Input:
+        source_job: Test-creds
+        target_job: Escape-Input
+        condition_type: on_job_success
         enabled: true
   x-test-sfauth:
     name: x-test-sfauth
