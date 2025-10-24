@@ -678,6 +678,18 @@ workflows:
               .join(' ');
           };
 
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
+
           fn(state => {
             state.form = state.data.form;
             state.commcareId = state.data.id
@@ -689,7 +701,9 @@ workflows:
             if (state.skippingUpsert) {
               return state;
             }
-            return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention}'`
+            const interventionName = state.form.hidden_properties?.intervention || state.form.step_1_csv_information.intervention
+            const sanitizedName = escapeStr(interventionName)
+            return query(`SELECT Commcare_External_ID__c FROM ampi__Project__c WHERE Name = '${sanitizedName}'`
           )(state);
           });
 
@@ -926,6 +940,17 @@ workflows:
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
 
           fn(state => {
             state.form = state.data.form;
@@ -933,10 +958,13 @@ workflows:
             return state;
           });
 
-          query(state => 
-                  `SELECT CommCare_External_ID__c, Id
+          query(state => {
+            const sanitizedName = escapeStr(state.form.basic_information.intervention_hidden)
+
+                  return `SELECT CommCare_External_ID__c, Id
                   FROM ampi__Project__c
-                  WHERE Name = '${state.form.basic_information.intervention_hidden}'`
+                  WHERE Name = '${sanitizedName}'`
+          }
                 ).then(state => {
                   if (!state.data || !state.data[0]) {
                     throw Error(`Event with Name: ${state.form.basic_information.intervention_hidden} not found`)
@@ -1072,6 +1100,18 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
+
           fn(state => {
             state.form = state.data.form;
             const formVersion = Object.keys(state.form).find(key => key.includes('challenge'));
@@ -1089,10 +1129,12 @@ workflows:
             if (state.skippingUpsert) {
               return state;
             }
+            const sanitizedName = escapeStr(state.form.hidden_properties.intervention_name)
+
             return query(`
             SELECT Id, Name, CommCare_External_ID__c
             FROM ampi__Project__c 
-            WHERE Name = '${state.form.hidden_properties.intervention_name}'`)(state);
+            WHERE Name = '${sanitizedName}'`)(state);
           })
 
           fn(state => {
@@ -1296,14 +1338,29 @@ workflows:
         adaptor: '@openfn/language-salesforce@7.0.0'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
           fn(state => {
             state.form = state.data.form;
             return state;
           })
-          query(state => `
+          query(state => {
+              const sanitizedName = escapeStr(state.form.hidden_properties.intervention_name)
+
+            return `
             SELECT Id, Name, CommCare_External_ID__c
             FROM ampi__Project__c 
-            WHERE Name = '${state.form.hidden_properties.intervention_name}'`);
+            WHERE Name = '${sanitizedName}'`;
+          })
 
           fn(state => {
             state.eventId = state.data[0]?.CommCare_External_ID__c;
