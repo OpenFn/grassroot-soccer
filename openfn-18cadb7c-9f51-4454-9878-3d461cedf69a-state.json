@@ -6,12 +6,12 @@
   "color": null,
   "concurrency": null,
   "inserted_at": "2025-05-30T04:28:28Z",
-  "updated_at": "2025-09-11T10:07:20Z",
+  "updated_at": "2025-10-28T15:06:33Z",
   "parent_id": null,
-  "scheduled_deletion": null,
   "history_retention_period": 365,
   "dataclip_retention_period": null,
   "retention_policy": "retain_all",
+  "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
       "id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d",
@@ -29,42 +29,9 @@
       "owner": "aisha@openfn.org"
     }
   },
-  "allow_support_access": true,
-  "collections": {},
-  "requires_mfa": false,
   "version_history": [],
+  "collections": {},
   "workflows": {
-    "Load-Commcare-Data": {
-      "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
-      "name": "Load Commcare Data",
-      "inserted_at": "2025-07-18T09:04:03.369284Z",
-      "lock_version": 15,
-      "triggers": {
-        "webhook": {
-          "enabled": false,
-          "id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
-          "type": "webhook"
-        }
-      },
-      "jobs": {
-        "Get-data": {
-          "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
-          "name": "Get data",
-          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//get('https://docs.openfn.org/documentation');\n\nget(\"/form/8ae81b97-4382-4f62-977e-966d42e79c60\")\n\n//get(\"\")\n",
-          "adaptor": "@openfn/language-commcare@3.2.13",
-          "project_credential_id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21"
-        }
-      },
-      "edges": {
-        "webhook->Get-data": {
-          "enabled": true,
-          "id": "5eaf167e-e7a5-4e01-8a10-3508e4165b02",
-          "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
-          "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
-          "condition_type": "always"
-        }
-      }
-    },
     "Upsert-Aggregate-Service-Referrals": {
       "id": "122f0521-7fa3-45db-ae88-e09dcf0f8889",
       "name": "Upsert Aggregate Service Referrals",
@@ -602,6 +569,70 @@
           "condition_expression": "state.data.form[\"@name\"] == \"Pre Challenges\" && state.data.form[\"hidden_properties\"][\"business_unit\"] != \"57ac433fe0cb4319a701cc9e7c721816\"\n"
         }
       }
+    },
+    "Load-Commcare-Data": {
+      "id": "ba601f97-b3f8-489d-801b-6fb0e1fa07cd",
+      "name": "Load Commcare Data",
+      "inserted_at": "2025-10-30T09:00:13.752289Z",
+      "lock_version": 16,
+      "triggers": {
+        "webhook": {
+          "enabled": false,
+          "id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Get-data": {
+          "id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "name": "Get data",
+          "body": "// Check out the Job Writing Guide for help getting started:\n// https://docs.openfn.org/documentation/jobs/job-writing-guide\n//get('https://docs.openfn.org/documentation');\n\nget(\"/form/fa9f8bc3-45e2-45f6-aaf9-341e35d75d0c\")\n\n//get(\"\")\n",
+          "adaptor": "@openfn/language-commcare@3.2.13",
+          "project_credential_id": "3cf0eedd-35f7-4dac-b5e3-c5bc84e96d21"
+        }
+      },
+      "edges": {
+        "webhook->Get-data": {
+          "enabled": true,
+          "id": "5eaf167e-e7a5-4e01-8a10-3508e4165b02",
+          "target_job_id": "cc9453d8-8413-412b-8c3c-e5f246eed4c6",
+          "source_trigger_id": "e95140c9-d2ed-4dc4-8871-1436d7df4c0c",
+          "condition_type": "always"
+        }
+      }
+    },
+    "Event-based-Workflow": {
+      "id": "db578417-0b04-41a9-b37b-3f0c47c3462d",
+      "name": "Event-based Workflow",
+      "inserted_at": "2025-11-03T21:34:11.991895Z",
+      "lock_version": 3,
+      "triggers": {
+        "webhook": {
+          "enabled": true,
+          "id": "d585d2b7-d7b2-46aa-87cb-612c3b1197cc",
+          "type": "webhook"
+        }
+      },
+      "jobs": {
+        "Upsert-ART-Submissions": {
+          "id": "7afb27fe-660e-45a8-8620-f62555f79c44",
+          "name": "Upsert ART Submissions",
+          "body": "function escapeStr(str) {\n  if (!str) return str;\n\n  return str\n    // Escape backslashes first\n    .replace(/\\\\/g, '\\\\\\\\')\n    // Escape all quote-like characters at once\n    .replace(/['''‚‛]/g, \"\\\\'\")  // Single quotes variants\n    .replace(/[\"\"\"„‟]/g, '\\\\\"')   // Double quotes variants\n    .replace(/[`´`]/g, '\\\\`');    // Backticks and accents\n}\nfn(state => {\n  state.form = state.data.form;\n  return state;\n})\n\n/* \n  Find the Event/Intervention\n*/\nquery(state => {\n  const sanitizedName = escapeStr(state.form['@name'])\n\n  return `\n  SELECT Id, Name, CommCare_External_ID__c\n  FROM ampi__Project__c \n  WHERE Name = '${sanitizedName}'`;\n})\n\n\nfn(state => {\n  state.eventId = state.data[0]?.CommCare_External_ID__c;\n  if (!state.eventId) {\n    throw Error(\n      `Event not found for Intervention Name: \n      ${state.form['@name']}`\n    );\n  }\n  state.skippingUpsert = !state.eventId;\n  if (state.skippingUpsert) {\n    return state;\n  }\n  /* \n    Find the Participant\n  */\n  return query(\n    `SELECT Id, Participant_Identification_Number_PID__c from Contact \n    where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`\n  )(state);\n})\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const PID = state.data[0] && state.data[0].Participant_Identification_Number_PID__c;\n\n  if (!PID) {\n    throw Error(\n      `Participant not found with Participant_Identification_Number_PID__c:\n      ${state.form.case['@case_id']}`\n    );\n  }\n\n  state.skippingUpsert = state.skippingUpsert || !Boolean(PID)\n\n  /*Find the Assessment Template. \n    Why: We copy this template structure for each participant's submission\n    TODO: AK to ask Godknows to add a submission Type, use 'Pre' for now\n  */\n  return query(`\n    SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name\n    FROM ampi__Submission__c\n    WHERE Active__c = true\n    AND Type__c = 'ART SELF Reporting Tool'\n    AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'\n  `)(state);\n})\n\n\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  const submissionTemplate = state.data ? state.data[0] : undefined\n  state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)\n\n  if (!submissionTemplate) {\n    throw Error(\n      `Submission Template not found for Pre template with Curriculum Id:\n      ${state.form.hidden_properties.Curriculum}`\n    );\n  }\n\n  /*\n    Creates (or updates) a submission record for this specific participant Links to:\n      - The template (Parent Submission)\n      - The curriculum\n      - The event\n      - The participant's event participation record\n  */\n  return upsert(\n    'ampi__Submission__c',\n    'CommCare_External_ID__c', state =>\n  ({\n    Type__c: state.data.Type__c,\n    ampi__Parent_Submission__c: state.data[0].Id,\n    Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },\n    Event_Participation__r: {\n      CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}`\n    },\n    GRS_Event__r: { CommCare_External_ID__c: state.eventId },\n    RecordType: { Name: \"Submission\" },\n    CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`,\n    ampi__Description__c: 'ART ADHERENCE SELF-REPORTING TOOL'\n  })\n  )(state)\n});\n\n/*\n  Hard coding the submission id for now\n  TODO:  Remove this block of code\n*/\n// fn(state => ({ ...state, data: { ...state.data, id: 'a0pOz000005eZaTIAU' } }))\n\n/*\n  Get All Questions for This Submission\n*/\nfnIf((state) => !state.skippingUpsert, query(state => `\n  SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c\n  FROM ampi__Question__c\n  WHERE ampi__Submission__c = '${state.data.id}'\n`));\n\n\n// the query returns a list of questions for the specific parent submission\n// Currently hardcoding the parent submission id i created in previous runs\n// next we will look for form keys that start with form.pre_challenge_[*]\n// under form.pre_challenge_[*] we will find a list of commcare questions with their CommCare_External_ID__c\n// which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field\n\n//*************************************************************** */\n//*** @PIUS start reviewing & editing logic from here.... ****** */\n\n\n/*\n  What it does:\n\n      1. Takes all answers from CommCare form\n      2. Matches each answer to a Salesforce question using CommCare_Property_Name__c\n      3. Transforms answers (e.g., \"strongly_agree\" → \"Yes\")\n      4. Updates all matching questions with the participant's responses\n*/\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n\n  const questionAnswers = state.form;\n\n  function snakeToSentenceCase(snakeCase) {\n    const words = snakeCase.split('_');\n    return words[0].charAt(0).toUpperCase() + words[0].slice(1) +\n      ' ' + words.slice(1).join(' ');\n  }\n\n  // Function to transform CommCare responses to Salesforce format\n  function transformResponse(response) {\n    if (!response) return null;\n    const normalizedResponse = response.toString().trim().toLowerCase();\n\n    if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {\n      return \"Yes\";\n    } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {\n      return \"No\";\n    } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {\n      return \"I don't know\";\n      // } else if (normalizedResponse === 'unanswered') {\n      //   return \"Unanswered\";\n      // } else if (normalizedResponse === 'not_applicable') {\n      //   return \"Not Applicable\";\n    } else {\n      return snakeToSentenceCase(response.toString());\n    }\n  }\n\n  // For each question in our data array, find matching answer and update\n  const updates = state.data.map(question => {\n    // Extract the question ID part to match with CommCare keys\n    const questionName = question.CommCare_Property_Name__c\n\n\n    // Look for matching keys in questionAnswers\n    // Try direct match or substring match\n    let matchingKey = null;\n    let answer = null;\n\n    // Try direct match\n    if (questionName && questionAnswers[questionName]) {\n      matchingKey = questionName;\n      answer = questionAnswers[questionName];\n    }\n\n    //@Pius TODO - mapppings to update\n    if (matchingKey) {\n      console.log(`>>>>>>>> Matching key ${matchingKey}`)\n      return {\n        Id: question.Id,\n        ampi__Picklist_Response__c: transformResponse(answer),\n        ampi__Date_Response__c: state.form.date\n      };\n    }\n\n    // No match found\n    console.log(`No match found for question: ${question.ampi__Description__c}`);\n    return null;\n  }).filter(update => update !== null);\n\n  console.log(`Found ${updates.length} questions to update`);\n  \n  /*\n    Match Answers to Questions & Update\n  */\n  if (updates.length > 0) {\n    return update(\n      'ampi__Question__c',\n      updates\n    )(state);\n  }\n  return {state, updates};\n\n});\n\n\n\n/*\n  - What it does: Records when this pre-assessment was completed on the Project/Event record\n  - Why: Tracking and reporting\n\n*/\nfn(state => {\n  if (state.skippingUpsert) {\n    return state;\n  }\n  return upsert(\n    'ampi__Project__c',\n    'CommCare_External_ID__c',\n    state =>\n    ({\n      'CommCare_External_ID__c': state.eventId,\n      'Date_of_Pre__c': state.form.date\n    })\n  )(state);\n})\n\n/*\n// Comment out this code to check if the updates were successful\n\n//check if updates were sucessful\nquery(`\n  SELECT Id, Name, ampi__Description__c, \n         CommCare_Property_Name__c,\n         ampi__Picklist_Response__c, \n         ampi__Date_Response__c,\n         LastModifiedDate\n  FROM ampi__Question__c\n  WHERE ampi__Submission__c = 'a0pOz000005eZaTIAU'\n  AND ampi__Picklist_Response__c != null\n  ORDER BY LastModifiedDate DESC\n`);\n*/",
+          "adaptor": "@openfn/language-salesforce@7.0.0",
+          "project_credential_id": null
+        }
+      },
+      "edges": {
+        "webhook->Upsert-ART-Submissions": {
+          "enabled": true,
+          "id": "5d5660b4-7a83-4d3c-8e6f-1c8bf6c9c04f",
+          "target_job_id": "7afb27fe-660e-45a8-8620-f62555f79c44",
+          "source_trigger_id": "d585d2b7-d7b2-46aa-87cb-612c3b1197cc",
+          "condition_type": "always"
+        }
+      }
     }
-  }
+  },
+  "allow_support_access": true,
+  "requires_mfa": false
 }

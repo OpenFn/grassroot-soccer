@@ -356,6 +356,294 @@ workflows:
           state.data.form["@name"] == "Create Intervention" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
+  Event-based-Workflow:
+    name: Event-based Workflow
+    jobs:
+      Upsert-ART-Submissions:
+        name: Upsert ART Submissions
+        adaptor: '@openfn/language-salesforce@7.0.0'
+        credential: null
+        body: |
+          function escapeStr(str) {
+            if (!str) return str;
+
+            return str
+              // Escape backslashes first
+              .replace(/\\/g, '\\\\')
+              // Escape all quote-like characters at once
+              .replace(/['''‚‛]/g, "\\'")  // Single quotes variants
+              .replace(/["""„‟]/g, '\\"')   // Double quotes variants
+              .replace(/[`´`]/g, '\\`');    // Backticks and accents
+          }
+          fn(state => {
+            state.form = state.data.form;
+            return state;
+          })
+
+          /* 
+            Find the Event/Intervention
+          */
+          query(state => {
+            const sanitizedName = escapeStr(state.form['@name'])
+
+            return `
+            SELECT Id, Name, CommCare_External_ID__c
+            FROM ampi__Project__c 
+            WHERE Name = '${sanitizedName}'`;
+          })
+
+
+          fn(state => {
+            state.eventId = state.data[0]?.CommCare_External_ID__c;
+            if (!state.eventId) {
+              throw Error(
+                `Event not found for Intervention Name: 
+                ${state.form['@name']}`
+              );
+            }
+            state.skippingUpsert = !state.eventId;
+            if (state.skippingUpsert) {
+              return state;
+            }
+            /* 
+              Find the Participant
+            */
+            return query(
+              `SELECT Id, Participant_Identification_Number_PID__c from Contact 
+              where Participant_Identification_Number_PID__c  = '${state.form.case['@case_id']}'`
+            )(state);
+          })
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const PID = state.data[0] && state.data[0].Participant_Identification_Number_PID__c;
+
+            if (!PID) {
+              throw Error(
+                `Participant not found with Participant_Identification_Number_PID__c:
+                ${state.form.case['@case_id']}`
+              );
+            }
+
+            state.skippingUpsert = state.skippingUpsert || !Boolean(PID)
+
+            /*Find the Assessment Template. 
+              Why: We copy this template structure for each participant's submission
+              TODO: AK to ask Godknows to add a submission Type, use 'Pre' for now
+            */
+            return query(`
+              SELECT Id, Name, RecordTypeId, ampi__Description__c, Type__c, Active__c, Curriculum__r.Name
+              FROM ampi__Submission__c
+              WHERE Active__c = true
+              AND Type__c = 'ART SELF Reporting Tool'
+              AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'
+            `)(state);
+          })
+
+
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            const submissionTemplate = state.data ? state.data[0] : undefined
+            state.skippingUpsert = state.skippingUpsert || !Boolean(submissionTemplate)
+
+            if (!submissionTemplate) {
+              throw Error(
+                `Submission Template not found for Pre template with Curriculum Id:
+                ${state.form.hidden_properties.Curriculum}`
+              );
+            }
+
+            /*
+              Creates (or updates) a submission record for this specific participant Links to:
+                - The template (Parent Submission)
+                - The curriculum
+                - The event
+                - The participant's event participation record
+            */
+            return upsert(
+              'ampi__Submission__c',
+              'CommCare_External_ID__c', state =>
+            ({
+              Type__c: state.data.Type__c,
+              ampi__Parent_Submission__c: state.data[0].Id,
+              Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },
+              Event_Participation__r: {
+                CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}`
+              },
+              GRS_Event__r: { CommCare_External_ID__c: state.eventId },
+              RecordType: { Name: "Submission" },
+              CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`,
+              ampi__Description__c: 'ART ADHERENCE SELF-REPORTING TOOL'
+            })
+            )(state)
+          });
+
+          /*
+            Hard coding the submission id for now
+            TODO:  Remove this block of code
+          */
+          // fn(state => ({ ...state, data: { ...state.data, id: 'a0pOz000005eZaTIAU' } }))
+
+          /*
+            Get All Questions for This Submission
+          */
+          fnIf((state) => !state.skippingUpsert, query(state => `
+            SELECT Id, Name, Record_Type_Name__c, ampi__Description__c, ampi__Response_Type__c, CommCare_Property_Name__c
+            FROM ampi__Question__c
+            WHERE ampi__Submission__c = '${state.data.id}'
+          `));
+
+
+          // the query returns a list of questions for the specific parent submission
+          // Currently hardcoding the parent submission id i created in previous runs
+          // next we will look for form keys that start with form.pre_challenge_[*]
+          // under form.pre_challenge_[*] we will find a list of commcare questions with their CommCare_External_ID__c
+          // which we will match with ampi__Question__c CommCareExternal_ID__c and update the ampi__Picklist_Response__c field
+
+          //*************************************************************** */
+          //*** @PIUS start reviewing & editing logic from here.... ****** */
+
+
+          /*
+            What it does:
+
+                1. Takes all answers from CommCare form
+                2. Matches each answer to a Salesforce question using CommCare_Property_Name__c
+                3. Transforms answers (e.g., "strongly_agree" → "Yes")
+                4. Updates all matching questions with the participant's responses
+          */
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+
+            const questionAnswers = state.form;
+
+            function snakeToSentenceCase(snakeCase) {
+              const words = snakeCase.split('_');
+              return words[0].charAt(0).toUpperCase() + words[0].slice(1) +
+                ' ' + words.slice(1).join(' ');
+            }
+
+            // Function to transform CommCare responses to Salesforce format
+            function transformResponse(response) {
+              if (!response) return null;
+              const normalizedResponse = response.toString().trim().toLowerCase();
+
+              if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {
+                return "Yes";
+              } else if (['false', 'no', 'disagree', 'discorda', 'discordo', 'falso', 'choice6', 'choice3'].includes(normalizedResponse)) {
+                return "No";
+              } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {
+                return "I don't know";
+                // } else if (normalizedResponse === 'unanswered') {
+                //   return "Unanswered";
+                // } else if (normalizedResponse === 'not_applicable') {
+                //   return "Not Applicable";
+              } else {
+                return snakeToSentenceCase(response.toString());
+              }
+            }
+
+            // For each question in our data array, find matching answer and update
+            const updates = state.data.map(question => {
+              // Extract the question ID part to match with CommCare keys
+              const questionName = question.CommCare_Property_Name__c
+
+
+              // Look for matching keys in questionAnswers
+              // Try direct match or substring match
+              let matchingKey = null;
+              let answer = null;
+
+              // Try direct match
+              if (questionName && questionAnswers[questionName]) {
+                matchingKey = questionName;
+                answer = questionAnswers[questionName];
+              }
+
+              //@Pius TODO - mapppings to update
+              if (matchingKey) {
+                console.log(`>>>>>>>> Matching key ${matchingKey}`)
+                return {
+                  Id: question.Id,
+                  ampi__Picklist_Response__c: transformResponse(answer),
+                  ampi__Date_Response__c: state.form.date
+                };
+              }
+
+              // No match found
+              console.log(`No match found for question: ${question.ampi__Description__c}`);
+              return null;
+            }).filter(update => update !== null);
+
+            console.log(`Found ${updates.length} questions to update`);
+            
+            /*
+              Match Answers to Questions & Update
+            */
+            if (updates.length > 0) {
+              return update(
+                'ampi__Question__c',
+                updates
+              )(state);
+            }
+            return {state, updates};
+
+          });
+
+
+
+          /*
+            - What it does: Records when this pre-assessment was completed on the Project/Event record
+            - Why: Tracking and reporting
+
+          */
+          fn(state => {
+            if (state.skippingUpsert) {
+              return state;
+            }
+            return upsert(
+              'ampi__Project__c',
+              'CommCare_External_ID__c',
+              state =>
+              ({
+                'CommCare_External_ID__c': state.eventId,
+                'Date_of_Pre__c': state.form.date
+              })
+            )(state);
+          })
+
+          /*
+          // Comment out this code to check if the updates were successful
+
+          //check if updates were sucessful
+          query(`
+            SELECT Id, Name, ampi__Description__c, 
+                   CommCare_Property_Name__c,
+                   ampi__Picklist_Response__c, 
+                   ampi__Date_Response__c,
+                   LastModifiedDate
+            FROM ampi__Question__c
+            WHERE ampi__Submission__c = 'a0pOz000005eZaTIAU'
+            AND ampi__Picklist_Response__c != null
+            ORDER BY LastModifiedDate DESC
+          `);
+          */
+    triggers:
+      webhook:
+        type: webhook
+        enabled: true
+    edges:
+      webhook->Upsert-ART-Submissions:
+        source_trigger: webhook
+        target_job: Upsert-ART-Submissions
+        condition_type: always
+        enabled: true
   Load-Commcare-Data:
     name: Load Commcare Data
     jobs:
@@ -368,7 +656,7 @@ workflows:
           // https://docs.openfn.org/documentation/jobs/job-writing-guide
           //get('https://docs.openfn.org/documentation');
 
-          get("/form/8ae81b97-4382-4f62-977e-966d42e79c60")
+          get("/form/fa9f8bc3-45e2-45f6-aaf9-341e35d75d0c")
 
           //get("")
 
