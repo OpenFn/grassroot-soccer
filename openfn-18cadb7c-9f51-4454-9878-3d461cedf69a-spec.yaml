@@ -356,8 +356,34 @@ workflows:
           state.data.form["@name"] == "Create Intervention" && state.data.form["business_unit"] != "57ac433fe0cb4319a701cc9e7c721816"
 
         enabled: true
-  Event-based-Workflow:
-    name: Event-based Workflow
+  Load-Commcare-Data:
+    name: Load Commcare Data
+    jobs:
+      Get-data:
+        name: Get data
+        adaptor: '@openfn/language-commcare@3.2.13'
+        credential: aleksa@openfn.org-grs-commcare
+        body: |
+          // Check out the Job Writing Guide for help getting started:
+          // https://docs.openfn.org/documentation/jobs/job-writing-guide
+          //get('https://docs.openfn.org/documentation');
+
+          get("/form/fa9f8bc3-45e2-45f6-aaf9-341e35d75d0c")
+
+          //get("")
+
+    triggers:
+      webhook:
+        type: webhook
+        enabled: false
+    edges:
+      webhook->Get-data:
+        source_trigger: webhook
+        target_job: Get-data
+        condition_type: always
+        enabled: true
+  Upsert-ART-Self-Submissions:
+    name: Upsert ART Self Submissions
     jobs:
       Upsert-ART-Submissions:
         name: Upsert ART Submissions
@@ -642,32 +668,6 @@ workflows:
       webhook->Upsert-ART-Submissions:
         source_trigger: webhook
         target_job: Upsert-ART-Submissions
-        condition_type: always
-        enabled: true
-  Load-Commcare-Data:
-    name: Load Commcare Data
-    jobs:
-      Get-data:
-        name: Get data
-        adaptor: '@openfn/language-commcare@3.2.13'
-        credential: aleksa@openfn.org-grs-commcare
-        body: |
-          // Check out the Job Writing Guide for help getting started:
-          // https://docs.openfn.org/documentation/jobs/job-writing-guide
-          //get('https://docs.openfn.org/documentation');
-
-          get("/form/fa9f8bc3-45e2-45f6-aaf9-341e35d75d0c")
-
-          //get("")
-
-    triggers:
-      webhook:
-        type: webhook
-        enabled: false
-    edges:
-      webhook->Get-data:
-        source_trigger: webhook
-        target_job: Get-data
         condition_type: always
         enabled: true
   Upsert-Aggregate-Service-Referrals:

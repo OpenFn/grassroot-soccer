@@ -8,10 +8,10 @@
   "inserted_at": "2025-05-30T04:28:28Z",
   "updated_at": "2025-10-28T15:06:33Z",
   "parent_id": null,
+  "scheduled_deletion": null,
   "history_retention_period": 365,
   "dataclip_retention_period": null,
   "retention_policy": "retain_all",
-  "scheduled_deletion": null,
   "project_credentials": {
     "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-": {
       "id": "25e77eac-f301-4f0b-9617-1bea3ff01d9d",
@@ -601,11 +601,11 @@
         }
       }
     },
-    "Event-based-Workflow": {
+    "Upsert-ART-Self-Submissions": {
       "id": "db578417-0b04-41a9-b37b-3f0c47c3462d",
-      "name": "Event-based Workflow",
-      "inserted_at": "2025-11-03T21:34:11.991895Z",
-      "lock_version": 3,
+      "name": "Upsert ART Self Submissions",
+      "inserted_at": "2025-11-03T21:36:41.822897Z",
+      "lock_version": 4,
       "triggers": {
         "webhook": {
           "enabled": true,
