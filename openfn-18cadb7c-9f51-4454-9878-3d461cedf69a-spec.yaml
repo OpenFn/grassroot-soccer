@@ -11,6 +11,9 @@ credentials:
   "hunter@openfn.org-SalesForce-Sandbox-Integration-Oauth-":
     name: 'SalesForce Sandbox Integration Oauth '
     owner: hunter@openfn.org
+  pius@openfn.org-GRS-Config-Sandbox-Salesforce---Oct-2025:
+    name: GRS Config Sandbox Salesforce - Oct 2025
+    owner: pius@openfn.org
 workflows:
   Attendance-Non-Skillz:
     name: Attendance Non Skillz
@@ -388,7 +391,7 @@ workflows:
       Upsert-ART-Submissions:
         name: Upsert ART Submissions
         adaptor: '@openfn/language-salesforce@7.0.0'
-        credential: null
+        credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeStr(str) {
             if (!str) return str;
@@ -410,7 +413,7 @@ workflows:
             Find the Event/Intervention
           */
           query(state => {
-            const sanitizedName = escapeStr(state.form['@name'])
+            const sanitizedName = escapeStr(state.form['question1'])
 
             return `
             SELECT Id, Name, CommCare_External_ID__c
@@ -464,7 +467,7 @@ workflows:
               FROM ampi__Submission__c
               WHERE Active__c = true
               AND Type__c = 'ART SELF Reporting Tool'
-              AND Curriculum__r.Commcare_External_ID__c = '${state.form.hidden_properties.Curriculum}'
+              AND Curriculum__r.Commcare_External_ID__c = '${state.form.question2}'
             `)(state);
           })
 
@@ -479,7 +482,7 @@ workflows:
             if (!submissionTemplate) {
               throw Error(
                 `Submission Template not found for Pre template with Curriculum Id:
-                ${state.form.hidden_properties.Curriculum}`
+                ${state.form.question2}`
               );
             }
 
@@ -496,13 +499,13 @@ workflows:
             ({
               Type__c: state.data.Type__c,
               ampi__Parent_Submission__c: state.data[0].Id,
-              Curriculum__r: { CommCare_External_ID__c: state.form.hidden_properties.Curriculum },
+              Curriculum__r: { CommCare_External_ID__c: state.form.question2 },
               Event_Participation__r: {
                 CommCare_External_ID__c: `${state.eventId}_${state.form.case['@case_id']}`
               },
               GRS_Event__r: { CommCare_External_ID__c: state.eventId },
               RecordType: { Name: "Submission" },
-              CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_pre_submission`,
+              CommCare_External_ID__c: `${state.form.case['@case_id']}_${state.eventId}_ART_submission`,
               ampi__Description__c: 'ART ADHERENCE SELF-REPORTING TOOL'
             })
             )(state)
@@ -543,6 +546,7 @@ workflows:
                 4. Updates all matching questions with the participant's responses
           */
           fn(state => {
+
             if (state.skippingUpsert) {
               return state;
             }
@@ -555,10 +559,17 @@ workflows:
                 ' ' + words.slice(1).join(' ');
             }
 
+            function capitalizeWords(sentence) {
+              return sentence
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+                .join(' ');
+            }
             // Function to transform CommCare responses to Salesforce format
             function transformResponse(response) {
               if (!response) return null;
               const normalizedResponse = response.toString().trim().toLowerCase();
+
 
               if (['true', 'yes', 'agree', 'verdade', 'concorda', 'concordo', 'choice1'].includes(normalizedResponse)) {
                 return "Yes";
@@ -566,12 +577,10 @@ workflows:
                 return "No";
               } else if (['i_dont_know', 'na'].includes(normalizedResponse)) {
                 return "I don't know";
-                // } else if (normalizedResponse === 'unanswered') {
-                //   return "Unanswered";
-                // } else if (normalizedResponse === 'not_applicable') {
-                //   return "Not Applicable";
+              } else if (['copy-1-of-strongly_agree'].includes(normalizedResponse)) {
+                return 'Strongly Agree'
               } else {
-                return snakeToSentenceCase(response.toString());
+                return snakeToSentenceCase(response.toString()).trim();
               }
             }
 
@@ -595,20 +604,70 @@ workflows:
               //@Pius TODO - mapppings to update
               if (matchingKey) {
                 console.log(`>>>>>>>> Matching key ${matchingKey}`)
-                return {
+
+                let updateObject = {
                   Id: question.Id,
-                  ampi__Picklist_Response__c: transformResponse(answer),
+                  // ampi__Picklist_Response__c: transformResponse(answer),
                   ampi__Date_Response__c: state.form.date
-                };
+                }
+
+                const response = transformResponse(answer);
+
+                switch (question.ampi__Response_Type__c) {
+                  case 'Short Text':
+                    updateObject['ampi__Short_Text_Response__c'] = response;
+                    break;
+                  case 'Picklist':
+                    updateObject['ampi__Picklist_Response__c'] = capitalizeWords(response);
+                    break;
+                  case 'Number':
+                    updateObject['ampi__Number_Response__c'] = response;
+                    break;
+                    break;
+                  case 'Text':
+                    updateObject['ampi__Text_Response__c'] = response;
+                    break;
+
+                  default:
+                    console.log(`Question type: ${question.ampi__Response_Type__c} not found`)
+                }
+
+                return updateObject;
               }
 
+              let example = [
+                { "Id": "a0gQO00000HyCXZYA3", "ampi__Short_Text_Response__c": "000234 " },
+                { "Id": "a0gQO00000HyCXaYAN", "ampi__Picklist_Response__c": "Female " },
+                { "Id": "a0gQO00000HyCXbYAN", "ampi__Number_Response__c": "23 " },
+                { "Id": "a0gQO00000HyCXcYAN", "ampi__Short_Text_Response__c": "Myself " },
+                { "Id": "a0gQO00000HyCXdYAN", "ampi__Picklist_Response__c": "No" },
+                { "Id": "a0gQO00000HyCXeYAN", "ampi__Picklist_Response__c": "No" },
+                { "Id": "a0gQO00000HyCXfYAN", "ampi__Picklist_Response__c": "No" },
+                { "Id": "a0gQO00000HyCXgYAN", "ampi__Picklist_Response__c": "No" },
+                { "Id": "a0gQO00000HyCXhYAN", "ampi__Short_Text_Response__c": "There was no food " },
+                { "Id": "a0gQO00000HyCXiYAN", "ampi__Short_Text_Response__c": "June 2025 " },
+                { "Id": "a0gQO00000HyCXjYAN", "ampi__Picklist_Response__c": "Suppressed " }, 
+                { "Id": "a0gQO00000HyCXkYAN", "ampi__Picklist_Response__c": "Copy-1-of-strongly agree" }, //
+                { "Id": "a0gQO00000HyCXlYAN", "ampi__Picklist_Response__c": "Strongly agree" }, //
+                { "Id": "a0gQO00000HyCXmYAN", "ampi__Picklist_Response__c": "Strongly agree" }, //
+                { "Id": "a0gQO00000HyCXnYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXoYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXpYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXqYAN", "ampi__Short_Text_Response__c": "No" },
+                { "Id": "a0gQO00000HyCXrYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXsYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXtYAN", "ampi__Picklist_Response__c": "Yes" },
+                { "Id": "a0gQO00000HyCXuYAN", "ampi__Short_Text_Response__c": "Taking care of kids " }
+              ]
+
+
               // No match found
-              console.log(`No match found for question: ${question.ampi__Description__c}`);
+              console.log(`\n No match found for question: ${question.ampi__Description__c} \n`);
               return null;
             }).filter(update => update !== null);
 
             console.log(`Found ${updates.length} questions to update`);
-            
+
             /*
               Match Answers to Questions & Update
             */
@@ -618,7 +677,7 @@ workflows:
                 updates
               )(state);
             }
-            return {state, updates};
+            return { state, updates };
 
           });
 
@@ -630,6 +689,7 @@ workflows:
 
           */
           fn(state => {
+
             if (state.skippingUpsert) {
               return state;
             }
@@ -643,6 +703,13 @@ workflows:
               })
             )(state);
           })
+
+          /*
+          ampi__Number_Response__c
+          ampi__Short_Text_Response__c
+          ampi__Text_Response__c
+          */
+
 
           /*
           // Comment out this code to check if the updates were successful
@@ -2732,9 +2799,9 @@ workflows:
 
           // query("SELECT Id, Name, ampi__Date_Response__c,ampi__Picklist_Response__c FROM ampi__Question__c WHERE Id = 'a0gQO00000EXAx6YAH'")
 
-          // describe('ampi__Project__c')
+          describe('ampi__Question__c')
 
-          query("SELECT Id, Name, Pre_Post_Required__c, CommCare_External_ID__c FROM ampi__Project__c WHERE Id='a0fQO000001CnNlYAK'")
+          // query("SELECT Id, Name, Pre_Post_Required__c, CommCare_External_ID__c FROM ampi__Project__c WHERE Id='a0fQO000001CnNlYAK'")
       Escape-Input:
         name: Escape Input
         adaptor: '@openfn/language-salesforce@9.0.0'
@@ -2772,7 +2839,7 @@ workflows:
         source_job: Test-creds
         target_job: Escape-Input
         condition_type: on_job_success
-        enabled: true
+        enabled: false
   x-test-sfauth:
     name: x-test-sfauth
     jobs:
