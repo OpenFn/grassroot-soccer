@@ -1,6 +1,7 @@
 name: grassroot-soccer-prod-v2
 description: null
 collections: null
+channels: null
 credentials:
   aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025:
     name: GRS Salesforce Prod oauth - July 2025
@@ -20,7 +21,7 @@ workflows:
     jobs:
       Attendance-Non-Skillz:
         name: Attendance Non Skillz
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
@@ -105,6 +106,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Attendance-Non-Skillz:
@@ -121,7 +123,7 @@ workflows:
     jobs:
       Coach-Session-Register:
         name: Coach Session Register
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
@@ -217,6 +219,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Coach-Session-Register:
@@ -233,7 +236,7 @@ workflows:
     jobs:
       Create-Intervention:
         name: Create Intervention
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
@@ -254,6 +257,7 @@ workflows:
             }
 
             state.data.form.delivery_method = clean(state.data.form.delivery_method);
+            state.data.form.facilitator_type = clean(state.data.form.facilitator_type);
             state.coachesIds = state.data.form.coaches.split(" ")
 
             state.data.destinationCoachFields = state.data.form.coaches
@@ -279,6 +283,8 @@ workflows:
               state.businessUnit = buMapping[state.data.form.business_unit];
             return state;
           });
+
+
           query(state => `SELECT Id, Name
             FROM Account 
             WHERE Name = '${state.businessUnit}' `)
@@ -310,7 +316,11 @@ workflows:
               Pre_Post_Required__c: Boolean(state.data.form.prepost_administered == "yes"),
               ampi__Start_Date__c: state.data.form.intervention_dates.start_date,
               ampi__End_Date__c: state.data.form.intervention_dates.end_date,
-              Number_of_Coaches__c: state.data.form.num_coaches
+              Number_of_Coaches__c: state.data.form.num_coaches,
+              Facilitator_Type__c: state.data.form.facilitator_type,
+              ampi__Parent_Project__r: {
+                CommCare_External_ID__c: state.data.form.grant
+              }
               // ...state.data.destinationCoachFields,
             };
 
@@ -348,6 +358,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Create-Intervention:
@@ -378,6 +389,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: false
     edges:
       webhook->Get-data:
@@ -390,7 +402,7 @@ workflows:
     jobs:
       Upsert-ART-Submissions:
         name: Upsert ART Submissions
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeStr(str) {
@@ -427,7 +439,7 @@ workflows:
             if (!state.eventId) {
               throw Error(
                 `Event not found for Intervention Name: 
-                ${state.form['@name']}`
+                ${state.form['question1']}`
               );
             }
             state.skippingUpsert = !state.eventId;
@@ -730,6 +742,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-ART-Submissions:
@@ -742,7 +755,7 @@ workflows:
     jobs:
       Upsert-Aggregate-Service-Referrals:
         name: Upsert Aggregate Service Referrals
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
@@ -913,6 +926,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Aggregate-Service-Referrals:
@@ -929,7 +943,7 @@ workflows:
     jobs:
       Upsert-Attendance-Skillz-Plus-Club:
         name: Upsert Attendance Skillz Plus Club
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
@@ -1002,6 +1016,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Attendance-Skillz-Plus-Club:
@@ -1018,7 +1033,7 @@ workflows:
     jobs:
       Upsert-Coach-Support-Visit-CSV:
         name: Upsert Coach Support Visit CSV
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function clean(str) {
@@ -1077,9 +1092,9 @@ workflows:
             }
             let coach_id 
              if (state.form.step_1_basic_information && state.form.step_1_basic_information.select_coach) {
-              coach_id = state.form.step_1_basic_information.select_coach
+              coach_id = state.form.step_1_basic_information.select_coach // Is this mapping correct?
              } else {
-              coach_id = state.form.step_1_csv_information.coach_id
+              coach_id = state.form.step_1_csv_information.select_coach // should this instead be coaches? Is there a chance that this might be an array, what will the format of the array look like?
              }
           state.coach_id = coach_id;
 
@@ -1275,6 +1290,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Coach-Support-Visit-CSV:
@@ -1291,7 +1307,7 @@ workflows:
     jobs:
       Upsert-Home-Visit-Log-Form:
         name: Upsert Home Visit Log Form
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // push to production
@@ -1401,6 +1417,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Home-Visit-Log-Form:
@@ -1417,7 +1434,7 @@ workflows:
     jobs:
       Upsert-Intervention-Notes:
         name: Upsert Intervention Notes
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           //openfn.org source 
@@ -1436,6 +1453,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Intervention-Notes:
@@ -1452,7 +1470,7 @@ workflows:
     jobs:
       Upsert-Post-Challenges:
         name: Upsert Post Challenges
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeStr(str) {
@@ -1674,6 +1692,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Post-Challenges:
@@ -1690,7 +1709,7 @@ workflows:
     jobs:
       Upsert-Pre-Challenges:
         name: Upsert Pre Challenges
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeStr(str) {
@@ -1902,6 +1921,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Pre-Challenges:
@@ -1918,7 +1938,7 @@ workflows:
     jobs:
       Upsert-Register-Participant:
         name: Upsert Register Participant
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           
@@ -2015,7 +2035,8 @@ workflows:
                   Birthdate: state.data.date_of_birth,
                   MailingStreet: state.data.participants_home_address,
                   Age__c: state.data.participants_age_to_save,
-                  Person_Type__c: 'Participant'
+                  Person_Type__c: 'Participant',
+                  Participant_with_disability_s__c: Boolean(state.data.participant_with_disability_s == "yes"),
                 }
               )
             )
@@ -2043,6 +2064,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Register-Participant:
@@ -2059,7 +2081,7 @@ workflows:
     jobs:
       Upsert-Register-Skills-plus-Club:
         name: Upsert Register Skills plus Club
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function clean(str) {
@@ -2116,6 +2138,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Register-Skills-plus-Club:
@@ -2132,7 +2155,7 @@ workflows:
     jobs:
       Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
         name: Upsert Risk and Vulnerability Assessment - Service Referral
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeStr(str) {
@@ -2410,16 +2433,20 @@ workflows:
             })
           )
 
+
           fn(state => {
             const referralServices = state.form.referral_services;
             state.hasReferralServices = referralServices &&
-              (parseInt(referralServices.art_support_services.count_of_art_support_services) > 0 ||
-                parseInt(referralServices.child_protection_support_services.count_child_protection_support_services) > 0 ||
-                parseInt(referralServices.hiv_support__care.count_of_hiv_support_care) > 0 ||
-                parseInt(referralServices.legal_services.count_legal_services) > 0 ||
-                parseInt(referralServices.mental_health_services.count_mental_health_services) > 0)
+              (parseInt(referralServices.art_support_services?.count_of_art_support_services) > 0 ||
+                parseInt(referralServices.child_protection_support_services?.count_child_protection_support_services) > 0 ||
+                parseInt(referralServices.hiv_support__care?.count_of_hiv_support_care) > 0 ||
+                parseInt(referralServices.legal_services?.count_legal_services) > 0 ||
+                parseInt(referralServices.mental_health_services?.count_mental_health_services) > 0 ||
+                parseInt(referralServices.other_srhr_services?.count_other_srhr_services) > 0)
+
 
             if (!state.hasReferralServices) {
+              console.log("No referral services found")
               return state;
             }
             const servicesObj = state.form.referral_services;
@@ -2516,6 +2543,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Risk-and-Vulnerability-Assessment---Service-Referral:
@@ -2532,7 +2560,7 @@ workflows:
     jobs:
       Upsert-Service-Referral:
         name: Upsert Service Referral
-        adaptor: '@openfn/language-salesforce@7.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           fn(state => {
@@ -2716,6 +2744,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Upsert-Service-Referral:
@@ -2732,7 +2761,7 @@ workflows:
     jobs:
       Test-creds:
         name: Test creds
-        adaptor: '@openfn/language-salesforce@7.1.2'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           // // Check out the Job Writing Guide for help getting started:
@@ -2804,7 +2833,7 @@ workflows:
           // query("SELECT Id, Name, Pre_Post_Required__c, CommCare_External_ID__c FROM ampi__Project__c WHERE Id='a0fQO000001CnNlYAK'")
       Escape-Input:
         name: Escape Input
-        adaptor: '@openfn/language-salesforce@9.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           function escapeSoqlString(str) {
@@ -2828,6 +2857,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Test-creds:
@@ -2845,7 +2875,7 @@ workflows:
     jobs:
       Query-test:
         name: Query test
-        adaptor: '@openfn/language-salesforce@8.0.0'
+        adaptor: '@openfn/language-salesforce@7.2.3'
         credential: aisha@openfn.org-GRS-Salesforce-Prod-oauth---July-2025
         body: |
           query(state => `SELECT Id, Name, CommCare_External_ID__c, Business_Unit__c, Business_Unit__r.Name, Business_Unit__r.CommCare_External_ID__c
@@ -2854,6 +2884,7 @@ workflows:
     triggers:
       webhook:
         type: webhook
+        webhook_reply: before_start
         enabled: true
     edges:
       webhook->Query-test:
